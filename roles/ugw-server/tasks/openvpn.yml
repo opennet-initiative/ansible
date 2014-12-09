@@ -1,9 +1,12 @@
-- name: openvpn installieren
-  apt: pkg=openvpn state=present
-
-# Python-Skripte werden fuer Portweiterleitungen und Adressvergabe verwendet
-- name: python installieren
-  apt: pkg=python-ipaddr state=present
+- name: openvpn und Abhaengigkeiten installieren
+  apt: pkg={{ item }} state=present
+  with_items:
+    - openvpn
+    # Python-Skripte werden fuer Portweiterleitungen und Adressvergabe verwendet
+    - python
+    - python-ipaddr
+    # die Portweiterleitungen werden via sudo angelegt
+    - sudo
 
 - name: VPN-Gruppe anlegen
   user: state=present
@@ -95,6 +98,6 @@
 
 - name: Port-Weiterleitungen als Nutzer 'openvpn' via sudo erlauben
   copy: force=yes
-        content="openvpn ALL=(root) NOPASSWD:/sbin/iptables"
+        content="openvpn ALL=(root) NOPASSWD:/sbin/iptables\n"
         dest=/etc/sudoers.d/opennet-openvpn
 
