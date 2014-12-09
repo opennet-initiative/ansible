@@ -1,0 +1,6 @@
+- include: networking.yml
+- include: nameservice.yml
+- include: olsrd.yml
+- include: ferm.yml
+- include: openvpn.yml
+- include: openvpn-status.yml

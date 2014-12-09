@@ -1,0 +1,17 @@
+- name: vpnstatus - Webserver installieren
+  apt: state=present pkg=libapache2-mod-php5
+
+- name: vpnstatus - Verzeichnis anlegen
+  file: state=directory
+        dest=/var/www/vpnstatus
+
+- name: vpnstatus - PHP-Skript uebertragen
+  copy: force=yes
+        src=openvpn/openvpn_clients.php
+        dest=/var/www/vpnstatus/
+
+- name: vpnstatus - PHP-Konfiguration uebertragen
+  template: force=yes
+            src=vpnstatus.php
+            dest=/var/www/vpnstatus/index.php
+

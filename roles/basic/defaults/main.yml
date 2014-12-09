@@ -1,0 +1,7 @@
+# Achtung: die Netzwerkmaske ist obligatorisch (siehe munin-node.conf)
+# Alle Netzbereiche werden in die Zulassungsliste aufgenommen.
+# Doppelte Nennungen (verschiedene IPs eines Servers) sind also zulaessig.
+munin_servers:
+  - 139.30.241.204/32
+  - 192.168.10.4/32
+

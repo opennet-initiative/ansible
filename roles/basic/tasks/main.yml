@@ -1,0 +1,4 @@
+- include: opennet.yml
+- include: munin-node.yml
+- include: packages.yml
+- include: admins.yml

@@ -1,0 +1,5 @@
+- name: Willkommensnachricht uebertragen
+  template: force=yes
+            src=motd
+            dest=/etc/motd
+

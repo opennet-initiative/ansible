@@ -1,0 +1,23 @@
+- name: Paket-Weiterleitung erlauben
+  copy: force=yes
+        content="net.ipv4.ip_forward=1"
+        dest=/etc/sysctl.d/opennet.conf
+  notify: restart sysctl
+
+# bei einer Aenderung der main_ip loeschen wir den lo:0-Eintrag aus der interfaces-Datei
+- name: konfligierende Main-IP entfernen
+  command: sed -i '/^auto lo:0$/,/netmask/d' /etc/network/interfaces
+  when: ansible_lo_0 is defined and ansible_lo_0["ipv4"]["address"] != "{{ main_ip }}"
+  notify: deactivate main_ip
+
+- name: Main-IP als Alias auf loopback-Interface konfigurieren
+  lineinfile: state=present
+              dest=/etc/network/interfaces
+              regexp="^auto lo:0$"
+              line="auto lo:0\niface lo:0 inet static\n\taddress {{ main_ip }}\n\tnetmask 255.255.255.255\n"
+  when: ansible_lo_0 is not defined or ansible_lo_0["ipv4"]["address"] != "{{ main_ip }}"
+  notify:
+   - activate main_ip
+   # olsrd ignoriert nameservice-Eintraege ohne aktive main_ip - also nochmal neustarten
+   - restart olsrd
+

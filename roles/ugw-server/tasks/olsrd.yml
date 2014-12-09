@@ -1,0 +1,17 @@
+- name: olsrd installieren
+  apt: state=present pkg=olsrd-plugins
+
+- name: olsrd.conf erstellen
+  template: force=yes
+            src=olsrd.conf
+            dest=/etc/olsrd/olsrd.conf
+  notify: restart olsrd
+
+- name: olsrd-Start aktivieren
+  lineinfile: state=present
+              dest=/etc/default/olsrd
+              backrefs=yes
+              regexp='START_OLSRD'
+              line='START_OLSRD="YES"'
+  notify: restart olsrd
+

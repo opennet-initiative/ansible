@@ -1,0 +1,100 @@
+- name: openvpn installieren
+  apt: pkg=openvpn state=present
+
+# Python-Skripte werden fuer Portweiterleitungen und Adressvergabe verwendet
+- name: python installieren
+  apt: pkg=python-ipaddr state=present
+
+- name: VPN-Gruppe anlegen
+  user: state=present
+        name=openvpn
+        system=yes
+
+- name: VPN-Nutzer anlegen
+  user: state=present
+        name=openvpn
+        createhome=no
+        group=openvpn
+        system=yes
+
+- name: Log-Verzeichnis anlegen
+  file: state=directory
+        dest=/var/log/openvpn
+        owner=openvpn
+        group=openvpn 
+        mode=700
+
+- name: Diffie-Hellmann initialisieren
+  command: creates=/etc/openvpn/dh2048.pem openssl dhparam -out /etc/openvpn/dh2048.pem 2048
+
+# Unterverzeichnisse erzeugen
+- name: VPN-Verzeichnisse erzeugen
+  file: dest=/etc/openvpn/{{ item }} state=directory
+  with_items:
+    - opennet_users
+    - opennet_ugw
+
+- name: Nutzer-VPN-Skripte uebertragen
+  copy: force=yes
+        src=openvpn/opennet_users/{{ item }}
+        dest=/etc/openvpn/opennet_users/{{ item }}
+        mode=755
+  with_items:
+    - connect_script.py
+    - disconnect_script.py
+    - connectcalc.py
+    - output_cert_ca.sh
+    - test-connect_script.py
+    - tls_verify.sh
+
+- name: UGW-VPN-Skripte uebertragen
+  copy: force=yes
+        src=openvpn/opennet_ugw/{{ item }}
+        dest=/etc/openvpn/opennet_ugw/{{ item }}
+        mode=755
+  with_items:
+    - connect_script.py
+    - test-connect_script.py
+
+- name: CA-Zertifikat uebertragen
+  copy: force=yes
+        src=openvpn/{{ item }}/ca.crt
+        dest=/etc/openvpn/{{ item }}/
+  with_items:
+    - opennet_users
+    - opennet_ugw
+
+- name: Nutzer-VPN-Zertifikat uebertragen
+  copy: src=openvpn/host-certs/users/{{ ansible_hostname }}/{{ item }}
+        dest=/etc/openvpn/opennet_users/{{ item }}
+        mode=600
+  with_items:
+    - server.crt
+    - server.csr
+    - server.key
+  notify: restart openvpn
+
+- name: UGW-VPN-Konfiguration uebertragen
+  copy: src=openvpn/host-certs/ugw/{{ ansible_hostname }}/{{ item }}
+        dest=/etc/openvpn/opennet_ugw/{{ item }}
+  with_items:
+    - server.crt
+    - server.csr
+    - server.key
+  notify: restart openvpn
+
+- name: Nutzer-VPN-Konfiguration uebertragen
+  template: src=opennet_users.conf
+            dest=/etc/openvpn/
+  notify: restart openvpn
+
+- name: UGW-VPN-Konfiguration uebertragen
+  template: src=opennet_ugw.conf
+            dest=/etc/openvpn/
+  notify: restart openvpn
+
+- name: Port-Weiterleitungen als Nutzer 'openvpn' via sudo erlauben
+  copy: force=yes
+        content="openvpn ALL=(root) NOPASSWD:/sbin/iptables"
+        dest=/etc/sudoers.d/opennet-openvpn
+

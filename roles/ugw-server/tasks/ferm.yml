@@ -1,0 +1,26 @@
+- name: firewall - ferm installieren
+  apt: pkg=ferm state=present
+
+# diese Datei kann fuer lokale Anpassungen verwendet werden - also "force=no"
+- name: firewall - Vorlage fuer lokale Anpassungen kopieren
+  copy: force=no
+        src=ferm/custom-local.inc
+        dest=/etc/ferm/
+  notify: restart ferm
+
+- name: firewall - Dateien kopieren
+  copy: force=yes
+        src=ferm/{{ item }}
+        dest=/etc/ferm/
+  with_items:
+    - ferm.conf
+    - ugw.inc
+    - on-block-access.inc
+  notify: restart ferm
+
+- name: firewall - host-spezifische Variablen setzen
+  template: force=yes
+            src=ferm-variables.inc
+            dest=/etc/ferm/variables.inc
+  notify: restart ferm
+
