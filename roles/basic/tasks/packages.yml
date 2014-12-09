@@ -15,6 +15,7 @@
     - tree
     - zip
     - acpi-support-base
+    - molly-guard
 
 - name: apt -- Debug-Werkzeuge installieren
   apt: pkg={{ item }} state=present
