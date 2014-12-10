@@ -1,0 +1,11 @@
+- name: Dateien fuer Geschwindigkeitstests erzeugen
+  command: creates={{ item.name }}
+           dd if=/dev/urandom of={{ item.name }} bs=1M count={{ item.size }}
+  with_items:
+    - { name: /var/www/.megabyte, size: 1 }
+    - { name: /var/www/.10megabyte, size: 10 }
+
+- name: Kopiere favicon.ico
+  copy: src=favicon.ico
+        dest=/var/www/
+
