@@ -1,9 +1,18 @@
 - name: Nameserver installieren
   apt: state=present pkg=bind9
 
+- name: originale Nameserver-Konfiguration deaktivieren
+  lineinfile: state=present
+              backrefs=yes
+              dest=/etc/bind/named.conf
+              regexp='^(include.*named\.conf\.options.*)$'
+              line='#\1'
+  notify: restart bind
+
 - name: Nameserver konfigurieren
   template: force=yes
             src=bind9.conf
             dest=/etc/bind/named.conf.local
   notify: restart bind
+
 
