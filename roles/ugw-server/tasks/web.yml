@@ -4,6 +4,7 @@
   with_items:
     - { name: /var/www/.megabyte, size: 1 }
     - { name: /var/www/.10megabyte, size: 10 }
+    - { name: /var/www/.big, size: 100 }
 
 - name: Kopiere favicon.ico
   copy: src=favicon.ico
