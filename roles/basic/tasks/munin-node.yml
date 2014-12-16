@@ -5,7 +5,11 @@
   apt: state=present pkg=libnet-cidr-perl
 
 - name: munin-Abfrage IP-basiert zulassen
-  lineinfile: dest=/etc/munin/munin-node.conf state=present regexp="^cidr_allow {{ item }}$" line="cidr_allow {{ item }}" insertafter="^# cidr_deny"
+  lineinfile: dest=/etc/munin/munin-node.conf
+              state=present
+              regexp="^cidr_allow {{ item }}$"
+              line="cidr_allow {{ item }}"
+              insertafter="^# cidr_deny"
   with_items: munin_servers
   notify: restart munin-node
 
