@@ -1,6 +1,3 @@
-- name: munin -- extra-Plugins installieren
-  apt: state=present pkg=munin-plugins-extra
-
 - name: munin -- OpenVPN-Plugin fuer munin aktiveren
   copy: src=munin/openvpn_multiple
         dest=/etc/munin/plugins/
