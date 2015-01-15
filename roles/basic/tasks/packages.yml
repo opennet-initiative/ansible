@@ -29,6 +29,7 @@
     - iftop
     - dnsutils
     - mtr
+    - iperf
 
 - name: apt -- apt-dater-host installieren
   apt: install_recommends=no state=present pkg=apt-dater-host
