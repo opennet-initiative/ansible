@@ -1,96 +1,67 @@
 #!/usr/bin/python
 
-import sys
-import os
-import socket
-import struct
 import re
-import ipaddr
+import os
+from ipaddr import IPv4Address, IPv6Address, IPv4Network, IPv6Network
 
-#config
 
-def extract_numstring_aps(cn):
-   retval = int(cn[:-7])
-   if not (1 <= retval <= 255):
-      raise ValueError('Invalid cn %r.' % cn)
-   return retval
-   
-def extract_numstring_aps_long(cn):
-	retval = int(cn[2:-7])
-	if not (1 <= retval <= 255):
-		raise ValueError('Invalid cn %r.' % cn)
-	return retval
+PORTS_PER_HOST = 10
+IPV4_FACTOR = 4
+IPV6_FACTOR = 65536
 
-def extract_numstring_mobile(cn):
-   retval = int(cn[:-10])
-   if not (1 <= retval <= 255):
-      raise ValueError('Invalid cn %r.' % cn)
-   return retval
 
 client_ranges = {
-   '[0-9][0-9]?[0-9]?\.aps\.on': (167838718, 4, 10000, extract_numstring_aps),		#10.1.4.0
-   '1[\._-][0-9][0-9]?[0-9]?\.aps\.on': (167838718, 4, 10000, extract_numstring_aps_long),		#10.1.4.0
-   '2[\._-][0-9][0-9]?[0-9]?\.aps\.on': (167841790, 4, 15100, extract_numstring_aps_long),		#10.1.16.0
-   '[0-9][0-9]?[0-9]?\.mobile\.on': (167839742, 4, 12550, extract_numstring_mobile),	#10.1.8.0
-   }
+    r'^(1\.)?(?P<id>[0-9]{1,3})\.aps\.on$': (IPv4Address("0.0.4.0"), IPv6Address('::1:1:0:0'), 10000),
+    r'^(2\.)?(?P<id>[0-9]{1,3})\.aps\.on$': (IPv4Address("0.0.16.0"), IPv6Address('::1:2:0:0'), 15100),
+    r'^(?P<id>[0-9]{1,3})\.mobile\.on$': (IPv4Address("0.0.8.0"), IPv6Address('::2:1:0:0'), 12550),
+}
 
-# ipv6 prefix erina 2a01:a700:4629:fe00::/64
-client_ranges6 = {
-   '[0-9][0-9]?[0-9]?\.aps\.on': (55836155303943527445734511195122040832, 65536, extract_numstring_aps),     	     	#<prefix>:1:1::
-   '1[\._-][0-9][0-9]?[0-9]?\.aps\.on': (55836155303943527445734511195122040832, 65536, extract_numstring_aps_long),	#<prefix>:1:1::
-   '2[\._-][0-9][0-9]?[0-9]?\.aps\.on': (55836155303943527445734511199417008128, 65536, extract_numstring_aps_long),	#<prefix>:1:2::
-   '[0-9][0-9]?[0-9]?\.mobile\.on': (55836155303943527445734792670098751488, 65536, extract_numstring_mobile),		#<prefix>:2:1::
-   }
 
-# /config
+class NodeInfo(object):
 
-# ipv4
-def iplongtostring(longip):
-   return socket.inet_ntop(socket.AF_INET,struct.pack('>L',longip))
-
-# ipv6
-def iplongtostring6(longip):
-   return ipaddr.IPAddress(longip)
-
-# ipv4
-def get_targetvalues(client_cn):
-        ipbase = 0;
+    def __init__(self, client_cn, ipv4_base, ipv6_base):
         for cn_schema in client_ranges:
-                if (re.match(cn_schema, client_cn)):
-                        (ipbase, step, portbase, ns_extractor) = client_ranges[cn_schema]
-                        cn_address = ns_extractor(client_cn);
-                        break
-        if not ipbase:
-                raise ValueError('Invalid CN %r.' % client_cn)
-        return (ipbase, step, portbase, cn_address);
+            match = re.match(cn_schema, client_cn)
+            if match:
+                (ipv4_offset, ipv6_offset, port_base) = client_ranges[cn_schema]
+                cn_address = int(match.groupdict()["id"])
+                break
+        else:
+            raise ValueError('Invalid CN %r.' % client_cn)
+        if ipv4_base:
+            # der Abzug von "-2" schient pure Willkuer zu sein - wir belassen es einfach dabie
+            self.ipv4_address = ipv4_base + int(ipv4_offset) + IPV4_FACTOR * cn_address - 2
+        else:
+            self.ipv4_address = None
+        if ipv6_base:
+            self.ipv6_address = ipv6_base + int(ipv6_offset) + IPV4_FACTOR * cn_address
+        else:
+            self.ipv6_address = None
+        self.port_first = port_base + (cn_address - 1) * PORTS_PER_HOST
+        self.port_last = self.port_first + PORTS_PER_HOST - 1
 
-# ipv6
-def get_targetvalues6(client_cn):
-        ipbase = 0;
-        for cn_schema in client_ranges6:
-                if (re.match(cn_schema, client_cn)):
-                        (ipbase, step, ns_extractor) = client_ranges6[cn_schema]
-                        cn_address = ns_extractor(client_cn);
-                        break
-        if not ipbase:
-                raise ValueError('Invalid CN %r.' % client_cn)
-        return (ipbase, step, cn_address);
+    def __str__(self):
+        return "NodeInfo(ipv4_address='%s', ipv6_address='%s', port_first=%d, port_last=%d)" % \
+                (self.ipv4_address, self.ipv6_address, self.port_first, self.port_last)
 
-# ipv4
-def calc_targetip(ipbase, cn_address, step):
-	targetip_long = ipbase + cn_address*step;
-	targetip =  iplongtostring(targetip_long);
-	ifconfig_arg_1 = iplongtostring(targetip_long-1);
-	return (targetip, ifconfig_arg_1);
-	
-# ipv6
-def calc_targetip6(ipbase, cn_address, step):
-        targetip_long = ipbase + cn_address*step;
-        targetip =  iplongtostring6(targetip_long);
-        return (targetip);
 
-# ipv4 (not needed for ipv6, no nat)
-def calc_targetports(cn_address, portbase):
-	targetport_begin = portbase + (cn_address-1)*10;
-	targetport_end = targetport_begin+9;
-	return (targetport_begin, targetport_end);
+def parse_ipv4_and_net(ip, netmask):
+    return IPv4Network("%s/%s" % (ip, netmask)).masked().ip
+
+
+def parse_ipv6_and_net(ip):
+    return IPv6Network(ip).masked().ip
+
+
+def manage_port_forward(node, is_add):
+    # Port-Weiterleitungen sind nur fuer IPv4-Adressen relevant
+    if not node.ipv4_address:
+        return
+    if is_add:
+        modifier = "-A"
+    else:
+        modifier = "-D"
+    for proto in ("udp", "tcp"):
+        os.system('sudo /sbin/iptables -t nat %s user_dnat -p %s --dport %s:%s -j DNAT --to-destination %s' % \
+                (modifier, proto, node.port_first, node.port_last, node.ipv4_address))
+

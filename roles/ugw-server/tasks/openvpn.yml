@@ -43,8 +43,7 @@
         dest=/etc/openvpn/opennet_users/{{ item }}
         mode=755
   with_items:
-    - connect_script.py
-    - disconnect_script.py
+    - connection_script.py
     - connectcalc.py
     - output_cert_ca.sh
     - test-connect_script.py
@@ -80,6 +79,7 @@
 - name: UGW-VPN-Konfiguration uebertragen
   copy: src=openvpn/host-certs/ugw/{{ ansible_hostname }}/{{ item }}
         dest=/etc/openvpn/opennet_ugw/{{ item }}
+        mode=600
   with_items:
     - server.crt
     - server.csr
