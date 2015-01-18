@@ -1,6 +1,5 @@
-# ACHTUNG: ALLE AENDERUNGEN IN DIESER DATEI GEHEN VERLOREN!
-# Siehe https://wiki.opennet-initiative.de/wiki/ansible
-# Verwende stattdessen die Datei /etc/ferm/custom-local.inc fuer lokale Anpassungen.
+# ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Opennet_ansible
+# Verwende die Datei /etc/ferm/custom-local.inc fuer lokale Anpassungen.
 
 
 # Diese Chain wird von dem openvpn-user-Skript ("connect_script.py") verwaltet - wir

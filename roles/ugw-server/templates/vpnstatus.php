@@ -1,4 +1,5 @@
 <?php
+	// {{ ansible_managed }}
 
 	$vpn_name = "{{ ansible_hostname }}.on User VPN";
 	$vpn_port = 7506;

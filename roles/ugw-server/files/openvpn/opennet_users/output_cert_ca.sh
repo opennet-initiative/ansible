@@ -1,5 +1,7 @@
 #/bin/bash/
 #
+# ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Opennet_ansible
+#
 # output CA CN
 # mathias mahnke, 2013-06-09
 #

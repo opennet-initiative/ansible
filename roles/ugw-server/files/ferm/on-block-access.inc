@@ -1,3 +1,5 @@
+# ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Opennet_ansible
+
 # Windows-Freigaben duerften sich nicht im Internet befinden
 proto (tcp udp) dport (135:139 445) DROP;
 

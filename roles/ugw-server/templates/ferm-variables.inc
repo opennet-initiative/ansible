@@ -1,6 +1,5 @@
-# ACHTUNG: ALLE AENDERUNGEN IN DIESER DATEI GEHEN VERLOREN!
-# Siehe https://wiki.opennet-initiative.de/wiki/ansible
-# Verwende stattdessen die Datei /etc/ferm/custom-local.inc fuer lokale Anpassungen.
+# {{ ansible_managed }}
+# Verwende die Datei /etc/ferm/custom-local.inc fuer lokale Anpassungen.
 
 @def $LOCAL_HNA_IP = {{ main_ip }};
 @def $WIFIDOG_SERVER_IP = 192.168.10.3;

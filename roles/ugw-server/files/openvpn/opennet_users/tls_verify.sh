@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Opennet_ansible
+#
 # Speicherung aller verwendeten Zertifikate zur Analyse alter/neuer Zertifikate
 #
 # NICHT MEHR IN VERWENDUNG

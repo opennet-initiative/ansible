@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Opennet_ansible
 #changes by janc for the 192.168.2.x net
 import sys
 import os

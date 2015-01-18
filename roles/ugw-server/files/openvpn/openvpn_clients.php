@@ -1,4 +1,5 @@
 <?php
+// ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Opennet_ansible
 // OpenVPN (php-based) web status script
 // 
 // This script has been released to the public domain by Pablo Hoffman 

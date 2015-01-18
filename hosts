@@ -1,3 +1,6 @@
+[all:vars]
+ansible_managed = ACHTUNG: verwaltet via ansible (zuletzt durch {uid}@{host}) - siehe https://wiki.opennet-initiative.de/wiki/Opennet_ansible
+
 [ugw-server]
 megumi.on-i.de
 erina.on-i.de

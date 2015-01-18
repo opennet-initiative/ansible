@@ -1,6 +1,6 @@
 # Diese Datei ist der richtige Ort fuer lokal-spezifische Firewall-Regeln.
-# Alle anderen ferm-Dateien werden mittels der ansible-Konfigurationsverwaltung (https://wiki.opennet-initiative.de/wiki/ansible)
-# gelegentlich ueberschrieben.
+# Alle anderen ferm-Dateien werden mittels der ansible-Konfigurationsverwaltung gelegentlich ueberschrieben.
+# siehe https://wiki.opennet-initiative.de/wiki/Opennet_ansible
 
 table filter {
 	chain local-services-input {
