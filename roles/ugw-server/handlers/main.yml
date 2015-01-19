@@ -2,7 +2,7 @@
   service: name=ferm state=restarted
 
 - name: restart openvpn
-  service: name=openvpn state=restarted
+  service: name=openvpn state=restarted sleep=5
 
 - name: restart sysctl
   service: name=procps state=restarted
