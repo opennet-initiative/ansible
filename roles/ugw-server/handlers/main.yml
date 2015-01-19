@@ -8,7 +8,7 @@
   service: name=procps state=restarted
 
 - name: restart olsrd
-  service: name=olsrd state=restarted
+  service: name=olsrd state=restarted sleep=5
 
 # der "deactivate"-Handler muss vor dem "activate"-Handler stehen
 # (nicht die Reihenfolge der Ausloesung im Prozess, sondern die der Aufzaehlung in dieser Datei ist relevant)
