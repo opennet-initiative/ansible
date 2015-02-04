@@ -4,7 +4,7 @@
 
 # Diese Chain wird von dem openvpn-user-Skript ("connect_script.py") verwaltet - wir
 # muessen sie jedoch erzeugen, um den Sprungpunkt setzen zu koennen.
-@hook post "iptables -t nat -N user_dnat 2>/dev/null || true; iptables -t nat -A PREROUTING --proto tcp --dport 10000:17639 -j user_dnat; iptables -t nat -A PREROUTING --proto udp --dport 10000:17639 -j user_dnat";
+@hook post "iptables -t nat -N user_dnat 2>/dev/null || true; iptables -t nat -A PREROUTING -m addrtype --dst-type LOCAL --proto tcp --dport 10000:17639 -j user_dnat; iptables -t nat -A PREROUTING -m addrtype --dst-type LOCAL --proto udp --dport 10000:17639 -j user_dnat";
 
 
 table filter {
