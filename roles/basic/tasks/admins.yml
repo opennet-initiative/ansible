@@ -1,6 +1,6 @@
 # alle Admins sowie ausgewaehlte Dienste (Backup, Konfigurationsverwaltung) duerfen alle Server verwalten
 - name: Import der Admin-Schluessel in root-Account
-  authorized_key: user=root key="{{ lookup('file', item) }}"
+  authorized_key: user=root state=present key="{{ lookup('file', item) }}"
   with_fileglob:
     - public_keys/admins/*.pub
     # Achtung: der Zugriff nicht-menschlicher Schluessel sollte durch ein "from"-Praefix auf eine Quell-IP begrenzt werden
@@ -9,11 +9,25 @@
 
 # alle Admins duerfen die ansible-Konfigurationsverwaltung verwenden
 - name: Import der Admin-Schluessel in ansible@heartofgold.on-i.de
-  authorized_key: user=ansible key="{{ lookup('file', item) }}"
+  authorized_key: user=ansible state=present key="{{ lookup('file', item) }}"
   delegate_to: ansible@heartofgold.on-i.de
+  run_once: true
   with_fileglob:
     - public_keys/admins/*.pub
 
+# (veraltete) Schluessel von (ehemaligen) Admins aus entferntem root-Account entfernen
+- name: Loeschen alter Schluessel aus root-Account
+  authorized_key: user=root state=absent key="{{ lookup('file', item) }}"
+  with_fileglob:
+    - public_keys/obsolete/*.pub
+
+# (veraltete) Schluessel von (ehemaligen) Admins aus ansible-Account entfernen
+- name: Loeschen alter Schluessel aus ansible@heartofgold.on-i.de
+  authorized_key: user=ansible state=absent key="{{ lookup('file', item) }}"
+  delegate_to: ansible@heartofgold.on-i.de
+  run_once: true
+  with_fileglob:
+    - public_keys/obsolete/*.pub
 
 # ========== noch nicht importierte Schluessel (aus der alten erina) ==========
 #
