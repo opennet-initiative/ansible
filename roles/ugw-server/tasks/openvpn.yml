@@ -67,7 +67,7 @@
     - opennet_ugw
 
 - name: Nutzer-VPN-Zertifikat uebertragen
-  copy: src=openvpn/host-certs/users/{{ ansible_hostname }}/{{ item }}
+  copy: src=openvpn/host-certs/users/{{ short_hostname }}/{{ item }}
         dest=/etc/openvpn/opennet_users/{{ item }}
         mode=600
   with_items:
@@ -77,7 +77,7 @@
   notify: restart openvpn
 
 - name: UGW-VPN-Konfiguration uebertragen
-  copy: src=openvpn/host-certs/ugw/{{ ansible_hostname }}/{{ item }}
+  copy: src=openvpn/host-certs/ugw/{{ short_hostname }}/{{ item }}
         dest=/etc/openvpn/opennet_ugw/{{ item }}
         mode=600
   with_items:
