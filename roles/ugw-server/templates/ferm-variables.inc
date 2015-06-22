@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+# {{ ansible_notice }}
 # Verwende die Datei /etc/ferm/custom-local.inc fuer lokale Anpassungen.
 
 @def $LOCAL_HNA_IP = {{ main_ip }};

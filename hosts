@@ -1,3 +1,9 @@
+[all:vars]
+# in Anlehnung an "ansible_managed" - leider ist selbiges mit Zeitstempeln nicht verwendbar: https://github.com/ansible/ansible/issues/5317
+# Da wir ansible.cfg (dort with 'ansible_managed' definiert) aktuell nicht versionieren, verwenden wir eine einfache Variable.
+ansible_notice = ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Opennet_ansible
+
+
 [frieda23]
 ryoko.on
 

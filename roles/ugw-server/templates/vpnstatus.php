@@ -1,5 +1,5 @@
 <?php
-	// {{ ansible_managed }}
+	// {{ ansible_notice }}
 
 	$vpn_name = "{{ short_hostname }}.on User VPN";
 	$vpn_port = 7506;
