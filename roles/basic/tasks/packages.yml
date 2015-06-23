@@ -14,7 +14,6 @@
     - git
     - tree
     - zip
-    - acpi-support-base
     - molly-guard
 
 - name: apt -- Debug-Werkzeuge installieren
@@ -28,9 +27,11 @@
     - iotop
     - iftop
     - dnsutils
-    - mtr
+    - mtr-tiny
     - iperf
 
 - name: apt -- apt-dater-host installieren
   apt: install_recommends=no state=present pkg=apt-dater-host
 
+- name: apt -- acpi-support-base installieren
+  apt: install_recommends=no state=present pkg=acpi-support-base
