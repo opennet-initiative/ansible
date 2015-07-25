@@ -1,9 +1,6 @@
----
-- hosts: all
-  roles:
-    - basic
 
 - hosts: ugw-server
   roles:
+    - basic-server
     - ugw-server
 
