@@ -1,5 +1,7 @@
-# {{ ansible_notice }}
+###############################################################################
+# {{ ansible_managed }}
 # Verwende die Datei /etc/ferm/custom-local.inc fuer lokale Anpassungen.
+###############################################################################
 
 @def $LOCAL_HNA_IP = {{ main_ip }};
 @def $WIFIDOG_SERVER_IP = 192.168.10.3;
