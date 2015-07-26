@@ -6,7 +6,7 @@ main_ip: 192.168.0.246
 
 ugw_ip: 10.2.0.246
 
-#ugw_extra_settings: |
+#ugw_openvpn_users_extra_settings: |
 #  server-ipv6 2a01:a700:4629:fe00::/64 
 #  route-ipv6 2a01:a700:4629:fe01::/64
 #  route-ipv6 2a01:a700:4629:fe02::/64

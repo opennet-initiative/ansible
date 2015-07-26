@@ -1,5 +1,5 @@
 # manche Server moechten zusaetzliche IPs announcieren - alle anderen brauchen keine extra-Einstellungen
-ugw_extra_settings: ""
+ugw_openvpn_users_extra_settings: ""
 
 dns_zone_masters:
   - 139.30.241.202
