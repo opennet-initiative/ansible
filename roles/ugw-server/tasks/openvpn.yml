@@ -66,25 +66,37 @@
     - opennet_users
     - opennet_ugw
 
-- name: Nutzer-VPN-Zertifikat uebertragen
-  copy: src=openvpn/host-certs/users/{{ short_hostname }}/{{ item }}
-        dest=/etc/openvpn/opennet_users/{{ item }}
-        mode=600
-  with_items:
-    - server.crt
-    - server.csr
-    - server.key
-  notify: restart openvpn
+# Zertifikate und Schluessel pruefen (Nutzer-VPN)
+# Diese Dateien muessen manuell uebertragen werden.
+- name: Vorhandensein von lokalem Nutzer-VPN-Zertifikat pruefen
+  stat: path={{ openvpn_users_cert_file }}
+  register: openvpn_users_certificate
 
-- name: UGW-VPN-Konfiguration uebertragen
-  copy: src=openvpn/host-certs/ugw/{{ short_hostname }}/{{ item }}
-        dest=/etc/openvpn/opennet_ugw/{{ item }}
-        mode=600
-  with_items:
-    - server.crt
-    - server.csr
-    - server.key
-  notify: restart openvpn
+- fail: msg="OpenVPN-Zertifikat fuer Nutzer-VPN fehlt ({{ openvpn_users_cert_file }})"
+  when: not openvpn_users_certificate.stat.exists
+
+- name: Vorhandensein von lokalem Nutzer-VPN-Schluessel pruefen
+  stat: path={{ openvpn_users_key_file }}
+  register: openvpn_users_key
+
+- fail: msg="OpenVPN-Schluessel fuer Nutzer-VPN fehlt ({{ openvpn_users_key_file }})"
+  when: not openvpn_users_key.stat.exists
+
+# Zertifikate und Schluessel pruefen (UGW-VPN)
+# Diese Dateien muessen manuell uebertragen werden.
+- name: Vorhandensein von lokalem UGW-VPN-Zertifikat pruefen
+  stat: path={{ openvpn_ugw_cert_file }}
+  register: openvpn_ugw_certificate
+
+- fail: msg="OpenVPN-Zertifikat fuer UGW-VPN fehlt ({{ openvpn_ugw_cert_file }})"
+  when: not openvpn_ugw_certificate.stat.exists
+
+- name: Vorhandensein von lokalem UGW-VPN-Schluessel pruefen
+  stat: path={{ openvpn_ugw_key_file }}
+  register: openvpn_ugw_key
+
+- fail: msg="OpenVPN-Schluessel fuer UGW-VPN fehlt ({{ openvpn_ugw_key_file }})"
+  when: not openvpn_ugw_key.stat.exists
 
 - name: Nutzer-VPN-Konfiguration uebertragen
   template: src=opennet_users.conf
