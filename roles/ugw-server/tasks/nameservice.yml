@@ -1,13 +1,14 @@
 - name: Nameserver installieren
   apt: state=present pkg=bind9
 
-- name: originale Nameserver-Konfiguration deaktivieren
-  lineinfile: state=present
-              backrefs=yes
-              dest=/etc/bind/named.conf
-              regexp='^(include.*named\.conf\.options.*)$'
-              line='#\1'
-  notify: restart bind
+- name: dnskey vom primaeren DNS-Server abholen
+  delegate_to: root@{{ dns_zone_masters[0] }}
+  shell: grep -w 'secret' /etc/bind/named.conf.options | cut -f 2 -d '"'
+  register: dnskey_secret_fetch
+  changed_when: False
+
+- fail: msg="Kein geheimer dnskey auf dem primaeren DNS-Server gefunden"
+  when: not dnskey_secret_fetch.stdout
 
 - name: Nameserver konfigurieren
   template: force=yes
@@ -15,4 +16,10 @@
             dest=/etc/bind/named.conf.local
   notify: restart bind
 
-
+- name: originale Nameserver-Konfiguration deaktivieren
+  lineinfile: state=present
+              backrefs=yes
+              dest=/etc/bind/named.conf
+              regexp='^(include.*named\.conf\.options.*)$'
+              line='#\1'
+  notify: restart bind
