@@ -1,3 +1,5 @@
 - name: restart munin-node
   service: name=munin-node state=restarted
 
+- name: restart ssh
+  service: name=ssh state=restarted

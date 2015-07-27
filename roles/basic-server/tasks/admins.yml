@@ -12,6 +12,19 @@
   with_fileglob:
     - public_keys/obsolete/*.pub
 
+- name: ssh - Schluessel-Fingerprint bei login-Vorgaengen via syslog speichern
+  replace:
+    dest=/etc/ssh/sshd_config
+    regexp="^LogLevel.*$"
+    replace="LogLevel VERBOSE"
+  notify: restart ssh
+
+- name: ssh - root-Login nur mit Schluessel erlauben
+  replace:
+    dest=/etc/ssh/sshd_config
+    regexp="^PermitRootLogin.*$"
+    replace="PermitRootLogin without-password"
+  notify: restart ssh
 
 # ========== noch nicht importierte Schluessel (aus der alten erina) ==========
 #
