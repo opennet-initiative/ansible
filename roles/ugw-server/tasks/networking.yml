@@ -1,7 +1,11 @@
 - name: Paket-Weiterleitung erlauben
-  copy: force=yes
-        content="net.ipv4.ip_forward=1"
+  lineinfile:
+        create=yes
+        line={{ item }}
         dest=/etc/sysctl.d/opennet.conf
+  with_items:
+    - "net.ipv4.ip_forward=1"
+    - "net.conf.all.rp_filter=1"
   notify: restart sysctl
 
 # bei einer Aenderung der main_ip loeschen wir den lo:0-Eintrag aus der interfaces-Datei
