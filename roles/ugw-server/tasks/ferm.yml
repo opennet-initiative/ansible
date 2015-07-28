@@ -14,13 +14,14 @@
         dest=/etc/ferm/
   with_items:
     - ferm.conf
-    - ugw.inc
     - on-block-access.inc
   notify: restart ferm
 
-- name: firewall - host-spezifische Variablen setzen
+- name: firewall - Vorlagen kopieren
   template: force=yes
-            src=ferm-variables.inc
-            dest=/etc/ferm/variables.inc
+            src=ferm/{{ item }}
+            dest=/etc/ferm/
+  with_items:
+    - variables.inc
+    - ugw.inc
   notify: restart ferm
-

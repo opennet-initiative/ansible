@@ -1,10 +1,11 @@
+###############################################################################
 # ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Opennet_ansible
 # Verwende die Datei /etc/ferm/custom-local.inc fuer lokale Anpassungen.
+###############################################################################
 
 
-# Diese Chain wird von dem openvpn-user-Skript ("connect_script.py") verwaltet - wir
-# muessen sie jedoch erzeugen, um den Sprungpunkt setzen zu koennen.
-@hook post "iptables -t nat -N user_dnat 2>/dev/null || true; iptables -t nat -A PREROUTING -m addrtype --dst-type LOCAL --proto tcp --dport 10000:17639 -j user_dnat; iptables -t nat -A PREROUTING -m addrtype --dst-type LOCAL --proto udp --dport 10000:17639 -j user_dnat";
+# Wir wollen die Portweiterleitungen nach einem Firewall-Restart neu aufbauen
+@hook post "/etc/openvpn/opennet_users/connection_script.py rebuild_port_forward '{{ openvpn_users_ipv4_base }}' '{{ openvpn_users_ipv4_netmask }}'";
 
 
 table filter {
@@ -64,7 +65,11 @@ table nat {
 		jump on-postrouting;
 	}
 
+	chain user_dnat;
+
 	chain on-prerouting {
+		# Portweiterleitungen fuer Nutzer-Tunnel
+                mod addrtype dst-type LOCAL proto (tcp udp) dport 10000:17639 jump user_dnat;
 		# ohne diese Regel werden die eigenen Antwort-Pakete mit falschen Quell-IPs verschickt
 		interface $IF_MESH daddr $LOCAL_HNA_IP REDIRECT;
 		# DHCP-Anfragen von wifidog-Clients zu inez umlenken
