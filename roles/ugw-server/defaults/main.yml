@@ -1,3 +1,6 @@
+openvpn_users_ipv4_base: 10.1.0.0
+openvpn_users_ipv4_netmask: 255.255.0.0
+
 # manche Server moechten zusaetzliche IPs announcieren - alle anderen brauchen keine extra-Einstellungen
 ugw_openvpn_users_extra_settings: ""
 

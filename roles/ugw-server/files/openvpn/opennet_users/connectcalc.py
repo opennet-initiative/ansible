@@ -3,9 +3,12 @@
 
 import re
 import os
+import subprocess
 from ipaddr import IPv4Address, IPv6Address, IPv4Network, IPv6Network
 
 
+DNAT_TABLE = "user_dnat"
+OPENVPN_STATUS_FILE = "/var/log/openvpn/opennet_users.status.log"
 PORTS_PER_HOST = 10
 IPV4_FACTOR = 4
 IPV6_FACTOR = 65536
@@ -30,8 +33,8 @@ class NodeInfo(object):
         else:
             raise ValueError('Invalid CN %r.' % client_cn)
         if ipv4_base:
-            # der Abzug von "-2" schient pure Willkuer zu sein - wir belassen es einfach dabie
-            self.ipv4_address = ipv4_base + int(ipv4_offset) + IPV4_FACTOR * cn_address - 2
+            # wir beginnen mit der zweiten IP des Netzwerks (die erste verwendet der Server)
+            self.ipv4_address = ipv4_base + int(ipv4_offset) + IPV4_FACTOR * (cn_address - 1) + 2
         else:
             self.ipv4_address = None
         if ipv6_base:
@@ -54,15 +57,38 @@ def parse_ipv6_and_net(ip):
     return IPv6Network(ip).masked().ip
 
 
-def manage_port_forward(node, is_add):
-    # Port-Weiterleitungen sind nur fuer IPv4-Adressen relevant
-    if not node.ipv4_address:
-        return
-    if is_add:
-        modifier = "-A"
-    else:
-        modifier = "-D"
-    for proto in ("udp", "tcp"):
-        os.system('sudo /sbin/iptables -t nat %s user_dnat -p %s --dport %s:%s -j DNAT --to-destination %s' % \
-                (modifier, proto, node.port_first, node.port_last, node.ipv4_address))
+def get_current_user_vpn_connections():
+    """ Auslesen der Common Names der verbundenen Clients """
+    for index, line in enumerate(open(OPENVPN_STATUS_FILE, "r").readlines()):
+        # die ersten drei Zeilen sind der Header
+        if index < 3:
+            continue
+        # wir ignorieren die zweite Haelfte der Status-Datei
+        if line.strip() == "ROUTING TABLE":
+            break
+        node_cn = line.split(",")[0]
+        if node_cn != "UNDEF":
+            yield node_cn
 
+
+def run_iptables(modifier, args):
+    subprocess.call(["sudo", "/sbin/iptables", "-t", "nat", modifier, DNAT_TABLE] + args)
+
+
+def _change_port_forward(node, modifier):
+    # Port-Weiterleitungen sind nur fuer IPv4-Adressen relevant
+    if node.ipv4_address:
+        for proto in ("udp", "tcp"):
+            run_iptables(modifier, ["-p", proto, "--dport", "%d:%d" % (node.port_first, node.port_last),
+                                "-j", "DNAT", "--to-destination", str(node.ipv4_address)])
+
+
+add_port_forward = lambda node: _change_port_forward(node, "-A")
+del_port_forward = lambda node: _change_port_forward(node, "-D")
+
+
+def rebuild_port_forwards(ipv4_base, ipv6_base):
+    run_iptables("-F", [])
+    for node_cn in get_current_user_vpn_connections():
+        node = NodeInfo(node_cn, ipv4_base, ipv6_base)
+        add_port_forward(node)
