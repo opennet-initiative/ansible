@@ -1,0 +1,31 @@
+- name: Nameserver installieren
+  apt: state=present pkg=bind9
+
+- name: dnskey vom primaeren DNS-Server abholen
+  delegate_to: root@{{ dns_zone_masters[0] }}
+  shell: grep -w 'secret' /etc/bind/named.conf.options | cut -f 2 -d '"'
+  register: dnskey_secret_fetch
+  changed_when: False
+
+- fail: msg="Kein geheimer dnskey auf dem primaeren DNS-Server gefunden"
+  when: not dnskey_secret_fetch.stdout
+
+- name: Nameserver konfigurieren
+  template:
+    src=named.conf.local
+    dest=/etc/bind/
+  notify: restart bind
+
+- name: originale Nameserver-Konfiguration deaktivieren
+  lineinfile: state=present
+              backrefs=yes
+              dest=/etc/bind/named.conf
+              regexp='^(include.*named\.conf\.options.*)$'
+              line='#\1'
+  notify: restart bind
+
+- name: Zugang zum DNS-Server fuer Zonen-Transfer erlauben
+  template:
+    src=ferm/dns-zone-slave.inc
+    dest=/etc/ferm/conf.d/
+  notify: restart ferm
