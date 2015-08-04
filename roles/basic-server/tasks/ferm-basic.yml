@@ -1,0 +1,23 @@
+- name: firewall - ferm installieren
+  apt: pkg=ferm state=present
+
+- name: firewall - Dateien kopieren
+  template:
+    src=ferm.conf
+    dest=/etc/ferm/
+  notify: restart ferm
+
+- name: firewall - conf-Verzeichnis erzeugen
+  file:
+    path=/etc/ferm/conf.d
+    state=directory
+
+# Aufraeumen (Umstellung der Pfade)
+- name: firewall - alte Dateien loeschen
+  file: state=absent
+        path=/etc/ferm/{{ item }}
+  with_items:
+    - custom-local.inc
+    - on-block-access.inc
+    - variables.inc
+    - ugw.inc

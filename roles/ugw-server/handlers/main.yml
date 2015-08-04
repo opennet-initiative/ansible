@@ -17,6 +17,3 @@
 
 - name: activate main_ip
   command: ifup lo:0
-
-- name: restart bind
-  service: name=bind9 state=restarted

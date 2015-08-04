@@ -1,7 +1,12 @@
 ###############################################################################
-# ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Opennet_ansible
-# Verwende die Datei /etc/ferm/custom-local.inc fuer lokale Anpassungen.
+# {{ ansible_managed }}
+# Lokale Anpassungen koennen unter /etc/ferm/conf.d/ abgelegt werden.
 ###############################################################################
+
+
+@def $LOCAL_HNA_IP = {{ main_ip }};
+@def $IF_ON_USERS = tun-users;
+@def $WIFIDOG_SERVER_IP = 192.168.10.3;
 
 
 # Wir wollen die Portweiterleitungen nach einem Firewall-Restart neu aufbauen
@@ -9,65 +14,37 @@
 
 
 table filter {
-	chain on-services-input {
+	chain INPUT {
 		# User-VPN und UGW-VPN
 		proto udp dport (1600 1602) ACCEPT;
 
-		# iperf - manuell zu starten fuer gelegentliche Tests
-		proto (udp tcp) dport 5001 ACCEPT;
-
 		# VPN-Status zugaenglich machen
 		proto tcp dport http ACCEPT;
+	}
 
-		# munin
-		proto tcp dport munin ACCEPT;
-
-		# Dienste fuer das Opennet
-		interface $IF_MESH {
-			# olsrd: Routing
-			proto udp dport 698 ACCEPT;
-			# olsrd: http-info
-			proto tcp dport 8080 ACCEPT;
-			# ntp
-			proto udp dport ntp ACCEPT;
-			# DNS
-			proto (udp tcp) dport domain ACCEPT;
+	chain FORWARD {
+		outerface $IF_WAN {
+			# wir sperren schad-typische Zugriffe ins Internet
+			interface $IF_ON_USERS jump "on-ugw-block-access";
+			# alle anderen Zugriffe aus dem Tunnel-VPN
+			interface $IF_ON_USERS ACCEPT;
+			# Zugriffe auf ein paar definierte Dienste und Server sind auch ohne VPN erlaubt
+			jump on-unauth-forward;
 		}
-
-		# DNS-Zonentransfers
-		saddr $DNS_ZONE_MASTER proto tcp dport domain ACCEPT;
-
-		# Nagios-Ueberwachung via nrpe
-		saddr $NAGIOS_SERVER proto tcp dport nrpe ACCEPT;
 	}
 
 	chain on-unauth-forward {
 		# downloads.openwrt.org
 		daddr 78.24.191.177 ACCEPT;
 	}
-
-	chain on-services-forward {
-		# VPN-Nutzende -> Internet
-		interface $IF_ON_USERS outerface $IF_WAN ACCEPT;
-		# Verkehr zwischen Opennet-Knoten
-		interface $IF_MESH outerface $IF_MESH ACCEPT;
-		interface $IF_ON_USERS daddr $WIFIDOG_SERVER_IP proto udp dport 67 ACCEPT;
-	}
 }
 
 
 table nat {
-	chain PREROUTING {
-		jump on-prerouting;
-	}
-
-	chain POSTROUTING {
-		jump on-postrouting;
-	}
-
+	# diese Tabelle wird mittels des openvpn-Portweiterleitungsskripts gefuellt
 	chain user_dnat;
 
-	chain on-prerouting {
+	chain PREROUTING {
 		# Portweiterleitungen fuer Nutzer-Tunnel
                 mod addrtype dst-type LOCAL proto (tcp udp) dport 10000:17639 jump user_dnat;
 		# ohne diese Regel werden die eigenen Antwort-Pakete mit falschen Quell-IPs verschickt
@@ -75,9 +52,4 @@ table nat {
 		# DHCP-Anfragen von wifidog-Clients zu inez umlenken
 		interface $IF_ON_USERS daddr 10.1.0.1 proto udp dport 67 DNAT to $WIFIDOG_SERVER_IP;
 	}
-
-	chain on-postrouting {
-		outerface $IF_WAN saddr (192.168.0.0/16 10.0.0.0/8) MASQUERADE;
-	}
 }
-

@@ -1,4 +1,8 @@
 short_hostname: ryoko
 
+wan_interface: br-internet
+
 main_ip: 192.168.10.10
 
+mesh_interfaces:
+  - br-mesh

@@ -9,8 +9,3 @@ openvpn_users_key_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname
 # TODO: pruefen, ob wir anstelle der alten UGW-VPN-Zertifikate nun ebenfalls die obigen verwenden koennen
 openvpn_ugw_cert_file: /etc/openvpn/opennet_ugw/server.crt
 openvpn_ugw_key_file: /etc/openvpn/opennet_ugw/server.key
-
-dns_zone_masters:
-  - 139.30.241.202
-  - 192.168.10.2
-
