@@ -3,3 +3,4 @@
 - include: packages.yml
 - include: admins.yml
 - include: ferm-basic.yml
+- include: opennet-ca.yml

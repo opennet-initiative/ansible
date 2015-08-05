@@ -1,0 +1,39 @@
+- name: Opennet-CA-Zertifikate uebertragen
+  synchronize:
+    delete=yes
+    owner=no
+    group=no
+    src=opennet-ca/
+    dest=/usr/local/share/ca-certificates/opennet-initiative.de/
+  notify: update-ca-certificates
+
+# wir muessen die neuen CA-Zertifikate sofort aktivieren, damit der folgende Download funktioniert
+- meta: flush_handlers
+
+- name: Skript 'opennetca_crldownload' herunterladen
+  get_url:
+    force=yes
+    dest=/usr/local/sbin/opennetca_crldownload.sh
+    mode=755
+    owner=root
+    url="https://dev.opennet-initiative.de/browser/on_opennetca/opennetca_crldownload.sh?format=raw"
+
+- name: CRL-Verzeichnis erstellen
+  file:
+    path=/etc/ssl/crl
+    state=directory
+
+- name: Cron-Jobs fuer die Aktualisierung der CA-Widerrufslisten eintragen
+  cron:
+    state=present
+    name="Zerifikatswiderrufslisten fuer {{ item.name }} regelmaessig aktualisieren"
+    hour="1,13"
+    minute="{{ item.minute }}"
+    job="/usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }}"
+  with_items: opennet_ca_crl_list
+
+- name: CA-Widerrufslisten erstmals herunterladen, falls nicht vorhanden
+  command:
+    creates=/etc/ssl/crl/{{ item.crl }}
+    /usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }}
+  with_items: opennet_ca_crl_list
