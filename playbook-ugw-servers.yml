@@ -1,7 +1,5 @@
-
 - hosts: ugw-server
   roles:
     - basic-server
     - ugw-server
     - dns-zone-slave
-
