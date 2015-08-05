@@ -6,7 +6,9 @@ ugw_openvpn_users_extra_settings: ""
 
 openvpn_users_cert_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.crt
 openvpn_users_key_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.key
-# TODO: pruefen, ob wir anstelle der alten UGW-VPN-Zertifikate nun ebenfalls die obigen verwenden koennen
+# TODO: vor dem Umstieg muessen die UGW-CA-Zertifikate aktualisiert werden
+#openvpn_ugw_cert_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.crt
+#openvpn_ugw_key_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.key
 openvpn_ugw_cert_file: /etc/openvpn/opennet_ugw/server.crt
 openvpn_ugw_key_file: /etc/openvpn/opennet_ugw/server.key
 
