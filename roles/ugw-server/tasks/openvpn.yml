@@ -113,3 +113,17 @@
         content="openvpn ALL=(root) NOPASSWD:/sbin/iptables\n"
         dest=/etc/sudoers.d/opennet-openvpn
 
+- name: Zertifikatswiderrufslisten fuer Nutzer-Tunnel regelmaessig via cron aktualisieren
+  cron:
+    state=present
+    name="Zerifikatswiderrufslisten fuer {{ item.name }} regelmaessig aktualisieren"
+    hour="1,13"
+    minute="{{ item.minute }}"
+    job="/usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }}"
+  with_items: ugw_server_crl_list
+
+- name: UGW-Widerrufslisten erstmals herunterladen, falls nicht vorhanden
+  command:
+    creates=/etc/ssl/crl/{{ item.crl }}
+    /usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }}
+  with_items: ugw_server_crl_list

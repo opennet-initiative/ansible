@@ -9,3 +9,7 @@ openvpn_users_key_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname
 # TODO: pruefen, ob wir anstelle der alten UGW-VPN-Zertifikate nun ebenfalls die obigen verwenden koennen
 openvpn_ugw_cert_file: /etc/openvpn/opennet_ugw/server.crt
 openvpn_ugw_key_file: /etc/openvpn/opennet_ugw/server.key
+
+ugw_server_crl_list:
+  - { name: "Nutzer-Tunnel", minute: "48", crl: "opennet-vpn-users.crl", ca_cert: "/etc/openvpn/opennet_users/ca.crt" }
+  - { name: "UGW-Tunnel", minute: "49", crl: "opennet-vpn-ugw.crl", ca_cert: "/etc/openvpn/opennet_ugw/ca.crt" }
