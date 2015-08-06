@@ -1,3 +1,0 @@
-= Portweiterleitung =
-* bei einer Aenderung der Ferm-Regeln wird die user_dnat-Tabelle leider von ferm geloescht (trotz unserer ferm-externen Erzeugung)
-* Loesung: nach jeder neuen openvpn-Verbindung die Portweiterleitungen basierend auf der aktuellen vpn-Status-Liste neu aufbauen; diese Aktion zusätzlich als "post"-Hook in ferm eintragen
