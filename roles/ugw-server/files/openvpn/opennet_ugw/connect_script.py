@@ -1,37 +1,41 @@
 #!/usr/bin/python
 # ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Server_Installation/Ansible
+"""
+Ermittle anhand des Zertifikats-CN eines OpenVPN-Clients die IP-Adresse, die
+der OpenVPN-Server ihm zuweisen soll.
+Das Ergebnis wird - entsprechend der OpenVPN-Konvention - in die Datei geschrieben,
+deren Name als erster Parameter an das Skript uebergeben wurde.
+"""
 
 import sys
 import os
-import re
-
-def extract_numstring_ugws(cn):
-   retval = int(cn[:-7])
-   if not (1 <= retval <= 255):
-      raise ValueError('Invalid cn %r.' % cn)
-   return retval
-   
-def extract_numstring_ugws_long(cn):
-	retval = int(cn[2:-7])
-	if not (1 <= retval <= 255):
-		raise ValueError('Invalid cn %r.' % cn)
-	return retval
-
-netmask = '255.255.0.0'
-targetipmask = '10.2.%d.%d'
-client_cn = os.getenv('common_name')
-
-if (re.match('[0-9][0-9]?[0-9]?\.ugw\.on', client_cn)):
-	client_num = extract_numstring_ugws(client_cn)
-	client_pre = 1
-if (re.match('[12][\._-][0-9][0-9]?[0-9]?\.ugw\.on', client_cn)):
-	client_num = extract_numstring_ugws_long(client_cn)
-	client_pre = int(client_cn[0])
 
 
-target_filename = sys.argv[1]
+NETMASK = '255.255.0.0'
+CLIENT_IP_TEMPLATE = '10.2.{major}.{minor}'
 
-target_file = file(target_filename, 'w')
-config_text = 'ifconfig-push %s %s\n' % ((targetipmask % (client_pre,client_num,)), netmask)
-target_file.write(config_text)
-target_file.close()
+
+if __name__ == "__main__":
+    client_cn = os.getenv('common_name')
+
+    if not client_cn.endswith(".ugw.on"):
+        sys.stderr.write("Invalid Client Certificate CN: '%s'%s" % (client_cn, os.linesep))
+        sys.exit(1)
+
+    # das ".ugw.on"-Suffix entfernen
+    cn_prefix = client_cn[:-len(".ugw.on")]
+
+    # fuehrende "1" hinzufuegen, falls das Zertifikats-CN dem alten Schema folgt ('X.ugw.on' statt 'Y.X.ugw.on')
+    if not "." in cn_prefix:
+        cn_prefix = "1." + cn_prefix
+
+    # IP-Adresse ermitteln
+    client_major, client_minor = [int(value) for value in cn_prefix.split(".")]
+    client_ip = CLIENT_IP_TEMPLATE.format(major=client_major, minor=client_minor)
+
+    target_filename = sys.argv[1]
+    target_file = file(target_filename, 'w')
+    config_text = 'ifconfig-push {ip} {netmask}'.format(ip=client_ip, netmask=NETMASK)
+    target_file.write(config_text)
+    target_file.write(os.linesep)
+    target_file.close()

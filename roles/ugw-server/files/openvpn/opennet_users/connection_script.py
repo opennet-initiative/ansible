@@ -1,5 +1,14 @@
 #!/usr/bin/python
 # ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Server_Installation/Ansible
+"""
+Dieses Skript wird beim Aufbau und bei der Trennung einer Nutzer-Tunnel-OpenVPN-Verbindung ausgefuehrt.
+Es ermittelt die zu vergebende IP des OpenVPN-Clients anhand des CN seines Zertifikats und berechnet ausserdem
+die Portbereich, der dem Client fuer die Portweiterleitung zugeordnet ist.
+
+Ausserdem wird dieses Skript als Start-Hook von ferm mit dem Argument "rebuild_port_forward" aufgerufen,
+um die Portweiterleitungsregeln nach einem Flush der Firewall-Regeln anhand der openvpn-Status-Datei
+neu zu erstellen.
+"""
 
 import sys
 import os
@@ -45,13 +54,18 @@ def process_openvpn_connection_event(client_cn):
         # wir wurden als "client-disconnect"-Skript aufgerufen
         del_port_forward(node)
 
+
 if __name__ == "__main__":
     client_cn = os.getenv('common_name')
     if client_cn:
+        # Das Skript wurde aufgrund des Verbindungsaufbaus oder der Trennung eines
+        # OpenVPN-Clients gestartet.
         process_openvpn_connection_event(client_cn)
     else:
+        # Das Skript wurde nicht vom OpenVPN-Server gestartet.
         action = sys.argv[1]
         if action == "rebuild_port_forward":
+            # Diese Aktion wird beim Neustart von ferm (Firewall-Builder) als Hook ausgeloest.
             network_start = sys.argv[2]
             network_netmask = sys.argv[3]
             ipv4_base = parse_ipv4_and_net(network_start, network_netmask)
