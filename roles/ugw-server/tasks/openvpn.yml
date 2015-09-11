@@ -46,7 +46,6 @@
     - connection_script.py
     - connectcalc.py
     - output_cert_ca.sh
-    - test-connect_script.py
     - tls_verify.sh
 
 - name: UGW-VPN-Skripte uebertragen
@@ -56,7 +55,6 @@
         mode=755
   with_items:
     - connect_script.py
-    - test-connect_script.py
 
 - name: CA-Zertifikat uebertragen
   copy: force=yes
@@ -127,3 +125,11 @@
     creates=/etc/ssl/crl/{{ item.crl }}
     /usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }}
   with_items: ugw_server_crl_list
+
+- name: veraltete Fragmente entfernen
+  file: state=absent
+        path={{ item }}
+  with_items:
+    - /etc/openvpn/opennet_users/test-connect_script.py
+    - /etc/openvpn/opennet_ugw/test-connect_script.py
+
