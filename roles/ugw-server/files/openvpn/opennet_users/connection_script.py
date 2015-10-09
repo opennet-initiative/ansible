@@ -29,10 +29,6 @@ def process_openvpn_connection_event(client_cn):
 
     node = NodeInfo(client_cn, ipv4_base, ipv6_base)
 
-    # alle Port-Weiterleitungen neu erstellen (hinzufuegen/entfernen)
-    # Anschliessend muss nur noch der aktuelle Host hinzugefuegt oder entfernt werden (er steht noch nicht in der Status-Datei).
-    rebuild_port_forwards(ipv4_base, ipv6_base)
-
     if os.getenv("bytes_received") is None:
         # wir wurden als "client-connect"-Skript aufgerufen
         add_port_forward(node)
