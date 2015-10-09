@@ -1,0 +1,8 @@
+short_hostname: ruri
+
+wan_interface: eth1
+
+main_ip: 192.168.10.12
+
+mesh_interfaces:
+  - eth0
