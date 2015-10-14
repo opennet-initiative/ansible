@@ -1,0 +1,16 @@
+- name: sudo fuer Port-Weiterleitungen installieren
+  apt: pkg=sudo state=present
+
+- name: Port-Weiterleitungen als Nutzer 'openvpn' via sudo erlauben
+  copy: content="openvpn ALL=(root) NOPASSWD:/sbin/iptables\n"
+        dest=/etc/sudoers.d/opennet-openvpn
+
+- name: Skript für Nutzer-Port-Weiterleitungen kopieren
+  copy: src=scripts/rebuild_user_port_forwards.py
+        dest=/usr/local/bin/
+        mode=755
+
+- name: Cron-Job fuer Aktualisierung der Port-Weiterleitung erstellen
+  cron: minute="*/3"
+        name="Port-Weiterleitungen fuer Nutzer-Tunnel aktualisieren"
+        job="/usr/local/bin/rebuild_user_port_forwards.py '{{ openvpn_users_ipv4_base }}' '{{ openvpn_users_ipv4_netmask }}'"
