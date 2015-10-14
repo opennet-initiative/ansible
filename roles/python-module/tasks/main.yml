@@ -4,7 +4,6 @@
           dest=/usr/local/lib/python2.7/dist-packages/opennet/
           owner=no
           group=no
-          delete=yes
 
 - name: Abhaengigkeiten der python-Module installieren
   apt: pkg=python-ipaddr state=present
