@@ -38,26 +38,22 @@
     - opennet_ugw
 
 - name: Nutzer-VPN-Skripte uebertragen
-  copy: force=yes
-        src=openvpn/opennet_users/{{ item }}
+  copy: src=openvpn/opennet_users/{{ item }}
         dest=/etc/openvpn/opennet_users/{{ item }}
         mode=755
   with_items:
     - connection_script.py
-    - connectcalc.py
     - output_cert_ca.sh
 
 - name: UGW-VPN-Skripte uebertragen
-  copy: force=yes
-        src=openvpn/opennet_ugw/{{ item }}
+  copy: src=openvpn/opennet_ugw/{{ item }}
         dest=/etc/openvpn/opennet_ugw/{{ item }}
         mode=755
   with_items:
     - connect_script.py
 
 - name: CA-Zertifikat uebertragen
-  copy: force=yes
-        src=openvpn/{{ item }}/ca.crt
+  copy: src=openvpn/{{ item }}/ca.crt
         dest=/etc/openvpn/{{ item }}/
   with_items:
     - opennet_users
@@ -106,8 +102,7 @@
   notify: restart openvpn
 
 - name: Port-Weiterleitungen als Nutzer 'openvpn' via sudo erlauben
-  copy: force=yes
-        content="openvpn ALL=(root) NOPASSWD:/sbin/iptables\n"
+  copy: content="openvpn ALL=(root) NOPASSWD:/sbin/iptables\n"
         dest=/etc/sudoers.d/opennet-openvpn
 
 - name: Zertifikatswiderrufslisten fuer Nutzer-Tunnel regelmaessig via cron aktualisieren
