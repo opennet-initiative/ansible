@@ -2,6 +2,8 @@
 #
 # ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Server_Installation/Ansible
 #
+# nicht mehr in Verwendung (es war nur fuer den Uebergang zur neuen CA relevant)
+#
 # output CA CN
 # mathias mahnke, 2013-06-09
 #

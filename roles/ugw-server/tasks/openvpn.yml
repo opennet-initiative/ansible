@@ -43,7 +43,6 @@
         mode=755
   with_items:
     - connection_script.py
-    - output_cert_ca.sh
 
 - name: UGW-VPN-Skripte uebertragen
   copy: src=openvpn/opennet_ugw/{{ item }}
@@ -126,5 +125,6 @@
   with_items:
     - /etc/openvpn/opennet_users/test-connect_script.py
     - /etc/openvpn/opennet_users/tls_verify.sh
+    - /etc/openvpn/opennet_users/output_cert_ca.sh
     - /etc/openvpn/opennet_ugw/test-connect_script.py
 
