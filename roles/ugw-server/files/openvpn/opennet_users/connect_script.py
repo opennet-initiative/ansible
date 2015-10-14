@@ -12,7 +12,7 @@ neu zu erstellen.
 
 import sys
 import os
-from connectcalc import NodeInfo, parse_ipv4_and_net, parse_ipv6_and_net, rebuild_port_forwards, add_port_forward, del_port_forward
+from opennet.addresses import NodeInfo, parse_ipv4_and_net, parse_ipv6_and_net
 
 
 # Debugging?
@@ -31,7 +31,6 @@ def process_openvpn_connection_event(client_cn):
 
     if os.getenv("bytes_received") is None:
         # wir wurden als "client-connect"-Skript aufgerufen
-        add_port_forward(node)
         # push config to ovpn client
         target_filename = sys.argv[1]
         with file(target_filename, 'w') as target_file:
@@ -48,7 +47,7 @@ def process_openvpn_connection_event(client_cn):
                     target_file.write('iroute-ipv6 2a01:a700:4629:fe03::/64')
     else:
         # wir wurden als "client-disconnect"-Skript aufgerufen
-        del_port_forward(node)
+        pass
 
 
 if __name__ == "__main__":
@@ -58,14 +57,5 @@ if __name__ == "__main__":
         # OpenVPN-Clients gestartet.
         process_openvpn_connection_event(client_cn)
     else:
-        # Das Skript wurde nicht vom OpenVPN-Server gestartet.
-        action = sys.argv[1]
-        if action == "rebuild_port_forward":
-            # Diese Aktion wird beim Neustart von ferm (Firewall-Builder) als Hook ausgeloest.
-            network_start = sys.argv[2]
-            network_netmask = sys.argv[3]
-            ipv4_base = parse_ipv4_and_net(network_start, network_netmask)
-            ipv6_base = None
-            rebuild_port_forwards(ipv4_base, ipv6_base)
-        else:
-            sys.stderr.write("Unknown action: %s\n" % str(action))
+        sys.stderr.write("Unknown certificate CN" + os.linesep)
+        sys.exit(1)
