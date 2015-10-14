@@ -38,18 +38,14 @@
     - opennet_ugw
 
 - name: Nutzer-VPN-Skripte uebertragen
-  copy: src=openvpn/opennet_users/{{ item }}
-        dest=/etc/openvpn/opennet_users/{{ item }}
+  copy: src=openvpn/opennet_users/connect_script.py
+        dest=/etc/openvpn/opennet_users/
         mode=755
-  with_items:
-    - connection_script.py
 
 - name: UGW-VPN-Skripte uebertragen
-  copy: src=openvpn/opennet_ugw/{{ item }}
-        dest=/etc/openvpn/opennet_ugw/{{ item }}
+  copy: src=openvpn/opennet_ugw/connect_script.py
+        dest=/etc/openvpn/opennet_ugw/
         mode=755
-  with_items:
-    - connect_script.py
 
 - name: CA-Zertifikat uebertragen
   copy: src=openvpn/{{ item }}/ca.crt
