@@ -1,6 +1,3 @@
-- name: apt -- Cache aktualisieren
-  apt: update_cache=yes cache_valid_time=600
-
 - name: apt -- server-relevante Pakete installieren
   apt: pkg={{ item }} state=present
   with_items:

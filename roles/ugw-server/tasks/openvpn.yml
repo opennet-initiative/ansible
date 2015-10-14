@@ -1,12 +1,5 @@
-- name: openvpn und Abhaengigkeiten installieren
-  apt: pkg={{ item }} state=present
-  with_items:
-    - openvpn
-    # Python-Skripte werden fuer Portweiterleitungen und Adressvergabe verwendet
-    - python
-    - python-ipaddr
-    # die Portweiterleitungen werden via sudo angelegt
-    - sudo
+- name: openvpn installieren
+  apt: pkg=openvpn state=present
 
 - name: VPN-Gruppe anlegen
   user: state=present
@@ -96,10 +89,6 @@
             dest=/etc/openvpn/
   notify: restart openvpn
 
-- name: Port-Weiterleitungen als Nutzer 'openvpn' via sudo erlauben
-  copy: content="openvpn ALL=(root) NOPASSWD:/sbin/iptables\n"
-        dest=/etc/sudoers.d/opennet-openvpn
-
 - name: Zertifikatswiderrufslisten fuer Nutzer-Tunnel regelmaessig via cron aktualisieren
   cron:
     state=present
@@ -119,8 +108,9 @@
   file: state=absent
         path={{ item }}
   with_items:
+    - /etc/openvpn/opennet_users/connection_script.py
+    - /etc/openvpn/opennet_users/connectcalc.py
     - /etc/openvpn/opennet_users/test-connect_script.py
     - /etc/openvpn/opennet_users/tls_verify.sh
     - /etc/openvpn/opennet_users/output_cert_ca.sh
     - /etc/openvpn/opennet_ugw/test-connect_script.py
-

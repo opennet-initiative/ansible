@@ -10,7 +10,7 @@
 
 
 # Wir wollen die Portweiterleitungen nach einem Firewall-Restart neu aufbauen
-@hook post "/etc/openvpn/opennet_users/connection_script.py rebuild_port_forward '{{ openvpn_users_ipv4_base }}' '{{ openvpn_users_ipv4_netmask }}'";
+@hook post "/usr/local/bin/rebuild_user_port_forwards.py '{{ openvpn_users_ipv4_base }}' '{{ openvpn_users_ipv4_netmask }}'";
 
 
 table filter {
