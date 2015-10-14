@@ -1,5 +1,6 @@
 - hosts: ugw-server
   roles:
     - basic-server
+    - python-module
     - ugw-server
     - dns-zone-slave
