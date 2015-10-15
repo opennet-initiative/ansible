@@ -1,10 +1,3 @@
-- name: sudo fuer Port-Weiterleitungen installieren
-  apt: pkg=sudo state=present
-
-- name: Port-Weiterleitungen als Nutzer 'openvpn' via sudo erlauben
-  copy: content="openvpn ALL=(root) NOPASSWD:/sbin/iptables\n"
-        dest=/etc/sudoers.d/opennet-openvpn
-
 - name: Skript für Nutzer-Port-Weiterleitungen kopieren
   copy: src=scripts/rebuild_user_port_forwards.py
         dest=/usr/local/bin/

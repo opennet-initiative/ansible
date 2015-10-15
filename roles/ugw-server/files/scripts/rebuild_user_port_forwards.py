@@ -55,7 +55,7 @@ def dump_iptables_rebuild_user_dnat(nodes):
 
 def rebuild_port_forwards(ipv4_base, ipv6_base):
     port_forwards = os.linesep.join(dump_iptables_rebuild_user_dnat(connected_nodes))
-    proc = subprocess.Popen(["sudo", "/sbin/iptables-restore", "--noflush", "--counters"], stdin=subprocess.PIPE)
+    proc = subprocess.Popen(["/sbin/iptables-restore", "--noflush", "--counters"], stdin=subprocess.PIPE)
     stdout, stderr = proc.communicate(port_forwards)
     if (proc.returncode != 0) and stderr:
         sys.write(stderr + os.linesep)
