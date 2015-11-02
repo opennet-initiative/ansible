@@ -20,6 +20,9 @@ table filter {
 
 		# VPN-Status zugaenglich machen
 		proto tcp dport http ACCEPT;
+
+		# die VPN-Clients verwenden ihren Gateway als bevorzugten DNS-Server
+		interface $IF_ON_USERS proto (tcp udp) dport domain ACCEPT;
 	}
 
 	chain FORWARD {
