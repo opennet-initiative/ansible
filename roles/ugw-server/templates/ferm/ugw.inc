@@ -53,6 +53,6 @@ table nat {
 		# ohne diese Regel werden die eigenen Antwort-Pakete mit falschen Quell-IPs verschickt
 		interface $IF_MESH daddr $LOCAL_HNA_IP REDIRECT;
 		# DHCP-Anfragen von wifidog-Clients zu inez umlenken
-		interface $IF_ON_USERS daddr 10.1.0.1 proto udp dport 67 DNAT to $WIFIDOG_SERVER_IP;
+		interface $IF_ON_USERS daddr {{ openvpn_users_ipv4_server }} proto udp dport 67 DNAT to $WIFIDOG_SERVER_IP;
 	}
 }
