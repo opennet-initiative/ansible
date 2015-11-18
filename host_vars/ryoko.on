@@ -5,4 +5,5 @@ wan_interface: br-internet
 main_ip: 192.168.10.10
 
 mesh_interfaces:
+  - eth1
   - br-mesh
