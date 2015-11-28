@@ -14,9 +14,9 @@
         src=/usr/share/munin/plugins/{{ item.source }}
         dest=/etc/munin/plugins/{{ item.target }}
   with_items:
-    - { source: "if_", target: "if_tun-users" }
-    - { source: "if_err_", target: "if_err_tun-users" }
-    - { source: "if_", target: "if_tap-mesh" }
-    - { source: "if_err_", target: "if_err_tap-mesh" }
+    - { source: "if_", target: "if_{{ openvpn_users_interface }}" }
+    - { source: "if_err_", target: "if_err_{{ openvpn_users_interface }}" }
+    - { source: "if_", target: "if_{{ openvpn_ugw_interface }}" }
+    - { source: "if_err_", target: "if_err_{{ openvpn_ugw_interface }}" }
   notify: restart munin-node
 
