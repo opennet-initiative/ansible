@@ -6,6 +6,7 @@
 - name: olsr-Routing-Tabelle anlegen
   lineinfile: dest=/etc/iproute2/rt_tables
               line="{{ olsr_routing_table_id }} {{ olsr_routing_table_name }}"
+              regexp="^\d+\s+{{ olsr_routing_table_name }}$"
 
 - name: Policy-Routing fuer olsr beim Booten aktivieren
   lineinfile: dest=/etc/rc.local
