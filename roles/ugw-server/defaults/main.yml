@@ -17,6 +17,9 @@ ugw_server_crl_list:
   - { name: "Nutzer-Tunnel", minute: "48", crl: "opennet-vpn-user.crl", ca_cert: "/etc/openvpn/opennet_users/ca.crt" }
   - { name: "UGW-Tunnel", minute: "49", crl: "opennet-vpn-ugw.crl", ca_cert: "/etc/openvpn/opennet_ugw/ca.crt" }
 
+olsr_routing_table_id: 120
+olsr_routing_table_name: olsrd
+
 openvpn_ugw_interface: tap-mesh
 openvpn_users_interface: tun-users
 

@@ -1,0 +1,17 @@
+# Wir wollen sicherstellen, dass Verkehr aus dem Nutzertunnel immer ins Internet geroutet wird.
+# Andernfalls wuerde der Verkehr von alten Firmware-Versionen (bis v0.4-5) in Richtung von
+# hna-announcierten IPs (oeffentliche IPs, die im Opennet-Mesh erreichbar sind) verworfen werden,
+# da der Verkehr zwaw ins Mesh geroutet, jedoch nicht von der Firewall zugelassen wird.
+
+- name: olsr-Routing-Tabelle anlegen
+  lineinfile: dest=/etc/iproute2/rt_tables
+              line="{{ olsr_routing_table_id }} {{ olsr_routing_table_name }}"
+
+- name: Policy-Routing fuer olsr beim Booten aktivieren
+  lineinfile: dest=/etc/rc.local
+              insertbefore="^exit 0$"
+              line="ip rule add lookup {{ olsr_routing_table_name }}; ip rule add iif {{ openvpn_users_interface }} lookup main"
+  notify: run rc.local
+
+# Die Policy-Routing-Regel fuer Nutzer-Tunnel-Verkehr wird beim Aufbau der Verbindung angelegt
+# (im openvpn-connect-Skript).
