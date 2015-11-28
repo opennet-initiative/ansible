@@ -5,7 +5,7 @@
 
 
 @def $LOCAL_HNA_IP = {{ main_ip }};
-@def $IF_ON_USERS = tun-users;
+@def $IF_ON_USERS = {{ openvpn_users_interface }};
 @def $WIFIDOG_SERVER_IP = 192.168.10.3;
 
 

@@ -18,6 +18,7 @@ ugw_server_crl_list:
   - { name: "UGW-Tunnel", minute: "49", crl: "opennet-vpn-ugw.crl", ca_cert: "/etc/openvpn/opennet_ugw/ca.crt" }
 
 openvpn_ugw_interface: tap-mesh
+openvpn_users_interface: tun-users
 
 # die meisten UGW-Server haben nur ein einziges olsr-Interface
 mesh_interfaces:
