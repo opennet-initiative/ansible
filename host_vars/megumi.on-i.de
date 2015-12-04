@@ -4,6 +4,7 @@ wan_interface: eth0
 
 main_ip: 192.168.0.246
 
+ugw_olsrd_quality: 0.17
 ugw_ip: 10.2.0.246
 
 #ugw_openvpn_users_extra_settings: |
