@@ -1,0 +1,8 @@
+- name: restart ferm
+  service: name=ferm state=restarted
+
+- name: restart olsrd
+  service: name=olsrd state=restarted sleep=5
+
+- name: run rc.local
+  command: /etc/rc.local

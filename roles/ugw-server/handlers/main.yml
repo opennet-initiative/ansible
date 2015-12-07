@@ -12,11 +12,8 @@
 
 # der "deactivate"-Handler muss vor dem "activate"-Handler stehen
 # (nicht die Reihenfolge der Ausloesung im Prozess, sondern die der Aufzaehlung in dieser Datei ist relevant)
-- name: deactivate main_ip
+- name: deactivate olsr_main_ip
   command: ifdown lo:0
 
-- name: activate main_ip
+- name: activate olsr_main_ip
   command: ifup lo:0
-
-- name: run rc.local
-  command: /etc/rc.local

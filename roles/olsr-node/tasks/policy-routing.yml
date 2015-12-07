@@ -11,8 +11,6 @@
 - name: Policy-Routing fuer olsr beim Booten aktivieren
   lineinfile: dest=/etc/rc.local
               insertbefore="^exit 0$"
-              line="ip rule add lookup {{ olsr_routing_table_name }}; ip rule add iif {{ openvpn_users_interface }} lookup main"
+              regexp="^ip rule add .*$"
+              line="ip rule add lookup {{ olsr_routing_table_name }}; ip rule add fwmark {{ non_olsr_policy_routing_mark }} lookup main"
   notify: run rc.local
-
-# Die Policy-Routing-Regel fuer Nutzer-Tunnel-Verkehr wird beim Aufbau der Verbindung angelegt
-# (im openvpn-connect-Skript).

@@ -1,0 +1,7 @@
+- name: ferm-Konfiguration auf olsr-Interfaces ausweiten
+  template: src=ferm/{{ item }}
+            dest=/etc/ferm/conf.d/
+  with_items:
+    - olsr.inc
+    - policy-routing.inc
+  notify: restart ferm

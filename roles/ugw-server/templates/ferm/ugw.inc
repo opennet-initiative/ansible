@@ -4,7 +4,7 @@
 ###############################################################################
 
 
-@def $LOCAL_HNA_IP = {{ main_ip }};
+@def $LOCAL_HNA_IP = {{ olsr_main_ip }};
 @def $IF_ON_USERS = {{ openvpn_users_interface }};
 @def $WIFIDOG_SERVER_IP = 192.168.10.3;
 
@@ -21,8 +21,11 @@ table filter {
 		# VPN-Status zugaenglich machen
 		proto tcp dport http ACCEPT;
 
-		# die VPN-Clients verwenden ihren Gateway als bevorzugten DNS-Server
-		interface $IF_ON_USERS proto (tcp udp) dport domain ACCEPT;
+		# wir bieten NTP und DNS via Tunnel und Mesh an
+		interface ($IF_ON_USERS $IF_OLSR) {
+			proto udp dport ntp ACCEPT;
+			proto (udp tcp) dport domain ACCEPT;
+		}
 	}
 
 	chain FORWARD {
@@ -51,7 +54,7 @@ table nat {
 		# Portweiterleitungen fuer Nutzer-Tunnel
                 mod addrtype dst-type LOCAL proto (tcp udp) dport 10000:17639 jump user_dnat;
 		# ohne diese Regel werden die eigenen Antwort-Pakete mit falschen Quell-IPs verschickt
-		interface $IF_MESH daddr $LOCAL_HNA_IP REDIRECT;
+		interface $IF_OLSR daddr $LOCAL_HNA_IP REDIRECT;
 		# DHCP-Anfragen von wifidog-Clients zu inez umlenken
 		interface $IF_ON_USERS daddr {{ openvpn_users_ipv4_server }} proto udp dport 67 DNAT to $WIFIDOG_SERVER_IP;
 	}

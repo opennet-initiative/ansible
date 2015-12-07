@@ -1,0 +1,9 @@
+olsr_routing_table_id: 120
+olsr_routing_table_name: olsrd
+
+olsr_nameservice_announcements: []
+olsr_hna_announcements: []
+
+# Dieser Wert (typischerweise ein Vielfaches von 2) wird zur Markierung von
+# Paketen verwendet, die vorranging _nicht_ via olsr geroutet werden sollen.
+non_olsr_policy_routing_mark: 32

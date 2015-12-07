@@ -2,8 +2,8 @@ short_hostname: ryoko
 
 wan_interface: br-internet
 
-main_ip: 192.168.10.10
+olsr_main_ip: 192.168.10.10
 
-mesh_interfaces:
-  - eth1
-  - br-mesh
+olsr_interfaces:
+  - { name: "eth1" }
+  - { name: "br-mesh" }
