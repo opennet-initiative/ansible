@@ -26,6 +26,6 @@
 
 - name: Zugang zum DNS-Server fuer Zonen-Transfer erlauben
   template:
-    src=ferm/dns-zone-slave.inc
+    src=ferm/320_dns-zone-slave.inc
     dest=/etc/ferm/conf.d/
   notify: restart ferm

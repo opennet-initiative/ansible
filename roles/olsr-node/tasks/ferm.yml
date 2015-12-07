@@ -2,6 +2,6 @@
   template: src=ferm/{{ item }}
             dest=/etc/ferm/conf.d/
   with_items:
-    - olsr.inc
-    - policy-routing.inc
+    - 100_olsr.inc
+    - 310_policy-routing.inc
   notify: restart ferm

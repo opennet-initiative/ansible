@@ -1,11 +1,8 @@
-- name: firewall - UGW-Regeln kopieren
+- name: firewall - UGW-Regeln und Verkehrsverbote kopieren
   template:
-    src=ferm/ugw.inc
+    src=ferm/{{ item }}
     dest=/etc/ferm/conf.d/
-  notify: restart ferm
-
-- name: firewall - Verkehrsverbote kopieren
-  copy:
-    src=ferm/on-block-access.inc
-    dest=/etc/ferm/conf.d/
+  with_items:
+    - 300_on-block-access.inc
+    - 330_ugw.inc
   notify: restart ferm
