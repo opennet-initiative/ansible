@@ -31,3 +31,7 @@ olsr_hna_announcements:
   - "78.24.191.177 255.255.255.255"
   # dieses Announcement ist fuer APs mit alter Firmware (z.B. 0.9on5) notwendig
   - "{{ olsr_main_ip }} 255.255.255.255"
+
+non_olsr_interfaces:
+  - "{{ wan_interface }}"
+  - "{{ openvpn_users_interface }}"

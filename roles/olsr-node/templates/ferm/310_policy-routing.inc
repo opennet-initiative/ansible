@@ -22,7 +22,7 @@
 
 
 # markiere alle eingehenden Pakete dieser Verbindung (die nat-Tabelle wird nur beim ersten Paket der Verbindung durchlaufen)
-table mangle chain INPUT interface $IF_WAN mod conntrack ctstate NEW 
+table mangle chain INPUT interface ({{ non_olsr_interfaces|join(' ') }}) mod conntrack ctstate NEW
 		CONNMARK set-mark {{ non_olsr_policy_routing_mark }}/{{ non_olsr_policy_routing_mark }};
 
 # fuer alle Pakete aus markierten Verbindungen: kopiere die connection-tracking-Markierung in das "fwmark"-Feld
