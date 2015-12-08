@@ -12,5 +12,5 @@
   lineinfile: dest=/etc/rc.local
               insertbefore="^exit 0$"
               regexp="^ip rule add .*$"
-              line="ip rule add lookup {{ olsr_routing_table_name }}; ip rule add fwmark {{ non_olsr_policy_routing_mark }} lookup main"
+              line="ip rule add lookup {{ olsr_routing_table_name }}; ip rule add fwmark {{ non_olsr_policy_routing_mark }}/{{ non_olsr_policy_routing_mark }} lookup main"
   notify: run rc.local
