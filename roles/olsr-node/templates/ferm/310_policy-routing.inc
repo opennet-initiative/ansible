@@ -21,11 +21,18 @@
 #    Paket vorrangig ueber nicht-mesh-Schnittstellen geroutet wird
 
 
-# markiere alle eingehenden Pakete dieser Verbindung (die nat-Tabelle wird nur beim ersten Paket der Verbindung durchlaufen)
-table mangle chain INPUT interface ({{ non_olsr_interfaces|join(' ') }}) mod conntrack ctstate NEW
+# nur fuer Pakete aus nicht-olsr-Schnittstellen:
+# * markiere das erste eingehenden Pakete jeder Verbindung
+# * dies gilt fuer lokal zuzustellende Pakete, sowie fuer weiterzuleitende Pakete
+#   (PREROUTING betrifft beide Verbindungstypen)
+table mangle chain PREROUTING interface ({{ non_olsr_interfaces|join(' ') }}) mod conntrack ctstate NEW
 		CONNMARK set-mark {{ non_olsr_policy_routing_mark }}/{{ non_olsr_policy_routing_mark }};
 
 # fuer alle Pakete aus markierten Verbindungen: kopiere die connection-tracking-Markierung in das "fwmark"-Feld
-# Dier ermoeglicht das Policy-Routing.
-table mangle chain OUTPUT mod connmark mark {{ non_olsr_policy_routing_mark }}/{{ non_olsr_policy_routing_mark }}
+# Dies ermoeglicht das Policy-Routing.
+# PREROUTING: fuer weiterzuleitende Pakete, die via connection tracking markiert wurden (siehe zuvor)
+# OUTPUT: Antwort-Pakete fuer eingehende Anfragen (lokal erzeugt)
+{% for chain_name in ("PREROUTING", "OUTPUT") %}
+table mangle chain {{ chain_name }} mod connmark mark {{ non_olsr_policy_routing_mark }}/{{ non_olsr_policy_routing_mark }}
 		CONNMARK restore-mark mask {{ non_olsr_policy_routing_mark }};
+{% endfor %}
