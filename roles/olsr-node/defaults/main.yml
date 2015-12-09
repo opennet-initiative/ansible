@@ -3,6 +3,7 @@ olsr_routing_table_name: olsrd
 
 olsr_nameservice_announcements: []
 olsr_hna_announcements: []
+olsr_extra_settings: ""
 
 # Dieser Wert (typischerweise ein Vielfaches von 2) wird zur Markierung von
 # Paketen verwendet, die vorranging _nicht_ via olsr geroutet werden sollen.
