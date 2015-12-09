@@ -12,9 +12,13 @@
   command: update-ca-certificates
   when: updated_ca_certificates.changed
 
+- name: Verzeichnis /usr/local/sbin erzeugen
+  file: state=directory
+        recurse=true
+        path=/usr/local/sbin
+
 - name: Skript 'opennetca_crldownload' herunterladen
   get_url:
-    force=yes
     dest=/usr/local/sbin/opennetca_crldownload.sh
     mode=755
     owner=root
