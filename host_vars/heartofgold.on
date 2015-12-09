@@ -1,0 +1,23 @@
+short_hostname: heartofgold
+
+wan_interface: eth0
+
+olsr_main_ip: 192.168.10.2
+
+olsr_interfaces:
+  - { name: "eth1" }
+
+olsr_hna_announcements:
+  # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
+  - "139.30.241.202 255.255.255.255"
+
+# Ondataservice APData - spread APData JSON DB (support of Opennet APs with old firmware)
+# von Mathias 2013 hinzugefuegt
+olsr_extra_settings: |
+  LoadPlugin "olsrd_ondataservice.so.0.1"
+  {
+  	PlParam	"interval"	"10800"
+  	PlParam	"timeout"	"5"
+  	PlParam	"receive"	"true"
+  	PlParam	"database"	"/tmp/database"
+  }

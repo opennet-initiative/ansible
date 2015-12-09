@@ -1,0 +1,22 @@
+short_hostname: yurika
+
+wan_interface: eth0
+
+olsr_main_ip: 192.168.10.4
+
+olsr_interfaces:
+  - { name: "eth1" }
+
+olsr_hna_announcements:
+  # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
+  - "139.30.241.204 255.255.255.255"
+
+# die web-API auf yurika benoetigt Zugang zu einer aktuellen ondataservice-Datenbank
+olsr_extra_settings: |
+  LoadPlugin "olsrd_ondataservice.so.0.1"
+  {
+  	PlParam	"interval"	"120"
+  	PlParam	"timeout"	"300"
+  	PlParam	"receive"	"true"
+  	PlParam	"database"	"/var/run/olsrd/ondataservice.db"
+  }
