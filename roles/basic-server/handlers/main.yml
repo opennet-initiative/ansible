@@ -6,6 +6,3 @@
 
 - name: restart ferm
   service: name=ferm state=restarted
-
-- name: update-ca-certificates
-  command: update-ca-certificates

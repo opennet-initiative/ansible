@@ -5,10 +5,12 @@
     group=no
     src=opennet-ca/
     dest=/usr/local/share/ca-certificates/opennet-initiative.de/
-  notify: update-ca-certificates
+  register: updated_ca_certificates
 
 # wir muessen die neuen CA-Zertifikate sofort aktivieren, damit der folgende Download funktioniert
-- meta: flush_handlers
+- name: CA-Zertifikate aktivieren
+  command: update-ca-certificates
+  when: updated_ca_certificates.changed
 
 - name: Skript 'opennetca_crldownload' herunterladen
   get_url:
