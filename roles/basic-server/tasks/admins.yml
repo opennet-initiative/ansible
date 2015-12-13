@@ -14,8 +14,12 @@
   when: sshd_allow_user_environment.changed
 
 # alle Admins sowie ausgewaehlte Dienste (Backup, Konfigurationsverwaltung) duerfen alle Server verwalten
+# der "SSH_USER" (fuer separate bash-History) wird aus dem Dateinamen extrahiert
 - name: Import der Admin-Schluessel in root-Account
-  authorized_key: user=root state=present key="{{ lookup('file', item) }}"
+  authorized_key: user=root
+                  state=present
+                  key='{{ lookup("file", item) }}'
+                  key_options='environment="SSH_USER={{ item.split("/")[-1].split(".")[0] }}"'
   with_fileglob:
     - public_keys/admins/*.pub
     # Achtung: der Zugriff nicht-menschlicher Schluessel sollte durch ein "from"-Praefix auf eine Quell-IP begrenzt werden
