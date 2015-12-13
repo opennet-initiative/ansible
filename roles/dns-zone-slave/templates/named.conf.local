@@ -2,7 +2,7 @@
 
 acl opennet {
 	127.0.0.0/8; 10.0.0.0/8; 192.168.0.0/16;
-	{{ dns_zone_masters|join('; ') }};
+	{{ (dns_zone_masters_ipv4 + dns_zone_masters_ipv6)|join('; ') }};
 };
 
 
@@ -13,7 +13,7 @@ key dnskey.opennet {
 
 
 // diesen Schluessel allen Verbindungen mit den Opennet-DNS-Mastern zuordnen
-{% for master in dns_zone_masters %}
+{% for master in (dns_zone_masters_ipv4 + dns_zone_masters_ipv6) %}
 server {{ master }} { keys dnskey.opennet; };
 {% endfor %}
 
@@ -43,27 +43,27 @@ logging {
 zone "on." {
 	type    slave;
 	file    "db.on";
-	masters { {{ dns_zone_masters|join('; ') }}; };
+	masters { {{ (dns_zone_masters_ipv4 + dns_zone_masters_ipv6)|join('; ') }}; };
 };
 
 //on - reverse
 zone "168.192.in-addr.arpa" {
 	type    slave;
 	file    "db.192.168";
-	masters { {{ dns_zone_masters|join('; ') }}; };
+	masters { {{ (dns_zone_masters_ipv4 + dns_zone_masters_ipv6)|join('; ') }}; };
 };
 
 //on-vpn - reverse
 zone "1.10.in-addr.arpa" {
 	type    slave;
 	file    "db.10.1";
-	masters { {{ dns_zone_masters|join('; ') }}; };
+	masters { {{ (dns_zone_masters_ipv4 + dns_zone_masters_ipv6)|join('; ') }}; };
 };
 
 //on-ugw reverse
 zone "2.10.in-addr.arpa"  {
 	type    slave;
 	file    "db.10.2";
-	masters { {{ dns_zone_masters|join('; ') }}; };
+	masters { {{ (dns_zone_masters_ipv4 + dns_zone_masters_ipv6)|join('; ') }}; };
 };
 

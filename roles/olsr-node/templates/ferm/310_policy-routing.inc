@@ -19,6 +19,9 @@
 #    uebertragen selbige in das fwmark/nfmark-Feld
 #  * die Policy-Routing-Regel "fwmark 32 lookup main" sorgt dafuer, dass das
 #    Paket vorrangig ueber nicht-mesh-Schnittstellen geroutet wird
+#
+# Diese Firewall-Regeln gelten lediglich fuer IPv4-Routing.
+# Explizites IPv6-Routing is hoffentlich nicht erforderlich.
 
 
 # nur fuer Pakete aus nicht-olsr-Schnittstellen:

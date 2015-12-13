@@ -2,7 +2,7 @@
   apt: state=present pkg=bind9
 
 - name: dnskey vom primaeren DNS-Server abholen
-  delegate_to: root@{{ dns_zone_masters[0] }}
+  delegate_to: root@{{ dns_zone_masters_ipv4[0] }}
   shell: grep -w 'secret' /etc/bind/named.conf.options | cut -f 2 -d '"'
   register: dnskey_secret_fetch
   changed_when: False

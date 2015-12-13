@@ -4,8 +4,10 @@
 ###############################################################################
 
 
-@def $DNS_ZONE_MASTERS = ({{ dns_zone_masters|join(' ') }});
+@def $DNS_ZONE_MASTERS_IPv4 = ({{ dns_zone_masters_ipv4|join(' ') }});
+@def $DNS_ZONE_MASTERS_IPv6 = ({{ dns_zone_masters_ipv6|join(' ') }});
 
 
 # DNS-Zonentransfers
-table filter chain INPUT saddr $DNS_ZONE_MASTERS proto tcp dport domain ACCEPT;
+domain ip table filter chain INPUT proto tcp dport domain saddr $DNS_ZONE_MASTERS_IPv4 ACCEPT;
+domain ip6 table filter chain INPUT proto tcp dport domain saddr $DNS_ZONE_MASTERS_IPv6 ACCEPT;
