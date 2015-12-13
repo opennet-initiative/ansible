@@ -41,6 +41,18 @@
     replace="PermitRootLogin without-password"
   notify: restart ssh
 
+- name: bashrc - Zeitstempel zur History hinzufuegen
+  lineinfile:
+    dest=/root/.bashrc
+    regexp="^export HISTTIMEFORMAT=.*"
+    line="export HISTTIMEFORMAT='%F %T '"
+
+- name: bashrc - Shell-History fuer Nutzer separat speichern
+  lineinfile:
+    dest=/root/.bashrc
+    regexp='^\[ -n "\$SSH_USER" \] && logger .*'
+    line='[ -n "$SSH_USER" ] && logger -ip auth.notice -t sshd "Accepted publickey for $SSH_USER" && export HISTFILE="$HOME/.history_$SSH_USER"'
+
 # ========== noch nicht importierte Schluessel (aus der alten erina) ==========
 #
 # ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEA1m+V4WGzuOsEx1sHO+b/bVA/MjamIAdu5aCeFJbp2isLzlQssFhkMtCDMLKrnJHSwscz7itdSn0VlEWVI+XyrcAE2BbsH35XXRyELG4EzXVNF1X6JjXs9yP9fFPdaPr+f4KQy8KOVfT41YrrG5n65tg4Y6tLAm/ltZTAQbT2fcc= sebastian@dana.y
