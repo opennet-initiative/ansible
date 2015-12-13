@@ -1,3 +1,18 @@
+# ohne diese Einstellung werden SSH-Schluessel mit Umgebungsvariablen abgelehnt
+- name: ssh - Setzen von Umgebungsvariablen erlauben
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp="^PermitUserEnvironment.*$"
+    line="PermitUserEnvironment yes"
+  register: sshd_allow_user_environment
+
+# Wir muessen den SSH-Server sofort neustarten, da wir andernfalls die
+# nachfolgend uebertragenen ssh-Schluessel (mit gesetzten Umgebungsvariablen)
+# nicht mehr fuer weitere Logins (auch nicht fuer ansible) verwenden koennen.
+- name: sshd-Neustart fuer ssh-Schluessel mit Umgebungsvariablen
+  service: name=ssh state=restarted
+  when: sshd_allow_user_environment.changed
+
 # alle Admins sowie ausgewaehlte Dienste (Backup, Konfigurationsverwaltung) duerfen alle Server verwalten
 - name: Import der Admin-Schluessel in root-Account
   authorized_key: user=root state=present key="{{ lookup('file', item) }}"
