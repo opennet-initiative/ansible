@@ -9,9 +9,9 @@ olsr_interfaces:
   - { name: "tap-subaru" }
   - { name: "tap-megumi" }
 
-#olsr_hna_announcements:
-#  # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
-#  - "46.4.52.124 255.255.255.255"
+olsr_hna_announcements:
+  # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
+  - "46.4.52.124 255.255.255.255"
 
 olsr_extra_settings: |
   LoadPlugin "olsrd_ondataservice.so.0.1"
