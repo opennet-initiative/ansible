@@ -1,4 +1,4 @@
-- hosts: frieda23:ae22
+- hosts: frieda23:ae22:hetzner
   roles:
     - basic-server
     - olsr-node

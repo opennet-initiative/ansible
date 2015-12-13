@@ -1,0 +1,21 @@
+short_hostname: on-v6
+
+wan_interface: eth0
+
+olsr_main_ip: 10.2.1.1
+
+olsr_interfaces:
+  - { name: "tap0" }
+  - { name: "tap1" }
+
+#olsr_hna_announcements:
+#  # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
+#  - "46.4.52.124 255.255.255.255"
+
+olsr_extra_settings: |
+  LoadPlugin "olsrd_ondataservice.so.0.1"
+  {
+      PlParam	"receive"	"true"
+      PlParam "dbcreatescript" "/etc/olsrd/ondataservice_create_db.sh"
+      PlParam	"database"	"/tmp/database"
+  }
