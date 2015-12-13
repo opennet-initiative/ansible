@@ -16,6 +16,6 @@ olsr_extra_settings: |
   LoadPlugin "olsrd_ondataservice.so.0.1"
   {
       PlParam	"receive"	"true"
-      PlParam "dbcreatescript" "/etc/olsrd/ondataservice_create_db.sh"
+      PlParam	"dbcreatescript" "/etc/olsrd/ondataservice_create_db.sh"
       PlParam	"database"	"/tmp/database"
   }
