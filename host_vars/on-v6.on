@@ -5,9 +5,9 @@ wan_interface: eth0
 olsr_main_ip: 10.2.1.1
 
 olsr_interfaces:
-  - { name: "tap-erina" }
-  - { name: "tap-subaru" }
-  - { name: "tap-megumi" }
+  - { name: "mesh-erina" }
+  - { name: "mesh-subaru" }
+  - { name: "mesh-megumi" }
 
 olsr_hna_announcements:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
