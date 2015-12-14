@@ -9,7 +9,7 @@ import re
 
 FILENAME_GLOB = os.environ.get("STATUSFILES", "/var/log/openvpn.status")
 KEEP_PREFIX = os.environ.get("KEEP_PREFIX", "0") == "1"
-FILENAMES = glob.glob(FILENAME_GLOB)
+FILENAMES = sorted(glob.glob(FILENAME_GLOB))
 
 
 def _get_common_generic(items, string_func):
