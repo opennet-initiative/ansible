@@ -18,6 +18,21 @@ ugw_server_crl_list:
   - { name: "Nutzer-Tunnel", minute: "48", crl: "opennet-vpn-user.crl", ca_cert: "/etc/openvpn/opennet_users/ca.crt" }
   - { name: "UGW-Tunnel", minute: "49", crl: "opennet-vpn-ugw.crl", ca_cert: "/etc/openvpn/opennet_ugw/ca.crt" }
 
+# Oeffentliche IP-Adressen von Hosts, die auch im Mesh erreichbar sein sollen
+ugw_external_forward_allow_ipv4:
+  # downloads.openwrt.org: Paketinstallation fuer APs
+  - 78.24.191.177
+  # developer.mapquest.com: Mapquest-Logo der alten Karte (on-i.de/map)
+  - 23.253.11.253
+  # otile1.mqcdn.com: Standard-Hintergrund der alten Karte (on-i.de/map)
+  - 92.197.129.10
+  - 92.197.129.25
+  # www.geodaten-mv.de: Luftbilder als Hintergrund der alten Karte (on-i.de/map)
+  - 195.145.109.67
+  # a.tile.openstreetmap.org: Hintergrund-Tiles fuer OSM-Layer der alten Karte (on-i.de/map)
+  - 81.7.11.83
+  - 144.76.70.77
+
 openvpn_ugw_interface: tap-mesh
 openvpn_users_interface: tun-users
 
@@ -26,11 +41,8 @@ olsr_nameservice_announcements:
   - "ntp://{{ olsr_main_ip }}:123|udp|ntp"
   - "openvpn://{{ olsr_main_ip }}:1600|udp|gw"
 
-olsr_hna_announcements:
-  # downloads.openwrt.org
-  - "78.24.191.177 255.255.255.255"
-  # dieses Announcement ist fuer APs mit alter Firmware (z.B. 0.9on5) notwendig
-  - "{{ olsr_main_ip }} 255.255.255.255"
+# das "olsr_main_ip"-Announcement ist fuer APs mit alter Firmware (z.B. 0.9on5) notwendig
+olsr_hna_announcements_ipv4: "{{ [olsr_main_ip]|union(ugw_external_forward_allow_ipv4) }}"
 
 non_olsr_interfaces:
   - "{{ wan_interface }}"

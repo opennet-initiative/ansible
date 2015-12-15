@@ -58,8 +58,7 @@ domain (ip ip6) chain FORWARD outerface $IF_WAN {
 domain (ip ip6) chain on-unauth-forward;
 
 domain ip chain on-unauth-forward {
-	# downloads.openwrt.org
-	daddr 78.24.191.177 ACCEPT;
+	daddr ({{ ugw_external_forward_allow_ipv4|join(" ") }}) ACCEPT;
 }
 
 
