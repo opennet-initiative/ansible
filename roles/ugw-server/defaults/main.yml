@@ -22,11 +22,6 @@ ugw_server_crl_list:
 ugw_external_forward_allow_ipv4:
   # downloads.openwrt.org: Paketinstallation fuer APs
   - 78.24.191.177
-  # developer.mapquest.com: Mapquest-Logo der alten Karte (on-i.de/map)
-  - 23.253.11.253
-  # otile1.mqcdn.com: Standard-Hintergrund der alten Karte (on-i.de/map)
-  - 92.197.129.10
-  - 92.197.129.25
   # www.geodaten-mv.de: Luftbilder als Hintergrund der alten Karte (on-i.de/map)
   - 195.145.109.67
   # a.tile.openstreetmap.org: Hintergrund-Tiles fuer OSM-Layer der alten Karte (on-i.de/map)
