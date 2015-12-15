@@ -9,9 +9,9 @@ olsr_interfaces:
   - { name: "mesh-subaru" }
   - { name: "mesh-megumi" }
 
-olsr_hna_announcements:
+olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
-  - "46.4.52.124 255.255.255.255"
+  - 46.4.52.124
 
 olsr_extra_settings: |
   LoadPlugin "olsrd_ondataservice.so.0.1"
