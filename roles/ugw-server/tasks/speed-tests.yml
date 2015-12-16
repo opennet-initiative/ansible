@@ -1,0 +1,8 @@
+# der discard-Dienst erlaubt den Empfang von Datenpaketen von den UGW-Hosts fuer Upload-Tests
+- name: inetd installieren
+  apt: pkg=openbsd-inetd state=present
+
+- name: discard-Dienst aktivieren
+  lineinfile: dest=/etc/inetd.conf
+              line="discard     stream  tcp     nowait  root    internal"
+  notify: restart openbsd-inetd

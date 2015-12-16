@@ -21,6 +21,9 @@ domain (ip ip6) table filter {
 		# VPN-Status zugaenglich machen
 		proto tcp dport http ACCEPT;
 
+		# discard-Dienst fuer Upload-Messungen der UGWs
+		proto tcp dport discard ACCEPT;
+
 		# wir bieten NTP und DNS via Tunnel und Mesh an
 		interface ($IF_ON_USERS $IF_OLSR) {
 			proto udp dport ntp ACCEPT;
