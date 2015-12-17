@@ -1,12 +1,14 @@
-- name: munin -- OpenVPN-Plugin fuer munin aktiveren
-  copy: src=munin/openvpn_multiple
+- name: munin -- OpenVPN-Plugins fuer munin aktiveren
+  copy: src=munin/{{ item }}
         dest=/etc/munin/plugins/
         mode=0755
+  with_items:
+    - openvpn_multiple
   notify: restart munin-node
 
 - name: munin -- OpenVPN-Plugins konfigurieren
-  copy: src=munin/openvpn_multiple.conf
-        dest=/etc/munin/plugin-conf.d/openvpn_multiple
+  copy: src=munin/opennet_ugw.conf
+        dest=/etc/munin/plugin-conf.d/opennet_ugw
   notify: restart munin-node
 
 - name: munin -- OpenVPN-Tunnel aufzeichnen
@@ -19,4 +21,3 @@
     - { source: "if_", target: "if_{{ openvpn_ugw_interface }}" }
     - { source: "if_err_", target: "if_err_{{ openvpn_ugw_interface }}" }
   notify: restart munin-node
-
