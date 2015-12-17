@@ -20,22 +20,32 @@
 #  * die Policy-Routing-Regel "fwmark 32 lookup main" sorgt dafuer, dass das
 #    Paket vorrangig ueber nicht-mesh-Schnittstellen geroutet wird
 #
+# Verbindungen die wie DNAT umgelenkt wurden (wifidog-DHCP, Nutzertunnel-Portweiterleitung)
+# wollen wir unbeeinflusst routen lassen. Fuer diese beiden Anwendungsfaelle ist dies die
+# richtige Vorgehensweise.
+#
 # Diese Firewall-Regeln gelten lediglich fuer IPv4-Routing.
 # Explizites IPv6-Routing is hoffentlich nicht erforderlich.
 
 
 # nur fuer Pakete aus nicht-olsr-Schnittstellen:
-# * markiere das erste eingehenden Pakete jeder Verbindung
+# * markiere das erste eingehende Paket jeder Verbindung
 # * dies gilt fuer lokal zuzustellende Pakete, sowie fuer weiterzuleitende Pakete
 #   (PREROUTING betrifft beide Verbindungstypen)
+# Wir wollen keine umgelenkten (DNAT) Verbindungen beeinflussen (wifidog-DHCP,
+# Nutzertunnel-Portweiterleitung).
 table mangle chain PREROUTING interface ({{ non_olsr_interfaces|join(' ') }}) mod conntrack ctstate NEW
-		CONNMARK set-mark {{ non_olsr_policy_routing_mark }}/{{ non_olsr_policy_routing_mark }};
+	@subchain "new_non_olsr_incoming" {
+		mod conntrack ctstate !DNAT
+			CONNMARK set-mark {{ non_olsr_policy_routing_mark }}/{{ non_olsr_policy_routing_mark }};
+	}
 
 # fuer alle Pakete aus markierten Verbindungen: kopiere die connection-tracking-Markierung in das "fwmark"-Feld
 # Dies ermoeglicht das Policy-Routing.
 # PREROUTING: fuer weiterzuleitende Pakete, die via connection tracking markiert wurden (siehe zuvor)
 # OUTPUT: Antwort-Pakete fuer eingehende Anfragen (lokal erzeugt)
 {% for chain_name in ("PREROUTING", "OUTPUT") %}
-table mangle chain {{ chain_name }} mod connmark mark {{ non_olsr_policy_routing_mark }}/{{ non_olsr_policy_routing_mark }}
-		CONNMARK restore-mark mask {{ non_olsr_policy_routing_mark }};
+table mangle chain {{ chain_name }}
+	mod connmark mark {{ non_olsr_policy_routing_mark }}/{{ non_olsr_policy_routing_mark }}
+	CONNMARK restore-mark mask {{ non_olsr_policy_routing_mark }};
 {% endfor %}
