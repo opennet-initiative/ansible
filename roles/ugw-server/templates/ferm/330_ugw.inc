@@ -84,3 +84,9 @@ domain ip table nat {
 		outerface $IF_WAN saddr (192.168.0.0/16 10.0.0.0/8) MASQUERADE;
 	}
 }
+
+
+table mangle chain "new_non_olsr_connections" {
+	# DHCP-Anfragen fuer Wifidog duerfen nicht symmetrisch geroutet werden
+	daddr 10.1.0.1 proto udp dport 67 RETURN;
+}

@@ -32,13 +32,12 @@
 # * markiere das erste eingehende Paket jeder Verbindung
 # * dies gilt fuer lokal zuzustellende Pakete, sowie fuer weiterzuleitende Pakete
 #   (PREROUTING betrifft beide Verbindungstypen)
-# Wir wollen keine umgelenkten (DNAT) Verbindungen beeinflussen (wifidog-DHCP,
-# Nutzertunnel-Portweiterleitung).
-table mangle chain PREROUTING interface ({{ non_olsr_interfaces|join(' ') }}) mod conntrack ctstate NEW
-	@subchain "new_non_olsr_incoming" {
-		mod conntrack ctstate !DNAT
-			CONNMARK set-mark {{ non_olsr_policy_routing_mark }}/{{ non_olsr_policy_routing_mark }};
-	}
+table mangle {
+	chain "new_non_olsr_connections";
+	chain PREROUTING interface ({{ non_olsr_interfaces|join(' ') }})
+		mod conntrack ctstate NEW jump "new_non_olsr_connections";
+}
+
 
 # fuer alle Pakete aus markierten Verbindungen: kopiere die connection-tracking-Markierung in das "fwmark"-Feld
 # Dies ermoeglicht das Policy-Routing.
