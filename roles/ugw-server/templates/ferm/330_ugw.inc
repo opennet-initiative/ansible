@@ -82,6 +82,8 @@ domain ip table nat {
 	chain POSTROUTING {
 		# private Opennet-IP-Adresse nicht nach aussen dringen lassen
 		outerface $IF_WAN saddr (192.168.0.0/16 10.0.0.0/8) MASQUERADE;
+		# Wifidog-DHCP-Anfragen muessen auch rueckwaerts routebar sein
+		outerface $IF_OLSR saddr 10.1.0.0/16 MASQUERADE;
 	}
 }
 
