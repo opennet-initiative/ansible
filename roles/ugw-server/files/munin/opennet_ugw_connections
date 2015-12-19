@@ -30,9 +30,21 @@ def count_connections(filename):
                     yield client_cn, client_ip
 
 
+def _get_cn_sorting_value(cn):
+    # berechne den Sortierschluessel als: 256 * x + y (fuer CN="x.y.ugw.on")
+    int_tokens = reversed([int(token) for token in cn.split(".") if token.isdigit()])
+    return sum([value * (256 ** index) for index, value in enumerate(int_tokens)] or [])
+
+
 def get_ugw_dict_with_client_count():
     ugw_dict = {}
     for ugw_cn, ugw_ip in count_connections(UGW_STATUS_FILENAME):
+        # Falls hinter einer IP mehrere UGWs betrieben werden (z.B. in der Frieda), dann
+        # soll das dieser IP zugeordnete UGW stabil bleiben. Wir legen dazu einfach fest,
+        # dass das UGW mit dem kleineren CN immer gewinnt. Die Nutzer beider UGWs werden
+        # somit zusammengefasst dem UGW mit dem kleineren CN zugeordnet.
+        if (ugw_ip in ugw_dict) and (_get_cn_sorting_value(ugw_cn) > _get_cn_sorting_value(ugw_dict[ugw_ip]["cn"])):
+            continue
         ugw_dict[ugw_ip] = {"cn": ugw_cn, "count": 0}
     for client_cn, client_ip in count_connections(USER_STATUS_FILENAME):
         if not client_ip in ugw_dict:
@@ -55,14 +67,9 @@ if __name__ == "__main__":
         print "graph_category opennet"
         print "graph_info This graph shows the number of connected users grouped by UGWs."
         ugw_dict = get_ugw_dict_with_client_count()
-        def get_ugw_sort_id(ugw_ip):
-            cn = ugw_dict[ugw_ip]["cn"]
-            # berechne den Sortierschluessel als: 256 * x + y (fuer CN="x.y.ugw.on")
-            int_tokens = reversed([int(token) for token in cn.split(".") if token.isdigit()])
-            return sum([value * (256 ** index) for index, value in enumerate(int_tokens)] or [])
         # sortiere die UGWs nach ihrer CN
         is_first = True
-        for ugw_ip in sorted(ugw_dict, key=lambda ugw_key: get_ugw_sort_id(ugw_key)):
+        for ugw_ip in sorted(ugw_dict, key=lambda ugw_key: _get_cn_sorting_value(ugw_dict[ugw_key]["cn"])):
             fieldname = get_clean_fieldname(ugw_dict[ugw_ip]["cn"])
             print("%s.label %s" % (fieldname, ugw_dict[ugw_ip]["cn"]))
             print("%s.draw %s" % (fieldname, "AREA" if is_first else "STACK"))
