@@ -5,6 +5,7 @@
   with_items:
     - openvpn_multiple
     - opennet_ugw_connections
+    - opennet_user_connections_ping
   notify: restart munin-node
 
 - name: munin -- OpenVPN-Plugins konfigurieren
