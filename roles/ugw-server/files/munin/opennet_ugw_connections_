@@ -31,8 +31,9 @@ def get_vpn_connections(filename):
                     #   1.43.ugw.on,91.44.196.216:42503,225592577,231623679,Wed Dec 16 09:56:00 2015
                     client_cn = line.split(",")[0]
                     client_ip = line.split(",")[1].split(":")[0]
-                    traffic_rx = int(line.split(",")[2])
-                    traffic_tx = int(line.split(",")[3])
+                    # der Verkehr wird von OpenVPN in kByte angegeben
+                    traffic_rx = int(line.split(",")[2]) * 1024
+                    traffic_tx = int(line.split(",")[3]) * 1024
                     yield client_cn, client_ip, traffic_tx, traffic_rx
 
 
@@ -51,7 +52,8 @@ def get_ugw_dict_with_details():
         # somit zusammengefasst dem UGW mit dem kleineren CN zugeordnet.
         if (ugw_ip in ugw_dict) and (_get_cn_sorting_value(ugw_cn) > _get_cn_sorting_value(ugw_dict[ugw_ip]["cn"])):
             continue
-        ugw_dict[ugw_ip] = {"cn": ugw_cn, "count": 0, "traffic_tx": traffic_tx, "traffic_rx": traffic_rx}
+        # wir ignorieren den UGW-Mesh-Verkehr - es geht nur um die Nutzertunnel
+        ugw_dict[ugw_ip] = {"cn": ugw_cn, "count": 0, "traffic_tx": 0, "traffic_rx": 0}
     for client_cn, client_ip, traffic_tx, traffic_rx in get_vpn_connections(USER_STATUS_FILENAME):
         if not client_ip in ugw_dict:
             # unbekannter Client (ohne dazugehoerige UGW-Verbindung)
@@ -102,11 +104,11 @@ def run_traffic(action):
         is_first = True
         for ugw_ip in sorted(ugw_dict, key=lambda ugw_key: _get_cn_sorting_value(ugw_dict[ugw_key]["cn"])):
             fieldname = get_clean_fieldname(ugw_dict[ugw_ip]["cn"])
-            print("%s_rx_bytes.label %s received kBit/s" % (fieldname, ugw_dict[ugw_ip]["cn"]))
+            print("%s_rx_bytes.label %s" % (fieldname, ugw_dict[ugw_ip]["cn"]))
             print("%s_rx_bytes.type COUNTER" % fieldname)
             print("%s_rx_bytes.cdef %s_rx_bytes,125,/" % (fieldname, fieldname))
             print("%s_rx_bytes.graph no" % fieldname)
-            print("%s_tx_bytes.label %s transmitted kBit/s" % (fieldname, ugw_dict[ugw_ip]["cn"]))
+            print("%s_tx_bytes.label %s" % (fieldname, ugw_dict[ugw_ip]["cn"]))
             print("%s_tx_bytes.type COUNTER" % fieldname)
             print("%s_tx_bytes.cdef %s_tx_bytes,125,/" % (fieldname, fieldname))
             print("%s_tx_bytes.draw %s" % (fieldname, "AREA" if is_first else "STACK"))
