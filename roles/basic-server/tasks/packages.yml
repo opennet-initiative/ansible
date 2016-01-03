@@ -1,31 +1,31 @@
 - name: apt -- server-relevante Pakete installieren
   apt: pkg={{ item }} state=present
   with_items:
-    - ntp
-    - locales
-    - bzip2    
-    - vim-nox
-    - less
     - bash-completion
-    - mc
+    - bzip2    
     - git
-    - tree
-    - zip
+    - less
+    - locales
+    - mc
     - molly-guard
+    - ntp
+    - screen
+    - tree
+    - vim-nox
+    - zip
 
 - name: apt -- Debug-Werkzeuge installieren
   apt: pkg={{ item }} state=present
   with_items:
-    - tcpdump
-    - strace
     - bwm-ng
-    - netdiag
-    - screen
-    - iotop
-    - iftop
     - dnsutils
-    - mtr-tiny
+    - iftop
+    - iotop
     - iperf
+    - mtr-tiny
+    - netdiag
+    - strace
+    - tcpdump
 
 - name: apt -- apt-dater-host installieren
   apt: install_recommends=no state=present pkg=apt-dater-host
