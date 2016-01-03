@@ -9,6 +9,7 @@
     - mc
     - molly-guard
     - ntp
+    - psmisc
     - screen
     - tree
     - vim-nox
