@@ -6,6 +6,8 @@
   shell: grep -w 'secret' /etc/bind/named.conf.options | cut -f 2 -d '"'
   register: dnskey_secret_fetch
   changed_when: False
+  # ignoriere den "--check"-Modus (sonst schlaegt der naechste Schritt beim Testen fehl)
+  always_run: yes
 
 - fail: msg="Kein geheimer dnskey auf dem primaeren DNS-Server gefunden"
   when: not dnskey_secret_fetch.stdout
