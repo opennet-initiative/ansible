@@ -1,8 +1,8 @@
 - name: Opennet-CA-Zertifikate uebertragen
   synchronize:
     delete=yes
-    owner=no
-    group=no
+    archive=no
+    recursive=yes
     src=opennet-ca/
     dest=/usr/local/share/ca-certificates/opennet-initiative.de/
   register: updated_ca_certificates
