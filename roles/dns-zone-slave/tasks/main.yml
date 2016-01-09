@@ -29,3 +29,8 @@
     src=ferm/320_dns-zone-slave.inc
     dest=/etc/ferm/conf.d/
   notify: restart ferm
+
+- name: resolv.conf uebertragen
+  copy: src=resolv.conf
+        dest=/etc/
+        mode=755
