@@ -1,7 +1,10 @@
 - name: Opennet-CA-Zertifikate uebertragen
+  # Diese Kombination von archive und checksum verhindert Dateiuebertragungen wegen
+  # verschiedener Zeitstempel (z.B. basierend auf dem lokalen git-checkout).
   synchronize:
     delete=yes
     archive=no
+    checksum=yes
     recursive=yes
     src=opennet-ca/
     dest=/usr/local/share/ca-certificates/opennet-initiative.de/
