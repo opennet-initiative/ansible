@@ -4,3 +4,4 @@
 - include: admins.yml
 - include: ferm-basic.yml
 - include: opennet-ca.yml
+- include: change-notifications.yml

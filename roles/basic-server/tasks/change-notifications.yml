@@ -1,0 +1,9 @@
+- name: metche installieren
+  apt: pkg={{ item }} state=present
+  with_items:
+          - metche
+          - apt-show-versions
+
+- name: metche konfigurieren
+  template: src=metche.conf
+            dest=/etc/metche.conf

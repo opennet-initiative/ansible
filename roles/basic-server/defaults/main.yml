@@ -9,3 +9,5 @@ munin_servers:
 opennet_ca_crl_list:
   - { name: "root-CA", minute: "45", crl: "opennet-root.crl", ca_cert: "/usr/local/share/ca-certificates/opennet-initiative.de/root.crt" }
   - { name: "server-CA", minute: "46", crl: "opennet-server.crl", ca_cert: "/usr/local/share/ca-certificates/opennet-initiative.de/server.crt" }
+
+admin_email: noc@opennet-initiative.de
