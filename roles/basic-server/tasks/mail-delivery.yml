@@ -36,7 +36,7 @@
 
 - name: mailname festlegen
   copy:
-    content={{ mail_domain }}
+    content={{ mail_hostname }}
     dest=/etc/mailname
 
 - name: System-Emails an Admin-Sammleradresse  versenden

@@ -1,8 +1,10 @@
-myhostname = {{ mail_domain }}
-# TODO: klaeren, ob dies on-i.de oder die lokale Mail-Domain des Hosts sein soll
-#mydomain= {{ mail_domain }}
-mydomain= opennet-initiative.de
+myhostname = {{ mail_hostname }}
+mydomain= {{ mail_domain }}
+
+# myorigin wird an lokal generierte Mails angehaengt. Sollte deswegen eine Domain sein die
+# Mails empfangen kann und wo es Postfaecher fuer root, cron usw. gibt.
 myorigin = $mydomain
+
 alias_maps = hash:/etc/aliases
 
 # Postfix ist nur fuer localhost zuständig
@@ -19,9 +21,3 @@ smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
 smtp_sasl_security_options = 
 smtp_use_tls = yes 
-
-# Ciphers
-smtpd_tls_protocols = !SSLv2, !SSLv3
-smtpd_tls_exclude_ciphers = aNULL, DES, MD5
-smtp_tls_protocols = !SSLv2, !SSLv3
-smtp_tls_exclude_ciphers = aNULL, DES, MD5
