@@ -1,5 +1,9 @@
 short_hostname: on-v6
 
+# der opennet-Mailserver wird manuell konfiguriert
+# (alle anderen lenken den Verkehr lediglich an ihn weiter)
+mail_relay_host: ""
+
 wan_interface: eth0
 
 olsr_main_ip: 10.2.1.1

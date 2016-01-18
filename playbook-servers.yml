@@ -2,4 +2,4 @@
   roles:
     - basic-server
     - olsr-node
-
+    - { role: mail-delivery, when: mail_relay_host != "" }

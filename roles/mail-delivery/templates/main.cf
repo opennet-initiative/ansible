@@ -1,0 +1,27 @@
+myhostname = {{ mail_domain }}
+# TODO: klaeren, ob dies on-i.de oder die lokale Mail-Domain des Hosts sein soll
+#mydomain= {{ mail_domain }}
+mydomain= opennet-initiative.de
+myorigin = $mydomain
+alias_maps = hash:/etc/aliases
+
+# Postfix ist nur fuer localhost zuständig
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+inet_interfaces = loopback-only
+# IPv6
+inet_protocols = all 
+
+# alle Mails sollen über unseren Relayhost gesendet werden
+relayhost = {{ mail_relay_host }}
+
+# SMTP-Authentication
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
+smtp_sasl_security_options = 
+smtp_use_tls = yes 
+
+# Ciphers
+smtpd_tls_protocols = !SSLv2, !SSLv3
+smtpd_tls_exclude_ciphers = aNULL, DES, MD5
+smtp_tls_protocols = !SSLv2, !SSLv3
+smtp_tls_exclude_ciphers = aNULL, DES, MD5
