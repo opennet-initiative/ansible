@@ -1,0 +1,44 @@
+- name: postfix installieren
+  apt: pkg=postfix state=present
+
+- name: postfix-Konfiguration uebertragen
+  template:
+    src=postfix/main.cf
+    dest=/etc/postfix/main.cf
+  notify: restart postfix
+
+- name: smtp-auth-Passwort-Verzeichnis erstellen
+  file:
+    state=directory
+    path=/etc/postfix/sasl
+
+- name: smtp-Auth-Kennwort abholen
+  delegate_to: root@heartofgold.on-i.de
+  shell: awk '{ if ($1 == "{{ mail_relay_host }}") print $2 }' /etc/postfix/sasl/passwd
+  register: smtp_auth_password
+  changed_when: False
+  run_once: yes
+  # ignoriere den "--check"-Modus (sonst schlaegt der naechste Schritt beim Testen fehl)
+  always_run: yes
+
+- fail: msg="Kein smtp-auth-Password gefunden"
+  when: not smtp_auth_password.stdout
+
+- name: smtp-auth-Passwort setzten
+  lineinfile:
+    dest=/etc/postfix/sasl/passwd
+    state=present
+    create=yes
+    mode=0600
+    regexp="^{{ mail_relay_host }}"
+    line="{{ mail_relay_host }} {{ smtp_auth_password.stdout }}"
+  notify: postmap passwd
+
+- name: mailname festlegen
+  copy:
+    content={{ mail_domain }}
+    dest=/etc/mailname
+
+- name: System-Emails an Admin-Sammleradresse  versenden
+  # das Quoting ist erforderlich, um die Doppelpunkte zu schuetzen
+  replace: 'dest=/etc/aliases regexp="^root:.*$" replace="root: {{ admin_email }}"'

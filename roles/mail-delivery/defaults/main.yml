@@ -1,2 +1,0 @@
-mail_domain: "{{ short_hostname }}.opennet-initiative.de"
-mail_relay_host: relayhost.opennet-initiative.de
