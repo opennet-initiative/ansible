@@ -4,6 +4,7 @@
 - include: admins.yml
 - include: ferm-basic.yml
 - include: opennet-ca.yml
+- include: mail-basic.yml
 # Entscheidung ueber die Verwendung von metche ist erstmal offen
 # siehe "Server-Benachrichtigungen (changetrack/metche)" vom 17.01.2016
 # Nach der Klaerung koennen wir den Task wieder aktivieren oder dauerhaft entfernen.

@@ -1,0 +1,10 @@
+- name: mailname festlegen
+  copy:
+    content={{ mail_domain }}
+    dest=/etc/mailname
+
+- name: System-Emails an Admin-Sammleradresse  versenden
+  # das Quoting ist erforderlich, um die Doppelpunkte zu schuetzen
+  replace: 'dest=/etc/aliases regexp="^root:.*$" replace="root: {{ admin_email }}"'
+
+# weitere Details werden in der Rolle "mail-delivery" konfiguriert
