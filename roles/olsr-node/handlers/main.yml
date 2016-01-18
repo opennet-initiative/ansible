@@ -7,5 +7,8 @@
 - name: restart ferm
   service: name=ferm state=restarted
 
+- name: restart munin-node
+  service: name=munin-node state=restarted
+
 - name: restart olsrd
   service: name=olsrd state=restarted sleep=5

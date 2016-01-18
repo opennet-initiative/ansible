@@ -1,0 +1,7 @@
+- name: munin-Plugin fuer OLSR herunterladen
+  get_url:
+    url=http://dev.on-i.de/export/HEAD/on_firmware/opennet/packages/on-monitoring/files/usr/share/munin-plugins-available/olsrd
+    dest=/etc/munin/plugins/olsrd
+    force=yes
+    mode=0755
+  notify: restart munin-node
