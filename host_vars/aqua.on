@@ -1,0 +1,12 @@
+short_hostname: aqua
+
+wan_interface: eth0
+
+olsr_main_ip: 192.168.10.6
+
+olsr_interfaces:
+  - { name: "eth1" }
+
+olsr_hna_announcements_ipv4:
+  # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
+  - 139.30.241.206
