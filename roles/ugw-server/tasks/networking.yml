@@ -1,11 +1,14 @@
 - name: Paket-Weiterleitung erlauben
   lineinfile:
         create=yes
-        line={{ item }}
+        line="{{ item.key }}={{ item.value }}"
+        regexp="{{ item.key }}="
         dest=/etc/sysctl.d/opennet.conf
   with_items:
-    - "net.ipv4.ip_forward=1"
-    - "net.conf.all.rp_filter=1"
+    - { key: "net.ipv4.ip_forward", value: 1}
+    # Reverse-Path-Filterung kann aufgrund moeglicher asymmetrischer Routen nur im "loose"-Modus (=2) erfolgen
+    # siehe admin-Mailingliste, "rp_filter auf UGW-Servern", Mon, 18 Jan 2016 00:09:15 +0100
+    - { key: "net.ipv4.conf.all.rp_filter", value: 2}
   notify: restart sysctl
 
 # bei einer Aenderung der olsr_main_ip loeschen wir den lo:0-Eintrag aus der interfaces-Datei
