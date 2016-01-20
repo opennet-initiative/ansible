@@ -1,9 +1,14 @@
-- name: metche installieren
+- name: changetrack / apt-listchanges installieren
   apt: pkg={{ item }} state=present
   with_items:
-          - metche
-          - apt-show-versions
+          - changetrack
+          - apt-listchanges
 
-- name: metche konfigurieren
-  template: src=metche.conf
-            dest=/etc/metche.conf
+- name: changetrack konfigurieren
+  template: src=changetrack.conf
+            dest=/etc/changetrack.conf
+
+- name: changetrack defaults anpassen
+  lineinfile: dest=/etc/default/changetrack 
+              regexp=^AUTO_TRACK_ALL_CONFFILES= 
+              line=AUTO_TRACK_ALL_CONFFILES=yes

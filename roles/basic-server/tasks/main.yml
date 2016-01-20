@@ -4,11 +4,8 @@
 - include: admins.yml
 - include: ferm-basic.yml
 - include: opennet-ca.yml
+- include: change-notifications.yml
 # Mail-Konfiguration nur auf Host anwenden, die die "mail_relay_host"-Variable
 # nicht geloescht haben (z.B. "on-v6" - der zentrale Mailserver)
 - include: mail-delivery.yml
   when: mail_relay_host != ""
-# Entscheidung ueber die Verwendung von metche ist erstmal offen
-# siehe "Server-Benachrichtigungen (changetrack/metche)" vom 17.01.2016
-# Nach der Klaerung koennen wir den Task wieder aktivieren oder dauerhaft entfernen.
-#- include: change-notifications.yml
