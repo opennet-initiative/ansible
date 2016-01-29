@@ -5,8 +5,8 @@
           - apt-listchanges
 
 - name: changetrack konfigurieren
-  template: src=changetrack.conf
-            dest=/etc/changetrack.conf
+  copy: src=changetrack.conf
+        dest=/etc/changetrack.conf
 
 - name: changetrack defaults anpassen
   lineinfile: dest=/etc/default/changetrack 
