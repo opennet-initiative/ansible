@@ -96,13 +96,13 @@
     hour="1,13"
     minute="{{ item.minute }}"
     job="/usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }} >/dev/null"
-  with_items: ugw_server_crl_list
+  with_items: "{{ugw_server_crl_list}}"
 
 - name: UGW-Widerrufslisten erstmals herunterladen, falls nicht vorhanden
   command:
     creates=/etc/ssl/crl/{{ item.crl }}
     /usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }}
-  with_items: ugw_server_crl_list
+  with_items: "{{ugw_server_crl_list}}"
 
 - name: veraltete Fragmente entfernen
   file: state=absent

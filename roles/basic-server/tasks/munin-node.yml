@@ -10,6 +10,5 @@
               regexp="^cidr_allow {{ item }}$"
               line="cidr_allow {{ item }}"
               insertafter="^# cidr_deny"
-  with_items: munin_servers
+  with_items: "{{munin_servers}}"
   notify: restart munin-node
-
