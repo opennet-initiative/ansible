@@ -30,15 +30,3 @@ ugw_external_forward_allow_ipv4:
 
 openvpn_ugw_interface: tap-mesh
 openvpn_users_interface: tun-users
-
-olsr_nameservice_announcements:
-  - "dns://{{ olsr_main_ip }}:53|udp|dns"
-  - "ntp://{{ olsr_main_ip }}:123|udp|ntp"
-  - "openvpn://{{ olsr_main_ip }}:1600|udp|gw"
-
-# das "olsr_main_ip"-Announcement ist fuer APs mit alter Firmware (z.B. 0.9on5) notwendig
-olsr_hna_announcements_ipv4: "{{ [olsr_main_ip]|union(ugw_external_forward_allow_ipv4) }}"
-
-non_olsr_interfaces:
-  - "{{ wan_interface }}"
-  - "{{ openvpn_users_interface }}"

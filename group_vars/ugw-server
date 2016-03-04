@@ -1,0 +1,18 @@
+# "olsr_nameservice_announcements" und "non_olsr_interfaces" werden in der
+# olsr-Rolle mit einem Standard-Wert versehen.
+# Im Fall von ugw-Servern benötigen wir jedoch andere Werte. Diese in der
+# ugw-Rolle zu definieren ist nicht möglich, da die Variablen-Präferenz
+# zwischen verschiedenen Rollen unklar ist (bzw. bis ansible < 2.0 unklar war
+# und anschließend klar in "aktuelle Rolle geht vor" geändert wurde).
+
+olsr_nameservice_announcements:
+  - "dns://{{ olsr_main_ip }}:53|udp|dns"
+  - "ntp://{{ olsr_main_ip }}:123|udp|ntp"
+  - "openvpn://{{ olsr_main_ip }}:1600|udp|gw"
+
+non_olsr_interfaces:
+  - "{{ wan_interface }}"
+  - "{{ openvpn_users_interface }}"
+
+# das "olsr_main_ip"-Announcement ist fuer APs mit alter Firmware (z.B. 0.9on5) notwendig
+olsr_hna_announcements_ipv4: "{{ [olsr_main_ip]|union(ugw_external_forward_allow_ipv4) }}"
