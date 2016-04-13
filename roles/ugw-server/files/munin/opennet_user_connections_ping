@@ -38,7 +38,8 @@ clean_fieldname() {
 get_openvpn_connections() {
 	sed -n '/^ROUTING TABLE/,$p' "$OPENVPN_CONNECTION_STATUS_FILE" \
 		| grep -F ".aps.on," \
-		| cut -d "," -f 1,2 --output-delimiter " "
+		| cut -d "," -f 1,2 --output-delimiter " " \
+		| sort -n
 }
 
 
