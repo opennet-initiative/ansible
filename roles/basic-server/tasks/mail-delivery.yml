@@ -41,4 +41,5 @@
 
 - name: System-Emails an Admin-Sammleradresse  versenden
   # das Quoting ist erforderlich, um die Doppelpunkte zu schuetzen
-  replace: 'dest=/etc/aliases regexp="^root:.*$" replace="root: {{ admin_email }}"'
+  lineinfile: 'dest=/etc/aliases state=present regexp="^root:" line="root: {{ admin_email }}"'
+  notify: newaliases
