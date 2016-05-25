@@ -8,11 +8,8 @@ ugw_openvpn_users_extra_settings: ""
 
 openvpn_users_cert_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.crt
 openvpn_users_key_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.key
-# TODO: vor dem Umstieg muessen die UGW-CA-Zertifikate aktualisiert werden
-#openvpn_ugw_cert_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.crt
-#openvpn_ugw_key_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.key
-openvpn_ugw_cert_file: /etc/openvpn/opennet_ugw/server.crt
-openvpn_ugw_key_file: /etc/openvpn/opennet_ugw/server.key
+openvpn_ugw_cert_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.crt
+openvpn_ugw_key_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.key
 
 ugw_server_crl_list:
   - { name: "Nutzer-Tunnel", minute: "48", crl: "opennet-vpn-user.crl", ca_cert: "/etc/openvpn/opennet_users/ca.crt" }
