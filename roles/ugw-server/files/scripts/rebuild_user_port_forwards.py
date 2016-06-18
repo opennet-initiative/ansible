@@ -25,8 +25,11 @@ def get_current_user_vpn_connections():
         # wir ignorieren die zweite Haelfte der Status-Datei
         if line.strip() == "ROUTING TABLE":
             break
-        node_cn = line.split(",")[0]
-        if node_cn != "UNDEF":
+        node_cn = line.split(",")[0].strip()
+        # node_cn sollte eigentlich nie leer sein - aber wir muessen wohl damit
+        # rechnen, dass die openvpn-Status-Datei waehrend einer Aktualisierung
+        # unvollstaendig/kaputt ist.
+        if node_cn and node_cn != "UNDEF":
             yield node_cn
 
 
