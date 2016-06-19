@@ -2,6 +2,7 @@
 
 
 import os
+import re
 import subprocess
 import sys
 
@@ -14,6 +15,8 @@ DNAT_CHAIN = "user_dnat"
 
 # Zum Auslesen der aktuellen Verbindungen benoetigen wir die Status-Datei.
 OPENVPN_STATUS_FILE = "/var/log/openvpn/opennet_users.status.log"
+# Format der CN-Strings (X.YYY.aps.on)
+CN_REGEX = re.compile(r"^\d{1,3}\.\d{1,3}\.aps\.on$")
 
 
 def get_current_user_vpn_connections():
@@ -26,10 +29,13 @@ def get_current_user_vpn_connections():
         if line.strip() == "ROUTING TABLE":
             break
         node_cn = line.split(",")[0].strip()
-        # node_cn sollte eigentlich nie leer sein - aber wir muessen wohl damit
-        # rechnen, dass die openvpn-Status-Datei waehrend einer Aktualisierung
-        # unvollstaendig/kaputt ist.
-        if node_cn and node_cn != "UNDEF":
+        if node_cn == "UNDEF":
+            # Verbindungen im Aufbau (oder Verbindungstests) ignorieren
+            continue
+        # node_cn sollte eigentlich immer ein gueltiger CN sein - aber wir
+        # muessen wohl damit rechnen, dass die openvpn-Status-Datei waehrend
+        # einer Aktualisierung unvollstaendig/kaputt ist.
+        if CN_REGEX.match(node_cn):
             yield node_cn
 
 
