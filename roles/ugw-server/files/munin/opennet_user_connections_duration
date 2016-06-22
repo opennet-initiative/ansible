@@ -1,0 +1,64 @@
+#!/bin/sh
+# -*- sh -*-
+#
+# munin script for evaluation of openvpn connection durations
+#
+# Copyright (C) 2015 Lars Kruse <devel@sumpfralle.de>
+#
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; version 2 dated June,
+# 1991.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+#%# family=manual
+
+
+set -eu
+
+
+OPENVPN_CONNECTION_STATUS_FILE=/var/log/openvpn/opennet_users.status.log
+
+
+clean_fieldname() {
+	echo "$1" | sed 's/[^A-Za-z0-9_]/_/g'
+}
+
+
+get_openvpn_connections() {
+	sed -n '1,/^ROUTING TABLE/p' "$OPENVPN_CONNECTION_STATUS_FILE" \
+		| grep -F ".aps.on," \
+		| cut -d "," -f 1,5 --output-delimiter " " \
+		| sort -n
+}
+
+
+if [ "${1:-}" = "config" ]; then
+	echo 'graph_title Verbindungsdauer der Nutzertunnel'
+	echo 'graph_args --base 1000 -l 0'
+	echo 'graph_vlabel duration [minutes]'
+	echo 'graph_category opennet'
+	echo 'graph_info This graph shows the duration of OpenVPN connections.'
+	get_openvpn_connections | while read host connected_since; do
+		field=$(clean_fieldname "$host")
+		echo "host_${field}.label 192.168.$(echo "$host" | sed 's/\.aps\.on//')"
+		echo "host_${field}.draw LINE2"
+	done
+	exit 0
+fi
+
+
+get_openvpn_connections | while read host connected_since; do
+	field=$(clean_fieldname "$host")
+        duration_seconds=$(( $(date +%s) - $(date --date="$connected_since" +%s) ))
+	echo "host_${field}.value $((duration_seconds / 60))"
+done

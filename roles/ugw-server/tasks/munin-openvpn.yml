@@ -7,6 +7,7 @@
     - opennet_ugw_connections_count
     - opennet_ugw_connections_traffic
     - opennet_user_connections_ping
+    - opennet_user_connections_duration
   notify: restart munin-node
 
 - name: munin -- OpenVPN-Plugins konfigurieren
