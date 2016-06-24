@@ -45,13 +45,15 @@ get_openvpn_connections() {
 if [ "${1:-}" = "config" ]; then
 	echo 'graph_title Verbindungsdauer der Nutzertunnel'
 	echo 'graph_args --base 1000 -l 0'
-	echo 'graph_vlabel duration [minutes]'
+	echo 'graph_vlabel duration [hours]'
 	echo 'graph_category opennet'
 	echo 'graph_info This graph shows the duration of OpenVPN connections.'
 	get_openvpn_connections | while read host connected_since; do
-		field=$(clean_fieldname "$host")
-		echo "host_${field}.label 192.168.$(echo "$host" | sed 's/\.aps\.on//')"
-		echo "host_${field}.draw LINE2"
+		field="host_$(clean_fieldname "$host")"
+		ip="192.168.$(echo "$host" | sed 's/\.aps\.on//')"
+		echo "${field}.label $ip"
+		echo "${field}.draw LINE2"
+		echo "${field}.cdef ${field},3600,/"
 	done
 	exit 0
 fi
@@ -60,5 +62,5 @@ fi
 get_openvpn_connections | while read host connected_since; do
 	field=$(clean_fieldname "$host")
         duration_seconds=$(( $(date +%s) - $(date --date="$connected_since" +%s) ))
-	echo "host_${field}.value $((duration_seconds / 60))"
+	echo "host_${field}.value $duration_seconds"
 done
