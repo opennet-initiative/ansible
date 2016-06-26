@@ -11,8 +11,8 @@
 
 - name: apache2 mit bind auf Port 81
   replace: dest=/etc/apache2/ports.conf
-           regexp="Port 80"
-           replace="Port 81"
+           regexp="Listen 80"
+           replace="Listen 81"
   notify: restart apache2
 
 - name: apache2 ohne default-Konfigurationen
