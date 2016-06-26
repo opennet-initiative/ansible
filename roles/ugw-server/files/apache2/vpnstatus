@@ -1,0 +1,10 @@
+<VirtualHost *>
+	DocumentRoot /var/www
+	RedirectMatch ^/$ /vpnstatus/
+	<Directory /var/www/vpnstatus>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+</VirtualHost>

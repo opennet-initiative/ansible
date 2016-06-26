@@ -1,6 +1,50 @@
 - name: vpnstatus - Webserver installieren
   apt: state=present pkg=libapache2-mod-php5
 
+# Port 80 wird auf den UGW-Servern durch das Domain-Proxy-Setup belegt
+# wir konfigurieren also apache2 auf Port 81 und erzeugen eine nginx-Konfiguration zur Durchleitung
+- name: apache2 mit Virtualhosts unabhängig vom Port
+  replace: dest=/etc/apache2/ports.conf
+           regexp="\*:80"
+           replace="\*"
+  notify: restart apache2
+
+- name: apache2 mit bind auf Port 81
+  replace: dest=/etc/apache2/ports.conf
+           regexp="Port 80"
+           replace="Port 81"
+  notify: restart apache2
+
+- name: apache2 ohne default-Konfigurationen
+  file: path=/etc/apache2/sites-enabled/000-default
+        state=absent
+  notify: restart apache2
+
+- name: apache2-Konfiguration für vpnstatus übertragen
+  copy: src=apache2/vpnstatus
+        dest=/etc/apache2/sites-available/
+  notify: restart apache2
+
+- name: apache2-Konfiguration für vpnstatus aktivieren
+  file: src=../sites-available/vpnstatus
+        dest=/etc/apache2/sites-enabled/vpnstatus
+        state=link
+  notify: restart apache2
+
+- name: nginx installieren
+  apt: name=nginx-light state=present
+
+- name: nginx-Proxy-Konfiguration fuer apache2 übertragen
+  template: src=nginx/apache2-proxy
+            dest=/etc/nginx/sites-available/apache2-proxy
+  notify: reload nginx
+
+- name: nginx-Proxy-Konfiguration fuer apache2 aktivieren
+  file: src=../sites-available/apache2-proxy
+        dest=/etc/nginx/sites-enabled/apache2-proxy
+        state=link
+  notify: reload nginx
+
 - name: vpnstatus - Verzeichnis anlegen
   file: state=directory
         dest=/var/www/vpnstatus
@@ -14,4 +58,3 @@
   template: force=yes
             src=vpnstatus.php
             dest=/var/www/vpnstatus/index.php
-

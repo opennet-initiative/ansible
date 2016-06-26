@@ -1,0 +1,11 @@
+server {
+	server_name {{ short_hostname }}.opennet-initiative.de;
+	server_name {{ short_hostname }}.on-i.de;
+	server_name {{ short_hostname }}.on;
+
+	location / {
+		proxy_pass http://localhost:81;
+		proxy_set_header Host $host;
+	}
+	access_log off;
+}
