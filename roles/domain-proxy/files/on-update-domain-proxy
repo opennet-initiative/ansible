@@ -1,0 +1,165 @@
+#!/usr/bin/env python3
+
+"""
+Aktualisiere http- und https-Proxy-Konfigurationen anhand von announcierten
+Domains einzelner APs.
+Details siehe https://on-i.de/wiki/Opennet_Domain_Proxy
+Dieses Skript sollte regelmäßig als root aufgerufen werden. Es löst bei Bedarf
+einen reload von nginx oder einen restart von slt aus.
+"""
+
+import argparse
+import collections
+import datetime
+import logging
+import os
+import re
+import subprocess
+import sys
+
+
+# Beispiel-Eintrag:
+#    http://192.168.10.13:80|tcp|public-domain-http munin.on-i.de            #192.168.10.13
+OLSR_NAMESERVICE_ENTRY_BASE_REGEX = r"^(?P<source_url>https?://[^|]+)\|tcp\|%s\s+(?P<domain>\w[\w\-.]+)"
+OLSR_NAMESERVICE_ENTRY_HTTP_REGEX = OLSR_NAMESERVICE_ENTRY_BASE_REGEX % "public-domain-http"
+OLSR_NAMESERVICE_ENTRY_HTTPS_REGEX = OLSR_NAMESERVICE_ENTRY_BASE_REGEX % "public-domain-https"
+DEBUG_LEVELS = {"debug": logging.DEBUG,
+                "info": logging.INFO,
+                "warning": logging.WARNING,
+                "error": logging.ERROR,
+}
+
+
+def get_olsrd_nameservice_entries(fname):
+    logger = logging.getLogger()
+    Result = collections.namedtuple("DomainMapping", ("domain", "source_url"))
+    http_regex = re.compile(OLSR_NAMESERVICE_ENTRY_HTTP_REGEX, flags=re.ASCII)
+    https_regex = re.compile(OLSR_NAMESERVICE_ENTRY_HTTPS_REGEX, flags=re.ASCII)
+    http_results = []
+    https_results = []
+    with open(fname, "r") as service_file:
+        for line in service_file.readlines():
+            for label, regex, target_list in (
+                    ("http", http_regex, http_results),
+                    ("https", https_regex, https_results)):
+                match = regex.match(line.strip())
+                if match:
+                    target_list.append(Result(**match.groupdict()))
+                    logger.info("Proxy-Domain gefunden ({label}, via OLSR nameservice)): "
+                                "{domain} -> {source_url}"
+                                .format(label=label, **match.groupdict()))
+    # stabile Sortierung zur Minimierung von Datei-Aktualisierungen
+    http_results.sort(key=lambda item: item.domain)
+    https_results.sort(key=lambda item: item.domain)
+    return http_results, https_results
+
+
+def get_nginx_config(domain_map):
+    logger = logging.getLogger()
+    backend_entries = []
+    for domain, source_url in domain_map:
+        backend_entries.append((domain, source_url))
+        logger.info("HTTP-Proxy-Eintrag gesetzt: %s -> %s", domain, source_url)
+    return """# ACHTUNG: diese Datei wird regelmaessig automatisch generiert durch %s
+# Doku: http://nginx.org/en/docs/http/ngx_http_map_module.html
+map $http_host $on_dynamic_domain_source {
+%s
+}
+
+
+server {
+	listen 80;
+
+%s
+
+	# keine Groessenbegrenzung fuer Client-Anfragen (z.B. Hochladen von Anhaengen bei Webmail)
+	client_max_body_size 0;
+	# kein selbstaendiges Puffern von Inhalten (z.B. bei zeilenweisem Ausgabestream)
+	proxy_buffering off;
+	# erhalte den urspruenglichen "Host"-Header der Anfrage
+	proxy_set_header Host $host;
+	# passenden Backend-Server anhand der obigen map ermitteln
+	location / { proxy_pass $on_dynamic_domain_source; }
+	# kein Logging von Anfragen
+	access_log off;
+	# keine 404-Fehler loggen
+	log_not_found off;
+	# Fehler-Log nur bei ungewoehnlichen Meldungen
+	error_log /var/log/nginx/error.log crit;
+}
+""" % (__file__,
+       os.linesep.join(["\t%s\t%s;" % item for item in backend_entries]),
+       os.linesep.join(["\tserver_name %s;" % item[0] for item in backend_entries]))
+
+
+def get_slt_config(domain_map):
+    logger = logging.getLogger()
+    source_regex = re.compile(r"^https://(?P<host>[^:]+):(?P<port>\d+)/?$")
+    backend_entries = []
+    for domain, source_url in domain_map:
+        match = source_regex.match(source_url)
+        if match:
+            short_source = "{host}:{port}".format(**match.groupdict())
+            backend_entries.append((domain, short_source))
+            logger.info("HTTPS-Proxy-Eintrag gesetzt: %s -> %s", domain, short_source)
+        else:
+            logger.warning("Unpassenden HTTPS-Proxy-Eintrag verworfen: %s -> %s",
+                           domain, short_source)
+    return """# ACHTUNG: diese Datei wird regelmaessig automatisch generiert durch %s
+bind_addr: ":443"
+frontends:
+%s
+""" % (__file__,
+       os.linesep.join(["""  %s: { backends: [ { addr: "%s" } ] }""" % (domain, source)
+                       for domain, source in backend_entries]))
+
+
+def update_config_file(filename, content):
+    try:
+        old_content = open(filename, "r").read()
+    except IOError:
+        old_content = None
+    if content != old_content:
+        with open(filename, "w") as config_file:
+            config_file.write(content)
+        return True
+    else:
+        return False
+
+
+def get_parsed_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--log-level", dest="log_level", choices=tuple(DEBUG_LEVELS),
+                        default="warning", help="Log-Level wählen (Vorgabe: warning)")
+    parser.add_argument("--log-file", dest="log_file",
+                        help="zu überschreibende Zieldatei für Logging (Vorgabe: Standardausgabe)")
+    parser.add_argument("--olsr-nameservices", dest="olsr_nameservice_filename",
+                        default="/var/run/services_olsr", help="Pfad der OLSR-nameservice-Datei")
+    parser.add_argument("--nginx-config", dest="nginx_filename",
+                        default="/etc/nginx/sites-available/domain-proxy",
+                        help="Pfad der zu überschreibenden nginx-Konfigurationsdatei")
+    parser.add_argument("--slt-config", dest="slt_filename", default="/etc/slt.conf",
+                        help="Pfad der zu überschreibenden slt-Konfigurationsdatei")
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = get_parsed_arguments()
+    # configure logging
+    logging.basicConfig(filename=args.log_file, filemode="w", level=DEBUG_LEVELS[args.log_level],
+                        format="[%(levelname)s] %(message)s")
+    logger = logging.getLogger()
+    logger.info("Beginn der Domain-Proxy-Aktualisierung: %s", datetime.datetime.now())
+    http_map, https_map = get_olsrd_nameservice_entries(args.olsr_nameservice_filename)
+    nginx_config = get_nginx_config(http_map)
+    if update_config_file(args.nginx_filename, nginx_config):
+        logger.warning("Neustart von nginx (http-Proxy) wird ausgeloest")
+        subprocess.call(["/usr/sbin/service", "nginx", "reload"])
+    else:
+        logger.info("Neustart von nginx (http-Proxy) ist nicht erforderlich")
+    slt_config = get_slt_config(https_map)
+    if update_config_file(args.slt_filename, slt_config):
+        logger.warning("Neustart von slt (https-Proxy) wird ausgeloest")
+        subprocess.call(["/usr/sbin/service", "slt", "restart"])
+    else:
+        logger.info("Neustart von slt (https-Proxy) ist nicht erforderlich")

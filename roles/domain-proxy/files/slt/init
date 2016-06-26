@@ -1,0 +1,90 @@
+#!/bin/sh
+#
+### BEGIN INIT INFO
+# Provides:          slt
+# Required-Start:    $remote_fs
+# Required-Stop:     $remote_fs
+# Should-Start:      $network
+# Should-Stop:       $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start and stop slt - a TLS reverse-proxy
+# Description:       Controls the slt daemon.
+### END INIT INFO
+
+set -e
+set -u
+
+NAME=slt
+DESC="TLS reverse-proxy"
+DAEMON=/usr/bin/slt
+PIDFILE="/var/run/${NAME}.pid"
+DEFAULTSFILE="/etc/default/$NAME"
+
+
+test -x "$DAEMON" || exit 0
+
+# Define LSB log_* functions.
+# Depend on lsb-base to ensure that this file is present.
+. /lib/lsb/init-functions
+
+# Load the VERBOSE setting and other rcS variables
+[ -f /etc/default/rcS ] && . /etc/default/rcS
+
+# Read configuration variable file if it is present
+[ -f "$DEFAULTSFILE" ] && . "$DEFAULTSFILE"
+
+
+check_status() {
+    status_of_proc -p "$PIDFILE" "$DAEMON" "$NAME"
+}
+
+
+do_start() {
+    start-stop-daemon --start --quiet --oknodo --background \
+            --pidfile "$PIDFILE" --make-pidfile --exec "$DAEMON" -- ${DAEMON_ARGS:-}
+    # The process cannot detach on its own - thus start-stop-daemon does not return a status.
+    # Wait a bit and check if the process is alive.
+    sleep 1
+    if check_status >/dev/null; then
+        log_end_msg 0 || true
+    else
+        log_end_msg 1 || true
+    fi
+}
+
+
+case "${1:-}" in
+    start)
+        if [ "$START_DAEMON" != no ]; then
+            log_daemon_msg "Starting $DESC" "$NAME" || true
+            do_start
+        else
+            log_warning_msg "Not starting $NAME daemon. Please edit $DEFAULTSFILE first."
+        fi
+        ;;
+    stop)
+        log_daemon_msg "Stopping $DESC" "$NAME" || true
+        if start-stop-daemon --stop --quiet --pidfile "$PIDFILE" --remove-pidfile; then
+            log_end_msg 0 || true
+        else
+            log_end_msg 1 || true
+        fi
+        ;;
+    restart)
+        log_daemon_msg "Restarting $DESC" "$NAME" || true
+        start-stop-daemon --stop --quiet --oknodo --retry 30 --pidfile "$PIDFILE" --remove-pidfile
+        if [ "$START_DAEMON" != no ]; then
+            do_start
+        else
+            log_end_msg 0 || true
+            log_warning_msg "Not starting $NAME daemon. Please edit $DEFAULTSFILE first."
+        fi
+        ;;
+    status)
+        check_status && exit 0 || exit $?
+        ;;
+    *)
+        log_action_msg "Usage: /etc/init.d/$NAME {start|stop|restart|status}" || true
+        exit 1
+esac

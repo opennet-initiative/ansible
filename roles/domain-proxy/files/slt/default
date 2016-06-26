@@ -1,0 +1,3 @@
+DAEMON_ARGS="/etc/slt.conf"
+# loese Henne-Ei-Problem bei der Erstinstallation: kein slt-Start bevor die config-Datei erzeugt wurde
+[ -e "$DAEMON_ARGS" ] && START_DAEMON=yes || START_DAEMON=no

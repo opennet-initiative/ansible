@@ -1,0 +1,23 @@
+- name: Installiere nginx
+  apt: pkg=nginx-light state=present
+
+- name: Nginx für lange Domainnamen konfigurieren
+  replace: dest=/etc/nginx/nginx.conf
+           regexp="# server_names_hash_bucket_size 64;"
+           replace="server_names_hash_bucket_size 64;"
+  notify: reload nginx
+
+- name: Nginx mit größerer map_hash_bucket_size
+  lineinfile: dest=/etc/nginx/nginx.conf
+              regexp="^	map_hash_bucket_size 64;"
+              line="	map_hash_bucket_size 64;"
+              insertafter="server_names_hash_bucket_size"
+  notify: reload nginx
+
+# forcieren des Symlinks, da bei der Erstinstallation die Konfigurationsdatei fehlt
+- name: Aktiviere die nginx-Konfiguration für den http-Domain-Proxy
+  file: src=../sites-available/domain-proxy
+        dest=/etc/nginx/sites-enabled/domain-proxy
+        state=link
+        force=yes
+  notify: reload nginx

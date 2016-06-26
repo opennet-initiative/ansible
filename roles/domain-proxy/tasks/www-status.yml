@@ -1,0 +1,24 @@
+- name: Erzeuge www-Verzeichnis für Konfigurationen und Logs
+  file: dest={{ domain_proxy_www_path }}/{{ short_hostname }}
+        state=directory
+
+# forcieren des Symlinks, da bei der Erstinstallation die slt.conf fehlt
+- name: Verlinke Konfigurationsdateien ins www-Verzeichnis
+  file: src={{ item.src }}
+        dest={{ domain_proxy_www_path }}/{{ short_hostname }}/{{ item.dest }}
+        state=link
+        force=yes
+  with_items:
+    - { dest: nginx.conf, src: /etc/nginx/sites-enabled/domain-proxy }
+    - { dest: slt.conf, src: /etc/slt.conf }
+
+- name: Übertrage die nginx-Konfiguration für das Status-www-Verzeichnis
+  template: src=nginx-status
+            dest=/etc/nginx/sites-available/domain-proxy-status
+  notify: reload nginx
+
+- name: Aktiviere nginx-Konfiguration für das Status-www-Verzeichnis
+  file: src=../sites-available/domain-proxy-status
+        dest=/etc/nginx/sites-enabled/domain-proxy-status
+        state=link
+  notify: reload nginx

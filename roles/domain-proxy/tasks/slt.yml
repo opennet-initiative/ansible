@@ -1,0 +1,22 @@
+# TODO: aktuell läuft auf den UGW-Servern noch wheezy - nach der Aktualisierung können wir slt aus jessie installieren
+#- name: Installiere slt
+#  apt: pkg=slt state=present
+
+# TODO: Kopieren des statischen (go) Kompilats aus Jessie; nach UGW-Aktualisierung durch slt-Paket ersetzen und Datei unbedingt löschen
+- name: Kopiere slt-Binary
+  copy: src=slt/slt-bin-jessie-amd64-0.0.git20140301-1
+        dest=/usr/local/bin/slt
+        mode=755
+
+# TODO: die folgenden Aktionen können entfernt werden, sobald https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=828188 in stable ist
+- name: init-Skript für slt kopieren
+  copy: src=slt/init
+        dest=/etc/init.d/slt
+        mode=755
+
+- name: default-Datei für slt kopieren
+  copy: src=slt/default
+        dest=/etc/default/slt
+
+- name: slt aktivieren
+  service: name=slt enabled=yes

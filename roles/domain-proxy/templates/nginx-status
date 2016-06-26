@@ -1,0 +1,7 @@
+server {
+	server_name domain-proxy.opennet-initiative.de;
+	server_name domain-proxy.on-i.de;
+	root {{ domain_proxy_www_path }};
+	autoindex on;
+	autoindex_localtime on;
+}

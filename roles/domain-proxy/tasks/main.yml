@@ -1,0 +1,4 @@
+- include: core.yml
+- include: nginx.yml
+- include: slt.yml
+- include: www-status.yml
