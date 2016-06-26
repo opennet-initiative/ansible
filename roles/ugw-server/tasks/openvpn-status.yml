@@ -6,7 +6,7 @@
 - name: apache2 mit Virtualhosts unabhängig vom Port
   replace: dest=/etc/apache2/ports.conf
            regexp="\*:80"
-           replace="\*"
+           replace="*"
   notify: restart apache2
 
 - name: apache2 mit bind auf Port 81
