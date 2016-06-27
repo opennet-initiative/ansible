@@ -3,9 +3,12 @@ server {
 	server_name {{ short_hostname }}.on-i.de;
 	server_name {{ short_hostname }}.on;
 
-	location / {
-		proxy_pass http://localhost:81;
-		proxy_set_header Host $host;
+	root /var/www;
+
+	# der vpnstatus ist die typische Information jedes UGW-Knotens
+	location = / {
+		return 302 /vpnstatus/;
 	}
+
 	access_log off;
 }

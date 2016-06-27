@@ -1,47 +1,22 @@
-- name: vpnstatus - Webserver installieren
-  apt: state=present pkg=libapache2-mod-php5
+# Wir verwenden ein altes "openvpn_status"-PHP-Skript zur Visualisierung der aktuellen
+# OpenVPN-Client-Verbindungen. Da wir nginx für die "domain-proxy"-Funktion verwenden,
+# und nginx nicht direkt php-Code ausführen mag, erstellen wir via cron-Job regelmäßig
+# den Output des PHP-Skripts und stellen es via nginx statisch zur Verfügung.
 
-# Port 80 wird auf den UGW-Servern durch das Domain-Proxy-Setup belegt
-# wir konfigurieren also apache2 auf Port 81 und erzeugen eine nginx-Konfiguration zur Durchleitung
-- name: apache2 mit Virtualhosts unabhängig vom Port
-  replace: dest=/etc/apache2/ports.conf
-           regexp="\*:80"
-           replace="*"
-  notify: restart apache2
-
-- name: apache2 mit bind auf Port 81
-  replace: dest=/etc/apache2/ports.conf
-           regexp="Listen 80"
-           replace="Listen 81"
-  notify: restart apache2
-
-- name: apache2 ohne default-Konfigurationen
-  file: path=/etc/apache2/sites-enabled/000-default
-        state=absent
-  notify: restart apache2
-
-- name: apache2-Konfiguration für vpnstatus übertragen
-  copy: src=apache2/vpnstatus
-        dest=/etc/apache2/sites-available/
-  notify: restart apache2
-
-- name: apache2-Konfiguration für vpnstatus aktivieren
-  file: src=../sites-available/vpnstatus
-        dest=/etc/apache2/sites-enabled/vpnstatus
-        state=link
-  notify: restart apache2
+- name: php installieren
+  apt: name=php5-cli state=present
 
 - name: nginx installieren
   apt: name=nginx-light state=present
 
-- name: nginx-Proxy-Konfiguration fuer apache2 übertragen
-  template: src=nginx/apache2-proxy
-            dest=/etc/nginx/sites-available/apache2-proxy
+- name: nginx-Proxy-Konfiguration fuer UGW-Status übertragen
+  template: src=nginx/usergw
+            dest=/etc/nginx/sites-available/
   notify: reload nginx
 
-- name: nginx-Proxy-Konfiguration fuer apache2 aktivieren
-  file: src=../sites-available/apache2-proxy
-        dest=/etc/nginx/sites-enabled/apache2-proxy
+- name: nginx-Proxy-Konfiguration fuer UGW-Status aktivieren
+  file: src=../sites-available/usergw
+        dest=/etc/nginx/sites-enabled/usergw
         state=link
   notify: reload nginx
 
@@ -58,3 +33,8 @@
   template: force=yes
             src=vpnstatus.php
             dest=/var/www/vpnstatus/index.php
+
+- name: vpnstatus - regelmäßig neu erstellen
+  cron: name="vpnstatus aktualisieren"
+        job="php /var/www/vpnstatus/index.php >/var/www/vpnstatus/index.html"
+        minute="*/3"
