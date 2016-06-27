@@ -10,3 +10,8 @@
   cron: name=on-update-domain-proxy
         job="/usr/local/sbin/on-update-domain-proxy --log-level info --log-file {{ domain_proxy_www_path }}/{{ short_hostname }}/update.log"
         minute=*/15
+
+- name: Erlaube Zugriffe auf http- und https-Port
+  copy: src=ferm/340_domain-proxy.inc
+        dest=/etc/ferm/conf.d/
+  notify: restart ferm

@@ -1,2 +1,5 @@
 - name: reload nginx
   service: name=nginx state=reloaded
+
+- name: restart ferm
+  service: name=ferm state=restarted
