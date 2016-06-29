@@ -41,7 +41,7 @@ check_status() {
 
 
 do_start() {
-    start-stop-daemon --start --quiet --oknodo --background \
+    /sbin/start-stop-daemon --start --quiet --oknodo --background \
             --pidfile "$PIDFILE" --make-pidfile --exec "$DAEMON" -- ${DAEMON_ARGS:-}
     # The process cannot detach on its own - thus start-stop-daemon does not return a status.
     # Wait a bit and check if the process is alive.
@@ -65,7 +65,7 @@ case "${1:-}" in
         ;;
     stop)
         log_daemon_msg "Stopping $DESC" "$NAME" || true
-        if start-stop-daemon --stop --quiet --pidfile "$PIDFILE"; then
+        if /sbin/start-stop-daemon --stop --quiet --pidfile "$PIDFILE"; then
             rm -f "$PIDFILE"
             log_end_msg 0 || true
         else
@@ -74,7 +74,7 @@ case "${1:-}" in
         ;;
     restart)
         log_daemon_msg "Restarting $DESC" "$NAME" || true
-        start-stop-daemon --stop --quiet --oknodo --retry 30 --pidfile "$PIDFILE"
+        /sbin/start-stop-daemon --stop --quiet --oknodo --retry 30 --pidfile "$PIDFILE"
         rm -f "$PIDFILE"
         if [ "$START_DAEMON" != no ]; then
             do_start
