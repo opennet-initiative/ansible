@@ -8,7 +8,7 @@ olsr_interfaces:
   - { name: "eth0" }
 
 olsr_nameservice_announcements:
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http munin.opennet-initiative.de"
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http munin.on-i.de"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https munin.opennet-initiative.de"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https munin.on-i.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http monitor.opennet-initiative.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http monitor.on-i.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https monitor.opennet-initiative.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https monitor.on-i.de"
