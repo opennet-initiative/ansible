@@ -23,9 +23,12 @@ IPV6_FACTOR = 65536
 # jeweils Offsets gegenueber der Basis-IP des VPN-Servers. Die Basis-IP des Servers ist in
 # der OpenVPN-Server-Konfiguration als Parameter des connection-Skript-Aufrufs zu finden.
 CN_REGEX_TO_IP_PORT_MAPPING = {
-    r'^1\.?(?P<id>[0-9]{1,3})\.aps\.on$': (IPv4Address("0.0.4.0"), IPv6Address('::1:1:0:0'), 10000),
+    r'^1\.(?P<id>[0-9]{1,3})\.aps\.on$': (IPv4Address("0.0.4.0"), IPv6Address('::1:1:0:0'), 10000),
     r'^(?P<id>[0-9]{1,3})\.mobile\.on$': (IPv4Address("0.0.8.0"), IPv6Address('::2:1:0:0'), 12550),
     r'^2\.(?P<id>[0-9]{1,3})\.aps\.on$': (IPv4Address("0.0.16.0"), IPv6Address('::1:2:0:0'), 15100),
+    # Der 3er-Portbereich beginnt bei 20200 weil dies in der Firmware ab v0.5 so verwendet wurde.
+    # Somit sind die Ports 17650..20199 noch ungenutzt.
+    r'^3\.(?P<id>[0-9]{1,3})\.aps\.on$': (IPv4Address("0.0.20.0"), IPv6Address('::1:3:0:0'), 20200),
 }
 
 
