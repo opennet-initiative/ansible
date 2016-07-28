@@ -134,8 +134,15 @@ a {
 
 <?php foreach ($clients as $client) {
     $time = strtotime($client[3]) - strtotime($client[6]);
-    $rate = ($client[4] + $client[5]) / $time;
-    $client[7] = number_format($rate / 8000, 2, ',', '.');
+
+    if ($time > 0) {
+        $rate = ($client[4] + $client[5]) / $time;
+        $client[7] = number_format($rate / 8000, 2, ',', '.');
+    } else {
+        $rate = FALSE;
+        $client[7] = '--';
+    }
+
     $client[3] = date ('Y-m-d H:i', strtotime($client[3]));
     $client[6] = date ('Y-m-d H:i', strtotime($client[6]));
     $client[4] = number_format($client[4] / 8000, 0, '', '.');
