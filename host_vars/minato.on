@@ -10,3 +10,16 @@ olsr_interfaces:
 olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
   - 139.30.241.207
+
+# vorlaeufige Auslieferung von downloads.*
+olsr_nameservice_announcements:
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http downloads.opennet-initiative.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http downloads.on-i.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http downloads.rostock.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http downloads.schwerin.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http downloads.wismar.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https downloads.opennet-initiative.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https downloads.on-i.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https downloads.rostock.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https downloads.schwerin.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https downloads.wismar.freifunk.net"
