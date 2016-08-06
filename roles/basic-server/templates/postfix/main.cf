@@ -11,8 +11,6 @@ alias_maps = hash:/etc/aliases
 # Postfix ist nur fuer localhost zuständig
 mynetworks_style = host
 inet_interfaces = loopback-only
-# IPv6
-inet_protocols = all 
 
 # alle Mails sollen über unseren Relayhost gesendet werden
 relayhost = {{ mail_relay_host }}
