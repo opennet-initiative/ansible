@@ -9,7 +9,7 @@ myorigin = $mydomain
 alias_maps = hash:/etc/aliases
 
 # Postfix ist nur fuer localhost zuständig
-mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mynetworks_style = host
 inet_interfaces = loopback-only
 # IPv6
 inet_protocols = all 
