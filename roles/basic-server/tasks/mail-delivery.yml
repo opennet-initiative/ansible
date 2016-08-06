@@ -7,6 +7,9 @@
     dest=/etc/postfix/main.cf
   notify: restart postfix
 
+- name: smtp-auth-Abhaengigkeiten installieren
+  apt: pkg=libsasl2-modules state=present
+
 - name: smtp-auth-Passwort-Verzeichnis erstellen
   file:
     state=directory
