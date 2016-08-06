@@ -13,7 +13,7 @@ mynetworks_style = host
 inet_interfaces = loopback-only
 
 # alle Mails sollen über unseren Relayhost gesendet werden
-relayhost = {{ mail_relay_host }}
+relayhost = [{{ mail_relay_host }}]
 
 # SMTP-Authentication
 smtp_sasl_auth_enable = yes
