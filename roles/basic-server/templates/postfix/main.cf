@@ -1,8 +1,9 @@
 myhostname = {{ mail_hostname }}
-mydomain= {{ mail_domain }}
+mydomain = {{ mail_domain }}
 
-# myorigin wird an lokal generierte Mails angehaengt. Sollte deswegen eine Domain sein die
-# Mails empfangen kann und wo es Postfaecher fuer root, cron usw. gibt.
+# myorigin wird an lokal generierte Mails angehaengt. Es sollte daher eine
+# Domain sein, die Mails empfangen kann und in der es Postfaecher fuer root,
+# cron usw. gibt.
 myorigin = $mydomain
 
 alias_maps = hash:/etc/aliases
