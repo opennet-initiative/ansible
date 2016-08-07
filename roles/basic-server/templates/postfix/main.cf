@@ -19,4 +19,4 @@ relayhost = [{{ mail_relay_host }}]
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
 smtp_sasl_security_options = 
-smtp_tls_security_level = may
+smtp_tls_security_level = encrypt
