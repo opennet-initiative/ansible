@@ -8,7 +8,7 @@
 olsr_nameservice_announcements:
   - "dns://{{ olsr_main_ip }}:53|udp|dns"
   - "ntp://{{ olsr_main_ip }}:123|udp|ntp"
-  - "openvpn://{{ olsr_main_ip }}:1600|udp|gw"
+  - "openvpn://{{ olsr_main_ip }}:1600|udp|gw public_host:{{ short_hostname }}.opennet-initiative.de"
 
 non_olsr_interfaces:
   - "{{ wan_interface }}"
