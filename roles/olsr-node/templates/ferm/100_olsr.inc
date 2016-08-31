@@ -8,8 +8,8 @@
 
 domain (ip ip6) table filter {
 	chain INPUT interface $IF_OLSR {
-		# olsrd: Routing
-		proto udp dport 698 ACCEPT;
+		# olsrd: Routing (v1/v2)
+		proto udp dport (269 698) ACCEPT;
 		# olsrd: http-info
 		proto tcp dport 8080 ACCEPT;
 		# munin
