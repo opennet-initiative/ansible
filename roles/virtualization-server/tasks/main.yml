@@ -1,0 +1,11 @@
+- name: Virtualisierungspakete installieren
+  apt: pkg={{ item }} state=present install_recommends=no
+  with_items:
+          - libvirt-daemon-system
+          - libvirt-clients
+
+- name: vhost-Skript übertragen
+  copy:
+          src=vhost-admin.sh
+          dest=/usr/local/sbin/
+          mode=755

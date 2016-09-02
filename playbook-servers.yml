@@ -2,3 +2,7 @@
   roles:
     - basic-server
     - olsr-node
+
+- hosts: ryoko.on:aqua.on:jun.on
+  roles:
+    - virtualization-server
