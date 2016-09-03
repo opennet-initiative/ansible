@@ -7,7 +7,7 @@ RAW_IMAGE_PATH="{{ virtualization_storage_path }}"
 VIRT_BASE_CONFIG=/etc/libvirt/qemu/_template.xml
 {# keep the 'e' outside the conditional in order to preserve the final linebreak #}
 USE_LVM={% if virtualization_storage == "lvm" %}tru{% else %}fals{% endif %}e
-MOUNTPOINT=/mnt/temp
+MOUNTPOINT=/tmp/mnt-$(basename "$0")
 DISTRIBUTION=${DISTRIBUTION:-jessie}
 APT_URL="http://httpredir.debian.org/debian"
 DOMAIN=on
@@ -45,7 +45,7 @@ create_volume() {
 		lvcreate -n "$vol_name" -L "$size" "$LVM_GROUP"
 	else
 		local image
-		image=$(get_volume_path "$host" "$host")
+		image=$(get_volume_path "$host" "$vol_type")
 		mkdir -p "$(dirname "$image")"
 		[ -e "$image" ] && die 3 "Volume image ($image) exists already - aborting ..."
 		dd if=/dev/zero of="$image" bs="$size" seek=1 count=0 status=none
@@ -59,7 +59,7 @@ remove_volume() {
 	if "$USE_LVM"; then
 		lvremove -f "$LVM_GROUP/${host}-${vol_type}"
 	else
-		rm -f "$(get_volume_path "$host" "$host")"
+		rm -f "$(get_volume_path "$host" "$vol_type")"
 		rmdir --ignore-fail-on-non-empty "$RAW_IMAGE_PATH/$host"
 	fi
 }
@@ -102,7 +102,7 @@ mount_system() {
 	local host="$1"
 	local dev
 	dev=$(get_volume_path "$host" "root")
-	[ -d "$MOUNTPOINT" ] || die 6 "The mountpoint '$MOUNTPOINT' does not exist - aborting ..."
+	mkdir -p "$MOUNTPOINT"
 	mountpoint -q "$MOUNTPOINT" && die 7 "The mountpoint '$MOUNTPOINT' is already in use - aborting ..."
 	mount "$dev" "$MOUNTPOINT" || die 9 "Failed to mount base filesystem '$dev' - aborting ..."
 }
@@ -110,6 +110,7 @@ mount_system() {
 
 umount_system() {
 	mountpoint -q "$MOUNTPOINT" && umount "$MOUNTPOINT"
+	rmdir "$MOUNTPOINT"
 	return 0
 }
 
