@@ -155,7 +155,7 @@ create_access_point_image() {
 	# Abbruch, falls curl fehlschlaegt
 	set -o pipefail
 	{ curl --silent "$image_url" || { echo >&2 "Failed to download '$image_url'" && return 1; }; } \
-		| gunzip --stdout --force | dd "of=$blockdev" status=none
+		| gunzip --stdout --force | dd "of=$blockdev" status=none conv=notrunc
 	set +o pipefail
 }
 
