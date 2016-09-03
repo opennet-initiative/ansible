@@ -2,8 +2,11 @@
 
 set -eu
 
-LVM_GROUP="lvm-$(hostname)"
+LVM_GROUP="{{ virtualization_lvm_group }}"
+RAW_IMAGE_PATH="{{ virtualization_storage_path }}"
 VIRT_BASE_CONFIG=/etc/libvirt/qemu/_template.xml
+{# keep the 'e' outside the conditional in order to preserve the final linebreak #}
+USE_LVM={% if virtualization_storage == "lvm" %}tru{% else %}fals{% endif %}e
 MOUNTPOINT=/mnt/temp
 DISTRIBUTION=${DISTRIBUTION:-jessie}
 APT_URL="http://httpredir.debian.org/debian"
@@ -26,10 +29,50 @@ AP_FIRMWARE_MAP="\
 "
 
 
-die()
-{
+die() {
         echo "$2" >&2
-        exit $1
+        return "$1"
+}
+
+
+create_volume() {
+	local host="$1"
+	local vol_type="$2"
+	local size="$3"
+	local vol_name="${host}-${vol_type}"
+	if "$USE_LVM"; then
+		lvs | grep -q "^ *$vol_name " && die 3 "Volume '$vol_name' exists already - aborting ..."
+		lvcreate -n "$vol_name" -L "$size" "$LVM_GROUP"
+	else
+		local image
+		image=$(get_volume_path "$host" "$host")
+		mkdir -p "$(dirname "$image")"
+		[ -e "$image" ] && die 3 "Volume image ($image) exists already - aborting ..."
+		dd if=/dev/zero of="$image" bs="$size" seek=1 count=0 status=none
+	fi
+}
+
+
+remove_volume() {
+	local host="$1"
+	local vol_type="$2"
+	if "$USE_LVM"; then
+		lvremove -f "$LVM_GROUP/${host}-${vol_type}"
+	else
+		rm -f "$(get_volume_path "$host" "$host")"
+		rmdir --ignore-fail-on-non-empty "$RAW_IMAGE_PATH/$host"
+	fi
+}
+
+
+get_volume_path() {
+	local host="$1"
+	local vol_type="$2"
+	if "$USE_LVM"; then
+		echo "/dev/$LVM_GROUP/${host}-${vol_type}"
+	else
+		echo "$RAW_IMAGE_PATH/$host/${vol_type}.img"
+	fi
 }
 
 
@@ -39,28 +82,26 @@ create_host_volumes() {
 	local maker
 	local suffix
 	local size
+	local path
 	echo "	mkfs.ext4	root	3G
 		mkswap		swap	512M" \
-	 | while read maker suffix size; do
-		vol="${host}-$suffix"
-		lvs | grep -q "^ *$vol " && die 3 "Volume '$vol' exists already - aborting ..."
-		lvcreate -n "$vol" -L "$size" "$LVM_GROUP"
-		"$maker" "/dev/$LVM_GROUP/$vol"
+	 | while read maker vol_type size; do
+		path=$(create_volume "$host" "$vol_type" "$size")
+		"$maker" "$path"
 	 done
 }
 
 
 create_access_point_volume() {
 	local host="$1"
-	local vol="${host}-root"
-	lvs | grep -q "^ *$vol " && die 3 "Volume '$vol' exists already - aborting ..."
-	lvcreate -n "$vol" -L 64M "$LVM_GROUP"
+	create_volume "$host" "root" "64M" >/dev/null
 }
 
 
 mount_system() {
 	local host="$1"
-	local dev="/dev/$LVM_GROUP/${host}-root"
+	local dev
+	dev=$(get_volume_path "$host" "root")
 	[ -d "$MOUNTPOINT" ] || die 6 "The mountpoint '$MOUNTPOINT' does not exist - aborting ..."
 	mountpoint -q "$MOUNTPOINT" && die 7 "The mountpoint '$MOUNTPOINT' is already in use - aborting ..."
 	mount "$dev" "$MOUNTPOINT" || die 9 "Failed to mount base filesystem '$dev' - aborting ..."
@@ -108,7 +149,8 @@ EOF
 create_access_point_image() {
 	local host="$1"
 	local image_url="$2"
-	local blockdev="/dev/$LVM_GROUP/${host}-root"
+	local blockdev
+	blockdev=$(get_volume_path "$host" "root")
 	# Abbruch, falls curl fehlschlaegt
 	set -o pipefail
 	{ curl --silent "$image_url" || { echo >&2 "Failed to download '$image_url'" && return 1; }; } \
@@ -123,6 +165,15 @@ wait_for_ap() {
 		sleep 1
 		echo "pwd" >"$ttydev"
 	done
+}
+
+
+is_ap_running() {
+	local host="$1"
+	local status
+	status=$(virsh list | awk '{ if ($1 == "'$host'") print $2; }')
+	[ "$status" = "running" ] && return 0
+	return 1
 }
 
 
@@ -141,7 +192,7 @@ configure_access_point_networking() {
 		true
 		# eth0 aus dem LAN-Netzwerk entfernen
 		uci set network.lan.ifname=none
-		# fruezeitig Erinitialisierungen triggern
+		# fruezeitig Erstinitialisierungen triggern
 		uci commit
 		/etc/init.d/network restart
 		sleep 3
@@ -155,11 +206,10 @@ configure_access_point_networking() {
 		/etc/init.d/network restart
 		# warte auf den Abschluss des Schreibvorgangs
 		sleep 3
-		poweroff
+		reboot
 EOF
 	# nur bei existierendem Rueckgabekanal werden die obigen Eingaben verarbeitet
 	timeout 10 cat "$ttydev" >/dev/null 2>&1 || true
-	sleep 4
 	echo "AP-Konfiguration abgeschlossen"
 }
 
@@ -174,7 +224,7 @@ configure_access_point_host_definition() {
 	done
 	# zweites Blockdevice entferne
 	sed -i -n '0,/<\/disk>/p; /<controller/,$p' "$libvirt_file"
-	virsh --quiet define "$libvirt_file"
+	virsh --quiet define "$libvirt_file" >/dev/null
 }
 
 
@@ -197,16 +247,20 @@ create_virt_config() {
 	local host="$1"
 	local memory="$2"
 	local target_file="/etc/libvirt/qemu/${host}.xml"
+	local item
 	[ -e "$target_file" ] && die 4 "Host config file '$target_file' exists already - aborting ..."
-	local mac1=$(get_network_mac)
-	local mac2=$(get_network_mac)
 	cp "$VIRT_BASE_CONFIG" "$target_file"
 	sed -i "s/__NAME__/$host/g" "$target_file"
 	sed -i "s/__MEMORY__/$memory/g" "$target_file"
-	sed -i "s/__UUID__/$(uuidgen)/g" "$target_file"
-	sed -i "s/__MAC1__/$mac1/g" "$target_file"
-	sed -i "s/__MAC2__/$mac2/g" "$target_file"
-	virsh --quiet define "$target_file"
+	item=$(uuidgen)
+	sed -i "s/__UUID__/$item/g" "$target_file"
+	item=$(get_network_mac)
+	sed -i "s/__MAC1__/$item/g" "$target_file"
+	item=$(get_network_mac)
+	sed -i "s/__MAC2__/$item/g" "$target_file"
+	item=$(get_network_mac)
+	sed -i "s/__MAC3__/$item/g" "$target_file"
+	virsh --quiet define "$target_file" >/dev/null
 }
 
 
@@ -271,7 +325,6 @@ case "$ACTION" in
 		create_access_point_image "$host" "$image_url"
 		configure_access_point_host_definition "$host"
 		configure_access_point_networking "$host" "$ip"
-		virsh start "$host"
 		;;
 	remove)
 		host="$1"
@@ -280,10 +333,9 @@ case "$ACTION" in
 			set +e
 			virsh --quiet destroy "$host" 2>/dev/null
 			umount_system
-			for suffix in root swap; do
-				lvremove -f "$LVM_GROUP/${host}-$suffix" 2>/dev/null
-			 done
-			virsh list | grep -q " $host  *running$" && virsh destroy "$host"
+			remove_volume "$host" "root"
+			remove_volume "$host" "swap" 2>/dev/null
+			is_ap_running "$host" && virsh destroy "$host"
 			virsh undefine "$host"
 			rm -f "/etc/libvirt/qemu/auto/${host}.xml"
 			rm -f "/etc/libvirt/qemu/${host}.xml"

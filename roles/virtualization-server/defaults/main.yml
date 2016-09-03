@@ -1,0 +1,4 @@
+virtualization_storage_path: /tank
+virtualization_lvm_group: lvm-{{ short_hostname }}
+# "lvm" or "file"
+virtualization_storage: lvm

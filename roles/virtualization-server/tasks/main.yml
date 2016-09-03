@@ -3,9 +3,17 @@
   with_items:
           - libvirt-daemon-system
           - libvirt-clients
+          - uuid-runtime
 
 - name: vhost-Skript übertragen
-  copy:
+  template:
           src=vhost-admin.sh
           dest=/usr/local/sbin/
           mode=755
+
+- name: libvirt-Template übertragen
+  # force=no: nur einmalig übertragen, um Netzwerk- und Emulatoranpassungen zu ermöglichen
+  template:
+          src=libvirt_host_template.xml
+          dest=/etc/libvirt/qemu/_template.xml
+          force=no
