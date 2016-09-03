@@ -110,7 +110,7 @@ mount_system() {
 
 umount_system() {
 	mountpoint -q "$MOUNTPOINT" && umount "$MOUNTPOINT"
-	rmdir "$MOUNTPOINT"
+	rmdir "$MOUNTPOINT" 2>/dev/null || true
 	return 0
 }
 
@@ -182,33 +182,34 @@ configure_access_point_networking() {
 	local host="$1"
 	local ip="$2"
 	virsh start "$host"
-	# das Booten auf ryoko dauert ca. 12 Sekunden
+	# das Booten auf ryoko dauert ca. 12 Sekunden, bei aqua dauert es noch laenger
 	echo "Warte auf Booten des Access-Points ..."
+	sleep 10
 	local ttydev=$(virsh --quiet ttyconsole "$host")
 	# sende Eingaben an die Konsole - sie werden erst durch "virsh console" wirksam
 	# zuerst eine Leerzeile (bzw. "true") um die Konsole zu oeffnen
 	wait_for_ap
 	echo "Bootvorgang abgeschlossen"
-	cat >"$ttydev" <<-EOF
-		true
-		# eth0 aus dem LAN-Netzwerk entfernen
-		uci set network.lan.ifname=none
-		# fruezeitig Erstinitialisierungen triggern
-		uci commit
-		/etc/init.d/network restart
-		sleep 3
-		uci set network.lan.ifname=none
-		# eth0 mit der selbstgewaehlten mesh-IP konfigurieren
-		uci set network.on_eth_0.ifname=eth0
-		uci set network.on_eth_0.proto=static
-		uci set network.on_eth_0.ipaddr="$ip"
-		uci commit
-		sync
-		/etc/init.d/network restart
-		# warte auf den Abschluss des Schreibvorgangs
-		sleep 3
-		reboot
-EOF
+	sed 's/^[[:space:]]*//' >"$ttydev" <<EOF1
+		cat >"/etc/uci-defaults/99-virt-init" <<EOF2
+			#!/bin/sh
+			true
+			# eth0 aus dem LAN-Netzwerk entfernen
+			uci set network.lan.ifname=none
+			# fruezeitig Erstinitialisierungen triggern
+			uci commit
+			/etc/init.d/network restart
+			sleep 3
+			uci set network.lan.ifname=none
+			# eth0 mit der selbstgewaehlten mesh-IP konfigurieren
+			uci set network.on_eth_0.ifname=eth0
+			uci set network.on_eth_0.proto=static
+			uci set network.on_eth_0.ipaddr="$ip"
+			uci commit
+			reload_config
+		EOF2
+		chmod +x "/etc/uci-defaults/99-virt-init"
+EOF1
 	# nur bei existierendem Rueckgabekanal werden die obigen Eingaben verarbeitet
 	timeout 10 cat "$ttydev" >/dev/null 2>&1 || true
 	echo "AP-Konfiguration abgeschlossen"
