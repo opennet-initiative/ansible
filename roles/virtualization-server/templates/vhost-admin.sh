@@ -19,13 +19,13 @@ DOMAIN=on
 PACKAGES_INCLUDE="openssh-server,python-apt,olsrd,acpi-support-base,linux-image-amd64,grub-pc"
 PACKAGES_EXCLUDE="irqbalance"
 AP_FIRMWARE_MAP="\
-	0.4.1	http://downloads.on-i.de/openwrt/stable/0.4.1/x86/openwrt-x86-generic-combined-squashfs.img
-	0.4.4	http://downloads.on-i.de/openwrt/stable/0.4.4/x86/openwrt-x86-generic-combined-squashfs.img
-	0.4.5	http://downloads.on-i.de/openwrt/stable/0.4.5/x86/openwrt-x86-generic-combined-squashfs.img
-	0.5.0	http://downloads.on-i.de/openwrt/stable/0.5.0/x86/openwrt-x86-generic-combined-squashfs.img.gz
-	0.5.1	http://downloads.on-i.de/openwrt/stable/0.5.1/x86/openwrt-x86-generic-combined-squashfs.img.gz
-	0.5.2	http://downloads.on-i.de/openwrt/stable/0.5.2/x86/openwrt-0.5.2-1697-x86-generic-combined-squashfs.img.gz
-	latest	http://downloads.on-i.de/openwrt/stable/0.5.2/x86/openwrt-0.5.2-1697-x86-generic-combined-squashfs.img.gz
+	0.4.1	http://downloads.opennet-initiative.de/openwrt/stable/0.4.1/x86/openwrt-x86-generic-combined-squashfs.img
+	0.4.4	http://downloads.opennet-initiative.de/openwrt/stable/0.4.4/x86/openwrt-x86-generic-combined-squashfs.img
+	0.4.5	http://downloads.opennet-initiative.de/openwrt/stable/0.4.5/x86/openwrt-x86-generic-combined-squashfs.img
+	0.5.0	http://downloads.opennet-initiative.de/openwrt/stable/0.5.0/x86/openwrt-x86-generic-combined-squashfs.img.gz
+	0.5.1	http://downloads.opennet-initiative.de/openwrt/stable/0.5.1/x86/openwrt-x86-generic-combined-squashfs.img.gz
+	0.5.2	http://downloads.opennet-initiative.de/openwrt/stable/0.5.2/x86/openwrt-0.5.2-1697-x86-generic-combined-squashfs.img.gz
+	latest	http://downloads.opennet-initiative.de/openwrt/stable/0.5.2/x86/openwrt-0.5.2-1697-x86-generic-combined-squashfs.img.gz
 "
 
 
