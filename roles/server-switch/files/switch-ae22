@@ -43,7 +43,7 @@ ip name-server 192.168.0.254
 vtp mode transparent
 !
 !
-!         
+!
 !
 !
 !
@@ -76,6 +76,8 @@ crypto pki certificate chain TP-self-signed-2621045248
   1D3B66C8 F46B1651 3855584B AB335175 41B13A84 CFEE8650 DAD2C8DD BCD535D9 
   4A20BFA9 7E863CE6 E1C4FCAF D20231
   	quit
+archive
+ path flash:/switch-ae22
 !
 !
 !
@@ -83,7 +85,7 @@ crypto pki certificate chain TP-self-signed-2621045248
 spanning-tree mode pvst
 spanning-tree extend system-id
 !
-!
+!         
 !
 !
 vlan internal allocation policy ascending
@@ -93,7 +95,7 @@ vlan 100
 !
 vlan 350
  name hro-beratung
-!         
+!
 vlan 351
  name hro-gaeste
 !
@@ -106,7 +108,7 @@ vlan 353
 vlan 354
  name hro-schnordwest
 !
-vlan 362
+vlan 362  
  name hro-mesh
 !
 !
@@ -118,16 +120,6 @@ vlan 362
 !
 !
 !
-macro name uniro-mesh
-# usage: macro apply uniro-mesh
- description uniro-mesh
- switchport trunk encapsulation dot1q
- switchport trunk allowed vlan 100,350-354,362
- switchport mode trunk
- spanning-tree portfast
- cdp enable
- no shutdown
-@
 macro name server
 # usage: macro apply server
  description server
@@ -148,11 +140,19 @@ macro name hro-uplink
  cdp enable
  no shutdown
 @
+macro name uniro-mesh
+# usage: macro apply uniro-mesh
+ description uniro-mesh
+ switchport access vlan 100
+ switchport mode access
+ spanning-tree portfast
+@
 !
 !
 interface FastEthernet0
  description management
  ip address 172.16.0.1 255.255.255.0
+ ipv6 enable
 !
 interface GigabitEthernet1/0/1
  description server/tamago
@@ -177,7 +177,7 @@ interface GigabitEthernet1/0/4
  shutdown
 !
 interface GigabitEthernet1/0/5
- shutdown
+ shutdown 
 !
 interface GigabitEthernet1/0/6
  shutdown
@@ -193,103 +193,91 @@ interface GigabitEthernet1/0/9
 !
 interface GigabitEthernet1/0/10
  shutdown
-!         
+!
 interface GigabitEthernet1/0/11
  shutdown
 !
 interface GigabitEthernet1/0/12
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/13
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/14
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/15
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/16
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/17
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/18
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/19
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/20
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/21
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/22
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/23
  description uniro-mesh
- switchport trunk allowed vlan 100,350-354,362
- switchport trunk encapsulation dot1q
- switchport mode trunk
+ switchport access vlan 100
+ switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
@@ -304,7 +292,7 @@ interface GigabitEthernet1/0/26
 !
 interface GigabitEthernet1/0/27
  shutdown
-!
+!         
 interface GigabitEthernet1/0/28
  shutdown
 !
@@ -327,7 +315,7 @@ interface GigabitEthernet1/0/34
  shutdown
 !
 interface GigabitEthernet1/0/35
- shutdown
+ shutdown 
 !
 interface GigabitEthernet1/0/36
  shutdown
@@ -343,7 +331,7 @@ interface GigabitEthernet1/0/39
 !
 interface GigabitEthernet1/0/40
  shutdown
-!         
+!
 interface GigabitEthernet1/0/41
  shutdown
 !
@@ -393,10 +381,11 @@ interface TenGigabitEthernet1/1/2
 !
 interface Vlan1
  no ip address
- shutdown 
+ shutdown
 !
 interface Vlan100
  ip address 192.168.5.7 255.255.0.0
+ ipv6 enable
 !
 ip forward-protocol nd
 no ip http server
@@ -421,7 +410,7 @@ banner motd ^C
 | (_) | |_) |  __/ | | | | | |  __/ |_ 
  \___/| .__/ \___|_| |_|_| |_|\___|\__|
       |_|                              
-Willkommen auf switch-ae22!
+Willkommen auf $(hostname)!
 
 ^C
 !
