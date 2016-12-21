@@ -43,7 +43,7 @@ ip name-server 192.168.0.254
 vtp mode transparent
 !
 !
-!
+!         
 !
 !
 !
@@ -85,7 +85,7 @@ archive
 spanning-tree mode pvst
 spanning-tree extend system-id
 !
-!         
+!
 !
 !
 vlan internal allocation policy ascending
@@ -93,7 +93,7 @@ vlan internal allocation policy ascending
 vlan 100
  name uniro-mesh
 !
-vlan 350
+vlan 350  
  name hro-beratung
 !
 vlan 351
@@ -108,7 +108,7 @@ vlan 353
 vlan 354
  name hro-schnordwest
 !
-vlan 362  
+vlan 362
  name hro-mesh
 !
 !
@@ -177,7 +177,7 @@ interface GigabitEthernet1/0/4
  shutdown
 !
 interface GigabitEthernet1/0/5
- shutdown 
+ shutdown
 !
 interface GigabitEthernet1/0/6
  shutdown
@@ -193,7 +193,7 @@ interface GigabitEthernet1/0/9
 !
 interface GigabitEthernet1/0/10
  shutdown
-!
+!         
 interface GigabitEthernet1/0/11
  shutdown
 !
@@ -292,7 +292,7 @@ interface GigabitEthernet1/0/26
 !
 interface GigabitEthernet1/0/27
  shutdown
-!         
+!
 interface GigabitEthernet1/0/28
  shutdown
 !
@@ -315,7 +315,7 @@ interface GigabitEthernet1/0/34
  shutdown
 !
 interface GigabitEthernet1/0/35
- shutdown 
+ shutdown
 !
 interface GigabitEthernet1/0/36
  shutdown
@@ -343,7 +343,7 @@ interface GigabitEthernet1/0/43
 !
 interface GigabitEthernet1/0/44
  shutdown
-!
+!         
 interface GigabitEthernet1/0/45
  shutdown
 !
@@ -394,6 +394,10 @@ no ip http secure-server
 ip route 0.0.0.0 0.0.0.0 192.168.0.254
 ip ssh version 2
 ip ssh dh min size 2048
+ip ssh pubkey-chain
+  username root
+   key-hash ssh-rsa 59D2C46ACBFE3AD0EE5D13FEA4F30F52 mat@mac-mat.lan
+   key-hash ssh-rsa ACE707F492D4AE45E2CEB11329BB2C66 mathias@laptux
 ip scp server enable
 !
 !
