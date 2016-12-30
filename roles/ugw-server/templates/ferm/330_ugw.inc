@@ -6,7 +6,6 @@
 
 @def $LOCAL_HNA_IP = {{ olsr_main_ip }};
 @def $IF_ON_USERS = {{ openvpn_users_interface }};
-@def $WIFIDOG_SERVER_IP = 192.168.10.3;
 
 
 # Wir wollen die Portweiterleitungen nach einem Firewall-Restart neu aufbauen
@@ -35,6 +34,11 @@ domain (ip ip6) table filter {
 	}
 }
 
+domain ip chain FORWARD outerinterface $IF_OLSR {
+	# Weiterleitung von User-VPN nach Opennet Mesh erlauben
+	# (Sonderfall VPN von Externen Mobilen Clients ausserhalb vom Mesh)
+	interface $IF_ON_USERS daddr 192.168.0.0/16 ACCEPT;
+}
 
 domain ip chain FORWARD outerface $IF_WAN {
 	# keine Weiterleitung an nicht-oeffentliche IP-Bereiche
@@ -75,20 +79,14 @@ domain ip table nat {
                 mod addrtype dst-type LOCAL proto (tcp udp) dport 10000:17639 jump user_dnat;
 		# ohne diese Regel werden die eigenen Antwort-Pakete mit falschen Quell-IPs verschickt
 		interface $IF_OLSR daddr $LOCAL_HNA_IP REDIRECT;
-		# DHCP-Anfragen von wifidog-Clients zu inez umlenken
-		interface $IF_ON_USERS daddr {{ openvpn_users_ipv4_server }} proto udp dport 67 DNAT to $WIFIDOG_SERVER_IP;
 	}
 
 	chain POSTROUTING {
 		# private Opennet-IP-Adresse nicht nach aussen dringen lassen
 		outerface $IF_WAN saddr (192.168.0.0/16 10.0.0.0/8) MASQUERADE;
-		# Wifidog-DHCP-Anfragen muessen auch rueckwaerts routebar sein
+		# Zugriff von User-VPN auf Opennet Mesh via NAT ermoeglichen 
+		# # (Sonderfall VPN von Externen Mobilen Clients ausserhalb vom Mesh)
 		outerface $IF_OLSR saddr 10.1.0.0/16 MASQUERADE;
 	}
 }
 
-
-table mangle chain "new_non_olsr_connections" {
-	# DHCP-Anfragen fuer Wifidog duerfen nicht symmetrisch geroutet werden
-	daddr 10.1.0.1 proto udp dport 67 RETURN;
-}
