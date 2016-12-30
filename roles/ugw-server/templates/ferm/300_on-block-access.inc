@@ -24,5 +24,5 @@ domain ip chain "on-ugw-block-access" {
 	# diese Regeln sollten wir regelmaessig begutachten und alte Eintraege entfernen
 	# CERT-Bund#2014111728001208] Schadprogramm-Infektionen in AS39138
 	# 24.11.2014 - erina
-	daddr 217.160.208.160 proto tcp dport 80 DROP;
+	#daddr 217.160.208.160 proto tcp dport 80 DROP;
 }
