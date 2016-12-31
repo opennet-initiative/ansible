@@ -39,12 +39,12 @@ def process_openvpn_connection_event(client_cn):
             if node.ipv6_address:
                 target_file.write('ifconfig-ipv6-push %s\n' % str(node.ipv6_address))
                 # TODO: dies sind alte erina-Adressen?
-                if client_cn == '10.mobile.on':
-                    target_file.write('iroute-ipv6 2a01:a700:4629:fe01::/64')
-                if client_cn == '195.aps.on':
-                    target_file.write('iroute-ipv6 2a01:a700:4629:fe02::/64')
-                if client_cn == '2.50.aps.on':
-                    target_file.write('iroute-ipv6 2a01:a700:4629:fe03::/64')
+                #if client_cn == '10.mobile.on':
+                #    target_file.write('iroute-ipv6 2a01:a700:4629:fe01::/64')
+                #if client_cn == '195.aps.on':
+                #    target_file.write('iroute-ipv6 2a01:a700:4629:fe02::/64')
+                #if client_cn == '2.50.aps.on':
+                #    target_file.write('iroute-ipv6 2a01:a700:4629:fe03::/64')
     else:
         # wir wurden als "client-disconnect"-Skript aufgerufen
         pass
