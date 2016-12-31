@@ -34,7 +34,7 @@ domain (ip ip6) table filter {
 	}
 }
 
-domain ip chain FORWARD outerinterface $IF_OLSR {
+domain ip chain FORWARD outerface $IF_OLSR {
 	# Weiterleitung von User-VPN nach Opennet Mesh erlauben
 	# (Sonderfall VPN von Externen Mobilen Clients ausserhalb vom Mesh)
 	interface $IF_ON_USERS saddr 10.1.8.0/22 daddr 192.168.0.0/16 ACCEPT;
