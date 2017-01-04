@@ -3,6 +3,4 @@
             dest=/etc/ferm/conf.d/
   with_items:
     - 100_olsr.inc
-    - 310_policy-routing.inc
-    - 800_policy-routing_finish.inc
   notify: restart ferm
