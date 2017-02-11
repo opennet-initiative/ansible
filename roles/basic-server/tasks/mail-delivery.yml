@@ -37,6 +37,16 @@
     line="{{ mail_relay_host }} {{ smtp_auth_password.stdout }}"
   notify: postmap passwd
 
+# Die Datenbank wird zwar durch den Handler erzeugt, sicherheitshalber tun wir
+# dies aber gleich.
+# Ansonsten koennte es passieren, dass bei einem zwischenzeitlichen Abbruch
+# des ansible-Laufs (z.B. bei einem Fehler im initialen Durchlauf) die
+# Datenbank nicht erzeugt wird.
+- name: smtp-auth-Datenbank erzeugen
+  command:
+    postmap /etc/postfix/sasl/passwd
+    creates=/etc/postfix/sasl/passwd.db
+
 - name: mailname festlegen
   copy:
     content={{ mail_hostname }}
