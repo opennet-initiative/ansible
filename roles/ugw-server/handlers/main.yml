@@ -2,7 +2,7 @@
   service: name=ferm state=restarted
 
 - name: restart openvpn
-  service: name=openvpn state=restarted sleep=5
+  service: name=openvpn state=restarted
 
 - name: restart apache2
   service: name=apache2 state=restarted
@@ -14,10 +14,10 @@
   service: name=procps state=restarted
 
 - name: restart olsrd
-  service: name=olsrd state=restarted sleep=5
+  service: name=olsrd state=restarted
 
 - name: restart openbsd-inetd
-  service: name=openbsd-inetd state=restarted sleep=5
+  service: name=openbsd-inetd state=restarted
 
 # der "deactivate"-Handler muss vor dem "activate"-Handler stehen
 # (nicht die Reihenfolge der Ausloesung im Prozess, sondern die der Aufzaehlung in dieser Datei ist relevant)

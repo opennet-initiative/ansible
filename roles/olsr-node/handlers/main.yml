@@ -11,4 +11,4 @@
   service: name=munin-node state=restarted
 
 - name: restart olsrd
-  service: name=olsrd state=restarted sleep=5
+  service: name=olsrd state=restarted
