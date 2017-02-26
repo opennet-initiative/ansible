@@ -5,6 +5,7 @@
           - curl
           - libvirt-daemon-system
           - libvirt-clients
+          - munin-libvirt-plugins
           - qemu-kvm
           - uuid-runtime
   # irgendwie muss libvirtd nach der Installation von "qemu-kvm" neugestartet werden, um
