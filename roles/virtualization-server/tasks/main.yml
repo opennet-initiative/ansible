@@ -1,9 +1,15 @@
 - name: Virtualisierungspakete installieren
   apt: pkg={{ item }} state=present install_recommends=no
   with_items:
+          # fuer vhost-admin.sh
+          - curl
           - libvirt-daemon-system
           - libvirt-clients
+          - qemu-kvm
           - uuid-runtime
+  # irgendwie muss libvirtd nach der Installation von "qemu-kvm" neugestartet werden, um
+  # "hvm" zu kennen
+  notify: restart libvirtd
 
 - name: vhost-Skript übertragen
   template:
