@@ -8,7 +8,7 @@
   changed_when: False
   run_once: yes
   # ignoriere den "--check"-Modus (sonst schlaegt der naechste Schritt beim Testen fehl)
-  always_run: yes
+  check_mode: no
 
 - fail: msg="Kein geheimer dnskey auf dem primaeren DNS-Server gefunden"
   when: not dnskey_secret_fetch.stdout

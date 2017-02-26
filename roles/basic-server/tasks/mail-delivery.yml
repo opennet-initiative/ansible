@@ -22,7 +22,7 @@
   changed_when: False
   run_once: yes
   # ignoriere den "--check"-Modus (sonst schlaegt der naechste Schritt beim Testen fehl)
-  always_run: yes
+  check_mode: no
 
 - fail: msg="Kein smtp-auth-Password gefunden"
   when: not smtp_auth_password.stdout
