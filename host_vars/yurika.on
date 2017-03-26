@@ -20,3 +20,6 @@ olsr_extra_settings: |
   	PlParam	"receive"	"true"
   	PlParam	"database"	"/var/run/olsrd/ondataservice.db"
   }
+
+letsencrypt_certificates:
+- {primary: mitgliederverwaltung.opennet-initiative.de, other: mitgliederverwaltung.on-i.de}
