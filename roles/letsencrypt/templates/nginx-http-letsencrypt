@@ -1,0 +1,18 @@
+# {{ ansible_managed }}
+# leere http-Konfiguration fuer letsencrypt
+server {
+    listen       80;
+{% for certificate_domains in letsencrypt_certificates %}
+    server_name {{ certificate_domains.primary }} {{ certificate_domains.other|default('') }};
+{% endfor %}
+
+    location /.well-known/acme-challenge {
+        default_type "text/plain";
+        alias /var/lib/dehydrated/acme-challenges/;
+    }
+
+    # http-Verkehr nach https umlenken - wir wollen nur letsencrypt via http ermoeglichen
+    location / {
+        return 301 https://$http_host$request_uri;
+    }
+}

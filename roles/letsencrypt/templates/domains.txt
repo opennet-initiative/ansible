@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+{% for certificate_domains in letsencrypt_certificates %}
+{{ certificate_domains.primary }} {{ certificate_domains.other|default('') }}
+{% endfor %}

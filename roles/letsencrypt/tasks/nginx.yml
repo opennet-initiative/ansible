@@ -1,0 +1,10 @@
+- name: "[nginx] http-acme-Konfiguration vorbereiten"
+  file:
+          path=/etc/nginx/conf.d
+          state=directory
+
+- name: "[nginx] http-acme-Konfiguration kopieren"
+  template:
+          src=nginx-http-letsencrypt
+          dest=/etc/nginx/conf.d/letsencrypt-http-acme.conf
+  notify: reload nginx

@@ -2,6 +2,8 @@
   roles:
     - basic-server
     - olsr-node
+    - role: letsencrypt
+      when: letsencrypt_certificates is defined
 
 - hosts: ryoko.on:aqua.on:jun.on
   roles:

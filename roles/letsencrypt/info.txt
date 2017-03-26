@@ -1,0 +1,12 @@
+= Überblick =
+Die letsencrypt-Rolle ermöglicht die automatische Erzeugung von SSL-Zertifikaten via letsencrypt.
+Voraussetzungen:
+  * der Host ist via Port 80 erreichbar
+  * http-Requests für die gewählten Domains müssen bei dem Host ankommen
+
+= Anwendung =
+In den Host-Variablen sind Einträge folgender Art anzulegen:
+
+  letsencrypt_certificates:
+  - {primary: ca.opennet-initiative.de, other: ca.on-i.de}
+  - {primary: dev.opennet-initiative.de, other: dev.on-i.de trac.opennet-initiative.de}

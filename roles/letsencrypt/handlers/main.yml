@@ -1,0 +1,8 @@
+- name: reload nginx
+  service: name=nginx state=reloaded
+
+- name: reload apache2
+  service: name=apache2 state=reloaded
+
+- name: update dehydrated-domains
+  command: dehydrated --cron

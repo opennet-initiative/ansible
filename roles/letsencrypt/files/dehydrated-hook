@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# verwaltet via ansible
+#
+# SSL-basierte Dienste neu laden, falls ein "deploy_cert"-Ereignis auftrat
+
+set -eu
+
+if [ "$1" = "deploy_cert" ]; then
+	[ -x /usr/sbin/apache2 ] && /usr/sbin/service apache2 reload
+	[ -x /usr/sbin/nginx ] && /usr/sbin/service nginx reload
+	true
+fi

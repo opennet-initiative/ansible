@@ -1,0 +1,16 @@
+- include: "dehydrated.yml"
+
+# apache2
+- name: apache2 vorhanden?
+  stat: path=/usr/sbin/apache2
+  register: apache2_installed
+- name: "[apache2] Konfigurationspaket installieren"
+  apt: pkg=dehydrated-apache2 state=present
+  when: apache2_installed.stat.exists
+
+# nginx
+- name: nginx vorhanden?
+  stat: path=/usr/sbin/nginx
+  register: nginx_installed
+- include: "nginx.yml"
+  when: nginx_installed.stat.exists
