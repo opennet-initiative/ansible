@@ -6,6 +6,8 @@ munin_servers:
   - 192.168.10.4/32
   - 192.168.10.13/32
 
+munin_plugins: []
+
 opennet_ca_crl_list:
   - { name: "root-CA", minute: "45", crl: "opennet-root.crl", ca_cert: "/usr/local/share/ca-certificates/opennet-initiative.de/root.crt" }
   - { name: "server-CA", minute: "46", crl: "opennet-server.crl", ca_cert: "/usr/local/share/ca-certificates/opennet-initiative.de/server.crt" }
