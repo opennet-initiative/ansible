@@ -24,3 +24,7 @@ olsr_extra_settings: |
       PlParam	"dbcreatescript" "/etc/olsrd/ondataservice_create_db.sh"
       PlParam	"database"	"/tmp/database"
   }
+
+# Auswertung von ondataservice-Daten
+munin_plugins:
+  - ondataservice_firmware_versions

@@ -1,0 +1,48 @@
+#!/bin/sh
+
+
+. "$MUNIN_LIBDIR/plugins/plugin.sh"
+
+
+set -eu
+
+# verwende eine Kopie, um Locking-Konflikte zu vermeiden
+ORIG_DATABASE="/tmp/database"
+DATABASE=$(mktemp)
+trap "rm -f '$DATABASE'" EXIT
+cp "$ORIG_DATABASE" "$DATABASE"
+
+
+execute_sql() {
+	echo "$1;" | sqlite3 "$DATABASE"
+}
+
+
+get_versions() {
+	execute_sql "SELECT DISTINCT on_core_ver from nodes" | sort --version-sort
+}
+
+
+get_version_count() {
+	execute_sql "select COUNT() from nodes where on_core_ver='$1'"
+}
+
+
+if [ "${1:-}" = "config" ]; then
+	echo "graph_title Firmware-Versionen auf APs"
+	echo "graph_category opennet"
+	echo "graph_vlabel Anzahl der APs"
+
+	get_versions | while read version; do
+		fieldname=$(clean_fieldname "$version")
+		echo "$fieldname.label $version"
+		echo "$fieldname.draw AREASTACK"
+	done
+	exit 0
+fi
+
+
+get_versions | while read version; do
+	fieldname=$(clean_fieldname "$version")
+	echo "$fieldname.value $(get_version_count "$version")"
+done
