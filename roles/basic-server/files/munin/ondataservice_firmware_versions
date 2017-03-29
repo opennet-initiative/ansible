@@ -28,9 +28,22 @@ get_version_count() {
 }
 
 
-get_unknown_version_count() {
+# Es gibt einen ondataservice-Fehler, der bei der Uebertragung von "nodes"-Datensaetzen auftritt, sofern sie
+# groesser als 2080 Byte sind. Dieser Fehler ist daran erkennbar, dass ein Eintrag in der ifaces-Tabelle vorliegt,
+# jedoch keiner in der nodes-Tabelle.
+get_broken_ondataservice_version_count() {
 	local all_known
-	all_known=$(sqlite3 /tmp/database 'select mainip from nodes')
+	all_full_submissions=$(sqlite3 "$DATABASE" 'select distinct mainip from nodes')
+	all_partial_submissions=$(sqlite3 "$DATABASE" 'select distinct mainip from ifaces')
+	echo "$all_partial_submissions" | while read ip; do
+		echo "$all_full_submissions" | grep -qwF "$ip" || echo 1
+	done | wc -l
+}
+
+
+get_missing_ondataservice_version_count() {
+	local all_known
+	all_known=$(sqlite3 "$DATABASE" 'select distinct mainip from ifaces')
 	echo /topology | nc localhost 2006 | grep "^192\.168\.[1-9]\." | awk '{print $1}' | sort | uniq | while read ip; do
 		echo "$all_known" | grep -qwF "$ip" || echo 1
 	done | wc -l
@@ -47,6 +60,8 @@ if [ "${1:-}" = "config" ]; then
 		echo "$fieldname.label $version"
 		echo "$fieldname.draw AREASTACK"
 	done
+	echo "broken_ondataservice.label unbekannt (ondataservice-Uebertragungsproblem)"
+	echo "broken_ondataservice.draw AREASTACK"
 	echo "unknown.label unbekannt (keine ondataservice-Daten)"
 	echo "unknown.draw AREASTACK"
 	exit 0
@@ -57,4 +72,5 @@ get_versions | while read version; do
 	fieldname=$(clean_fieldname "$version")
 	echo "$fieldname.value $(get_version_count "$version")"
 done
-echo "unknown.value $(get_unknown_version_count)"
+echo "unknown.value $(get_missing_ondataservice_version_count)"
+echo "broken_ondataservice.value $(get_broken_ondataservice_version_count)"
