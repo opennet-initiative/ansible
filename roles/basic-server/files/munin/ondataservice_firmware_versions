@@ -28,6 +28,15 @@ get_version_count() {
 }
 
 
+get_unknown_version_count() {
+	local all_known
+	all_known=$(sqlite3 /tmp/database 'select mainip from nodes')
+	echo /topology | nc localhost 2006 | grep "^192\.168\.[1-9]\." | awk '{print $1}' | sort | uniq | while read ip; do
+		echo "$all_known" | grep -qwF "$ip" || echo 1
+	done | wc -l
+}
+
+
 if [ "${1:-}" = "config" ]; then
 	echo "graph_title Firmware-Versionen auf APs"
 	echo "graph_category opennet"
@@ -38,6 +47,8 @@ if [ "${1:-}" = "config" ]; then
 		echo "$fieldname.label $version"
 		echo "$fieldname.draw AREASTACK"
 	done
+	echo "unknown.label unbekannt (keine ondataservice-Daten)"
+	echo "unknown.draw AREASTACK"
 	exit 0
 fi
 
@@ -46,3 +57,4 @@ get_versions | while read version; do
 	fieldname=$(clean_fieldname "$version")
 	echo "$fieldname.value $(get_version_count "$version")"
 done
+echo "unknown.value $(get_unknown_version_count)"
