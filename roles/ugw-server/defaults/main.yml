@@ -17,8 +17,10 @@ ugw_server_crl_list:
 
 # Oeffentliche IP-Adressen von Hosts, die auch im Mesh erreichbar sein sollen
 ugw_external_forward_allow_ipv4:
-  # downloads.openwrt.org: Paketinstallation fuer APs
+  # downloads.openwrt.org: Paketinstallation fuer APs (bis einschliesslich v0.5.3)
   - 78.24.191.177
+  # downloads.lede-project.org: Paketinstallation fuer APs (nach v0.5.3)
+  - 148.251.78.235
   # www.geodaten-mv.de: Luftbilder als Hintergrund der alten Karte (on-i.de/map)
   - 195.145.109.67
   # a.tile.openstreetmap.org: Hintergrund-Tiles fuer OSM-Layer der alten Karte (on-i.de/map)
