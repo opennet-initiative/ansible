@@ -61,7 +61,7 @@ fi
 
 get_openvpn_connections | while read host label; do
 	field=$(clean_fieldname "$label")
-	ping -w 1 -c 1 ${host} 2>/dev/null | awk '
-		BEGIN { packetloss_regex="([0-9]+)% packet loss"; }
-		{ if (/min\/avg\/max/) { split($4, tokens, "/"); print "'host_${field}_rtt.value'", tokens[1]/1000; }; }'
+	ping_time=$(ping -w 1 -i 0.3 -c 3 ${host} 2>/dev/null | awk '
+		{ if (/min\/avg\/max/) { split($4, tokens, "/"); print tokens[2]/1000; }; }')
+	echo "host_${field}_rtt.value ${ping_time:-U}"
 done
