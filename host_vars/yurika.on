@@ -23,3 +23,6 @@ olsr_extra_settings: |
 
 letsencrypt_certificates:
 - {primary: mitgliederverwaltung.opennet-initiative.de, other: mitgliederverwaltung.on-i.de}
+- {primary: api.opennet-initiative.de, other: api.on-i.de}
+- {primary: map.opennet-initiative.de, other: map.on-i.de}
+- {primary: mediawiki.yurika.opennet-initiative.de, other: mediawiki.yurika.on-i.de}
