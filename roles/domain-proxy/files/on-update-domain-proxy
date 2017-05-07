@@ -37,17 +37,21 @@ def get_olsrd_nameservice_entries(fname):
     https_regex = re.compile(OLSR_NAMESERVICE_ENTRY_HTTPS_REGEX, flags=re.ASCII)
     http_results = []
     https_results = []
-    with open(fname, "r") as service_file:
-        for line in service_file.readlines():
-            for label, regex, target_list in (
-                    ("http", http_regex, http_results),
-                    ("https", https_regex, https_results)):
-                match = regex.match(line.strip())
-                if match:
-                    target_list.append(Result(**match.groupdict()))
-                    logger.info("Proxy-Domain gefunden ({label}, via OLSR nameservice)): "
-                                "{domain} -> {source_url}"
-                                .format(label=label, **match.groupdict()))
+    try:
+        with open(fname, "r") as service_file:
+            for line in service_file.readlines():
+                for label, regex, target_list in (
+                        ("http", http_regex, http_results),
+                        ("https", https_regex, https_results)):
+                    match = regex.match(line.strip())
+                    if match:
+                        target_list.append(Result(**match.groupdict()))
+                        logger.info("Proxy-Domain gefunden ({label}, via OLSR nameservice)): "
+                                    "{domain} -> {source_url}"
+                                    .format(label=label, **match.groupdict()))
+    except FileNotFoundError:
+        # the services_olsr file may be empty if there are no olsr neighbours / no known services
+        pass
     # stabile Sortierung zur Minimierung von Datei-Aktualisierungen
     http_results.sort(key=lambda item: item.domain)
     https_results.sort(key=lambda item: item.domain)
