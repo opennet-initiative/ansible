@@ -1,6 +1,8 @@
 - name: Virtualisierungspakete installieren
   apt: pkg={{ item }} state=present install_recommends=no
   with_items:
+          # die meisten Server konfigurieren Bridges
+          - bridge-utils
           # fuer vhost-admin.sh
           - curl
           - libvirt-daemon-system
