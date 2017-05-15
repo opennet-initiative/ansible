@@ -321,7 +321,11 @@ interface GigabitEthernet1/0/36
  shutdown
 !
 interface GigabitEthernet1/0/37
- shutdown
+ description server/aqua-ipmi
+ switchport access vlan 100
+ switchport mode access
+ macro description uniro-mesh
+ spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/38
  shutdown
