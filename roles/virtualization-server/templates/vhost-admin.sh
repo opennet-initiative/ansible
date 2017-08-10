@@ -5,8 +5,7 @@ set -eu
 LVM_GROUP="{{ virtualization_lvm_group }}"
 RAW_IMAGE_PATH="{{ virtualization_storage_path }}"
 VIRT_BASE_CONFIG=/etc/libvirt/qemu/_template.xml
-# file or lvm storage {# keep the 'e' outside the conditional in order to preserve the final linebreak #}
-USE_LVM='{% if virtualization_storage == "lvm" %}tru{% else %}fals{% endif %}e'
+USE_LVM='{% if virtualization_storage == "lvm" %}true{% else %}false{% endif %}'
 MOUNTPOINT=/tmp/mnt-$(basename "$0")
 DISTRIBUTION=${DISTRIBUTION:-stretch}
 APT_URL="http://httpredir.debian.org/debian"
@@ -39,8 +38,8 @@ create_volume() {
 	local host="$1"
 	local vol_type="$2"
 	local size="$3"
-	local vol_name="${host}-${vol_type}"
 	if "$USE_LVM"; then
+		local vol_name="${host}-${vol_type}"
 		lvs | grep -q "^ *$vol_name " && die 3 "Volume '$vol_name' exists already - aborting ..."
 		lvcreate -n "$vol_name" -L "$size" "$LVM_GROUP"
 	else
@@ -84,7 +83,8 @@ create_host_volumes() {
 	echo "	mkfs.ext4	root	3G
 		mkswap		swap	512M" \
 	 | while read -r maker vol_type size; do
-		path=$(create_volume "$host" "$vol_type" "$size")
+		create_volume "$host" "$vol_type" "$size"
+		path=$(get_volume_path "$host" "$vol_type")
 		"$maker" "$path"
 	 done
 }
