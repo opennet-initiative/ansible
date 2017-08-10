@@ -5,12 +5,11 @@ set -eu
 LVM_GROUP="{{ virtualization_lvm_group }}"
 RAW_IMAGE_PATH="{{ virtualization_storage_path }}"
 VIRT_BASE_CONFIG=/etc/libvirt/qemu/_template.xml
-{# keep the 'e' outside the conditional in order to preserve the final linebreak #}
-USE_LVM={% if virtualization_storage == "lvm" %}tru{% else %}fals{% endif %}e
+# file or lvm storage {# keep the 'e' outside the conditional in order to preserve the final linebreak #}
+USE_LVM='{% if virtualization_storage == "lvm" %}tru{% else %}fals{% endif %}e'
 MOUNTPOINT=/tmp/mnt-$(basename "$0")
 DISTRIBUTION=${DISTRIBUTION:-jessie}
 APT_URL="http://httpredir.debian.org/debian"
-DOMAIN=on
 # Zu installierende oder wegzulassende Pakete (komma-separiert)
 # python-apt: fuer ansible
 # olsrd: Mesh-Routing
@@ -79,14 +78,12 @@ get_volume_path() {
 
 create_host_volumes() {
 	local host="$1"
-	local vol
 	local maker
-	local suffix
 	local size
 	local path
 	echo "	mkfs.ext4	root	3G
 		mkswap		swap	512M" \
-	 | while read maker vol_type size; do
+	 | while read -r maker vol_type size; do
 		path=$(create_volume "$host" "$vol_type" "$size")
 		"$maker" "$path"
 	 done
@@ -123,7 +120,11 @@ create_debian_system() {
 	which debootstrap >/dev/null || die 11 "Missing requirement: debootstrap"
 	echo "$DISTRIBUTION" "$MOUNTPOINT" "$APT_URL" 
 	local DEBOOTSTRAP_OPTS="--include $PACKAGES_INCLUDE --exclude $PACKAGES_EXCLUDE"
-	debootstrap $DEBOOTSTRAP_OPTS "$DISTRIBUTION" "$MOUNTPOINT" "$APT_URL" || { umount_system; die 8 "Debootstrap failed - aborting ..."; }
+	# shellcheck disable=SC2086
+	debootstrap $DEBOOTSTRAP_OPTS "$DISTRIBUTION" "$MOUNTPOINT" "$APT_URL" || {
+		umount_system
+		die 8 "Debootstrap failed - aborting ..."
+	}
 	cat - >"$MOUNTPOINT/etc/network/interfaces" <<-EOF
 		auto lo
 		iface lo inet loopback
@@ -162,7 +163,8 @@ create_access_point_image() {
 
 
 wait_for_ap() {
-	local ttydev=$(virsh --quiet ttyconsole "$host")
+	local ttydev
+	ttydev=$(virsh --quiet ttyconsole "$host")
 	while ! timeout 1 cat "$ttydev" | grep -q "^/"; do
 		sleep 1
 		echo "pwd" >"$ttydev"
@@ -173,7 +175,7 @@ wait_for_ap() {
 is_ap_running() {
 	local host="$1"
 	local status
-	status=$(virsh list | awk '{ if ($1 == "'$host'") print $2; }')
+	status=$(virsh list | awk '{ if ($1 == "'"$host"'") print $2; }')
 	[ "$status" = "running" ] && return 0
 	return 1
 }
@@ -186,7 +188,8 @@ configure_access_point_networking() {
 	# das Booten auf ryoko dauert ca. 12 Sekunden, bei aqua dauert es noch laenger
 	echo "Warte auf Booten des Access-Points ..."
 	sleep 10
-	local ttydev=$(virsh --quiet ttyconsole "$host")
+	local ttydev
+	ttydev=$(virsh --quiet ttyconsole "$host")
 	# sende Eingaben an die Konsole - sie werden erst durch "virsh console" wirksam
 	# zuerst eine Leerzeile (bzw. "true") um die Konsole zu oeffnen
 	wait_for_ap
@@ -261,7 +264,7 @@ create_virt_config() {
 
 
 run_in_chroot() {
-	chroot "$MOUNTPOINT" "$@" || { umount_system; die 12 "Failed to run command in chroot: $@"; }
+	chroot "$MOUNTPOINT" "$@" || { umount_system; die 12 "Failed to run command in chroot: $*"; }
 	return 0
 }
 
@@ -289,7 +292,7 @@ get_firmware_versions() {
 
 get_url_of_firmware_version() {
 	local version="$1"
-	echo "$AP_FIRMWARE_MAP" | awk '{ if ($1 == "'$version'") print $2 }'
+	echo "$AP_FIRMWARE_MAP" | awk '{ if ($1 == "'"$version"'") print $2 }'
 }
 
 
