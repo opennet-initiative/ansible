@@ -231,18 +231,10 @@ configure_access_point_host_definition() {
 }
 
 
-get_random() {
-	# return a number of random hexadecimal characters
-	uuidgen | sed 's/-//g' | cut -c "1-$1"
-}
-
-
 get_network_mac() {
-	which "uuidgen" >/dev/null || die 5 "Missing requirement: uuidgen"
 	# beware: some prefixes are multicast ones - thus we just pick a good one hard-coded
-	local mac="00:16:3e"
-        for i in 1 2 3; do mac="${mac}:$(get_random 2)"; done
-	echo "$mac"
+	# return a number of random hexadecimal characters
+	shuf -i 0-255 -n 3 | xargs printf "00:16:3e:%02x:%02x:%02x"
 }
 
 
@@ -251,6 +243,7 @@ create_virt_config() {
 	local memory="$2"
 	local target_file="/etc/libvirt/qemu/${host}.xml"
 	local item
+	which "uuidgen" >/dev/null || die 5 "Missing requirement: uuidgen"
 	[ -e "$target_file" ] && die 4 "Host config file '$target_file' exists already - aborting ..."
 	cp "$VIRT_BASE_CONFIG" "$target_file"
 	sed -i "s/__NAME__/$host/g" "$target_file"
