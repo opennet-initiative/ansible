@@ -5,6 +5,7 @@
           - bridge-utils
           # fuer vhost-admin.sh
           - curl
+          - debootstrap
           - libvirt-daemon-system
           - libvirt-clients
           - munin-libvirt-plugins
