@@ -15,6 +15,14 @@
   # "hvm" zu kennen
   notify: restart libvirtd
 
+# das vhost-admin-Skript benoetigt einen ssh-Schluessel
+- name: ssh-Schlüssel für root erzeugen
+  user:
+          name=root
+          generate_ssh_key=yes
+          ssh_key_bits=4096
+          ssh_key_comment="root@{{ short_hostname }}"
+
 - name: vhost-Skript übertragen
   template:
           src=vhost-admin.sh
