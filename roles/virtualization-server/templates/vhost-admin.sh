@@ -8,7 +8,7 @@ VIRT_BASE_CONFIG=/etc/libvirt/qemu/_template.xml
 # file or lvm storage {# keep the 'e' outside the conditional in order to preserve the final linebreak #}
 USE_LVM='{% if virtualization_storage == "lvm" %}tru{% else %}fals{% endif %}e'
 MOUNTPOINT=/tmp/mnt-$(basename "$0")
-DISTRIBUTION=${DISTRIBUTION:-jessie}
+DISTRIBUTION=${DISTRIBUTION:-stretch}
 APT_URL="http://httpredir.debian.org/debian"
 # Zu installierende oder wegzulassende Pakete (komma-separiert)
 # python-apt: fuer ansible
@@ -116,6 +116,8 @@ umount_system() {
 create_debian_system() {
 	local host="$1"
 	local ip="$2"
+	local ifname1
+	local ifname2
 	mount_system "$host"
 	which debootstrap >/dev/null || die 11 "Missing requirement: debootstrap"
 	echo "$DISTRIBUTION" "$MOUNTPOINT" "$APT_URL" 
@@ -125,26 +127,35 @@ create_debian_system() {
 		umount_system
 		die 8 "Debootstrap failed - aborting ..."
 	}
+	if [ "$DISTRIBUTION" = "jessie" ]; then
+		ifname1=eth0
+		ifname2=eth1
+	else
+		# starting with "stretch" the new kernel-based naming scheme is required
+		ifname1=ens3
+		ifname2=ens4
+	fi
 	cat - >"$MOUNTPOINT/etc/network/interfaces" <<-EOF
 		auto lo
 		iface lo inet loopback
 
 		# mesh interface
-		auto eth0
-		iface eth0 inet static
+		auto $ifname1
+		iface $ifname1 inet static
 			address $ip
 			netmask 255.255.0.0
 
 		# internet uplink
-		auto eth1
-		iface eth1 inet dhcp
+		auto $ifname2
+		iface $ifname2 inet dhcp
 EOF
 	cat - >"$MOUNTPOINT/etc/fstab" <<-EOF
 		/dev/sda	/	auto	noatime	0	1
 		/dev/sdb	none	swap	sw	0	0
 EOF
 	# debootstrap erzeugt keine security-Eintraege
-	grep -q security "$MOUNTPOINT/etc/apt/sources.list" || echo "deb http://security.debian.org/ $DISTRIBUTION/updates main" >>"$MOUNTPOINT/etc/apt/sources.list"
+	grep -q security "$MOUNTPOINT/etc/apt/sources.list" \
+		|| echo "deb http://security.debian.org/ $DISTRIBUTION/updates main" >>"$MOUNTPOINT/etc/apt/sources.list"
 	umount_system
 }
 
