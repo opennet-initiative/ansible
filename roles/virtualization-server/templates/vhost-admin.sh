@@ -41,7 +41,7 @@ create_volume() {
 	if "$USE_LVM"; then
 		local vol_name="${host}-${vol_type}"
 		lvs | grep -q "^ *$vol_name " && die 3 "Volume '$vol_name' exists already - aborting ..."
-		lvcreate -n "$vol_name" -L "$size" "$LVM_GROUP"
+		lvcreate --yes -n "$vol_name" -L "$size" "$LVM_GROUP"
 	else
 		local image
 		image=$(get_volume_path "$host" "$vol_type")
@@ -85,6 +85,7 @@ create_host_volumes() {
 	 | while read -r maker vol_type size; do
 		create_volume "$host" "$vol_type" "$size"
 		path=$(get_volume_path "$host" "$vol_type")
+		wipefs -a "$path"
 		"$maker" "$path"
 	 done
 }
