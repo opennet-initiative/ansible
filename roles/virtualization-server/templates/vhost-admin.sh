@@ -6,7 +6,7 @@ LVM_GROUP="{{ virtualization_lvm_group }}"
 RAW_IMAGE_PATH="{{ virtualization_storage_path }}"
 VIRT_BASE_CONFIG=/etc/libvirt/qemu/_template.xml
 USE_LVM='{% if virtualization_storage == "lvm" %}true{% else %}false{% endif %}'
-MOUNTPOINT=/tmp/mnt-$(basename "$0")
+MOUNTPOINT=$(mktemp -d)
 DISTRIBUTION=${DISTRIBUTION:-stretch}
 APT_URL="http://httpredir.debian.org/debian"
 # Zu installierende oder wegzulassende Pakete (komma-separiert)
