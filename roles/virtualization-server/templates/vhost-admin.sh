@@ -139,8 +139,8 @@ create_debian_system() {
 		iface eth1 inet dhcp
 EOF
 	cat - >"$MOUNTPOINT/etc/fstab" <<-EOF
-		/dev/sda	/	auto	noatime,nodiratime	0	1
-		/dev/sdb	none	swap	sw			0	0
+		/dev/sda	/	auto	noatime	0	1
+		/dev/sdb	none	swap	sw	0	0
 EOF
 	# debootstrap erzeugt keine security-Eintraege
 	grep -q security "$MOUNTPOINT/etc/apt/sources.list" || echo "deb http://security.debian.org/ $DISTRIBUTION/updates main" >>"$MOUNTPOINT/etc/apt/sources.list"
