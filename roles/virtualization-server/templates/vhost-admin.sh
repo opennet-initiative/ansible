@@ -31,8 +31,8 @@ AP_FIRMWARE_MAP="\
 
 
 die() {
-        echo "$2" >&2
-        return "$1"
+	echo "$2" >&2
+	return "$1"
 }
 
 
@@ -345,13 +345,13 @@ case "$ACTION" in
 	list-ap-firmware-versions)
 		get_firmware_versions
 		;;
-        help|--help )
-                echo "Usage:"
-                echo "	create-debian HOSTNAME IP"
-                echo "	create-ap HOSTNAME IP IMAGE_URL_OR_TEMPLATE"
-                echo "	remove HOSTNAME"
-                echo "	list"
-                echo "	list-ap-firmware-versions"
+	help|--help )
+		echo "Usage:"
+		echo "	create-debian HOSTNAME IP"
+		echo "	create-ap HOSTNAME IP IMAGE_URL_OR_TEMPLATE"
+		echo "	remove HOSTNAME"
+		echo "	list"
+		echo "	list-ap-firmware-versions"
 		echo
 		;;
 	*)
