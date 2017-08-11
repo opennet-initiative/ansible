@@ -12,5 +12,3 @@ olsr_interfaces:
 olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
   - 139.30.241.206
-
-virtualization_storage: file
