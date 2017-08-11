@@ -357,10 +357,10 @@ case "$ACTION" in
 		prepare_system "$host"
 		;;
 	create-ap)
-		[ "$#" -eq 3 ] || die 3 "Not enough arguments: HOSTNAME IP IMAGE_URL"
+		[ "$#" -eq 3 ] || die 3 "Not enough arguments: HOSTNAME IP [IMAGE_URL]"
 		host="$1"
 		ip="$2"
-		image_url=$(get_url_of_firmware_version "$3")
+		image_url=$(get_url_of_firmware_version "${3:-latest}")
 		[ -z "$image_url" ] && image_url="$3"
 		echo "$host" | grep -q "^[a-z][a-z0-9_-]*$" || die 1 "Hostname contains invalid characters: $host"
 		echo "$ip" | grep -q "^\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}$" || die 2 "invalid IP given: $ip"
