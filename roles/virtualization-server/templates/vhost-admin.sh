@@ -147,13 +147,13 @@ create_debian_system() {
 		iface lo inet loopback
 
 		# mesh interface
-		auto eth0
+		allow-hotplug eth0
 		iface eth0 inet static
 			address $ip
 			netmask 255.255.0.0
 
 		# internet uplink
-		auto eth1
+		allow-hotplug eth1
 		iface eth1 inet dhcp
 EOF
 	cat - >"$MOUNTPOINT/etc/fstab" <<-EOF
