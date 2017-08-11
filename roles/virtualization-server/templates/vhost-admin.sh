@@ -307,6 +307,12 @@ prepare_system() {
 	mount_system "$host"
 	echo "$host" >"$MOUNTPOINT/etc/hostname"
 	echo "127.0.0.1 $host" >> "$MOUNTPOINT/etc/hosts"
+	cat - >"$MOUNTPOINT/etc/resolv.conf" <<-EOF
+		search on
+		nameserver 192.168.0.246
+		nameserver 192.168.0.247
+		nameserver 192.168.0.248
+	EOF
 	# import the server ssh key
 	run_in_chroot mkdir -p /root/.ssh
 	# der root-Nutzer des Virtualisierungsservers hat ohnehin die volle Kontrolle
