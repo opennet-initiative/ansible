@@ -52,7 +52,7 @@
     content={{ mail_hostname }}
     dest=/etc/mailname
 
-- name: System-Emails an Admin-Sammleradresse  versenden
+- name: System-Emails an Admin-Sammleradresse versenden
   # das Quoting ist erforderlich, um die Doppelpunkte zu schuetzen
   lineinfile: 'dest=/etc/aliases state=present regexp="^root:" line="root: {{ admin_email }}"'
   notify: newaliases
