@@ -12,3 +12,10 @@
               regexp='START_OLSRD'
               line='START_OLSRD="YES"'
   notify: restart olsrd
+
+- name: olsrd-Interface 'wlan' abschalten
+  lineinfile: dest=/etc/default/olsrd
+              backrefs=yes
+              regexp='^DAEMON_OPTS=(.*)'
+              line='#DAEMON_OPTS=\1'
+  notify: restart olsrd
