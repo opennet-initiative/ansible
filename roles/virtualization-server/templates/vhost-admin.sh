@@ -306,6 +306,7 @@ prepare_system() {
 	root_path=$(get_volume_path "$host" "root")
 	mount_system "$host"
 	echo "$host" >"$MOUNTPOINT/etc/hostname"
+	echo "127.0.0.1 $host" >> "$MOUNTPOINT/etc/hosts"
 	# import the server ssh key
 	run_in_chroot mkdir -p /root/.ssh
 	# der root-Nutzer des Virtualisierungsservers hat ohnehin die volle Kontrolle
