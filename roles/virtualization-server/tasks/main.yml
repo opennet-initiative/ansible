@@ -9,6 +9,8 @@
           - libvirt-daemon-system
           - libvirt-clients
           - munin-libvirt-plugins
+          # fuer den Client virt-manager
+          - netcat-openbsd
           - qemu-kvm
           - uuid-runtime
   # irgendwie muss libvirtd nach der Installation von "qemu-kvm" neugestartet werden, um
