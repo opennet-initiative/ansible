@@ -1,8 +1,8 @@
 # Die Reihenfolge ist wichtig: zuerst die Voraussetzungen fuer olsr-Routen in
 # separater Tabelle schaffen (Policy Routing Regeln und Firewall-Markierung)
 # und danach olsrd neustarten.
-- name: run rc.local
-  command: /etc/rc.local
+- name: run on-policy-routing-olsr
+  command: /etc/network/if-up.d/on-policy-routing-olsr
 
 - name: restart ferm
   service: name=ferm state=restarted
