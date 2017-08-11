@@ -373,6 +373,8 @@ case "$ACTION" in
 		"$0" help >&2
 		exit 1
 		;;
- esac
+esac
 
+# entferne das temp-Verzeichnis
+umount_system
 exit 0
