@@ -37,3 +37,6 @@
           src=libvirt_host_template.xml
           dest=/etc/libvirt/qemu/_template.xml
           force=no
+
+- include: virt-wan.yml
+  when: virtualization_wan_bridge_interface != ""

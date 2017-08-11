@@ -2,3 +2,6 @@ virtualization_storage_path: /tank
 virtualization_lvm_group: lvm-{{ short_hostname }}
 # "lvm" or "file"
 virtualization_storage: lvm
+# override if virtual hosts use a local private network for accessing the internet
+virtualization_wan_bridge_interface: ""
+virtualization_wan_bridge_address_prefix: "172.16.1"

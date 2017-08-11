@@ -1,0 +1,14 @@
+- name: DHCP-Server für lokales privates Netzwerk installieren
+  apt: pkg=dnsmasq state=present
+
+- name: DHCP-Server für lokales privates Netzwerk konfigurieren
+  template:
+          src=dnsmasq.conf
+          dest=/etc/dnsmasq.d/virt-host.conf
+  notify: restart dnsmasq
+
+- name: Firewall-Regeln für lokales privates Netzwerk setzen
+  template:
+          src=ferm/350_virt_wan.inc
+          dest=/etc/ferm/conf.d/
+  notify: restart ferm

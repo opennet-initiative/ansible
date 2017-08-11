@@ -1,2 +1,8 @@
 - name: restart libvirtd
   service: name=libvirtd state=restarted
+
+- name: restart dnsmasq
+  service: name=dnsmasq state=restarted
+
+- name: restart ferm
+  service: name=ferm state=restarted
