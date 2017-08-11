@@ -321,11 +321,13 @@ prepare_system() {
 	# olsrd-Interface konfigurieren und Daemon aktivieren
 	sed -i 's/^Interface.*$/Interface "eth0"/' "$MOUNTPOINT/etc/olsrd/olsrd.conf"
 	sed -i 's/^#START_OLSRD=.*$/START_OLSRD="YES"/' "$MOUNTPOINT/etc/default/olsrd"
-	# grub installieren
-	# vermeide diskfilter-Fehlermeldung wegen LVM (bezueglich des root-Device des Wirts)
-	echo "(hd0) $root_path" >"$MOUNTPOINT/boot/grub/device.map"
-	run_in_chroot update-grub
-	run_in_chroot grub-install --force "$root_path"
+	# grub installieren (wirft mit jessie eine Fehlermeldung)
+	if [ "$DISTRIBUTION" != "jessie" ]; then
+		# vermeide diskfilter-Fehlermeldung wegen LVM (bezueglich des root-Device des Wirts)
+		echo "(hd0) $root_path" >"$MOUNTPOINT/boot/grub/device.map"
+		run_in_chroot update-grub
+		run_in_chroot grub-install --force "$root_path"
+	fi
 	umount_system
 }
 
