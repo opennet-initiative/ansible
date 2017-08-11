@@ -55,6 +55,10 @@ create_volume() {
 remove_volume() {
 	local host="$1"
 	local vol_type="$2"
+	local path
+	# eventuell haengt das Device von einem frueheren Lauf noch an einem anderen Mountpoint
+	path=$(get_volume_path "$host" "$vol_type")
+	umount "$path" 2>/dev/null || true
 	if "$USE_LVM"; then
 		lvremove -f "$LVM_GROUP/${host}-${vol_type}"
 	else
