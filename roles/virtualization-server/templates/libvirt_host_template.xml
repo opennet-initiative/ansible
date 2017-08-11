@@ -7,9 +7,6 @@
   <vcpu placement='static'>1</vcpu>
   <os>
     <type arch='x86_64' machine='pc-1.1'>hvm</type>
-    <kernel>/boot/vmlinuz</kernel>
-    <initrd>/boot/initrd.img</initrd>
-    <cmdline>root=/dev/sda</cmdline>
     <boot dev='hd'/>
   </os>
   <features>

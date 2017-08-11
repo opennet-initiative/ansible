@@ -7,6 +7,7 @@ RAW_IMAGE_PATH="{{ virtualization_storage_path }}"
 VIRT_BASE_CONFIG=/etc/libvirt/qemu/_template.xml
 USE_LVM='{% if virtualization_storage == "lvm" %}true{% else %}false{% endif %}'
 MOUNTPOINT=$(mktemp -d)
+SUB_MOUNTS="dev proc sys"
 DISTRIBUTION=${DISTRIBUTION:-stretch}
 APT_URL="http://httpredir.debian.org/debian"
 # Zu installierende oder wegzulassende Pakete (komma-separiert)
@@ -108,10 +109,19 @@ mount_system() {
 	mkdir -p "$MOUNTPOINT"
 	mountpoint -q "$MOUNTPOINT" && die 7 "The mountpoint '$MOUNTPOINT' is already in use - aborting ..."
 	mount "$dev" "$MOUNTPOINT" || die 9 "Failed to mount base filesystem '$dev' - aborting ..."
+	for path in $SUB_MOUNTS; do
+		[ -d "$MOUNTPOINT/$path" ] || continue
+		mount --bind "/$path" "$MOUNTPOINT/$path"
+	done
 }
 
 
 umount_system() {
+	local path
+	for path in $SUB_MOUNTS; do
+		mountpoint -q "$MOUNTPOINT/$path" || continue
+		umount "$MOUNTPOINT/$path"
+	done
 	mountpoint -q "$MOUNTPOINT" && umount "$MOUNTPOINT"
 	rmdir "$MOUNTPOINT" 2>/dev/null || true
 	return 0
@@ -282,13 +292,18 @@ create_virt_config() {
 
 
 run_in_chroot() {
-	chroot "$MOUNTPOINT" "$@" || { umount_system; die 12 "Failed to run command in chroot: $*"; }
+	chroot "$MOUNTPOINT" "$@" || {
+		umount_system
+		die 12 "Failed to run command in chroot: $*"
+	}
 	return 0
 }
 
 
 prepare_system() {
 	local host="$1"
+	local root_path
+	root_path=$(get_volume_path "$host" "root")
 	mount_system "$host"
 	echo "$host" >"$MOUNTPOINT/etc/hostname"
 	# import the server ssh key
@@ -299,6 +314,11 @@ prepare_system() {
 	# olsrd-Interface konfigurieren und Daemon aktivieren
 	sed -i 's/^Interface.*$/Interface "eth0"/' "$MOUNTPOINT/etc/olsrd/olsrd.conf"
 	sed -i 's/^#START_OLSRD=.*$/START_OLSRD="YES"/' "$MOUNTPOINT/etc/default/olsrd"
+	# grub installieren
+	# vermeide diskfilter-Fehlermeldung wegen LVM (bezueglich des root-Device des Wirts)
+	echo "(hd0) $root_path" >"$MOUNTPOINT/boot/grub/device.map"
+	run_in_chroot update-grub
+	run_in_chroot grub-install --force "$root_path"
 	umount_system
 }
 
