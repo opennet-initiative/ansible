@@ -132,27 +132,29 @@ create_debian_system() {
 		umount_system
 		die 8 "Debootstrap failed - aborting ..."
 	}
-	if [ "$DISTRIBUTION" = "jessie" ]; then
-		ifname1=eth0
-		ifname2=eth1
-	else
-		# starting with "stretch" the new kernel-based naming scheme is required
-		ifname1=ens3
-		ifname2=ens4
-	fi
+	# starting with "stretch" the new kernel-based naming scheme is required
+	# We override the default names with predictable ethX names.
+	mkdir -p "$MOUNTPOINT/etc/udev/rules.d"
+	virsh dumpxml "$host" \
+			| grep -w "mac address" \
+			| cut -f 2 -d "'" \
+			| nl --starting-line-number=0 \
+			| while read -r id mac; do
+		printf 'SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="%s", NAME="eth%d"\n' "$mac" "$id"
+	done >"$MOUNTPOINT/etc/udev/rules.d/70-persistent-net.rules"
 	cat - >"$MOUNTPOINT/etc/network/interfaces" <<-EOF
 		auto lo
 		iface lo inet loopback
 
 		# mesh interface
-		auto $ifname1
-		iface $ifname1 inet static
+		auto eth0
+		iface eth0 inet static
 			address $ip
 			netmask 255.255.0.0
 
 		# internet uplink
-		auto $ifname2
-		iface $ifname2 inet dhcp
+		auto eth1
+		iface eth1 inet dhcp
 EOF
 	cat - >"$MOUNTPOINT/etc/fstab" <<-EOF
 		/dev/sda	/	auto	noatime	0	1
