@@ -1,0 +1,16 @@
+- name: lokalen DNS-Server installieren
+  apt: pkg={{ item }} state=present
+  with_items:
+          - dnsmasq
+          - resolvconf
+
+- name: lokalen DNS-Server konfigurieren
+  template:
+          src=dnsmasq.conf
+          dest=/etc/dnsmasq.d/dns-zone-resolver.conf
+  notify: restart dnsmasq
+
+- name: resolv.conf auf lokalen DNS-Server verweisen lassen
+  template:
+          src=resolv.conf
+          dest=/etc/resolv.conf

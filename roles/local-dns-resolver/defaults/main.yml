@@ -1,0 +1,11 @@
+# die im Mesh verfügbaren Opennet-DNS-Server werden zur Auflösung der internen Zonen verwendet
+dns_zone_servers:
+        - 192.168.0.246
+        - 192.168.0.247
+        - 192.168.0.248
+
+dns_zone_domains:
+        - "on"
+
+dns_zone_reverse_networks:
+        - 192.168.0.0/16
