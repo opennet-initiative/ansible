@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+30 02	* * *	root	/usr/bin/rsnapshot sync && /usr/bin/rsnapshot beta
+00 01	* * 1	root	/usr/bin/rsnapshot gamma
+30 23	1 * *	root	/usr/bin/rsnapshot delta

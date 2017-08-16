@@ -1,0 +1,7 @@
+# TODO: entfernen, sobald 'akito' offiziell Teil der 'hetzner'-Gruppe ist
+public_dns_resolvers:
+        - 213.133.99.99
+        - 213.133.100.100
+        - 213.133.98.98
+
+backup_storage_rsnapshot_directory: /var/cache/rsnapshot

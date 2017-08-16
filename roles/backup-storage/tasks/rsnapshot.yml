@@ -1,0 +1,20 @@
+- name: rsnapshot - installieren
+  apt: pkg=rsnapshot state=present
+
+- name: rsnapshot - Konfigurationsdatei übertragen
+  template:
+      src=rsnapshot.conf
+      dest=/etc/rsnapshot.conf
+
+- name: rsnapshot - cron-Jobs übertragen
+  template:
+      src=rsnapshot.cron
+      dest=/etc/cron.d/rsnapshot
+
+- name: rsnapshot - ssh-Schlüssel erzeugen
+  user:
+      name=root
+      generate_ssh_key=true
+      ssh_key_bits=4096
+      ssh_key_comment=backup-{{ ansible_hostname }}
+      ssh_key_file=.ssh/backup-storage_rsa

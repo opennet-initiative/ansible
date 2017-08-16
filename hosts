@@ -20,3 +20,8 @@ aqua.on
 
 [hetzner]
 on-v6.on
+
+# Server in dieser Gruppe sind noch nicht bereit fuer die "basic-server"-Rolle
+[not-managed]
+# auf akito wenden wir nur die Rollen "backup-storage" und "dns-zone-resolver" an
+akito.on-i.de

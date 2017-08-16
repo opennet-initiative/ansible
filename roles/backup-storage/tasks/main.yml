@@ -1,0 +1,10 @@
+- include: rsnapshot.yml
+
+- include: encryption.yml
+  when: backup_storage_crypto_device != ""
+
+# bereite alle zu sichernden Hosts vor
+- include: source-hosts.yml
+  with_items: "{{ backup_storage_source_hosts }}"
+  loop_control:
+          loop_var: "backup_source_host"

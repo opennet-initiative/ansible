@@ -1,0 +1,38 @@
+#!/bin/sh
+
+set -eu
+
+CRYPTO_DEVICE="{{ backup_storage_crypto_device }}"
+MOUNT_POINTS="/media/backup/rsnapshot"
+
+
+ACTION="${1:-help}"
+
+
+case "$ACTION" in
+	start)
+		cryptdisks_start "$CRYPTO_DEVICE"
+		for mnt in $MOUNT_POINTS; do mountpoint -q "$mnt" || mount "$mnt"; done
+		;;
+	stop)
+		for mnt in $MOUNT_POINTS; do mountpoint -q "$mnt" && umount "$mnt"; done
+		cryptdisks_stop "$CRYPTO_DEVICE"
+		;;
+	restart)
+		"$0" stop
+		"$0" start
+		;;
+	status)
+		# liefere Erfolg (initialisiert) oder Fehler (noch nicht initialisiert) zurueck
+		for mnt in $MOUNT_POINTS; do mountpoint -q "$mnt" && exit 0; done
+		exit 1
+		;;
+	help|--help)
+		echo "Syntax:  $(basename "$0")  { start | stop | restart | status | help }"
+		echo
+		;;
+	*)
+		"$0" help >&2
+		exit 1
+		;;
+esac
