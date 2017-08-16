@@ -9,7 +9,7 @@ backup_storage_source_hosts:
   # Frieda23
   # hetzner
   - akito.on-i.de
-  - on-v6.on
+  - on-v6.on-i.de
   - subaru.on
   # extern
   - erina.on
