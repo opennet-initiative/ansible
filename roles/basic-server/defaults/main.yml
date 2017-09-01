@@ -1,9 +1,10 @@
 # Achtung: die Netzwerkmaske ist obligatorisch (siehe munin-node.conf)
 # Alle Netzbereiche werden in die Zulassungsliste aufgenommen.
 # Doppelte Nennungen (verschiedene IPs eines Servers) sind also zulaessig.
+# Aktuell verwenden wir folgende munin-Sammler:
+#   * howmei (192.168.10.13) - virtualisiert auf aqua (139.30.241.206)
 munin_servers:
-  - 139.30.241.204/32
-  - 192.168.10.4/32
+  - 139.30.241.206/32
   - 192.168.10.13/32
 
 munin_plugins: []
