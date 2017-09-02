@@ -9,8 +9,9 @@
   roles:
     - virtualization-server
 
-- hosts: akito.on-i.de
-  roles:
-    # TODO: die Rolle 'local-dns-resolver' auf alle Hosts uebertragen
-    - local-dns-resolver
-    - backup-storage
+# TODO: vorerst abgeschaltet (wegen Monitoring-Warnungen auf akito); Umzug zu aqua
+# hosts: akito.on-i.de
+# roles:
+#   # TODO: die Rolle 'local-dns-resolver' auf alle Hosts uebertragen
+#   - local-dns-resolver
+#   - backup-storage
