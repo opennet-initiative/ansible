@@ -5,7 +5,7 @@
     - role: letsencrypt
       when: letsencrypt_certificates is defined
 
-- hosts: ryoko.on:aqua.on:jun.on
+- hosts: ryoko.on:aqua.on
   roles:
     - virtualization-server
 

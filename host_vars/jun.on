@@ -6,3 +6,12 @@ olsr_main_ip: 192.168.10.14
 
 olsr_interfaces:
   - { name: "eth0" }
+
+# die web-API auf yurika benoetigt Zugang zu einer aktuellen ondataservice-Datenbank
+olsr_extra_settings: |
+  LoadPlugin "olsrd_ondataservice.so.0.1"
+  {
+  	PlParam	"interval"	"120"
+  	PlParam	"receive"	"true"
+  	PlParam	"database"	"/var/run/olsrd/ondataservice.db"
+  }
