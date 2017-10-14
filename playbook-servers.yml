@@ -9,6 +9,10 @@
   roles:
     - virtualization-server
 
+- hosts: jun.on
+  roles:
+    - domain-proxy
+
 # TODO: vorerst abgeschaltet (wegen Monitoring-Warnungen auf akito); Umzug zu aqua
 # hosts: akito.on-i.de
 # roles:
