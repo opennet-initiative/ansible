@@ -19,3 +19,14 @@ olsr_extra_settings: |
   	PlParam	"receive"	"true"
   	PlParam	"database"	"/var/run/olsrd/ondataservice.db"
   }
+
+letsencrypt_certificates:
+- {primary: api.opennet-initiative.de, other: api.on-i.de}
+
+olsr_nameservice_announcements:
+  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.opennet-initiative.de"
+  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.on-i.de"
+  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.on"
+  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.opennet-initiative.de"
+  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.on-i.de"
+  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.on"
