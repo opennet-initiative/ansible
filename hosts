@@ -1,9 +1,3 @@
-[frieda23]
-howmei.on
-itsuki.on
-ruri.on
-ryoko.on
-
 [ugw-server]
 erina.on-i.de
 megumi.on-i.de
@@ -17,6 +11,12 @@ inez.on
 jun.on
 minato.on
 yurika.on
+ruri.on
+howmei.on
+
+[frieda23]
+#itsuki.on
+ruri.on
 
 [hetzner]
 on-v6.on
