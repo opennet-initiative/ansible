@@ -367,7 +367,7 @@ case "$ACTION" in
 		echo "$host" | grep -q "^[a-z][a-z0-9_-]*$" || die 1 "Hostname contains invalid characters: $host"
 		echo "$ip" | grep -q "^\([0-9]\{1,3\}\.\)\{3\}[0-9]\{1,3\}$" || die 2 "invalid IP given: $ip"
 		create_access_point_volume "$host"
-		create_virt_config "$host" "$((64*1024))"
+		create_virt_config "$host" "$((128*1024))"
 		create_access_point_image "$host" "$image_url"
 		configure_access_point_host_definition "$host"
 		configure_access_point_networking "$host" "$ip"
