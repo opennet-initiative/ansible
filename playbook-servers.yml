@@ -1,11 +1,11 @@
-- hosts: frieda23:ae22:hetzner
+- hosts: ae22:frieda23:hetzner
   roles:
     - role: basic-server
     - role: olsr-node
     - role: letsencrypt
       when: letsencrypt_certificates is defined
 
-- hosts: ryoko.on:aqua.on
+- hosts: ryoko.on:aqua.on:tamago.on
   roles:
     - virtualization-server
 
