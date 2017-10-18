@@ -22,6 +22,7 @@ olsr_extra_settings: |
 
 letsencrypt_certificates:
 - {primary: api.opennet-initiative.de, other: api.on-i.de}
+- {primary: map.opennet-initiative.de, other: map.on-i.de}
 
 olsr_nameservice_announcements:
   - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.opennet-initiative.de"
@@ -30,3 +31,9 @@ olsr_nameservice_announcements:
   - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.opennet-initiative.de"
   - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.on-i.de"
   - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.on"
+  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http map.opennet-initiative.de"
+  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http map.on-i.de"
+  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http map.on"
+  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.opennet-initiative.de"
+  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.on-i.de"
+  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.on"
