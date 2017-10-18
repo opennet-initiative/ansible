@@ -15,9 +15,10 @@ olsr_hna_announcements_ipv4:
 olsr_extra_settings: |
   LoadPlugin "olsrd_ondataservice.so.0.1"
   {
-  	PlParam	"interval"	"120"
-  	PlParam	"receive"	"true"
-  	PlParam	"database"	"/var/run/olsrd/ondataservice.db"
+      PlParam "interval" "120"
+      PlParam "receive" "true"
+      PlParam "database" "/var/run/olsrd/ondataservice.db"
+      PlParam "dbcreatescript" "/usr/sbin/ondataservice-create-database"
   }
 
 letsencrypt_certificates:
