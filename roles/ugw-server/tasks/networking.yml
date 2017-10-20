@@ -14,7 +14,7 @@
 # bei einer Aenderung der olsr_main_ip loeschen wir den lo:0-Eintrag aus der interfaces-Datei
 - name: konfligierende Main-IP entfernen
   command: sed -i '/^auto lo:0$/,/netmask/d' /etc/network/interfaces
-  when: ansible_lo_0 is defined and ansible_lo_0["ipv4"]["address"] != "{{ olsr_main_ip }}"
+  when: ansible_lo_0 is defined and ansible_lo_0["ipv4"]["address"] != olsr_main_ip
   notify: deactivate olsr_main_ip
 
 - name: Main-IP als Alias auf loopback-Interface konfigurieren
@@ -22,7 +22,7 @@
               dest=/etc/network/interfaces
               regexp="^auto lo:0$"
               line="auto lo:0\niface lo:0 inet static\n\taddress {{ olsr_main_ip }}\n\tnetmask 255.255.255.255\n"
-  when: ansible_lo_0 is not defined or ansible_lo_0["ipv4"]["address"] != "{{ olsr_main_ip }}"
+  when: ansible_lo_0 is not defined or ansible_lo_0["ipv4"]["address"] != olsr_main_ip
   notify:
    - activate olsr_main_ip
    # olsrd ignoriert nameservice-Eintraege ohne aktive olsr_main_ip - also nochmal neustarten
