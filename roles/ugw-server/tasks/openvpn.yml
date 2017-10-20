@@ -13,12 +13,24 @@
         group=openvpn
         system=yes
 
-- name: Log-Verzeichnis anlegen
+- name: Log-Verzeichnis anlegen (vor stretch)
   file: state=directory
         dest=/var/log/openvpn
         owner=openvpn
-        group=openvpn 
+        group=openvpn
         mode=700
+  when: ansible_distribution_release != "stretch"
+
+# Beim Anlegen der Status-Dateien wird seit openvpn v2.4 der Besitzer (root?) und nicht mehr die
+# aktuellen Rechte geprueft. Somit muss der Besitzer des Verzeichnis "root" sein (anstelle des
+# vorherigen "openvpn").
+- name: Log-Verzeichnis anlegen (stretch)
+  file: state=directory
+        dest=/var/log/openvpn
+        owner=root
+        group=root
+        mode=700
+  when: ansible_distribution_release == "stretch"
 
 - name: Diffie-Hellmann initialisieren
   command: creates=/etc/openvpn/dh2048.pem openssl dhparam -out /etc/openvpn/dh2048.pem 2048
