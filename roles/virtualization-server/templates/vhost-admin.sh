@@ -239,8 +239,11 @@ configure_access_point_networking() {
 			uci set network.on_eth_0.ipaddr="$ip"
 			uci commit
 			reload_config
+			on-function set_opennet_id "${ip#192.168.}"
+			reload_config
 		EOF2
 		chmod +x "/etc/uci-defaults/99-virt-init"
+		/etc/uci-defaults/99-virt-init && rm /etc/uci-defaults/99-virt-init
 EOF1
 	# nur bei existierendem Rueckgabekanal werden die obigen Eingaben verarbeitet
 	timeout 10 cat "$ttydev" >/dev/null 2>&1 || true
