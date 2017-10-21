@@ -30,13 +30,11 @@
         dest=/var/www/vpnstatus
 
 - name: vpnstatus - PHP-Skript uebertragen
-  copy: force=yes
-        src=openvpn/openvpn_clients.php
+  copy: src=openvpn/openvpn_clients.php
         dest=/var/www/vpnstatus/
 
 - name: vpnstatus - PHP-Konfiguration uebertragen
-  template: force=yes
-            src=vpnstatus.php
+  template: src=vpnstatus.php
             dest=/var/www/vpnstatus/index.php
 
 - name: vpnstatus - regelmäßig neu erstellen
