@@ -24,5 +24,6 @@
 - name: deactivate olsr_main_ip
   command: ifdown lo:0
 
+# "ifup" schlaegt fehl, falls es bereits aktiv war - das wollen wir tolerieren
 - name: activate olsr_main_ip
-  command: ifup lo:0
+  shell: ifup lo:0 || true
