@@ -1,11 +1,11 @@
 short_hostname: yurika
 
-wan_interface: eth0
+wan_interface: eth1
 
 olsr_main_ip: 192.168.10.4
 
 olsr_interfaces:
-  - { name: "eth1" }
+  - { name: "eth0" }
 
 olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
