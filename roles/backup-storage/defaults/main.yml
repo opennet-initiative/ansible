@@ -2,16 +2,16 @@ backup_storage_source_hosts:
   # AE22
   - heartofgold.on
   - howmei.on
-  - minato.on
   - ruri.on
   - tamago.on
   - yurika.on
-  # Frieda23
-  # hetzner
+  # F23
+  - server-mathias
+  - server-christoph
+  # Extern
   - akito.on-i.de
   - on-v6.on-i.de
   - subaru.on
-  # extern
   - erina.on
   - megumi.on
         

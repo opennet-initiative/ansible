@@ -13,6 +13,10 @@
   roles:
     - domain-proxy
 
+- hosts: inez.on
+  roles:
+    - backup-storage
+
 # TODO: vorerst abgeschaltet (wegen Monitoring-Warnungen auf akito); Umzug zu aqua
 # hosts: akito.on-i.de
 # roles:
