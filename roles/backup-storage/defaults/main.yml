@@ -6,8 +6,8 @@ backup_storage_source_hosts:
   - tamago.on
   - yurika.on
   # F23
-  - server-mathias
-  - server-christoph
+  - server-mathias.on
+  - server-christoph.on
   # Extern
   - akito.on-i.de
   - on-v6.on-i.de
