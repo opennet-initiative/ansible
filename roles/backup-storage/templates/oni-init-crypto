@@ -3,7 +3,7 @@
 set -eu
 
 CRYPTO_DEVICE="{{ backup_storage_crypto_device }}"
-MOUNT_POINTS="/media/backup/rsnapshot"
+MOUNT_POINTS="{{ backup_storage_crypto_mount_points|join(' ') }}"
 
 
 ACTION="${1:-help}"
