@@ -73,6 +73,7 @@ map $http_host $on_dynamic_domain_source {
 
 server {
 	listen 80;
+	listen [::]:80;
 
 %s
 

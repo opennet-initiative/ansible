@@ -1,4 +1,7 @@
 server {
+	listen 80;
+	listen [::]:80;
+
 	server_name {{ short_hostname }}.opennet-initiative.de;
 	server_name {{ short_hostname }}.on-i.de;
 	server_name {{ short_hostname }}.on;
