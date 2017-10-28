@@ -3,6 +3,12 @@
 - include: encryption.yml
   when: backup_storage_crypto_device != ""
 
+- name: öffentlichen ssh-Schlüssel des Backup-Sammlers abholen
+  command: cat {{ backup_storage_ssh_public_key_path | quote }}
+  register: backup_storage_ssh_public_key
+  changed_when: False
+  check_mode: False
+
 # bereite alle zu sichernden Hosts vor
 - include: source-hosts.yml
   with_items: "{{ backup_storage_source_hosts }}"
