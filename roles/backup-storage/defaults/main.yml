@@ -20,3 +20,6 @@ backup_storage_rsnapshot_directory: /media/backup/rsnapshot
 # überschreiben, falls ein verschlüsselter Datenträger verwendet wird
 backup_storage_crypto_device: ""
 backup_storage_crypto_mount_points: []
+
+backup_storage_ssh_private_key_path: /root/.ssh/backup-storage_rsa
+backup_storage_ssh_public_key_path: "{{ backup_storage_ssh_private_key_path }}.pub"

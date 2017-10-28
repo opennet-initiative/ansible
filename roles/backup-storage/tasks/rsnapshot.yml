@@ -17,4 +17,4 @@
       generate_ssh_key=true
       ssh_key_bits=4096
       ssh_key_comment=backup-{{ ansible_hostname }}
-      ssh_key_file=.ssh/backup-storage_rsa
+      ssh_key_file={{ backup_storage_ssh_public_key_path }}
