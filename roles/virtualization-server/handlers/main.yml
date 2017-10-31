@@ -6,3 +6,7 @@
 
 - name: restart ferm
   service: name=ferm state=restarted
+
+# systemd kennt "reload" nicht - also "restart"
+- name: restart procps
+  service: name=procps state=restarted

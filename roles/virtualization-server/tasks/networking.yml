@@ -1,0 +1,11 @@
+- name: Bridges ohne Firewall-Regeln
+  copy:
+          src=sysctl.conf
+          dest=/etc/sysctl.d/on-virtualization-server.conf
+  notify: restart procps
+
+# das Bridge-Modul ist insbesondere für systemd relevant (es wird nur on-demand geladen)
+- name: bridge-Modul früh laden
+  copy:
+          dest=/etc/modules-load.d/on-bridge.conf
+          content="{{ "bridge" if ansible_distribution_release == "jessie" else "br_netfilter" }}\n"

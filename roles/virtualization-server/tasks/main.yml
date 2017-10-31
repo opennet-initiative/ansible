@@ -1,3 +1,4 @@
+- include: networking.yml
 - include: vhost-admin.yml
 - include: virt-wan.yml
   when: virtualization_wan_bridge_interface != ""
