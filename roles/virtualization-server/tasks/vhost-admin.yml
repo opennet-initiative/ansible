@@ -1,0 +1,39 @@
+- name: Virtualisierungspakete installieren
+  apt: pkg={{ item }} state=present install_recommends=no
+  with_items:
+          # die meisten Server konfigurieren Bridges
+          - bridge-utils
+          # fuer vhost-admin.sh
+          - curl
+          - debootstrap
+          - libvirt-daemon-system
+          - libvirt-clients
+          - munin-libvirt-plugins
+          # fuer den Client virt-manager
+          - netcat-openbsd
+          - qemu-kvm
+          - uuid-runtime
+  # irgendwie muss libvirtd nach der Installation von "qemu-kvm" neugestartet werden, um
+  # "hvm" zu kennen
+  notify: restart libvirtd
+
+# das vhost-admin-Skript benoetigt einen ssh-Schluessel
+- name: ssh-Schlüssel für root erzeugen
+  user:
+          name=root
+          generate_ssh_key=yes
+          ssh_key_bits=4096
+          ssh_key_comment="root@{{ short_hostname }}"
+
+- name: vhost-Skript übertragen
+  template:
+          src=vhost-admin.sh
+          dest=/usr/local/sbin/
+          mode=755
+
+- name: libvirt-Template übertragen
+  # force=no: nur einmalig übertragen, um Netzwerk- und Emulatoranpassungen zu ermöglichen
+  template:
+          src=libvirt_host_template.xml
+          dest=/etc/libvirt/qemu/_template.xml
+          force=no
