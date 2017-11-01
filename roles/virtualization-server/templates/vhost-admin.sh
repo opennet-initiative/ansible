@@ -9,7 +9,7 @@ USE_LVM='{% if virtualization_storage == "lvm" %}true{% else %}false{% endif %}'
 MOUNTPOINT=$(mktemp -d)
 SUB_MOUNTS="dev proc sys"
 DISTRIBUTION=${DISTRIBUTION:-stretch}
-APT_URL="http://httpredir.debian.org/debian"
+APT_URL="http://ftp.de.debian.org/debian"
 # Zu installierende oder wegzulassende Pakete (komma-separiert)
 # python-apt: fuer ansible
 # olsrd: Mesh-Routing
