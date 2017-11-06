@@ -34,11 +34,23 @@ domain (ip ip6) table filter {
 	}
 }
 
+
 domain ip chain FORWARD outerface $IF_OLSR {
-	# Weiterleitung von User-VPN nach Opennet Mesh erlauben
-	# (Sonderfall VPN von Externen Mobilen Clients ausserhalb vom Mesh)
-	interface $IF_ON_USERS saddr 10.1.8.0/22 daddr 192.168.0.0/16 ACCEPT;
+	# Weiterleitung von User-VPN nach Opennet Mesh
+	interface $IF_ON_USERS {
+		# - Sonderfall VPN von externen Mobilen VPN-Clients (192.168.7.0/24):
+		saddr 10.1.8.0/22 daddr 192.168.0.0/16 ACCEPT;
+		# - kein Verkehr anderer Clients (z.B. offener Zugangspunkte) in Richtung regulaerer Mesh-IPs
+		daddr 192.168.0.0/16 REJECT;
+		# - alle anderen (HNA-) IPs sind jedoch erreichbar
+		#   Beispiel-Ziele: Opennet-Server mit oeffentlicher IP im Mesh-Routing
+		#   Dies ist noetig fuer:
+		#     - offene Zugangspunkte: leiten ihren gesamten Verkehr in den Tunnel
+		#     - Firmware vor v0.5.x: jeglicher Verkehr (bis auf 192.168.0.0/16 als Ziel) geht in den Tunnel
+		ACCEPT;
+	}
 }
+
 
 domain ip chain FORWARD outerface $IF_WAN {
 	# keine Weiterleitung an nicht-oeffentliche IP-Bereiche
@@ -85,8 +97,7 @@ domain ip table nat {
 		# private Opennet-IP-Adresse nicht nach aussen dringen lassen
 		outerface $IF_WAN saddr (192.168.0.0/16 10.0.0.0/8) MASQUERADE;
 		# Zugriff von User-VPN auf Opennet Mesh via NAT ermoeglichen 
-		# # (Sonderfall VPN von Externen Mobilen Clients ausserhalb vom Mesh)
-		outerface $IF_OLSR saddr 10.1.8.0/22 MASQUERADE;
+		outerface $IF_OLSR saddr 10.1.0.0/16 MASQUERADE;
 	}
 }
 
