@@ -6,3 +6,8 @@ olsr_main_ip: 192.168.10.3
 
 olsr_interfaces:
   - { name: "eth0" }
+
+backup_storage_crypto_device: /dev/sdc
+
+backup_storage_crypto_mount_points:
+  - /media/backup
