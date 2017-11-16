@@ -8,7 +8,7 @@ olsr_interfaces:
   - { name: "eth0" }
 
 letsencrypt_certificates:
-  - {primary: luftdaten.opennet-initiative.de, other: luftdaten.on-i.de luftdaten.rostock.freifunk.net luftdaten.schwerin.freifunk.net downloads.wismar.freifunk.net}
+  - {primary: luftdaten.opennet-initiative.de, other: luftdaten.on-i.de luftdaten.rostock.freifunk.net luftdaten.schwerin.freifunk.net luftdaten.wismar.freifunk.net}
 
 olsr_nameservice_announcements:
   - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http luftdaten.opennet-initiative.de"
