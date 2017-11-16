@@ -6,3 +6,18 @@ olsr_main_ip: 192.168.5.1
 
 olsr_interfaces:
   - { name: "eth0" }
+
+letsencrypt_certificates:
+  - {primary: luftdaten.opennet-initiative.de, other: luftdaten.on-i.de luftdaten.rostock.freifunk.net luftdaten.schwerin.freifunk.net downloads.wismar.freifunk.net}
+
+olsr_nameservice_announcements:
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http luftdaten.opennet-initiative.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http luftdaten.on-i.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http luftdaten.rostock.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http luftdaten.schwerin.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http luftdaten.wismar.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https luftdaten.opennet-initiative.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https luftdaten.on-i.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https luftdaten.rostock.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https luftdaten.schwerin.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https luftdaten.wismar.freifunk.net"
