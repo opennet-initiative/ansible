@@ -1,3 +1,6 @@
+- name: Verschlüsselung - cryptsetup installieren
+  apt: pkg=cryptsetup state=present install_recommends=no
+
 - name: Verschlüsselung - Skript kopieren
   template:
       src=oni-init-crypto
