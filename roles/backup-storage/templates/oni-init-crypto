@@ -13,6 +13,7 @@ case "$ACTION" in
 	start)
 		cryptdisks_start "$CRYPTO_DEVICE"
 		for mnt in $MOUNT_POINTS; do mountpoint -q "$mnt" || mount "$mnt"; done
+		mkdir -p "{{ backup_storage_rsnapshot_directory }}"
 		;;
 	stop)
 		for mnt in $MOUNT_POINTS; do mountpoint -q "$mnt" && umount "$mnt"; done

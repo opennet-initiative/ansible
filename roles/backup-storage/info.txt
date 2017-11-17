@@ -25,7 +25,7 @@ Vorbereitungsschritte:
    backup-storage /dev/sdX none luks,noauto
 4. das Unterverzeichnis "rsnapshot" im Crypto-Container anlegen:
    (daran erkennt rsnapshot ob das Crypto-Volume gemountet ist)
-   oni-init-crypto start && mkdir -p /media/backup/rsnapshot
+   oni-init-crypto start
 
 Erweiterung der Ansible-Konfiguration des Backup-Servers (host_vars/HOSTNAME):
    backup_storage_crypto_device: backup-storage
