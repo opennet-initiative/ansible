@@ -1,20 +1,24 @@
 backup_storage_source_hosts:
-  # AE22
+  # Virtualization
+  #- tamago.on
+  - aqua.on
+  - royoko.on
+  - akito.on-i.de
+  # Services
+  - on-v6.on-i.de
   - heartofgold.on
   - howmei.on
   - ruri.on
-  - tamago.on
   - yurika.on
-  # F23
-  - server-mathias.on
-  - server-christoph.on
-  # Extern
-  - akito.on-i.de
-  - on-v6.on-i.de
+  - jun.on
+  # Gateways
   - subaru.on
   - erina.on
   - megumi.on
-        
+  # Other
+  - server-mathias.on
+  - server-christoph.on  
+      
 backup_storage_rsnapshot_directory: /media/backup/rsnapshot
 
 # überschreiben, falls ein verschlüsselter Datenträger verwendet wird
