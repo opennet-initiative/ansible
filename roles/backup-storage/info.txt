@@ -28,7 +28,7 @@ Vorbereitungsschritte:
    oni-init-crypto start && mkdir -p /media/backup/rsnapshot
 
 Erweiterung der Ansible-Konfiguration des Backup-Servers (host_vars/HOSTNAME):
-   backup_storage_crypto_device: /dev/sdX
+   backup_storage_crypto_device: backup-storage
    backup_storage_crypto_mount_points:
      - /media/backup
 
