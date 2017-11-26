@@ -11,6 +11,7 @@ backup_storage_source_hosts:
   - on-v6.on-i.de
   - ruri.on
   - yurika.on
+  - izumi.on
   # Gateways
   - erina.on
   - megumi.on
