@@ -1,3 +1,30 @@
 - name: Willkommensnachricht uebertragen
   template: src=motd
             dest=/etc/motd
+
+# FIXME: Funktion bisher nicht erfolgreich
+#- name: Zeitzone setzen
+#  timezone:
+#    name: "{{ opennet_timezone }}"
+
+- name: Zeitzone setzen
+  replace:
+    path: /etc/timezone
+    regexp: 'Etc/UTC'
+    replace: '{{ opennet_timezone }}'
+
+- name: Localtime setzen
+  file: 
+    path: /etc/localtime
+    src: /usr/share/zoneinfo/{{ opennet_timezone }} 
+    state: link 
+    force: yes
+
+- name: Locale konfigurieren
+  locale_gen:
+    name: "{{ opennet_locale }}"
+    state: present
+
+# FIXME: nur setzen, wenn notwendig (/etc/defailt/locale)
+- name: Locale setzen
+  command: update-locale LANG={{ opennet_locale }}

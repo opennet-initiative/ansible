@@ -18,3 +18,7 @@ opennet_ca_crl_list:
 mail_domain: "opennet-initiative.de"
 mail_hostname: "{{ short_hostname }}.{{ mail_domain }}"
 mail_relay_host: relayhost.opennet-initiative.de
+
+# Lokalisierung
+opennet_timezone: Europe/Berlin
+opennet_locale: de_DE.UTF-8
