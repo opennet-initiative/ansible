@@ -9,5 +9,6 @@ set -eu
 if [ "$1" = "deploy_cert" ]; then
 	[ -x /usr/sbin/apache2 ] && /usr/sbin/service apache2 reload
 	[ -x /usr/sbin/nginx ] && /usr/sbin/service nginx reload
+	[ -x /usr/sbin/ircd-hybrid ] && /usr/sbin/service ircd-hybrid reload
 	true
 fi
