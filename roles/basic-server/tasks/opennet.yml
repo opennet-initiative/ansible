@@ -18,11 +18,14 @@
     state: link
   notify: reconfigure tzdata
 
-- name: Locale konfigurieren
+- name: Locale erzeugen
   locale_gen:
     name: "{{ opennet_locale }}"
     state: present
 
-# FIXME: nur setzen, wenn notwendig (/etc/defailt/locale)
-- name: Locale setzen
+- name: Locale konfigurieren
   command: update-locale LANG={{ opennet_locale }}
+  # Wir könnten in die /etc/default/locale schauen, ob die Handlung notwendig ist, aber damit
+  # müssten wir Interna von update-locale nachbilden.
+  # Also lieber immer ausführen ohne Änderungen zu berichten.
+  changed_when: False
