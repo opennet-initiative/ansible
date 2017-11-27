@@ -2,23 +2,21 @@
   template: src=motd
             dest=/etc/motd
 
-# FIXME: Funktion bisher nicht erfolgreich
+# Das Modul funktioniert unter Debian aktuell nicht, da es /etc/timezone statt /etc/localtime
+# bearbeitet:
+#   https://github.com/ansible/ansible/pull/27546 (unvollstaendig geloest im Oktober 2017)
+# Stattdessen verwenden wir vorerst den manuellen (und korrekten) Weg (via /etc/localtime):
+#   https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=813226#10
 #- name: Zeitzone setzen
 #  timezone:
 #    name: "{{ opennet_timezone }}"
 
 - name: Zeitzone setzen
-  replace:
-    path: /etc/timezone
-    regexp: 'Etc/UTC'
-    replace: '{{ opennet_timezone }}'
-
-- name: Localtime setzen
-  file: 
+  file:
     path: /etc/localtime
-    src: /usr/share/zoneinfo/{{ opennet_timezone }} 
-    state: link 
-    force: yes
+    src: /usr/share/zoneinfo/{{ opennet_timezone }}
+    state: link
+  notify: reconfigure tzdata
 
 - name: Locale konfigurieren
   locale_gen:

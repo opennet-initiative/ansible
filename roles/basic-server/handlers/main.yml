@@ -15,3 +15,6 @@
 
 - name: newaliases
   command: newaliases
+
+- name: reconfigure tzdata
+  command: dpkg-reconfigure --frontend noninteractive tzdata
