@@ -9,6 +9,19 @@ set -eu
 if [ "$1" = "deploy_cert" ]; then
 	[ -x /usr/sbin/apache2 ] && /usr/sbin/service apache2 reload
 	[ -x /usr/sbin/nginx ] && /usr/sbin/service nginx reload
-	[ -x /usr/sbin/ircd-hybrid ] && /usr/sbin/service ircd-hybrid reload
+	if [ -x /usr/sbin/ircd-hybrid ]; then
+		# irdc-hybrid startet als nicht-root-Nutzer - hat also keinen Lesezugriff auf die Zertifikate
+		# Wir ermitteln die zu kopierende Zertifikatsdomain (/var/lib/dehydrated/certs/*)
+		# aus dem Dateienamen (ohne ".key"-Erweiterung) fuer alle Dateien /etc/ircd-hybrid/key/*.key.
+		cert_dir=/etc/ircd-hybrid/key
+		find "$cert_dir" -maxdepth 1 -type f -name "*.key" | while read fname; do
+			cert_domain=$(basename "${fname%.key}")
+			cp "/var/lib/dehydrated/certs/$cert_domain/privkey.pem" "$cert_dir/${cert_domain}.key"
+			cp "/var/lib/dehydrated/certs/$cert_domain/fullchain.pem" "$cert_dir/${cert_domain}.crt"
+			chmod 400 "$cert_dir/${cert_domain}.key" "$cert_dir/${cert_domain}.pem"
+			chown irc "$cert_dir/${cert_domain}.key" "$cert_dir/${cert_domain}.pem"
+		done
+		/usr/sbin/service ircd-hybrid reload
+	fi
 	true
 fi
