@@ -155,7 +155,7 @@ interface FastEthernet0
  ipv6 enable
 !
 interface GigabitEthernet1/0/1
- description server/tamago
+ description server/titan
  switchport trunk allowed vlan 100,350-354,362
  switchport trunk encapsulation dot1q
  switchport mode trunk
@@ -171,7 +171,12 @@ interface GigabitEthernet1/0/2
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/3
- shutdown
+ description server/tamago
+ switchport trunk allowed vlan 100,350-354,362
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ macro description server
+ spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/4
  shutdown
@@ -328,7 +333,11 @@ interface GigabitEthernet1/0/37
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/38
- shutdown
+  description server/tamago-ipmi
+ switchport access vlan 100
+ switchport mode access
+ macro description uniro-mesh
+ spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/39
  shutdown
