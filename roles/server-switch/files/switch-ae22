@@ -333,7 +333,7 @@ interface GigabitEthernet1/0/37
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/38
-  description server/tamago-ipmi
+ description server/tamago-ipmi
  switchport access vlan 100
  switchport mode access
  macro description uniro-mesh
