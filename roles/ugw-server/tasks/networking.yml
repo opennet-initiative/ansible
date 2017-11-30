@@ -11,18 +11,20 @@
     - { key: "net.ipv4.conf.all.rp_filter", value: 2}
   notify: restart sysctl
 
-# Die Konfiguration der Main-IP via /etc/network/interfaces funktioniert nicht zuverlässig, da
-# beispielsweise strato auf seinen vServern diese Datei beim Booten überschreibt.
-# Die Ausführung des "ip addr add"-Kommandos darf fehlschlagen ("|| true"), falls die Adresse
-# bereits konfiguriert ist - andernfalls könnte eine Ausführung des "run rc.local"-Handlers
-# unerwünschterweise zum Abbruch führen.
-- name: Main-IP auf loopback-Interface konfigurieren
-  lineinfile:
-          path=/etc/rc.local
-          regexp="^ip addr add [0-9.]+/32 dev lo.*"
-          line="ip addr add {{ olsr_main_ip }}/32 dev lo || true"
-          insertbefore="exit 0"
+# bei einer Aenderung der olsr_main_ip loeschen wir den lo:0-Eintrag aus der interfaces-Datei
+- name: konfligierende Main-IP entfernen
+  command: sed -i '/^auto lo:0$/,/netmask/d' /etc/network/interfaces
+  when: ansible_lo_0 is defined and ansible_lo_0["ipv4"]["address"] != olsr_main_ip
+  notify: deactivate olsr_main_ip
+
+- name: Main-IP als Alias auf loopback-Interface konfigurieren
+  lineinfile: state=present
+              dest=/etc/network/interfaces
+              regexp="^auto lo:0$"
+              line="auto lo:0\niface lo:0 inet static\n\taddress {{ olsr_main_ip }}\n\tnetmask 255.255.255.255\n"
+  when: ansible_lo_0 is not defined or ansible_lo_0["ipv4"]["address"] != olsr_main_ip
   notify:
-    - run rc.local
-    # olsrd ignoriert nameservice-Eintraege ohne aktive olsr_main_ip - also nochmal neustarten
-    - restart olsrd
+   - activate olsr_main_ip
+   # olsrd ignoriert nameservice-Eintraege ohne aktive olsr_main_ip - also nochmal neustarten
+   - restart olsrd
+

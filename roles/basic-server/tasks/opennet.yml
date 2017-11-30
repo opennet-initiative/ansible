@@ -18,9 +18,6 @@
     state: link
   notify: reconfigure tzdata
 
-- name: locales-Paket installieren
-  apt: pkg=locales state=present
-
 - name: Locale erzeugen
   locale_gen:
     name: "{{ opennet_locale }}"
