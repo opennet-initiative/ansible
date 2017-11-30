@@ -19,11 +19,8 @@
 - name: restart openbsd-inetd
   service: name=openbsd-inetd state=restarted
 
-# der "deactivate"-Handler muss vor dem "activate"-Handler stehen
-# (nicht die Reihenfolge der Ausloesung im Prozess, sondern die der Aufzaehlung in dieser Datei ist relevant)
-- name: deactivate olsr_main_ip
-  command: ifdown lo:0
+- name: restart munin-node
+  service: name=munin-node state=restarted
 
-# "ifup" schlaegt fehl, falls es bereits aktiv war - das wollen wir tolerieren
-- name: activate olsr_main_ip
-  shell: ifup lo:0 || true
+- name: run rc.local
+  command: /etc/rc.local
