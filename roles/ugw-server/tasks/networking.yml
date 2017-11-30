@@ -12,7 +12,7 @@
   notify: restart sysctl
 
 # bei einer Aenderung der olsr_main_ip loeschen wir den lo:0-Eintrag aus der interfaces-Datei
-- name: konfligierende Main-IP entfernen
+- name: konfliktbehaftete Main-IP entfernen
   command: sed -i '/^auto lo:0$/,/netmask/d' /etc/network/interfaces
   when: ansible_lo_0 is defined and ansible_lo_0["ipv4"]["address"] != olsr_main_ip
   notify: deactivate olsr_main_ip
