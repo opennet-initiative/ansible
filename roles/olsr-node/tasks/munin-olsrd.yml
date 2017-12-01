@@ -4,4 +4,6 @@
     dest=/etc/munin/plugins/olsrd
     force=yes
     mode=0755
+  # nicht im "check"-Modus ausfuehren (es gilt sonst immer als Änderung)
+  when: not ansible_check_mode
   notify: restart munin-node
