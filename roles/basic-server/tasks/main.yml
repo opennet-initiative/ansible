@@ -5,6 +5,7 @@
 - include: ferm-basic.yml
 - include: opennet-ca.yml
 - include: change-notifications.yml
+- include: opennet-apt.yml
 # Mail-Konfiguration nur auf Host anwenden, die die "mail_relay_host"-Variable
 # nicht geloescht haben (z.B. "on-v6" - der zentrale Mailserver)
 - include: mail-delivery.yml

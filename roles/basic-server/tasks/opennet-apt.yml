@@ -1,0 +1,14 @@
+- name: Opennet APT Repository GPG Public Key herunterladen
+  get_url:
+    dest=/etc/apt/trusted.gpg.d/
+    mode=644
+    owner=root
+    url="{{ opennet_apt_key }}"
+
+- name: apt-transport-https Paket installieren
+  apt: pkg=apt-transport-https state=present
+
+- name: Opennet APT Repository hinzufügen
+  apt_repository: 
+    repo: "{{ opennet_apt_repo }}" 
+    state: present
