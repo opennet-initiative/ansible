@@ -1,0 +1,16 @@
+# apt-repo user config
+apt_repo_user: apt
+apt_repo_name: "Opennet APT Repository"
+
+# apt-repo gpg key-gen config
+apt_gpg_name: "Opennet APT Repository"
+apt_gpg_comment: "Opennet Initiative e.V. - https://www.opennet-initiative.de/"
+apt_gpg_mail: "apt@opennet-initiative.de"
+apt_gpg_keylength: 4096
+apt_gpg_expire: "30m"
+
+# apt-repo mini-dinstall config
+apt_md_arch: "all, amd64"
+apt_md_dir: "~/repository"
+apt_md_mail: "dev@opennet-initiative.de"
+apt_md_sign: "~/bin/sign-release.sh"

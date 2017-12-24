@@ -1,0 +1,4 @@
+- include: aptrepo-user.yml
+- include: aptrepo-key.yml
+- include: mini-dinstall.yml
+- include: dput.yml

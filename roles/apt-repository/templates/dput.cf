@@ -1,0 +1,7 @@
+[local]
+fqdn = localhost
+method = local
+incoming = ~/{{ apt_md_dir  }}/mini-dinstall/incoming
+post_upload_command = mini-dinstall --batch
+allow_unsigned_uploads = 0
+run_lintian = 1

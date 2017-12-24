@@ -1,0 +1,31 @@
+- name: Apt-Repo Gruppe anlegen
+  user: state=present
+        name={{ apt_repo_user }}
+
+- name: Apt-Repo Nutzer anlegen
+  user: state=present
+        name={{ apt_repo_user }}
+        group={{ apt_repo_user }}
+        comment={{ apt_repo_name }}
+
+# SSH Zugriff für Repo-User ermöglichen 
+# der "SSH_USER" (fuer separate bash-History) wird aus dem Dateinamen extrahiert
+- name: Import der Benutzer Schluessel in Apt-Repo Account
+  authorized_key: user={{ apt_repo_user }}
+                  state=present
+                  key='{{ lookup("file", item) }}'
+                  key_options='environment="SSH_USER={{ item.split("/")[-1].split(".")[0] }}"'
+  with_fileglob:
+    - public_keys/aptrepo-user/*.pub
+
+- name: Apt-Repo bashrc - Zeitstempel zur History hinzufuegen
+  lineinfile:
+    dest=/home/{{ apt_repo_user }}/.bashrc
+    regexp="^export HISTTIMEFORMAT=.*"
+    line="export HISTTIMEFORMAT='%F %T '"
+
+- name: Apt-Repo bashrc - Shell-History fuer Nutzer separat speichern
+  lineinfile:
+    dest=/home/{{ apt_repo_user }}/.bashrc
+    regexp='^\[ -n "\$SSH_USER" \] && logger .*'
+    line='[ -n "$SSH_USER" ] && logger -ip auth.notice -t sshd "Accepted publickey for $SSH_USER" && export HISTFILE="$HOME/.history_$SSH_USER"'
