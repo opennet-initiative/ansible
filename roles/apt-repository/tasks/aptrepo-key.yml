@@ -10,9 +10,24 @@
         owner={{ apt_repo_user}}
         group={{ apt_repo_user}}
 
-- name: Verschlüsselung - Crypto-Hinweis kopieren
+- name: Apt-Repo Sign Script kopieren
   copy:
        src={{ apt_md_sign }}
        dest=/home/{{ apt_repo_user }}/{{ apt_md_sign }}
+
+- name: gnupg installieren
+  apt: pkg=gnupg state=present
+
+- name: gnupg Verzeichnis anlegen / Rechte prüfen
+  file: dest=/home/{{ apt_repo_user }}/.gnupg 
+        state=directory 
+        mode=0700 
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user}}
+
+- name: gnupg konfigurieren
+  template:
+          src=gen-key-script
+          dest=/home/{{ apt_repo_user }}/.gnupg/gen-key-script
 
 # FIXME: GPG Key anlegen fehlt
