@@ -11,6 +11,6 @@ apt_gpg_expire: "30m"
 
 # apt-repo mini-dinstall config
 apt_md_arch: "all, amd64"
-apt_md_dir: "~/repository"
+apt_md_dir: "repository"
 apt_md_mail: "dev@opennet-initiative.de"
-apt_md_sign: "~/bin/sign-release.sh"
+apt_md_sign: "bin/sign-release.sh"
