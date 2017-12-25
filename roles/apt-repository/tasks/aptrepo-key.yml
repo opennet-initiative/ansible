@@ -33,6 +33,22 @@
 - name: haveged installieren (temporäre Entropie Quelle)
   apt: name=haveged state=present
 
+- name: check existing secret key
+  shell: "gpg --list-secret-keys | grep '{{ apt_gpg_mail }}'"
+  changed_when: false
+  ignore_errors: true
+  become: yes
+  become_user: "{{ apt_repo_user }}"
+  register: gpgkeys
+
+- debug: var=gpgkeys
+
+- name: generate gpg key
+  command: "gpg --batch --gen-key /home/{{ apt_repo_user }}/.gnupg/gen-key-script chdir=/home/{{ apt_repo_user }}"
+  become: yes
+  become_user: "{{ apt_repo_user }}"
+  when: gpgkeys is defined and gpgkeys.stdout == ""
+
 # FIXME: GPG Key anlegen fehlt
 
 - name: haveged deinstallieren (temporäre Entropie Quelle)
