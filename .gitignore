@@ -2,3 +2,4 @@ ansible.log
 .*.swp
 *.pyc
 *.retry
+playbook-test*
