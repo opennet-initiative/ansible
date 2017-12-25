@@ -41,7 +41,17 @@
   become: yes
   become_user: "{{ apt_repo_user }}"
 
-- name: gnupg -- ggf. vorhanden Schlüssel suchen 
+# SSH Zugriff für Repo-User ermöglichen
+# der "SSH_USER" (fuer separate bash-History) wird aus dem Dateinamen extrahiert
+- name: gnupg -- Import der DEV GPG Schluessel in Apt-Repo Account
+  authorized_key: user={{ apt_repo_user }}
+                  state=present
+                  key='{{ lookup("file", item) }}'
+                  key_options='environment="SSH_USER={{ item.split("/")[-1].split(".")[0] }}"'
+  with_fileglob:
+    - gpg_keys/aptrepo-user/*.pub
+
+- name: gnupg -- ggf. vorhanden Apt Schlüssel suchen 
   shell: "gpg --list-secret-keys | grep '{{ apt_gpg_mail }}'"
   changed_when: false
   ignore_errors: true
@@ -53,7 +63,7 @@
   apt:  name=haveged state=present
   when: gpgkeys is defined and gpgkeys.stdout == ""
 
-- name: gnupg -- neuen Schlüssel erstellen
+- name: gnupg -- neuen Apt Schlüssel erstellen
   command: "gpg --batch --gen-key /home/{{ apt_repo_user }}/.gnupg/gen-key-script chdir=/home/{{ apt_repo_user }}"
   become: yes
   become_user: "{{ apt_repo_user }}"
