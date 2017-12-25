@@ -27,11 +27,13 @@
 
 - name: gnupg konfigurieren
   template:
-          src=gen-key-script
-          dest=/home/{{ apt_repo_user }}/.gnupg/gen-key-script
+        src=gen-key-script
+        dest=/home/{{ apt_repo_user }}/.gnupg/gen-key-script
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user}}
 
-- name: haveged installieren (temporäre Entropie Quelle)
-  apt: name=haveged state=present
+- name: sudo installieren (für GPG Keygen)
+  apt:  name=sudo state=present
 
 - name: check existing secret key
   shell: "gpg --list-secret-keys | grep '{{ apt_gpg_mail }}'"
@@ -41,7 +43,9 @@
   become_user: "{{ apt_repo_user }}"
   register: gpgkeys
 
-- debug: var=gpgkeys
+- name: haveged installieren (temporäre Entropie Quelle)
+  apt:  name=haveged state=present
+  when: gpgkeys is defined and gpgkeys.stdout == ""
 
 - name: generate gpg key
   command: "gpg --batch --gen-key /home/{{ apt_repo_user }}/.gnupg/gen-key-script chdir=/home/{{ apt_repo_user }}"
@@ -49,7 +53,6 @@
   become_user: "{{ apt_repo_user }}"
   when: gpgkeys is defined and gpgkeys.stdout == ""
 
-# FIXME: GPG Key anlegen fehlt
-
 - name: haveged deinstallieren (temporäre Entropie Quelle)
   apt: name=haveged state=absent
+  when: gpgkeys is defined and gpgkeys.stdout == ""
