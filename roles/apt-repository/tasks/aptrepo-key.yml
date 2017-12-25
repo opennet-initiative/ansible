@@ -16,7 +16,7 @@
        dest=/home/{{ apt_repo_user }}/{{ apt_md_sign }}
 
 - name: gnupg installieren
-  apt: pkg=gnupg state=present
+  apt: name=gnupg state=present
 
 - name: gnupg Verzeichnis anlegen / Rechte prüfen
   file: dest=/home/{{ apt_repo_user }}/.gnupg 
@@ -30,4 +30,10 @@
           src=gen-key-script
           dest=/home/{{ apt_repo_user }}/.gnupg/gen-key-script
 
+- name: haveged installieren (temporäre Entropie Quelle)
+  apt: name=haveged state=present
+
 # FIXME: GPG Key anlegen fehlt
+
+- name: haveged deinstallieren (temporäre Entropie Quelle)
+  apt: name=haveged state=absent

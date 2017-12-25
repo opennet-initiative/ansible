@@ -1,5 +1,5 @@
 - name: mini-dinstall installieren
-  apt: pkg=mini-dinstall state=present
+  apt: name=mini-dinstall state=present
 
 - name: Apt-Repo Verzeichnis anlegen
   file: state=directory

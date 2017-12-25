@@ -1,5 +1,5 @@
 - name: dput installieren
-  apt: pkg=dput state=present
+  apt: name=dput state=present
 
 - name: dput konfigurieren
   template:
