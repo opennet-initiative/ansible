@@ -14,6 +14,6 @@
   roles:
     - domain-proxy
 
-- hosts: inez.on
+- hosts: inez.on:maki.on
   roles:
     - backup-storage
