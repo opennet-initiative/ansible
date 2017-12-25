@@ -10,5 +10,6 @@
 
 - name: Opennet APT Repository hinzufügen
   apt_repository: 
-    repo: "{{ opennet_apt_repo }}" 
+    repo: "{{ opennet_apt_repo }}"
+    filename: "{{ opennet_apt_name }}"
     state: present
