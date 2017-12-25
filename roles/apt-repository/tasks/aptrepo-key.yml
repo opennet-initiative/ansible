@@ -35,7 +35,13 @@
 - name: sudo installieren (für GPG Keygen)
   apt:  name=sudo state=present
 
-- name: check existing secret key
+- name: gnupg initialisieren
+  shell: "gpg --check-trustdb"
+  changed_when: false
+  become: yes
+  become_user: "{{ apt_repo_user }}"
+
+- name: gnupg -- ggf. vorhanden Schlüssel suchen 
   shell: "gpg --list-secret-keys | grep '{{ apt_gpg_mail }}'"
   changed_when: false
   ignore_errors: true
@@ -47,7 +53,7 @@
   apt:  name=haveged state=present
   when: gpgkeys is defined and gpgkeys.stdout == ""
 
-- name: generate gpg key
+- name: gnupg -- neuen Schlüssel erstellen
   command: "gpg --batch --gen-key /home/{{ apt_repo_user }}/.gnupg/gen-key-script chdir=/home/{{ apt_repo_user }}"
   become: yes
   become_user: "{{ apt_repo_user }}"

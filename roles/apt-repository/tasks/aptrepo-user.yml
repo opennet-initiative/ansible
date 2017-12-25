@@ -7,6 +7,7 @@
         name={{ apt_repo_user }}
         group={{ apt_repo_user }}
         comment={{ apt_repo_name }}
+        shell="/bin/bash"
 
 # SSH Zugriff für Repo-User ermöglichen 
 # der "SSH_USER" (fuer separate bash-History) wird aus dem Dateinamen extrahiert
