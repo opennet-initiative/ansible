@@ -32,43 +32,59 @@
         owner={{ apt_repo_user }}
         group={{ apt_repo_user}}
 
-- name: sudo installieren (für GPG Keygen)
-  apt:  name=sudo state=present
-
 - name: gnupg initialisieren
   shell: "gpg --check-trustdb"
   changed_when: false
   become: yes
   become_user: "{{ apt_repo_user }}"
+  become_method: su
 
-# SSH Zugriff für Repo-User ermöglichen
-# der "SSH_USER" (fuer separate bash-History) wird aus dem Dateinamen extrahiert
-- name: gnupg -- Import der DEV GPG Schluessel in Apt-Repo Account
-  authorized_key: user={{ apt_repo_user }}
-                  state=present
-                  key='{{ lookup("file", item) }}'
-                  key_options='environment="SSH_USER={{ item.split("/")[-1].split(".")[0] }}"'
+- name: gnupg -- Importverzeichnis für DEV GPG Schlüssel anlegen
+  file: dest=/home/{{ apt_repo_user }}/.gnupg/import
+        state=directory
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user }}
+
+- name: gnupg -- Kopieren der DEV GPG Schlüssel
+  copy: src={{ item }}
+        dest=/home/{{ apt_repo_user }}/.gnupg/import
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user }}
   with_fileglob:
-    - gpg_keys/aptrepo-user/*.pub
+    - "gpg_keys/aptrepo-user/*.asc"
 
-- name: gnupg -- ggf. vorhanden Apt Schlüssel suchen 
+# FIXME: changed Status auf Basis stderr Ausgabe, eventuell nicht optimal
+- name: gnupg -- Import der DEV GPG Schlüssel in Apt-Repo Account
+  shell: "gpg --import /home/{{ apt_repo_user }}/.gnupg/import/{{ item | basename }}"
+  register: out_gpg_dev_import
+  changed_when: out_gpg_dev_import.stderr | search("import")
+  with_fileglob:
+    - gpg_keys/aptrepo-user/*.asc
+  become: yes
+  become_user: "{{ apt_repo_user }}"
+  become_method: su
+
+- name: gnupg -- ggf. vorhandenes Apt-Repo Schlüsselpaar suchen 
   shell: "gpg --list-secret-keys | grep '{{ apt_gpg_mail }}'"
+  check_mode: no
   changed_when: false
   ignore_errors: true
   become: yes
   become_user: "{{ apt_repo_user }}"
-  register: gpgkeys
+  become_method: su
+  register: gpg_apt
 
 - name: haveged installieren (temporäre Entropie Quelle)
   apt:  name=haveged state=present
-  when: gpgkeys is defined and gpgkeys.stdout == ""
+  when: gpg_apt is defined and gpg_apt.stdout == ""
 
 - name: gnupg -- neuen Apt Schlüssel erstellen
   command: "gpg --batch --gen-key /home/{{ apt_repo_user }}/.gnupg/gen-key-script chdir=/home/{{ apt_repo_user }}"
   become: yes
   become_user: "{{ apt_repo_user }}"
-  when: gpgkeys is defined and gpgkeys.stdout == ""
+  become_method: su
+  when: gpg_apt is defined and gpg_apt.stdout == ""
 
 - name: haveged deinstallieren (temporäre Entropie Quelle)
   apt: name=haveged state=absent
-  when: gpgkeys is defined and gpgkeys.stdout == ""
+  when: gpg_apt is defined and gpg_apt.stdout == ""
