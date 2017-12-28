@@ -33,7 +33,7 @@
         group={{ apt_repo_user}}
 
 - name: gnupg initialisieren
-  shell: "gpg --check-trustdb"
+  command: "gpg --check-trustdb"
   changed_when: false
   become: yes
   become_user: "{{ apt_repo_user }}"
@@ -55,7 +55,7 @@
 
 # FIXME: changed Status auf Basis stderr Ausgabe, eventuell nicht optimal
 - name: gnupg -- Import der DEV GPG Schlüssel in Apt-Repo Account
-  shell: "gpg --import /home/{{ apt_repo_user }}/.gnupg/import/{{ item | basename }}"
+  command: "gpg --import /home/{{ apt_repo_user }}/.gnupg/import/{{ item | basename }}"
   register: out_gpg_dev_import
   changed_when: out_gpg_dev_import.stderr | search("import")
   with_fileglob:
@@ -65,7 +65,7 @@
   become_method: su
 
 - name: gnupg -- ggf. vorhandenes Apt-Repo Schlüsselpaar suchen 
-  shell: "gpg --list-secret-keys | grep '{{ apt_gpg_mail }}'"
+  command: "gpg --list-secret-keys '{{ apt_gpg_mail }}'"
   check_mode: no
   changed_when: false
   ignore_errors: true
@@ -74,7 +74,7 @@
   become_method: su
   register: gpg_apt
 
-- name: haveged installieren (temporäre Entropie Quelle)
+- name: gnupg -- haveged installieren (temporäre Entropie Quelle)
   apt:  name=haveged state=present
   when: gpg_apt is defined and gpg_apt.stdout == ""
 
@@ -85,6 +85,13 @@
   become_method: su
   when: gpg_apt is defined and gpg_apt.stdout == ""
 
-- name: haveged deinstallieren (temporäre Entropie Quelle)
+- name: gnupg -- haveged deinstallieren (temporäre Entropie Quelle)
   apt: name=haveged state=absent
+  when: gpg_apt is defined and gpg_apt.stdout == ""
+
+- name: gnupg -- Apt-Repo öffentlichen Schlüssel exportieren
+  command: "gpg --export --armor '{{ apt_gpg_mail }}' > /home/{{ apt_repo_user }}/{{ apt_md_dir }}/keys/{{ apt_gpg_file }}.asc"
+    become: yes
+  become_user: "{{ apt_repo_user }}"
+  become_method: su
   when: gpg_apt is defined and gpg_apt.stdout == ""

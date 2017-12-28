@@ -7,8 +7,8 @@ Key-Type: RSA
 Key-Length: {{ apt_gpg_keylength }}
 Key-Usage: sign
 Name-Real: {{ apt_repo_name }}
-Name-Comment: {{ apt_gpg_comment }} 
-Name-Email: {{ apt_gpg_mail }}
+Name-Comment: {{ apt_repo_comment }} 
+Name-Email: {{ apt_repo_mail }}
 Expire-Date: {{ apt_gpg_expire }}
 %no-protection
 %commit
