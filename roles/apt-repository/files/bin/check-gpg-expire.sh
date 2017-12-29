@@ -38,16 +38,18 @@ send_mail() {
 # walk thru all local gpg keys and return a lost of almost expired certs
 # input 1 - number of weeks to warning before expiration
 # input 2 - gpg command to be used
+# input 3 (optional) - key-id to use instead of all keys
 # return - list of keys-ids
 get_expired_key_list() {
   # get input
   local due_weeks="$1"
   local gpg_command="$2"
+  local key_list="$3"
   # init expired
   local exp_list=""
   local exp_key=""
-  # prepare key list
-  local key_list="$($gpg_command | grep '^pub' | cut -d':' -f 5)"
+  # prepare key list if not already provided
+  [ -z "$3" ] && key_list="$($gpg_command | grep '^pub' | cut -d':' -f 5)"
   # prepare due date for key expiration warning
   local due_date="$(echo "$(date +%s) + $due_weeks*604800" | bc)"
   # walk thru all keys
@@ -93,8 +95,9 @@ get_expired_key_output() {
 }
 
 # main function, prepare output for actions
+# input - key-id (leave empty all keys to be checked)
 get_action_output() {
-  local list="$(get_expired_key_list "$GPG_WARN_WEEKS" "$GPG_CMD_IN")"
+  local list="$(get_expired_key_list "$GPG_WARN_WEEKS" "$GPG_CMD_IN" "$1")"
   local output="$(get_expired_key_output "$list" "$GPG_LIST" "$GPG_CMD_OUT")"
   echo "$output"
 }
@@ -103,18 +106,24 @@ get_action_output() {
 # retrieve requested action 
 ACTION=help
 [ $# -gt 0 ] && ACTION="$1" && shift
-# retrieve optional due weeks if provided
-[ $# -gt 0 ] && GPG_WARN_WEEKS="$1"
 
-# provide cli or mail output or help
+# so action (all, mail, key) or show usage information
 case "$ACTION" in
-  cli|--cli)
-    OUT="$(get_action_output)"
+  all|--all)
+    # retrieve optional due weeks if provided
+    [ $# -gt 0 ] && GPG_WARN_WEEKS="$1"
+    # check key status
+    OUT="$(get_action_output "")"
+    # provide info via CLI
     [ ! -n "$OUT" ] && OUT="No gpg keys expiring."
-    echo -n "$OUT\n"
+    echo "$OUT"
     ;;
   mail|--mail)
-    OUT="$(get_action_output)"
+    # retrieve optional due weeks if provided
+    [ $# -gt 0 ] && GPG_WARN_WEEKS="$1"
+    # check key status
+    OUT="$(get_action_output "")"
+    # provide info via mail
     if [ ! -n "$OUT" ]; then
       echo -n "No gpg keys expiring. No mail sent.\n"
     else
@@ -122,11 +131,28 @@ case "$ACTION" in
       send_mail "$GPG_MAILFROM" "$GPG_MAILTO" "$GPG_MAILSUBJECT" "$MAIL"
     fi 
     ;;
+  key|--key)
+    if [ $# -gt 0 ]; then
+      # retrieve key-id on key action
+      KEY="$1" && shift  
+      # retrieve optional due weeks if provided
+      [ $# -gt 0 ] && GPG_WARN_WEEKS="$1"
+      # check key status
+      OUT="$(get_action_output "$KEY")"
+      [ ! -n "$OUT" ] && OUT="No gpg keys expiring."
+      echo "$OUT"
+    else
+      echo >&2 "Invalid action: Missing parameter KEY-ID for $ACTION."
+      "$0" >&2 help
+      exit 1
+    fi
+    ;; 
   help|--help)
     echo "Usage: $(basename "$0")"
-    echo "  cli|--cli [DUE-WEEKS]   - output list directly"
-    echo "  mail|--mail [DUE-WEEKS] - send list via mail"
-    echo "  help                    - show this help"
+    echo "  all|--all [<DUE-WEEKS>]          - check all keys, output list directly"
+    echo "  mail|--mail [<DUE-WEEKS>]        - check all keys, send list via mail"
+    echo "  key|--key <KEY-ID> [<DUE-WEEKS>] - check only one key, output directly"
+    echo "  help|--help                      - show this help"
     ;;
   *)
     echo >&2 "Invalid action: $ACTION"
