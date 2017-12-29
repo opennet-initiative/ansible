@@ -1,3 +1,7 @@
+###
+### apt repository directories for gnupg
+###
+
 - name: Apt-Repo GPG Public Keys-Verzeichnis anlegen
   file: state=directory
         dest=/home/{{ apt_repo_user }}/{{ apt_md_dir }}/keys
@@ -14,6 +18,10 @@
   copy:
        src={{ apt_md_sign }}
        dest=/home/{{ apt_repo_user }}/{{ apt_md_sign }}
+
+###
+### gnupg base installation
+###
 
 - name: gnupg installieren
   apt: name=gnupg state=present
@@ -38,6 +46,10 @@
   become: yes
   become_user: "{{ apt_repo_user }}"
   become_method: su
+
+###
+### package maintainer keys
+### 
 
 - name: gnupg -- Importverzeichnis für DEV GPG Schlüssel anlegen
   file: dest=/home/{{ apt_repo_user }}/.gnupg/import
@@ -64,8 +76,12 @@
   become_user: "{{ apt_repo_user }}"
   become_method: su
 
+###
+### apt repository sign key
+###
+
 - name: gnupg -- ggf. vorhandenes Apt-Repo Schlüsselpaar suchen 
-  command: "gpg --list-secret-keys '{{ apt_gpg_mail }}'"
+  command: "gpg --list-secret-keys '{{ apt_repo_mail }}'"
   check_mode: no
   changed_when: false
   ignore_errors: true
@@ -86,12 +102,61 @@
   when: gpg_apt is defined and gpg_apt.stdout == ""
 
 - name: gnupg -- haveged deinstallieren (temporäre Entropie Quelle)
-  apt: name=haveged state=absent
+  apt:  name=haveged state=absent
   when: gpg_apt is defined and gpg_apt.stdout == ""
 
 - name: gnupg -- Apt-Repo öffentlichen Schlüssel exportieren
-  command: "gpg --export --armor '{{ apt_gpg_mail }}' > /home/{{ apt_repo_user }}/{{ apt_md_dir }}/keys/{{ apt_gpg_file }}.asc"
-    become: yes
+  command: "gpg --export --armor '{{ apt_repo_mail }}' > /home/{{ apt_repo_user }}/{{ apt_md_dir }}/keys/{{ apt_gpg_file }}.asc"
+  become: yes
   become_user: "{{ apt_repo_user }}"
   become_method: su
   when: gpg_apt is defined and gpg_apt.stdout == ""
+
+###
+### check-gpg-expire monitoring
+###
+
+- name: gnupg -- mutt, bc installieren (für check-gpg-expire)
+  apt:  name={{item}} state=present
+  with_items:
+    - mutt
+    - bc
+
+# FIXME: derzeit verursache gpgme einen Fehler beim Mailversand
+# "GPGME: CMS protocol not available", daher deaktivieren
+- name: gnupg -- mutt konfigurieren (gpgme deaktivieren)
+  lineinfile:
+        path=/home/{{ apt_repo_user }}/.muttrc
+        create=yes
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user }}
+        line="set crypt_use_gpgme=no"
+
+- name: gnupg -- Kopieren von check-gpg-expire.sh
+  copy: src=bin/check-gpg-expire.sh
+        dest=/home/{{ apt_repo_user }}/bin
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user }}
+
+- name: gnupg -- Erstellen von check-gpg-expire.cfg
+  template:
+        src=check-gpg-expire.cfg
+        dest=/home/{{ apt_repo_user }}/bin/check-gpg-expire.cfg
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user }}
+
+- name: gnupg -- Cron Job für check-gpg-expire anlegen
+  cron:
+        name="{{ apt_repo_name }} - run check gpg expire, send result via mail"
+        day=*/5
+        hour=7
+        minute=30
+        job="/home/{{ apt_repo_user }}/bin/check-gpg-expire.sh --mail >/dev/null"
+        user="{{ apt_repo_user }}"
+        cron_file="{{ apt_repo_user }}_check-gpg-expire"
+
+- name: gnupg -- Cron Job für check-gpg-expire konfigurieren
+  cronvar: 
+        name=MAILTO
+        value=root
+        cron_file="{{ apt_repo_user }}_check-gpg-expire"

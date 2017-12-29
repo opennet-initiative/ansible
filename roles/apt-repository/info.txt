@@ -2,7 +2,7 @@
 Anlegen eines Opennet Apt Depositories für Bereitstellung von DEB Paketen.
 
 = TODO =
-Derzeit wird noch kein GPG automatisch erzeugt und der Public Key entsprechend extrahiert und bereitgestellt.
+Derzeit wird der GPG Key automatisch erzeugt aber noch nicht automatisch nach Ablauf (2.5 Jahre) verlängert.
 
 = Nacharbeiten =
 Die Bereitstellung via HTTP/HTTPS muss über eine Webserver erfolgen, diese Konfiguration ist derzeit nicht in der Rolle enthalten.
