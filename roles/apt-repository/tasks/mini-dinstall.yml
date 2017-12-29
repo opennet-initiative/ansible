@@ -1,13 +1,15 @@
 - name: mini-dinstall installieren
-  apt: name=mini-dinstall state=present
+  apt:  name=mini-dinstall state=present
 
 - name: Apt-Repo Verzeichnis anlegen
   file: state=directory
         dest=/home/{{ apt_repo_user }}/{{ apt_md_dir }}
-        owner={{ apt_repo_user}}
-        group={{ apt_repo_user}}
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user }}
 
 - name: mini-dinstall konfigurieren
   template:
-          src=mini-dinstall.conf
-          dest=/home/{{ apt_repo_user }}/.mini-dinstall.conf
+        src=mini-dinstall.conf
+        dest=/home/{{ apt_repo_user }}/.mini-dinstall.conf
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user }}

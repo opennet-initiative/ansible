@@ -5,19 +5,22 @@
 - name: Apt-Repo GPG Public Keys-Verzeichnis anlegen
   file: state=directory
         dest=/home/{{ apt_repo_user }}/{{ apt_md_dir }}/keys
-        owner={{ apt_repo_user}}
-        group={{ apt_repo_user}}
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user }}
 
 - name: Apt-Repo Bin-Verzeichnis anlegen
   file: state=directory
         dest=/home/{{ apt_repo_user }}/bin
-        owner={{ apt_repo_user}}
-        group={{ apt_repo_user}}
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user }}
 
 - name: Apt-Repo Sign Script kopieren
   copy:
-       src={{ apt_md_sign }}
-       dest=/home/{{ apt_repo_user }}/{{ apt_md_sign }}
+        src={{ apt_md_sign }}
+        dest=/home/{{ apt_repo_user }}/{{ apt_md_sign }}
+        owner={{ apt_repo_user }}
+        group={{ apt_repo_user }}
+        mode=+x
 
 ###
 ### gnupg base installation
@@ -31,14 +34,14 @@
         state=directory 
         mode=0700 
         owner={{ apt_repo_user }}
-        group={{ apt_repo_user}}
+        group={{ apt_repo_user }}
 
 - name: gnupg konfigurieren
   template:
         src=gen-key-script
         dest=/home/{{ apt_repo_user }}/.gnupg/gen-key-script
         owner={{ apt_repo_user }}
-        group={{ apt_repo_user}}
+        group={{ apt_repo_user }}
 
 - name: gnupg initialisieren
   command: "gpg --check-trustdb"
@@ -137,6 +140,7 @@
         dest=/home/{{ apt_repo_user }}/bin
         owner={{ apt_repo_user }}
         group={{ apt_repo_user }}
+        mode=+x
 
 - name: gnupg -- Erstellen von check-gpg-expire.cfg
   template:
