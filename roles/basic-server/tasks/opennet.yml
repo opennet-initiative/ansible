@@ -16,6 +16,8 @@
     path: /etc/localtime
     src: /usr/share/zoneinfo/{{ opennet_timezone }}
     state: link
+    # die potentielle Umstellung von Datei auf symlink erfordert "force"
+    force: yes
   notify: reconfigure tzdata
 
 - name: locales-Paket installieren
