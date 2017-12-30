@@ -56,14 +56,3 @@
     dest=/root/.bashrc
     regexp='^\[ -n "\$SSH_USER" \] && logger .*'
     line='[ -n "$SSH_USER" ] && logger -ip auth.notice -t sshd "Accepted publickey for $SSH_USER" && export HISTFILE="$HOME/.history_$SSH_USER"'
-
-# ========== noch nicht importierte Schluessel (aus der alten erina) ==========
-#
-# ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEA1m+V4WGzuOsEx1sHO+b/bVA/MjamIAdu5aCeFJbp2isLzlQssFhkMtCDMLKrnJHSwscz7itdSn0VlEWVI+XyrcAE2BbsH35XXRyELG4EzXVNF1X6JjXs9yP9fFPdaPr+f4KQy8KOVfT41YrrG5n65tg4Y6tLAm/ltZTAQbT2fcc= sebastian@dana.y
-#
-# ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA18oCoXmERbCiWWk6+Sa8VICJqpo+SW++uGOiq4InwP0OMtwIYS440PbjpSxnCN3hkSRSrKVvYRrAZwTeRgCgQr1G9OFogGh/f2aAIjDuqJLNlvCpmaocK5+deRiZG/z0gnX6mR/0LSLUE42bExbc/4W9I5yOSOFFnCXJK/Jf8WySxOHkfkva9wrNB7Eo02Phwo4jQxi44qqiyZlxkY0uqPmArqZNziezT2+do2iWTCljZ3LXhzF6Nr6LSADbwlRnLoBakit5mlruBv+qzj3VO2rKAkXScEV4N+s3eI2TkInbSL1nRbcvh7Lx8As8401L5FAzRwzV6UXuKTRR2yPjQQ== sebastian@madlax
-#
-# ssh-dss AAAAB3NzaC1kc3MAAAEBAKl/ZPlqUSgOs4UXV9yeSamJq3HJZQUVpPShZgp24qE+Lnou9HegCCserGMixb5KHDd6GnhRDMGOnxxESgtJyEPvgw271dqxlDbZqUQgnU0XoLQlmDJcfJtfZm8rtA3jRhgmSoXKWOso9QFCR+kXar8HhAZTCjNY6gCfQydH6eAYjOcFLj0V8pEQR2ES1y/ONpBRSaphxSiYK4agLw2rrtwYQT1PAwkJJ5rC6VEGr05B4xQVShlaw0VgnyBWY11cib7DkMMK+lk6fLePmhDG24hF1g+UQV7JwfKw2ppNreoWUzHAIJy2k9Ed87okdtie8eG7Cl7DXvDneYif4OP63TUAAAAVAI0ja4HjbG/FYB8jBMa20zbI0gjZAAABAGCSwiafNIxPJNYP9Et4NftcvyOyNpePRKQ45CRkUX5DkeOY7+5WThGplCCDjtMo6OyAUM9mTisR/qwvHnNcJCA1G1uBsP6O8I8sE2WnM03/xE0f5L+kXNecbTfOTp+5/ZXKdJyAxiHsJ/QmG1vE7qmCCq5Jv4lqQYv+eOnmSyAEUVNtWHXeaBTZHhtkzZ2p5dEgrCEZQtKUjtOVS6TOD7m6qWTplWRjqxx8fDYMhKp6IqttnRITWP+PMmR6YXo7lt6ZLBrCQluA/uzwBdaDz+T7LEAXMFbG/zagzFxK9hS60tsCZFVfXWDrnyQLDR4b03X+hFT3JlsfHmhfFxgV1SsAAAEAcB2MDrtEl/mxgXZN/sDRGOjCKlxX5XoPaGCvEFSiW5GL1auNJv/DocaxbtOZDtOAFqk2NSN/+8zVDah6RN7Bvp2u1hT3TryqwxynD+eEoy1tvbXs2C+Ih8a/7JdoWhIyLrPPMBWQ9x+v/b1UYWfxMl18+YbEBUmkOgPAwyjcP8aSjqJ7pcFox7RVo9wg++ZStxf/NH8IHmKGNm+ezT2scrkHCxN4Xc4Nm5z6HxEkTVZF739tmV+i+9YV6b5wp/NxxVdYgL+CCdV8qAGzH9K7J2oOrI4vWoU/+UWfA2vgc6y55+8l3xE3ia7JOc3CdkJuDknWuj5BvtiAGPl058zAlQ==
-#
-# ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEApnlHa22SDXkZglQHmk+D5o2ju5Fc3UGUueG/qZeevrIIqQ9eWxfm6AVJPi474qKLNu4zy7MR2nsGyRvJJzq83mF7ERouiEO/yKXe2gooYSIK+fCZumrvbFnG7NLZHlDo/YQb2KfhB/4UftgJdSexKWZMHdeBGCEmVWpKyPqHdV9o9qj4PsPMqGHX88xlNd3S0grXHIwuUfGi6mu65ugDkMEp4892I+y5ahXh1aD0pA6qMcyD7CenlZpdmoMHUh2lDhm4WnOuKnWTi4v/MDvtVHvXTGe2p2tbcTXvGFebjkxuLZAlsgObr/lzrpsgoRowxJJ6Py9hDUKH0caIzdVwlQ== root@akito
-
