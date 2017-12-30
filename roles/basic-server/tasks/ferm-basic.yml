@@ -2,6 +2,11 @@
   apt: pkg=ferm state=present
   register: ferm_first_setup
 
+# ferm wird gleich nach der Installation gestartet und stoppt dabei das olsr-Routing
+- name: firewall - frisch installiertes ferm vorerst stoppen
+  service: name=ferm state=stopped
+  when: ferm_first_setup.changed
+
 - name: firewall - Dateien kopieren
   template:
     src=ferm.conf
