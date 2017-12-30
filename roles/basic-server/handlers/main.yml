@@ -6,6 +6,10 @@
 
 - name: restart ferm
   service: name=ferm state=restarted
+  # Bei der Erstinstallation wollen wir ferm nicht neustarten, da sonst das olsr-Routing ausfaellt.
+  # Nach der basic-server-Rollen wird ferm in jedem Fall nachkonfiguriert (fuer olsr,
+  # ugw-Dinge, ...) - daher dürfen wir annehmen, dass ferm nur wenig später ohnehin aktiviert wird.
+  when: not ferm_first_setup.changed
 
 - name: restart postfix
   service: name=postfix state=restarted

@@ -1,5 +1,6 @@
 - name: firewall - ferm installieren
   apt: pkg=ferm state=present
+  register: ferm_first_setup
 
 - name: firewall - Dateien kopieren
   template:
