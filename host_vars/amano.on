@@ -1,0 +1,12 @@
+short_hostname: amano
+
+wan_interface: eth1
+
+olsr_main_ip: 192.168.10.9
+
+olsr_interfaces:
+  - { name: "eth0" }
+
+olsr_hna_announcements_ipv4:
+  # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
+  - 139.30.241.207
