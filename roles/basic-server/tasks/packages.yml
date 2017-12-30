@@ -1,5 +1,5 @@
 - name: apt -- server-relevante Pakete installieren
-  apt: pkg={{ item }} state=present
+  apt: name={{ item }} state=present
   with_items:
     - bash-completion
     - bzip2    
@@ -16,7 +16,7 @@
     - zip
 
 - name: apt -- Debug-Werkzeuge installieren
-  apt: pkg={{ item }} state=present
+  apt: name={{ item }} state=present
   with_items:
     - bwm-ng
     - dnsutils
@@ -29,12 +29,12 @@
     - tcpdump
 
 - name: apt -- apt-dater-host installieren
-  apt: install_recommends=no state=present pkg=apt-dater-host
+  apt: install_recommends=no state=present name=apt-dater-host
 
 - name: apt -- acpi-support-base installieren
-  apt: install_recommends=no state=present pkg=acpi-support-base
+  apt: install_recommends=no state=present name=acpi-support-base
 
 # FIXME: wegen Fehler bei postinst.d/update-initramfs in initramfs-tools (12/2017)
 # kann eventuell wieder entfernt werden, wenn die Abhängigkeit upstream gelöst ist
 - name: apt -- busybox installieren (initramfs Abhängigkeit)
-
+  apt: name=busybox state=present
