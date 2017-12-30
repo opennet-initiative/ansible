@@ -318,9 +318,16 @@ prepare_system() {
 	EOF
 	# import the server ssh key
 	run_in_chroot mkdir -p /root/.ssh
-	# der root-Nutzer des Virtualisierungsservers hat ohnehin die volle Kontrolle
-	# Wir kopieren also den Schluessel fuer vereinfachte Problembehebung.
-	cp /root/.ssh/id_rsa.pub "$MOUNTPOINT/root/.ssh/authorized_keys"
+	{
+		# der root-Nutzer des Virtualisierungsservers hat ohnehin die volle Kontrolle
+		# Wir kopieren also den Schluessel fuer vereinfachte Problembehebung.
+		cat /root/.ssh/id_rsa.pub
+		# Zusaetzlich kopieren wir den ssh-Schluessel des aktuell angemeldeten Nutzers
+		# (sofern er sich spontan ermitteln laesst).
+		if [ -n "${SSH_USER:-}" ]; then
+			grep -wF "environment=\"SSH_USER=$SSH_USER\"" .ssh/authorized_keys
+		fi
+	} >"$MOUNTPOINT/root/.ssh/authorized_keys"
 	# olsrd-Interface konfigurieren und Daemon aktivieren
 	sed -i 's/^Interface.*$/Interface "eth0"/' "$MOUNTPOINT/etc/olsrd/olsrd.conf"
 	sed -i 's/^#START_OLSRD=.*$/START_OLSRD="YES"/' "$MOUNTPOINT/etc/default/olsrd"
