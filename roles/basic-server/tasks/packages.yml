@@ -33,3 +33,8 @@
 
 - name: apt -- acpi-support-base installieren
   apt: install_recommends=no state=present pkg=acpi-support-base
+
+# FIXME: wegen Fehler bei postinst.d/update-initramfs in initramfs-tools (12/2017)
+# kann eventuell wieder entfernt werden, wenn die Abhängigkeit upstream gelöst ist
+- name: apt -- busybox installieren (initramfs Abhängigkeit)
+
