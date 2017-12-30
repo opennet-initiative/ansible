@@ -8,11 +8,11 @@ domain (ip ip6) {
 		}
 
 		chain FORWARD {
-			interface {{ virtualization_wan_bridge_interface }} outerface ({{ wan_interface }} $IF_OLSR) ACCEPT;
+			interface {{ virtualization_wan_bridge_interface }} outerface ($IF_WAN $IF_OLSR) ACCEPT;
 		}
 	}
 
 	table nat chain POSTROUTING {
-		saddr {{ virtualization_wan_bridge_address_prefix }}.0/24 outerface ({{ wan_interface }} $IF_OLSR) MASQUERADE;
+		saddr {{ virtualization_wan_bridge_address_prefix }}.0/24 outerface ($IF_WAN $IF_OLSR) MASQUERADE;
 	}
 }
