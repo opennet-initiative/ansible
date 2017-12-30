@@ -45,7 +45,7 @@
     replace="PermitRootLogin without-password"
   notify: restart ssh
 
-- name: Shell - History-Separierung
+- name: Shell-Konfiguration (z.B. History)
   copy:
           src=profile.d/on-basic-server.sh
           dest=/etc/profile.d/
