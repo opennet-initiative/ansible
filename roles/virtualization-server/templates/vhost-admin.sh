@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 set -eu
 
@@ -131,11 +131,9 @@ umount_system() {
 create_debian_system() {
 	local host="$1"
 	local ip="$2"
-	local ifname1
-	local ifname2
 	mount_system "$host"
 	which debootstrap >/dev/null || die 11 "Missing requirement: debootstrap"
-	echo "$DISTRIBUTION" "$MOUNTPOINT" "$APT_URL" 
+	echo "$DISTRIBUTION" "$MOUNTPOINT" "$APT_URL"
 	local DEBOOTSTRAP_OPTS="--include $PACKAGES_INCLUDE --exclude $PACKAGES_EXCLUDE"
 	# shellcheck disable=SC2086
 	debootstrap $DEBOOTSTRAP_OPTS "$DISTRIBUTION" "$MOUNTPOINT" "$APT_URL" || {
