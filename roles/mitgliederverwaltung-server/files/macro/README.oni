@@ -1,0 +1,5 @@
+Dieses Verzeichnis dient lediglich dem Einchecken unser selbst entwickelten moinmoin Macros ins git. Somit ist eine Historie des Quellcodes gesichert.
+Die aktuellen Versionen dieser Skripte sollten immmer auf dem aktuellen Mitgliederverwaltungsserver im moinmoin Verzeichnis liegen und hier im ansible git.
+
+Die Dateien werden nicht direkt im Ansible Script referenziert oder kopiert.
+Indirekt werden die Dateien beim Schritt 'data-Verzeichnis kopieren' übertragen.
