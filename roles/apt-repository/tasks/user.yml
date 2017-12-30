@@ -18,15 +18,3 @@
                   key_options='environment="SSH_USER={{ item.split("/")[-1].split(".")[0] }}"'
   with_fileglob:
     - public_keys/aptrepo-user/*.pub
-
-- name: Apt-Repo bashrc - Zeitstempel zur History hinzufuegen
-  lineinfile:
-    dest=/home/{{ apt_repo_user }}/.bashrc
-    regexp="^export HISTTIMEFORMAT=.*"
-    line="export HISTTIMEFORMAT='%F %T '"
-
-- name: Apt-Repo bashrc - Shell-History fuer Nutzer separat speichern
-  lineinfile:
-    dest=/home/{{ apt_repo_user }}/.bashrc
-    regexp='^\[ -n "\$SSH_USER" \] && logger .*'
-    line='[ -n "$SSH_USER" ] && logger -ip auth.notice -t sshd "Accepted publickey for $SSH_USER" && export HISTFILE="$HOME/.history_$SSH_USER"'

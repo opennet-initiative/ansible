@@ -45,14 +45,8 @@
     replace="PermitRootLogin without-password"
   notify: restart ssh
 
-- name: bashrc - Zeitstempel zur History hinzufuegen
-  lineinfile:
-    dest=/root/.bashrc
-    regexp="^export HISTTIMEFORMAT=.*"
-    line="export HISTTIMEFORMAT='%F %T '"
+- name: Shell - History-Separierung
+  copy:
+          src=profile.d/on-basic-server.sh
+          dest=/etc/profile.d/
 
-- name: bashrc - Shell-History fuer Nutzer separat speichern
-  lineinfile:
-    dest=/root/.bashrc
-    regexp='^\[ -n "\$SSH_USER" \] && logger .*'
-    line='[ -n "$SSH_USER" ] && logger -ip auth.notice -t sshd "Accepted publickey for $SSH_USER" && export HISTFILE="$HOME/.history_$SSH_USER"'
