@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 {% for certificate_domains in letsencrypt_certificates %}
-{% if certificate_domains.primary is defined %}
-{{ certificate_domains.primary }}{% if certificate_domains.other is defined %} {{ certificate_domains.other }}{% endif %}
+{% if certificate_domains.domains is defined %}
+{{ certificate_domains.domains|join(" ") }}
 {% else %}
 {{ certificate_domains.on_tld_base}}.{{ on_default_top_level_domains|join(" " ~ certificate_domains.on_tld_base ~ ".") }}
 {% endif %}

@@ -14,4 +14,4 @@ olsr_nameservice_announcements:
   - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https monitor.on-i.de"
 
 letsencrypt_certificates:
-- {primary: monitor.opennet-initiative.de, other: monitor.on-i.de}
+- { domains: [monitor.opennet-initiative.de, monitor.on-i.de] }

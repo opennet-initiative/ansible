@@ -22,5 +22,5 @@ olsr_extra_settings: |
   }
 
 letsencrypt_certificates:
-- {primary: mitgliederverwaltung.opennet-initiative.de, other: mitgliederverwaltung.on-i.de}
-- {primary: mediawiki.yurika.opennet-initiative.de, other: mediawiki.yurika.on-i.de}
+- { domains: [mitgliederverwaltung.opennet-initiative.de, mitgliederverwaltung.on-i.de] }
+- { domains: [mediawiki.yurika.opennet-initiative.de, mediawiki.yurika.on-i.de] }

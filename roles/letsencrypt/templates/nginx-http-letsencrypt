@@ -4,7 +4,11 @@ server {
     listen       80;
     listen       [::]:80;
 {% for certificate_domains in letsencrypt_certificates %}
-    server_name {{ certificate_domains.primary }} {{ certificate_domains.other|default('') }};
+{% if certificate_domains.domains is defined %}
+    server_name {{ certificate_domains.domains|join(" ") }};
+{% else %}
+    server_name {{ certificate_domains.on_tld_base}}.{{ on_default_top_level_domains|join(" " ~ certificate_domains.on_tld_base ~ ".") }};
+{% endif %}
 {% endfor %}
 
     location /.well-known/acme-challenge {
