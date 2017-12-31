@@ -12,4 +12,4 @@ olsr_hna_announcements_ipv4:
   - 139.30.241.205
 
 letsencrypt_certificates:
-  - {primary: irc.opennet-initiative.de, other: irc.on-i.de irc.rostock.freifunk.net irc.schwerin.freifunk.net irc.wismar.freifunk.net}
+  - { on_tld_base: irc }

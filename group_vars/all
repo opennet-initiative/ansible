@@ -1,2 +1,9 @@
 # Ziel-Adresse fuer administrative Emails
 admin_email: noc@opennet-initiative.de
+
+on_default_top_level_domains:
+        - opennet-initiative.de
+        - on-i.de
+        - rostock.freifunk.net
+        - schwerin.freifunk.net
+        - wismar.freifunk.net

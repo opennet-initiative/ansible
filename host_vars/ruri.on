@@ -20,4 +20,4 @@ olsr_nameservice_announcements:
   - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https downloads.wismar.freifunk.net"
 
 letsencrypt_certificates:
-- {primary: downloads.opennet-initiative.de, other: downloads.on-i.de downloads.rostock.freifunk.net downloads.schwerin.freifunk.net downloads.wismar.freifunk.net}
+- { on_tld_base: downloads }
