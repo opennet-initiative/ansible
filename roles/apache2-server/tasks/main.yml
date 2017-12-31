@@ -1,0 +1,39 @@
+- name: apache2 - installieren
+  apt: name=apache2 state=present
+
+- name: apache2 - Module aktivieren
+  apache2_module:
+         name=rewrite
+         state=present
+  with_items:
+          # wird für http->https-Redirects verwendet
+          - rewrite
+  notify: restart apache2
+
+- name: apache2 - Konfigurationen kopieren
+  copy:
+          src=apache2-sites.d/{{ item.name }}.inc
+          dest=/etc/apache2/on-configs.d/
+  with_items: "{{ apache2_sites }}"
+  notify: restart apache2
+
+- name: apache2 - Sites kopieren
+  template:
+          src=site.conf
+          dest=/etc/apache2/sites-available/{{ item.name }}.conf
+  with_items: "{{ apache2_sites }}"
+  notify: restart apache2
+
+- name: apache2 - Sites aktivieren
+  file:
+          state=link
+          src=../sites-available/{{ item.name }}.conf
+          dest=/etc/apache2/sites-enabled/{{ item.name }}.conf
+  with_items: "{{ apache2_sites }}"
+  notify: restart apache2
+
+- name: apache2 - Port öffnen
+  copy:
+          src=ferm.conf
+          dest=/etc/ferm/conf.d/350_apache2.inc
+  notify: restart ferm

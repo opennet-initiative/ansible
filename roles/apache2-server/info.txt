@@ -1,0 +1,53 @@
+= Überblick =
+Diese Rolle erleichtert die Konfigurationen von apache2-basierten Webseiten.
+
+Enthalten sind:
+* Paketinstallation
+* Erzeugen einer Webseiten-Konfiguration:
+    * Include-Datei zur Verwendung für http und/oder https
+    * domain-spezifische Log-Dateien
+    * optionale https-Nutzung
+    * optionale http->https-Umleitung
+    * Verwendung selbstgewählter Domains oder der opennet-typischen Top-Level-Domains
+* Ports 80 und 443 erlauben
+
+
+= Konfiguration =
+Die Rolle wird auf alle Hosts angewandt, für die eine Variable "apache2_sites" definiert ist.
+Diese enthält eine Liste von Dictionaries mit folgenden Attributen:
+* name:
+    * Name der verwendeten Include-Datei und der zu erzeugenden Konfigurationsdatei
+    * wird eventuell für die Erzeugung der Liste von Domains verwendet (siehe "domains")
+    * der Parameter ist erforderlich
+* domains:
+    * kann eine Liste von Domain-Namen für die Webseite enthalten
+    * falls leer, dann wird der obige "name" mit allen "üblichen" Opennet-Domains kombiniert
+      (siehe "on_default_top_level_domains")
+    * Vorgabewert: leer
+* redirect_http_to_https:
+    * erzeuge eine Umlenkung von http-Zugriffen auf https
+    * Vorgabewert: true
+* https:
+    * erzeuge einen VirtualHost-Block fuer https-Zugriffe
+    * Vorgabewert: true
+* certificate:
+    * enthält entweder den Text "letsencrypt" oder ein Dictionary mit folgenden Attributen:
+        * cert: Dateiname des Zertifikats
+	  (optional inklusive Vertrauenskette) - siehe SSLCertificateFile)
+	* key: Dateiname des privaten Schlüssels
+	* chain: Dateiname der Vertrauenskette (siehe SSLCertificateChainFile)
+    * falls "letsencrypt", dann werden die üblichen Pfade des letsencrypt-Clients verwendet
+    * Vorgabewert: letsencrypt
+
+Außerdem ist eine Include-Datei (roles/apache2_sites/files/apache2-sites.d/NAME.inc) anzulegen,
+welche typischerweise folgende Informationen enthält:
+* DocumentRoot
+* "Directory"-Direktive für das DocumentRoot mit "Require all granted"
+* Webseiten-spezifische Details
+
+
+= TODO =
+* Umgang mit http->https-Umleitung für .on-Domain klären
+    * eventuell separaten http-Block verwenden und auf https://FOO.on-i.de umlenken?
+    * oder alle http-Anfragen generell auf den ersten Domain-Namen (mit https) umlenken?
+    * oder die https-Fehlermeldung für https://FOO.on/ tolerieren?
