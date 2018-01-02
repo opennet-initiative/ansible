@@ -1,0 +1,20 @@
+= Überblick =
+Diese Rolle hat zum Ziel die Opennet Mitgliederverwaltung (MoinMoin Wiki) auf einen neuen Server zu übertragen.
+
+== MoinMoin installieren und Daten-Backup einspielen ==
+Dies geschieht in zwei Schritten:
+a) Installieren einer frischen MoinMoin Instanz
+b) Kopieren eines Backups der alten MoinMoin Installation auf den neuen Server
+
+== Backup der MoinMoin Config + Anpassungen ==
+Neben dem Daten-Backup gibt es noch einige Configs und selbst entwickelte Macros, welche hier im git gepflegt werden
+sollen.
+Mit dem Script *manual-update-git-files-from-current-installation.sh* werden diese Dateien von der bestehenden Installation
+heruntergeladen, sodass sie ins git eingecheckt werden können.
+
+= Konfiguration =
+Zur Einrichtung des Wikis gehört auch das Einspielen der Daten des alten MoinMoin Wikis. Hierfür
+bitte die Datei *manual-backup-sensitive-files-from-current-installation.sh* anschauen und den Schritten folgen.
+Im Anschluss sollte diese ansible Rolle erneut ausgeführt werden.
+
+= TODO =
