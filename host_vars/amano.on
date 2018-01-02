@@ -10,3 +10,11 @@ olsr_interfaces:
 olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
   - 139.30.241.207
+
+letsencrypt_certificates:
+  - { on_tld_base: mitgliederverwaltung }
+#  - { on_tld_base: mitgliedsantrag }
+
+apache2_sites:
+  - { name: mitgliederverwaltung }
+#  - { name: mitgliedsantrag }
