@@ -1,7 +1,0 @@
-- manual-update.... ausführen und testen
-- docker mit git checkout
-- moinmoin version automatisch detektieren
-- das Test-Cert sollte nicht hier im git sein, denke ich. Hier Kommanda fertig machen, welches dies generiert (Domain mus drin sein).
-- Prozedur für Docker-Test dokumentieren (docker Befehler zum Start usw.)
-- teste reale Installation vs. Docker. Bei einer Installation auf einem Nicht-Docker System sollte irgendwas im ansible Skript schief laufen. Dies korrigieren.
-

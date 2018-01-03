@@ -1,20 +1,14 @@
 = Überblick =
-Diese Rolle hat zum Ziel die Opennet Mitgliederverwaltung (MoinMoin Wiki) auf einen neuen Server zu übertragen.
+Diese Rolle hat hauptsächlich zum Ziel die Opennet Mitgliederverwaltung (MoinMoin Wiki) auf einen neuen Server zu übertragen. Desweiteren sollen angepasste Dateien hier im git zur Nachverfolgung hinterlegt werden.
 
-== MoinMoin installieren und Daten-Backup einspielen ==
-Dies geschieht in zwei Schritten:
-a) Installieren einer frischen MoinMoin Instanz
-b) Kopieren eines Backups der alten MoinMoin Installation auf den neuen Server
+Beim Anwenden dieser Rolle werden alle grundlegenden Dinge für ein neues MoinMoin installiert und konfiguriert. Am Ende ist es jedoch nötig, die Daten des alten MoinMoin manuell zu kopieren.
 
-== Backup der MoinMoin Config + Anpassungen ==
-Neben dem Daten-Backup gibt es noch einige Configs und selbst entwickelte Macros, welche hier im git gepflegt werden
-sollen.
-Mit dem Script *manual-update-git-files-from-current-installation.sh* werden diese Dateien von der bestehenden Installation
-heruntergeladen, sodass sie ins git eingecheckt werden können.
+Eine Anleitung für das manuelle Kopieren der alten MoinMOin Daten auf den neuen Server ist in *manual-create-backup-and-import-to-new.sh* zu finden
+
+Neben dem Daten-Backup gibt es noch einige Configs und selbst entwickelte Macros, welche hier im git gepflegt werden sollen. Mit dem Script *manual-update-git-files-from-current-installation.sh* werden diese Dateien von der bestehenden Installation heruntergeladen, sodass sie ins git eingecheckt werden können.
 
 = Konfiguration =
-Zur Einrichtung des Wikis gehört auch das Einspielen der Daten des alten MoinMoin Wikis. Hierfür
-bitte die Datei *manual-backup-sensitive-files-from-current-installation.sh* anschauen und den Schritten folgen.
-Im Anschluss sollte diese ansible Rolle erneut ausgeführt werden.
+In der Apache Site Config Datei muss die richtige MoinMoin Version stehen (z.B. /moin_static199/ für Version 1.9.9) . Dies ggf. prüfen.
 
-= TODO =
+== TODO ==
+- moinmoin version automatisch detektieren im apache2-server Rolle
