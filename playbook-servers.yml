@@ -19,3 +19,7 @@
 - hosts: inez.on:maki.on
   roles:
     - backup-storage
+
+- hosts: amano.on
+  roles:
+    - mitgliederverwaltung-server
