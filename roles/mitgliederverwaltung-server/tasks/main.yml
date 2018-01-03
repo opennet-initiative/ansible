@@ -1,10 +1,7 @@
-- name: apt -- moinmoin + apache2 relevante Pakete installieren
+- name: apt -- moinmoin Paket installieren
   apt: pkg={{ item }} state=present
   with_items:
-    - git
     - python-moinmoin
-    - apache2
-    - bzip2
 
 - name: DocumentRoot Verzeichnis anlegen
   file: state=directory
@@ -20,9 +17,20 @@
         group=www-data
         mode=755
 
+- name: MoinMoin Wiki Config kopieren
+  copy: src=etc/moin/ 
+        dest=/etc/moin/
+
+- name: MoinMoin underlay-Verzeichnis vorhanden?
+  stat: path=/var/lib/mitgliederverwaltung/underlay/
+  register: moinmoin_underlay_installed
 - name: MoinMoin underlay-Verzeichnis von frischer MoinMoin Installation kopieren
-  copy: src=/usr/share/moin/underlay/
-        dest=/var/lib/mitgliederverwaltung/underlay/
+  command: cp -r /usr/share/moin/underlay /var/lib/mitgliederverwaltung/ && chown -R www-data:www-data /var/lib/mitgliederverwaltung/underlay/
+  when: moinmoin_underlay_installed.stat.isdir is not defined
+#The following is not supported at the moment (remote recursive copy) therefore we have to copy it manually, see above.
+#  copy: src=/usr/share/moin/underlay/
+#        dest=/var/lib/mitgliederverwaltung/underlay/
+#        remote_src=True
 
 #- name: MoinMoin data-Verzeichnis grundauf neu generieren, wenn z.B. leeres MoinMoin getestet werden soll.
 #  copy: src=/usr/share/moin/data
@@ -31,60 +39,18 @@
 #        group=www-data
 #        mode=700
 
-- name: MoinMoin data-Verzeichnis von alter MoinMoin Installation kopieren
-  unarchive:
-    src=/on-tmp/data.tar.bz2
-    dest=/var/lib/mitgliederverwaltung/
+- name: Sind Daten für MoinMoin Installation bereits vorhanden?
+  stat: path=/var/lib/mitgliederverwaltung/data/
+  register: moinmoin_data_installed
+- name: Backup der alten MoinMoin Installation zur neuen Installation kopieren
+  fail:
+    msg: TODO - Du musst das Backup des data/ Verzeichnisses per Hand selbst einspielen. Siehe auch roles/mitgliederverwaltung-server/info.txt
+  when: moinmoin_data_installed.stat.isdir is not defined
 
-- name: Apache site config kopieren
-  template:
-    src=wiki-mitgliederverwaltung.conf
-    dest=/etc/apache2/sites-available/
-
+- name: Ist Apache basic auth htpasswd bereits vorhanden?
+  stat: path=/var/www/mitgliederverwaltung.htpasswd
+  register: moinmoin_htpasswd_installed
 - name: Apache basic auth htpasswd kopieren
-  copy: src=/on-tmp/wiki-mitgliederverwaltung.htpasswd
-        dest=/etc/apache2/
-
-- name: MoinMoin Wiki Config kopieren
-  copy: src=etc/moin/ 
-        dest=/etc/moin/
-
-- name: Zertifikatsverzeichnis anlegen
-  file: state=directory
-        dest=/var/lib/dehydrated/certs/mitgliederverwaltung.opennet-initiative.de/
-        owner=www-data
-        group=www-data
-        mode=700
-
-- name: SSL cert fuer HTTPS generieren. Wenn es keine Certs bisher gibt, generiere self-signed certs neu.
-  copy: 
-    src={{ item }}
-    dest=/var/lib/dehydrated/certs/mitgliederverwaltung.opennet-initiative.de/
-    force=no #do not overwrite files
-  with_fileglob:
-    - certs-self-signed/*
-
-- name: activate autostart of Apache
-  service:
-    name: apache2
-    enabled: yes
-
-- name: Apache activate cgid mod #apache has MPM therefore we need cgid instead of cgi
-  apache2_module:
-    state: present
-    name:  cgid
-
-- name: Apache activate SSL mod
-  apache2_module:
-    state: present
-    name:  ssl
-
-- name: Apache activate wiki-mitgliederverwaltung site
-  command: a2ensite wiki-mitgliederverwaltung
-  notify: restart apache
-
-- name: Apache restart
-  service:
-    name: apache2
-    state: restarted
-
+  fail:
+    msg: TODO - Du musst die htpasswd-Datei per Hand einspielen. Siehe auch roles/mitgliederverwaltung-server/info.txt
+  when: moinmoin_htpasswd_installed.stat.exists == False
