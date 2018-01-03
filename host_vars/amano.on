@@ -18,3 +18,7 @@ letsencrypt_certificates:
 apache2_sites:
   - { name: mitgliederverwaltung }
 #  - { name: mitgliedsantrag }
+
+apache2_mods:
+ - { name: cgid }
+ - { name: ssl }

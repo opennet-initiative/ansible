@@ -45,6 +45,10 @@ welche typischerweise folgende Informationen enthält:
 * "Directory"-Direktive für das DocumentRoot mit "Require all granted"
 * Webseiten-spezifische Details
 
+Neben der Variable "apache2_sites" gibt es noch die Variable "apache2_mods", welche eine Liste von
+Dictonaries enthält.
+* name: 
+    * Apache2 Modul, welches aktiviert werden soll
 
 = TODO =
 * Umgang mit http->https-Umleitung für .on-Domain klären
