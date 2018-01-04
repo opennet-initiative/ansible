@@ -21,6 +21,8 @@ ugw_external_forward_allow_ipv4:
   - 78.24.191.177
   # downloads.lede-project.org: Paketinstallation fuer APs (nach v0.5.3)
   - 148.251.78.235
+  # archive.openwrt.org: Paketinstallation fuer aeltere Releases
+  - 81.0.124.218
   # www.geodaten-mv.de: Luftbilder als Hintergrund der alten Karte (on-i.de/map)
   - 195.145.109.67
   # a.tile.openstreetmap.org: Hintergrund-Tiles fuer OSM-Layer der alten Karte (on-i.de/map)
