@@ -36,4 +36,4 @@
 - name: resolv.conf uebertragen
   copy: src=resolv.conf
         dest=/etc/
-        mode=755
+        mode=0644
