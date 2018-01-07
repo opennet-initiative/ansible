@@ -1,4 +1,7 @@
 #!/bin/sh
+#
+# {{ ansible_managed }}
+#
 
 set -eu
 
@@ -105,6 +108,7 @@ create_access_point_volume() {
 mount_system() {
 	local host="$1"
 	local dev
+	local path
 	dev=$(get_volume_path "$host" "root")
 	mkdir -p "$MOUNTPOINT"
 	mountpoint -q "$MOUNTPOINT" && die 7 "The mountpoint '$MOUNTPOINT' is already in use - aborting ..."
@@ -389,7 +393,6 @@ case "$ACTION" in
 			umount_system
 			remove_volume "$host" "root"
 			remove_volume "$host" "swap" 2>/dev/null
-			is_ap_running "$host" && virsh destroy "$host"
 			virsh undefine "$host"
 			rm -f "/etc/libvirt/qemu/auto/${host}.xml"
 			rm -f "/etc/libvirt/qemu/${host}.xml"
