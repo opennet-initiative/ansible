@@ -13,6 +13,7 @@ MOUNTPOINT=$(mktemp -d)
 SUB_MOUNTS="dev proc sys"
 DISTRIBUTION=${DISTRIBUTION:-stretch}
 APT_URL="http://ftp.de.debian.org/debian"
+DEBOOTSTRAP_BIN=${DEBOOTSTRAP_BIN:-debootstrap}
 # Zu installierende oder wegzulassende Pakete (komma-separiert)
 # python-apt: fuer ansible
 # olsrd: Mesh-Routing
@@ -136,11 +137,9 @@ create_debian_system() {
 	local host="$1"
 	local ip="$2"
 	mount_system "$host"
-	which debootstrap >/dev/null || die 11 "Missing requirement: debootstrap"
+	which "$DEBOOTSTRAP_BIN" >/dev/null || die 11 "Missing requirement: $DEBOOTSTRAP_BIN"
 	echo "$DISTRIBUTION" "$MOUNTPOINT" "$APT_URL"
-	local DEBOOTSTRAP_OPTS="--include $PACKAGES_INCLUDE --exclude $PACKAGES_EXCLUDE"
-	# shellcheck disable=SC2086
-	debootstrap $DEBOOTSTRAP_OPTS "$DISTRIBUTION" "$MOUNTPOINT" "$APT_URL" || {
+	"$DEBOOTSTRAP_BIN" --include "$PACKAGES_INCLUDE" --exclude "$PACKAGES_EXCLUDE" "$DISTRIBUTION" "$MOUNTPOINT" "$APT_URL" || {
 		umount_system
 		die 8 "Debootstrap failed - aborting ..."
 	}
