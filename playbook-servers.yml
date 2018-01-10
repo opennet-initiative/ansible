@@ -7,7 +7,7 @@
     - role: apache2-server
       when: apache2_sites is defined
 
-- hosts: ryoko.on:aqua.on:tamago.on
+- hosts: ryoko.on:aqua.on:tamago.on:akito2.on-i.de
   roles:
     - local-dns-resolver
     - virtualization-server
