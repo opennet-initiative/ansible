@@ -1,6 +1,8 @@
 server {
 	listen 80;
-	listen [::]:80;
+	# TODO: "ipv6only=on" entfernen, sobald auf allen UGW-Servern nginx >= 1.3.4 vorhanden ist
+	#       (vor v1.3.4 hing ipv6only von den System-Einstellungen ab)
+	listen [::]:80 ipv6only=on;
 
 	server_name {{ short_hostname }}.opennet-initiative.de;
 	server_name {{ short_hostname }}.on-i.de;
