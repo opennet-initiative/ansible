@@ -182,12 +182,22 @@ create_access_point_image() {
 	local host="$1"
 	local image_url="$2"
 	local blockdev
+	local tmpfile
+	local exitcode
 	blockdev=$(get_volume_path "$host" "root")
+	tmpfile=$(mktemp)
 	# Abbruch, falls curl fehlschlaegt
-	set -o pipefail
-	{ curl --silent "$image_url" || { echo >&2 "Failed to download '$image_url'" && return 1; }; } \
-		| gunzip --stdout --force | dd "of=$blockdev" status=none conv=notrunc
-	set +o pipefail
+	if ! curl --silent --show-error --fail --out "$tmpfile" "$image_url"; then
+		echo >&2 "Failed to download '$image_url'"
+		exitcode=1
+	elif ! gunzip --stdout --force <"$tmpfile" | dd "of=$blockdev" status=none conv=notrunc; then
+		echo >&2 "Failed to write decompressed image to '$blockdev'"
+		exitcode=1
+	else
+		exitcode=0
+	fi
+	rm -f "$tmpfile"
+	return "$exitcode"
 }
 
 
