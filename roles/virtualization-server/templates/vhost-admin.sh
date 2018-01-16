@@ -367,6 +367,11 @@ get_url_of_firmware_version() {
 ACTION=help
 [ $# -gt 0 ] && ACTION="$1" && shift
 
+
+# entferne in jedem Fall am Ende das temp-Verzeichnis
+trap "umount_system" EXIT
+
+
 case "$ACTION" in
 	create-debian)
 		[ "$#" -eq 2 ] || die 3 "Not enough arguments: HOSTNAME IP"
@@ -430,6 +435,4 @@ case "$ACTION" in
 		;;
 esac
 
-# entferne das temp-Verzeichnis
-umount_system
 exit 0
