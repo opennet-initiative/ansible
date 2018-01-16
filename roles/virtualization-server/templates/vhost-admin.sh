@@ -385,7 +385,7 @@ case "$ACTION" in
 		prepare_system "$host"
 		;;
 	create-ap)
-		[ "$#" -eq 3 ] || die 3 "Not enough arguments: HOSTNAME IP [IMAGE_URL]"
+		[ "$#" -eq 3 ] || die 3 "Not enough arguments: HOSTNAME IP IMAGE_URL"
 		host="$1"
 		ip="$2"
 		image_url=$(get_url_of_firmware_version "${3:-latest}")
