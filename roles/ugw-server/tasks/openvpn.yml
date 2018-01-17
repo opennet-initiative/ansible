@@ -63,6 +63,7 @@
 # Diese Dateien muessen manuell uebertragen werden.
 - name: Vorhandensein von lokalem Nutzer-VPN-Zertifikat pruefen
   stat: path={{ openvpn_users_cert_file }}
+  check_mode: no
   register: openvpn_users_certificate
 
 - fail: msg="OpenVPN-Zertifikat fuer Nutzer-VPN fehlt ({{ openvpn_users_cert_file }})"
@@ -70,6 +71,7 @@
 
 - name: Vorhandensein von lokalem Nutzer-VPN-Schluessel pruefen
   stat: path={{ openvpn_users_key_file }}
+  check_mode: no
   register: openvpn_users_key
 
 - fail: msg="OpenVPN-Schluessel fuer Nutzer-VPN fehlt ({{ openvpn_users_key_file }})"
@@ -79,6 +81,7 @@
 # Diese Dateien muessen manuell uebertragen werden.
 - name: Vorhandensein von lokalem UGW-VPN-Zertifikat pruefen
   stat: path={{ openvpn_ugw_cert_file }}
+  check_mode: no
   register: openvpn_ugw_certificate
 
 - fail: msg="OpenVPN-Zertifikat fuer UGW-VPN fehlt ({{ openvpn_ugw_cert_file }})"
@@ -86,6 +89,7 @@
 
 - name: Vorhandensein von lokalem UGW-VPN-Schluessel pruefen
   stat: path={{ openvpn_ugw_key_file }}
+  check_mode: no
   register: openvpn_ugw_key
 
 - fail: msg="OpenVPN-Schluessel fuer UGW-VPN fehlt ({{ openvpn_ugw_key_file }})"

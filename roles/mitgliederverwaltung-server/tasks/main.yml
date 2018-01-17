@@ -23,7 +23,9 @@
 
 - name: MoinMoin underlay-Verzeichnis vorhanden?
   stat: path=/var/lib/mitgliederverwaltung/underlay/
+  check_mode: no
   register: moinmoin_underlay_installed
+
 - name: MoinMoin underlay-Verzeichnis von frischer MoinMoin Installation kopieren
   command: cp -r /usr/share/moin/underlay /var/lib/mitgliederverwaltung/ && chown -R www-data:www-data /var/lib/mitgliederverwaltung/underlay/
   when: moinmoin_underlay_installed.stat.isdir is not defined
@@ -41,7 +43,9 @@
 
 - name: Sind Daten für MoinMoin Installation bereits vorhanden?
   stat: path=/var/lib/mitgliederverwaltung/data/
+  check_mode: no
   register: moinmoin_data_installed
+
 - name: Backup der alten MoinMoin Installation zur neuen Installation kopieren
   fail:
     msg: TODO - Du musst das Backup des data/ Verzeichnisses per Hand selbst einspielen. Siehe auch roles/mitgliederverwaltung-server/info.txt
@@ -49,7 +53,9 @@
 
 - name: Ist Apache basic auth htpasswd bereits vorhanden?
   stat: path=/var/www/mitgliederverwaltung.htpasswd
+  check_mode: no
   register: moinmoin_htpasswd_installed
+
 - name: Apache basic auth htpasswd kopieren
   fail:
     msg: TODO - Du musst die htpasswd-Datei per Hand einspielen. Siehe auch roles/mitgliederverwaltung-server/info.txt
