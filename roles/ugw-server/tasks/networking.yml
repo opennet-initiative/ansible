@@ -11,12 +11,23 @@
     - { key: "net.ipv4.conf.all.rp_filter", value: 2}
   notify: restart sysctl
 
+# Fuer systemd:
+# Nach der Konfiguration des loopback-Interface wollen wir die primaere UGW-Mesh-IP auf dem
+# Interface konfigurieren.
+- name: Main-IP auf loopback-Interface konfigurieren (systemd-networkd)
+  template:
+          src=on-loopback.network
+          dest=/etc/systemd/network/on-loopback.network
+  notify: restart systemd-networkd
+  when: ansible_service_mgr == "systemd"
+
+# Nur fuer sysvinit:
 # Die Konfiguration der Main-IP via /etc/network/interfaces funktioniert nicht zuverlässig, da
 # beispielsweise strato auf seinen vServern diese Datei beim Booten überschreibt.
 # Die Ausführung des "ip addr add"-Kommandos darf fehlschlagen ("|| true"), falls die Adresse
 # bereits konfiguriert ist - andernfalls könnte eine Ausführung des "run rc.local"-Handlers
 # unerwünschterweise zum Abbruch führen.
-- name: Main-IP auf loopback-Interface konfigurieren
+- name: Main-IP auf loopback-Interface konfigurieren (sysv)
   lineinfile:
           path=/etc/rc.local
           regexp="^ip addr add [0-9.]+/32 dev lo.*"
@@ -26,3 +37,4 @@
     - run rc.local
     # olsrd ignoriert nameservice-Eintraege ohne aktive olsr_main_ip - also nochmal neustarten
     - restart olsrd
+  when: ansible_service_mgr == "sysvinit"
