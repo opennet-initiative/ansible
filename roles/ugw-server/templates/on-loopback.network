@@ -1,0 +1,5 @@
+[Match]
+Name=lo
+
+[Address]
+Address={{ olsr_main_ip }}/32
