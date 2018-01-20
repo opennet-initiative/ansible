@@ -23,4 +23,4 @@
   command: /etc/rc.local
 
 - name: restart systemd-networkd
-  systemd: name=systemd-networkd.service state=restart
+  systemd: name=systemd-networkd.service state=restarted
