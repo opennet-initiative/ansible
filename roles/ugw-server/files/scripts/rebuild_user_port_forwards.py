@@ -56,15 +56,18 @@ def dump_iptables_rebuild_user_dnat(nodes):
         if not node.ipv4_address:
             continue
         for proto in ("tcp", "udp"):
-            yield "-A {chain} -p {proto} --dport {port_start}:{port_end} -j DNAT --to-destination {target}"\
-                  .format(chain=DNAT_CHAIN, proto=proto, port_start=node.port_first, port_end=node.port_last, target=str(node.ipv4_address))
+            yield ("-A {chain} -p {proto} --dport {port_start}:{port_end} "
+                   "-j DNAT --to-destination {target}"
+                   .format(chain=DNAT_CHAIN, proto=proto, port_start=node.port_first,
+                           port_end=node.port_last, target=str(node.ipv4_address)))
     yield "COMMIT"
-    yield "# Completed on Wed Oct 14 03:15:50 2015"
+    yield "# Completed"
 
 
-def rebuild_port_forwards(ipv4_base, ipv6_base):
-    port_forwards = os.linesep.join(dump_iptables_rebuild_user_dnat(connected_nodes))
-    proc = subprocess.Popen(["/sbin/iptables-restore", "--noflush", "--counters"], stdin=subprocess.PIPE)
+def rebuild_port_forwards(ipv4_base, ipv6_base, nodes):
+    port_forwards = os.linesep.join(dump_iptables_rebuild_user_dnat(nodes))
+    proc = subprocess.Popen(["/sbin/iptables-restore", "--noflush", "--counters"],
+                            stdin=subprocess.PIPE)
     stdout, stderr = proc.communicate(port_forwards)
     if (proc.returncode != 0) and stderr:
         sys.write(stderr + os.linesep)
@@ -76,6 +79,7 @@ if __name__ == "__main__":
     network_netmask = sys.argv[2]
     ipv4_base = parse_ipv4_and_net(network_start, network_netmask)
     ipv6_base = None
-    connected_nodes = [NodeInfo(node_cn, ipv4_base, ipv6_base) for node_cn in get_current_user_vpn_connections()]
-    returncode = rebuild_port_forwards(ipv4_base, ipv6_base)
+    connections = get_current_user_vpn_connections()
+    connected_nodes = [NodeInfo(node_cn, ipv4_base, ipv6_base) for node_cn in connections]
+    returncode = rebuild_port_forwards(ipv4_base, ipv6_base, connected_nodes)
     sys.exit(returncode)
