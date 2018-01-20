@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
 
 import os
 import re
@@ -79,7 +80,13 @@ if __name__ == "__main__":
     network_netmask = sys.argv[2]
     ipv4_base = parse_ipv4_and_net(network_start, network_netmask)
     ipv6_base = None
-    connections = get_current_user_vpn_connections()
+    try:
+        connections = get_current_user_vpn_connections()
+    except IOError as exc:
+        print("Failed to read the OpenVPN status file ({}): {}".format(OPENVPN_STATUS_FILE, exc),
+              file=sys.stderr)
+        print("Flushing the port forwarding rules.", file=sys.stderr)
+        connections = []
     connected_nodes = [NodeInfo(node_cn, ipv4_base, ipv6_base) for node_cn in connections]
     returncode = rebuild_port_forwards(ipv4_base, ipv6_base, connected_nodes)
     sys.exit(returncode)
