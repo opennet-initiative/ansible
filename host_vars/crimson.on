@@ -1,0 +1,63 @@
+short_hostname: crimson
+
+# der opennet-Mailserver wird manuell konfiguriert
+# (alle anderen lenken den Verkehr lediglich an ihn weiter)
+mail_relay_host: ""
+
+wan_interface: eth1
+
+olsr_main_ip: 192.168.10.15
+
+olsr_interfaces:
+  - { name: "eth0" }
+
+olsr_hna_announcements_ipv4:
+  # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
+  - 46.4.100.244
+
+olsr_extra_settings: |
+  LoadPlugin "olsrd_ondataservice.so.0.1"
+  {
+      PlParam	"receive"	"true"
+      PlParam	"dbcreatescript" "/etc/olsrd/ondataservice_create_db.sh"
+      PlParam	"database"	"/tmp/database"
+  }
+
+# Auswertung von ondataservice-Daten
+munin_plugins:
+  - ondataservice_firmware_versions
+
+letsencrypt_certificates:
+  - { on_tld_base: [www, wiki, mail, list, olsr] }
+
+olsr_nameservice_announcements:
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http www.opennet-initiative.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http www.on-i.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http www.rostock.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http www.schwerin.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http www.wismar.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https www.opennet-initiative.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https www.on-i.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https www.rostock.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https www.schwerin.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https www.wismar.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http wiki.opennet-initiative.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http wiki.on-i.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http wiki.rostock.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http wiki.schwerin.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http wiki.wismar.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https wiki.opennet-initiative.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https wiki.on-i.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https wiki.rostock.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https wiki.schwerin.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https wiki.wismar.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http mail.opennet-initiative.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http mail.on-i.de"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http mail.rostock.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http mail.schwerin.freifunk.net"
+  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http mail.wismar.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https .opennet-initiative.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https www.on-i.de"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https www.rostock.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https www.schwerin.freifunk.net"
+  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https www.wismar.freifunk.net"
