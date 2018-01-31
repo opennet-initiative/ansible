@@ -22,14 +22,15 @@ DEBOOTSTRAP_BIN=${DEBOOTSTRAP_BIN:-debootstrap}
 PACKAGES_INCLUDE="openssh-server,python-apt,olsrd,acpi-support-base,linux-image-amd64,grub-pc"
 PACKAGES_EXCLUDE="irqbalance"
 AP_FIRMWARE_MAP="\
-	0.4.1	http://downloads.opennet-initiative.de/openwrt/stable/0.4.1/x86/openwrt-x86-generic-combined-squashfs.img
-	0.4.4	http://downloads.opennet-initiative.de/openwrt/stable/0.4.4/x86/openwrt-x86-generic-combined-squashfs.img
-	0.4.5	http://downloads.opennet-initiative.de/openwrt/stable/0.4.5/x86/openwrt-x86-generic-combined-squashfs.img
-	0.5.0	http://downloads.opennet-initiative.de/openwrt/stable/0.5.0/x86/openwrt-x86-generic-combined-squashfs.img.gz
-	0.5.1	http://downloads.opennet-initiative.de/openwrt/stable/0.5.1/x86/openwrt-x86-generic-combined-squashfs.img.gz
-	0.5.2	http://downloads.opennet-initiative.de/openwrt/stable/0.5.2/x86/openwrt-0.5.2-1697-x86-generic-combined-squashfs.img.gz
-	0.5.3	http://downloads.opennet-initiative.de/openwrt/stable/0.5.3/x86/openwrt-0.5.3-1992-x86-generic-combined-squashfs.img.gz
-	latest	http://downloads.opennet-initiative.de/openwrt/stable/0.5.3/x86/openwrt-0.5.3-1992-x86-generic-combined-squashfs.img.gz
+	0.4.1	https://downloads.opennet-initiative.de/openwrt/stable/0.4.1/x86/openwrt-x86-generic-combined-squashfs.img
+	0.4.4	https://downloads.opennet-initiative.de/openwrt/stable/0.4.4/x86/openwrt-x86-generic-combined-squashfs.img
+	0.4.5	https://downloads.opennet-initiative.de/openwrt/stable/0.4.5/x86/openwrt-x86-generic-combined-squashfs.img
+	0.5.0	https://downloads.opennet-initiative.de/openwrt/stable/0.5.0/x86/openwrt-x86-generic-combined-squashfs.img.gz
+	0.5.1	https://downloads.opennet-initiative.de/openwrt/stable/0.5.1/x86/openwrt-x86-generic-combined-squashfs.img.gz
+	0.5.2	https://downloads.opennet-initiative.de/openwrt/stable/0.5.2/x86/openwrt-0.5.2-1697-x86-generic-combined-squashfs.img.gz
+	0.5.3	https://downloads.opennet-initiative.de/openwrt/stable/0.5.3/x86/openwrt-0.5.3-1992-x86-generic-combined-squashfs.img.gz
+  0.5.4 https://downloads.opennet-initiative.de/openwrt/stable/0.5.4/targets/x86/generic/lede-0.5.4-2283-x86-generic-combined-squashfs.img.gz
+  latest https://downloads.opennet-initiative.de/openwrt/stable/0.5.4/targets/x86/generic/lede-0.5.4-2283-x86-generic-combined-squashfs.img.gz
 "
 
 
