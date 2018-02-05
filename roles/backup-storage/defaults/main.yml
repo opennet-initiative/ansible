@@ -22,6 +22,7 @@ backup_storage_source_hosts:
   # Other
   - server-christoph.on
   - server-mathias.on
+	- server-matthias.on
 
 backup_storage_rsnapshot_directory: /media/backup/rsnapshot
 
