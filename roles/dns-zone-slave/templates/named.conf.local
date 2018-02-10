@@ -35,6 +35,8 @@ logging {
 	# nur Konfigurations- und Datenbank-Themen melden
 	category config { default_syslog; };
 	category database { default_syslog; };
+	# bspw. Warnungen wegen fehlender Zonen-Dateien
+	category general { default_syslog; };
 	# keinerlei Anfragen oder sonstige Themen mitschneiden
 	category default { null; };
 };
