@@ -21,15 +21,14 @@ if (!$fp) {
 }
 
 fwrite($fp, "status\n\n\n");
-sleep(1);
-fwrite($fp, "quit\n\n\n");
-sleep(1);
 $clients = array();
 $inclients = $inrouting = false;
 while (!feof($fp)) {
     $line = fgets($fp, 128);
     if (substr($line, 0, 13) == "ROUTING TABLE") {
         $inclients = false;
+	// close the connection
+	fwrite($fp, "quit\n\n\n");
     }
     if ($inclients) {
         $cdata = explode(',', $line);
