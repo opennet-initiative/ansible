@@ -1,6 +1,12 @@
+###############################################################################
+# {{ ansible_managed }}
+# Lokale Anpassungen koennen unter /etc/ferm/conf.d/ abgelegt werden.
+###############################################################################
+
+
 domain (ip ip6) {
 	table filter {
-		chain INPUT {
+		chain service-input {
 			interface {{ virtualization_wan_bridge_interface }} {
 				proto (tcp udp) dport domain ACCEPT;
 				proto udp dport bootps ACCEPT;

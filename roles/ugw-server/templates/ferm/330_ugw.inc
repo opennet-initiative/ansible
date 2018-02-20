@@ -13,7 +13,7 @@
 
 
 domain (ip ip6) table filter {
-	chain INPUT {
+	chain service-input {
 		# User-VPN und UGW-VPN
 		proto udp dport (1600 1602) ACCEPT;
 
