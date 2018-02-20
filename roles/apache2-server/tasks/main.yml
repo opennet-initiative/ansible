@@ -41,6 +41,6 @@
 
 - name: apache2 - Port öffnen
   copy:
-          src=ferm.conf
-          dest=/etc/ferm/conf.d/350_apache2.inc
+          src=ferm/350_apache2.inc
+          dest=/etc/ferm/conf.d/
   notify: restart ferm
