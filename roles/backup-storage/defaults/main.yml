@@ -15,6 +15,7 @@ backup_storage_source_hosts:
   - amano.on
   - crimson.on
   - haruka.on
+  - tenkawa.on
   # Gateways
   - erina.on
   - megumi.on
