@@ -9,6 +9,7 @@
          group={{ media_server_user }}
          home={{ media_server_dir }}
          system=yes
+         shell=/bin/false
 
 - name: rsync installieren
   apt:   pkg=rsync state=present
@@ -27,4 +28,4 @@
   template:
         src=ferm.conf
         dest=/etc/ferm/conf.d/{{ media_server_ferm }}
-  notify: restart ferm
+#  notify: restart ferm
