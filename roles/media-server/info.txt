@@ -1,6 +1,2 @@
 = Media-Server =
 Bereitstellung eines Freifunk Media CDN Servers zur Ablage und Auslieferung von Media Dateien für das media.freifunk.net Projekt. Basiert auf Mirrorbits.
-
-= TODO =
-
-= Nacharbeiten =

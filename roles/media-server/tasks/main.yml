@@ -22,3 +22,9 @@
   service:
         name=rsync
         state=started
+
+- name: rsync Port via ferm öffnen
+  template:
+        src=ferm.conf
+        dest=/etc/ferm/conf.d/{{ media_server_ferm }}
+  notify: restart ferm
