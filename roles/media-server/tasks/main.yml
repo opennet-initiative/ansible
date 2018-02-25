@@ -1,0 +1,24 @@
+- name: Gruppe anlegen
+  group: state=present
+         name={{ media_server_user }}
+         system=yes
+
+- name: Nutzer anlegen
+  user:  state=present
+         name={{ media_server_user }}
+         group={{ media_server_user }}
+         home={{ media_server_dir }}
+         system=yes
+
+- name: rsync installieren
+  apt:   pkg=rsync state=present
+
+- name: rsync Konfigurationsdatei übertragen
+  template:
+         src=rsyncd.conf
+         dest=/etc/rsyncd.conf
+
+- name: rsync (daemon mode) starten
+  service:
+        name=rsync
+        state=started

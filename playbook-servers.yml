@@ -23,3 +23,7 @@
 - hosts: amano.on
   roles:
     - mitgliederverwaltung-server
+
+- hosts: tenkawa.on
+  roles:
+    - media-server

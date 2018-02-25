@@ -1,0 +1,4 @@
+media_server_dir: "/var/www/media-server"
+media_server_log: "/var/log/rsyncd.log"
+media_server_acl: "cdnmaster.media.freifunk.net"
+media_server_user: "media-server"
