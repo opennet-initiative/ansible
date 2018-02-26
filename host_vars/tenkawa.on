@@ -11,3 +11,8 @@ olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
   - 46.4.100.227
 
+letsencrypt_certificates:
+  - { on_tld_base: media-mirror }
+
+apache2_sites:
+  - { name: media-mirror }

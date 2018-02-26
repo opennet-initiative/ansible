@@ -31,6 +31,7 @@ letsencrypt_certificates:
   - { on_tld_base: [www, wiki, mail, list, olsr] }
 
 olsr_nameservice_announcements:
+# FIXME: missing mail, list, olsr
   - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http www.opennet-initiative.de"
   - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http www.on-i.de"
   - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http www.rostock.freifunk.net"
