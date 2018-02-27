@@ -28,4 +28,4 @@
   template:
         src=ferm.conf
         dest=/etc/ferm/conf.d/{{ media_server_ferm }}
-#  notify: restart ferm
+  notify: restart ferm
