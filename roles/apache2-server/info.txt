@@ -30,6 +30,11 @@ Diese enthält eine Liste von Dictionaries mit folgenden Attributen:
 * https:
     * erzeuge einen VirtualHost-Block fuer https-Zugriffe
     * Vorgabewert: true
+* enable_later:
+    * wenn diese Variable definiert ist, dann wird die Site nicht aktiviert. Dies ist bspw.
+      nötig, wenn DocumentRoot erst in einem späteren Prozess von ansible erstellt wird.
+      Ohne diese Option schlägt der Neustart von Apache fehl (und damit auch ansible),
+      weil DocumentRoot nicht vorhanden ist.
 * certificate:
     * enthält entweder den Text "letsencrypt" oder ein Dictionary mit folgenden Attributen:
         * cert: Dateiname des Zertifikats

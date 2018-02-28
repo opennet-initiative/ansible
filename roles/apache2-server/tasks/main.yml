@@ -37,6 +37,7 @@
           src=../sites-available/{{ item.name }}.conf
           dest=/etc/apache2/sites-enabled/{{ item.name }}.conf
   with_items: "{{ apache2_sites }}"
+  when: "item.enable_later is undefined"
   notify: restart apache2
 
 - name: apache2 - Port öffnen
