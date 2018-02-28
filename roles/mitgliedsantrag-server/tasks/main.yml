@@ -1,0 +1,27 @@
+- name: Opennet apt repo einbinden (TODO)
+  #TODO einrichten, sobald repo final vorhanden ist
+  command: /bin/False
+  ignore_errors: yes
+
+- name: apt -- on-mitgliedsantrag Paket aus Repo installieren (TODO)
+  apt: pkg={{ item }} state=present
+  with_items:
+    - on-mitgliedsantrag
+  ignore_errors: yes #das hier funktioniert erst, wenn es ein finales ONI apt repo gibt
+
+  #die unteren beiden Worarounds löschen, sobald ONI apt repo vorhanden ist
+- name: Workaround -- installiere on-mitgliedsantrag manuell (1/2)
+  apt: pkg={{ item }} state=present
+  with_items:
+    - pdftk
+    - libphp-phpmailer
+    - libapache2-mod-php5
+- name: Workaround -- installiere on-mitgliedsantrag manuell (2/2)
+  command: dpkg -i /vagrant_data/on-mitgliedsantrag_1.0_all.deb
+
+- name: apache2 - Site aktivieren
+  file:
+          state=link
+          src=../sites-available/mitgliedsantrag.conf
+          dest=/etc/apache2/sites-enabled/mitgliedsantrag.conf
+  notify: restart apache2
