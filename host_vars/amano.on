@@ -13,11 +13,11 @@ olsr_hna_announcements_ipv4:
 
 letsencrypt_certificates:
   - { on_tld_base: mitgliederverwaltung }
-#  - { on_tld_base: mitgliedsantrag }
+  #- { on_tld_base: mitgliedsantrag }
 
 apache2_sites:
   - { name: mitgliederverwaltung }
-#  - { name: mitgliedsantrag }
+  - { name: mitgliedsantrag , https: False , redirect_http_to_https: False }
 
 apache2_mods:
  - { name: cgid }
