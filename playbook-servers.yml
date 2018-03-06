@@ -4,8 +4,6 @@
     - role: olsr-node
     - role: letsencrypt
       when: letsencrypt_certificates is defined
-    - role: apache2-server
-      when: apache2_sites is defined
 
 - hosts: ryoko.on:aqua.on:tamago.on:akito2.on-i.de
   roles:
@@ -27,3 +25,7 @@
 - hosts: tenkawa.on
   roles:
     - media-server
+
+- hosts: ae22:frieda23:hetzner
+  roles:
+    - apache2-server
