@@ -10,14 +10,20 @@
   ignore_errors: yes #das hier funktioniert erst, wenn es ein finales ONI apt repo gibt
 
   #die unteren beiden Worarounds löschen, sobald ONI apt repo vorhanden ist
-- name: Workaround -- installiere on-mitgliedsantrag manuell (1/2)
+- name: Workaround -- installiere on-mitgliedsantrag manuell (1/3)
   apt: pkg={{ item }} state=present
   with_items:
     - pdftk
     - libphp-phpmailer
     - libapache2-mod-php5
-- name: Workaround -- installiere on-mitgliedsantrag manuell (2/2)
-  command: dpkg -i /vagrant_data/on-mitgliedsantrag_1.0_all.deb
+- name: Workaround -- installiere on-mitgliedsantrag manuell (2/3)
+  get_url:
+    dest=/tmp/on-mitgliedsantrag_1.0_all.deb
+    mode=644
+    owner=root
+    url="http://dev.on-i.de/export/769439e4d3acfeab7475e57330323cc5af1ed9c3/on_mitgliedsantrag/tmp-bin/on-mitgliedsantrag_1.0_all.deb"
+- name: Workaround -- installiere on-mitgliedsantrag manuell (3/3)
+  command: dpkg -i /tmp/on-mitgliedsantrag_1.0_all.deb
 
 - name: apache2 - Site aktivieren
   file:
