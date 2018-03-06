@@ -21,11 +21,14 @@
 - hosts: amano.on
   roles:
     - mitgliederverwaltung-server
+    - mitgliedsantrag-server
 
 - hosts: tenkawa.on
   roles:
     - media-server
 
+#apache2-server Rolle muss am Ende ausgeführt werden, weil sonst Fehlermeldungen
+#wegen Fehlendem DocumentRoot auftreten
 - hosts: ae22:frieda23:hetzner
   roles:
     - apache2-server
