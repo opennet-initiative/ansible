@@ -15,7 +15,7 @@
   with_items:
     - pdftk
     - libphp-phpmailer
-    - libapache2-mod-php5
+    - libapache2-mod-php
 - name: Workaround -- installiere on-mitgliedsantrag manuell (2/3)
   get_url:
     dest=/tmp/on-mitgliedsantrag_1.0_all.deb
@@ -24,10 +24,3 @@
     url="http://dev.on-i.de/export/769439e4d3acfeab7475e57330323cc5af1ed9c3/on_mitgliedsantrag/tmp-bin/on-mitgliedsantrag_1.0_all.deb"
 - name: Workaround -- installiere on-mitgliedsantrag manuell (3/3)
   command: dpkg -i /tmp/on-mitgliedsantrag_1.0_all.deb
-
-- name: apache2 - Site aktivieren
-  file:
-          state=link
-          src=../sites-available/mitgliedsantrag.conf
-          dest=/etc/apache2/sites-enabled/mitgliedsantrag.conf
-  notify: restart apache2
