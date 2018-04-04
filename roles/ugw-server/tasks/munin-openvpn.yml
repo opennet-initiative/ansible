@@ -4,8 +4,7 @@
         mode=0755
   with_items:
     - openvpn_multiple
-    - opennet_ugw_connections_count
-    - opennet_ugw_connections_traffic
+    - opennet_ugw_connections
     - opennet_user_connections_ping
     - opennet_user_connections_duration
   notify: restart munin-node

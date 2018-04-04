@@ -43,8 +43,8 @@ get_openvpn_connections() {
 }
 
 
-if [ "${1:-}" = "config" ]; then
-	echo graph_title Ping-Zeiten der Nutzertunnel
+do_config() {
+	echo 'graph_title Ping-Zeiten der Nutzertunnel'
 	echo 'graph_args --base 1000 -l 0'
 	echo 'graph_vlabel seconds'
 	echo 'graph_category opennet'
@@ -56,12 +56,22 @@ if [ "${1:-}" = "config" ]; then
 		echo "host_${field}_rtt.draw LINE2"
 	done
 	exit 0
+}
+
+
+do_fetch() {
+	get_openvpn_connections | while read -r host label; do
+		field=$(clean_fieldname "$label")
+		ping_time=$(ping -w 1 -i 0.3 -c 3 "$host" 2>/dev/null | awk '
+			{ if (/min\/avg\/max/) { split($4, tokens, "/"); print tokens[2]/1000; }; }')
+		echo "host_${field}_rtt.value ${ping_time:-U}"
+	done
+}
+
+
+if [ "${1:-}" = "config" ]; then
+	do_config
+	[ "${MUNIN_CAP_DIRTYCONFIG:-0}" = 1 ] && do_fetch
+else
+	do_fetch
 fi
-
-
-get_openvpn_connections | while read -r host label; do
-	field=$(clean_fieldname "$label")
-	ping_time=$(ping -w 1 -i 0.3 -c 3 "$host" 2>/dev/null | awk '
-		{ if (/min\/avg\/max/) { split($4, tokens, "/"); print tokens[2]/1000; }; }')
-	echo "host_${field}_rtt.value ${ping_time:-U}"
-done
