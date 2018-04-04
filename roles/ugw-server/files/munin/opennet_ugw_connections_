@@ -29,12 +29,19 @@ def get_vpn_connections(filename):
                 if not line.startswith("UNDEF,"):
                     # Beispiel:
                     #   1.43.ugw.on,91.44.196.216:42503,225592577,231623679,Wed Dec 16 09:56:00 2015
-                    client_cn = line.split(",")[0]
-                    client_ip = line.split(",")[1].split(":")[0]
+                    #   2.190.ugw.on,::ffff:139.30.241.206,3088582683,3174035564,Tue Mar 27 03:25:41 2018
+                    client_cn, client_address, traffic_rx, traffic_tx = line.split(",")[:4]
+                    if client_address.count(":") == 1:
+                        # old format: IP:Port
+                        client_ip = client_address.split(":")[0]
+                    elif client_address.startswith("::ffff:"):
+                        # new format: IPv6-style address ("::ffff:<IPv4>")
+                        client_ip = client_address[7:]
+                    else:
+                        # new format: IPv6-style address (real IPv6)
+                        client_ip = client_address
                     # der Verkehr wird von OpenVPN in kByte angegeben
-                    traffic_rx = int(line.split(",")[2]) * 1024
-                    traffic_tx = int(line.split(",")[3]) * 1024
-                    yield client_cn, client_ip, traffic_tx, traffic_rx
+                    yield client_cn, client_ip, int(traffic_tx) * 1024, int(traffic_rx) * 1024
 
 
 def _get_cn_sorting_value(cn):
