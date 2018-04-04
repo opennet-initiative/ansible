@@ -49,7 +49,7 @@ if [ "${1:-}" = "config" ]; then
 	echo 'graph_vlabel seconds'
 	echo 'graph_category opennet'
 	echo 'graph_info This graph shows ping RTT statistics.'
-	get_openvpn_connections | while read host label; do
+	get_openvpn_connections | while read -r host label; do
 		field=$(clean_fieldname "$label")
 		echo "host_${field}_rtt.label $label"
 		echo "host_${field}_rtt.info Ping RTT statistics for $label."
@@ -59,9 +59,9 @@ if [ "${1:-}" = "config" ]; then
 fi
 
 
-get_openvpn_connections | while read host label; do
+get_openvpn_connections | while read -r host label; do
 	field=$(clean_fieldname "$label")
-	ping_time=$(ping -w 1 -i 0.3 -c 3 ${host} 2>/dev/null | awk '
+	ping_time=$(ping -w 1 -i 0.3 -c 3 "$host" 2>/dev/null | awk '
 		{ if (/min\/avg\/max/) { split($4, tokens, "/"); print tokens[2]/1000; }; }')
 	echo "host_${field}_rtt.value ${ping_time:-U}"
 done

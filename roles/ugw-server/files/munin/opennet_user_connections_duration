@@ -48,7 +48,7 @@ if [ "${1:-}" = "config" ]; then
 	echo 'graph_vlabel duration [hours]'
 	echo 'graph_category opennet'
 	echo 'graph_info This graph shows the duration of OpenVPN connections.'
-	get_openvpn_connections | while read host connected_since; do
+	get_openvpn_connections | while read -r host connected_since; do
 		field="host_$(clean_fieldname "$host")"
 		ip="192.168.$(echo "$host" | sed 's/\.aps\.on//')"
 		echo "${field}.label $ip"
@@ -59,7 +59,7 @@ if [ "${1:-}" = "config" ]; then
 fi
 
 
-get_openvpn_connections | while read host connected_since; do
+get_openvpn_connections | while read -r host connected_since; do
 	field=$(clean_fieldname "$host")
         duration_seconds=$(( $(date +%s) - $(date --date="$connected_since" +%s) ))
 	echo "host_${field}.value $duration_seconds"

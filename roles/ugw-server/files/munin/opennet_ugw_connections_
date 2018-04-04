@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-# ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Server_Installation/Ansible
+# ACHTUNG: verwaltet via ansible
+# siehe https://wiki.opennet-initiative.de/wiki/Server_Installation/Ansible
 #
-#%# family=manual
-#%# capabilities=autoconf suggest
+#  #%# family=manual
+#  #%# capabilities=autoconf suggest
 
 
-import sys
 import os
-import glob
 import re
+import sys
 
 
 USER_STATUS_FILENAME = "/var/log/openvpn/opennet_users.status.log"
@@ -17,7 +17,6 @@ UGW_STATUS_FILENAME = "/var/log/openvpn/opennet_ugw.status.log"
 
 def get_vpn_connections(filename):
     in_clients = False
-    count = 0
     with open(filename, "r") as f:
         for line in f.readlines():
             line = line.strip()
@@ -28,8 +27,8 @@ def get_vpn_connections(filename):
             elif in_clients:
                 if not line.startswith("UNDEF,"):
                     # Beispiel:
-                    #   1.43.ugw.on,91.44.196.216:42503,225592577,231623679,Wed Dec 16 09:56:00 2015
-                    #   2.190.ugw.on,::ffff:139.30.241.206,3088582683,3174035564,Tue Mar 27 03:25:41 2018
+                    #   1.43.ugw.on,91.44.196.216:42503,222577,233679,Wed Dec 16 09:56:00 2015
+                    #   2.190.ugw.on,::ffff:139.30.241.206,3088683,3175564,Tue Mar 27 03:25:41 2018
                     client_cn, client_address, traffic_rx, traffic_tx = line.split(",")[:4]
                     if client_address.count(":") == 1:
                         # old format: IP:Port
@@ -57,12 +56,13 @@ def get_ugw_dict_with_details():
         # soll das dieser IP zugeordnete UGW stabil bleiben. Wir legen dazu einfach fest,
         # dass das UGW mit dem kleineren CN immer gewinnt. Die Nutzer beider UGWs werden
         # somit zusammengefasst dem UGW mit dem kleineren CN zugeordnet.
-        if (ugw_ip in ugw_dict) and (_get_cn_sorting_value(ugw_cn) > _get_cn_sorting_value(ugw_dict[ugw_ip]["cn"])):
+        if ((ugw_ip in ugw_dict) and
+                (_get_cn_sorting_value(ugw_cn) > _get_cn_sorting_value(ugw_dict[ugw_ip]["cn"]))):
             continue
         # wir ignorieren den UGW-Mesh-Verkehr - es geht nur um die Nutzertunnel
         ugw_dict[ugw_ip] = {"cn": ugw_cn, "count": 0, "traffic_tx": 0, "traffic_rx": 0}
     for client_cn, client_ip, traffic_tx, traffic_rx in get_vpn_connections(USER_STATUS_FILENAME):
-        if not client_ip in ugw_dict:
+        if client_ip not in ugw_dict:
             # unbekannter Client (ohne dazugehoerige UGW-Verbindung)
             ugw_dict[client_ip] = {"cn": client_ip, "count": 0, "traffic_tx": 0, "traffic_rx": 0}
         ugw_dict[client_ip]["count"] += 1
@@ -77,16 +77,17 @@ def get_clean_fieldname(label):
 
 def run_count(action):
     if action == "config":
-        print "graph_title OpenVPN client count by UGW"
-        print "graph_args --base 1000 -l 0"
-        print "graph_scale yes"
-        print "graph_vlabel number of clients"
-        print "graph_category opennet"
-        print "graph_info This graph shows the number of connected users grouped by UGWs."
+        print("graph_title OpenVPN client count by UGW")
+        print("graph_args --base 1000 -l 0")
+        print("graph_scale yes")
+        print("graph_vlabel number of clients")
+        print("graph_category opennet")
+        print("graph_info This graph shows the number of connected users grouped by UGWs.")
         ugw_dict = get_ugw_dict_with_details()
         # sortiere die UGWs nach ihrer CN
         is_first = True
-        for ugw_ip in sorted(ugw_dict, key=lambda ugw_key: _get_cn_sorting_value(ugw_dict[ugw_key]["cn"])):
+        for ugw_ip in sorted(ugw_dict, key=lambda ugw_key: _get_cn_sorting_value(
+                ugw_dict[ugw_key]["cn"])):
             fieldname = get_clean_fieldname(ugw_dict[ugw_ip]["cn"])
             print("%s.label %s" % (fieldname, ugw_dict[ugw_ip]["cn"]))
             print("%s.draw %s" % (fieldname, "AREA" if is_first else "STACK"))
@@ -100,16 +101,17 @@ def run_count(action):
 
 def run_traffic(action):
     if action == "config":
-        print "graph_title OpenVPN client traffic by UGW"
-        print "graph_args --base 1000 -l 0"
-        print "graph_scale yes"
-        print "graph_vlabel bits in (-) / out (+) per second"
-        print "graph_category opennet"
-        print "graph_info This graph shows the volume of the users of each UGW."
+        print("graph_title OpenVPN client traffic by UGW")
+        print("graph_args --base 1000 -l 0")
+        print("graph_scale yes")
+        print("graph_vlabel bits in (-) / out (+) per second")
+        print("graph_category opennet")
+        print("graph_info This graph shows the volume of the users of each UGW.")
         ugw_dict = get_ugw_dict_with_details()
         # sortiere die UGWs nach ihrer CN
         is_first = True
-        for ugw_ip in sorted(ugw_dict, key=lambda ugw_key: _get_cn_sorting_value(ugw_dict[ugw_key]["cn"])):
+        for ugw_ip in sorted(ugw_dict, key=lambda ugw_key: _get_cn_sorting_value(
+                ugw_dict[ugw_key]["cn"])):
             fieldname = get_clean_fieldname(ugw_dict[ugw_ip]["cn"])
             print("%s_rx_bytes.label %s" % (fieldname, ugw_dict[ugw_ip]["cn"]))
             print("%s_rx_bytes.type DERIVE" % fieldname)
