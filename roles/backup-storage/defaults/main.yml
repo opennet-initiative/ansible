@@ -14,12 +14,14 @@ backup_storage_source_hosts:
   - izumi.on
   - amano.on
   #- crimson.on
-  - haruka.on
+  # TODO: bei Erreichbarkeit wieder anschalten
+  #- haruka.on
   - tenkawa.on
   # Gateways
   - erina.on
   - megumi.on
-  - subaru.on
+  # TODO: bei Erreichbarkeit wieder anschalten
+  #- subaru.on
   # Other
   - server-christoph.on
   - server-mathias.on
