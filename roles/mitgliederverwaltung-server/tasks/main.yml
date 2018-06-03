@@ -55,8 +55,22 @@
   stat: path=/var/www/mitgliederverwaltung.htpasswd
   check_mode: no
   register: moinmoin_htpasswd_installed
+  notify: restart apache2
 
 - name: Apache basic auth htpasswd kopieren
   fail:
     msg: TODO - Du musst die htpasswd-Datei per Hand einspielen. Siehe auch roles/mitgliederverwaltung-server/info.txt
   when: moinmoin_htpasswd_installed.stat.exists == False
+
+- name: apt -- fail2ban Paket installieren
+  apt: pkg={{ item }} state=present
+  with_items:
+    - fail2ban
+
+- name: fail2ban apache Config kopieren
+  copy: src=etc/fail2ban/
+        dest=/etc/fail2ban/
+  notify: restart fail2ban
+
+
+
