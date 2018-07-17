@@ -18,7 +18,7 @@
         mode=755
 
 - name: MoinMoin Wiki Config kopieren
-  copy: src=etc/moin/ 
+  copy: src=etc/moin/
         dest=/etc/moin/
 
 - name: MoinMoin underlay-Verzeichnis vorhanden?
@@ -46,6 +46,10 @@
   check_mode: no
   register: moinmoin_data_installed
 
+- name: MoinMoin Macros kopieren
+  copy: src=macro/
+        dest=/var/lib/mitgliederverwaltung/data/plugin/macro/
+
 - name: Backup der alten MoinMoin Installation zur neuen Installation kopieren
   fail:
     msg: TODO - Du musst das Backup des data/ Verzeichnisses per Hand selbst einspielen. Siehe auch roles/mitgliederverwaltung-server/info.txt
@@ -71,6 +75,3 @@
   copy: src=etc/fail2ban/
         dest=/etc/fail2ban/
   notify: restart fail2ban
-
-
-
