@@ -51,5 +51,6 @@ def execute(pagename, request):
         else:
             result = _('Page does not exist.')
                 
-    Page(request, pagename).send_page(request, result)
- 
+    #Page(request, pagename).send_page(request, result)
+    request.theme.add_msg(result, "info")
+    Page(request, pagename).send_page()
