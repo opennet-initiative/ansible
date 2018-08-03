@@ -4,12 +4,12 @@ short_hostname: crimson
 # (alle anderen lenken den Verkehr lediglich an ihn weiter)
 mail_relay_host: ""
 
-wan_interface: eth1
+wan_interface: eth0
 
 olsr_main_ip: 192.168.10.15
 
 olsr_interfaces:
-  - { name: "eth0" }
+  - { name: "eth1" }
 
 olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
