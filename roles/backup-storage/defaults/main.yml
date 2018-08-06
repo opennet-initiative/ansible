@@ -8,12 +8,12 @@ backup_storage_source_hosts:
   - heartofgold.on
   - howmei.on
   - jun.on
-  - on-v6.on-i.de
   - ruri.on
   - yurika.on
   - izumi.on
   - amano.on
   - crimson.on
+  - hikaru.on
   # TODO: bei Erreichbarkeit wieder anschalten
   #- haruka.on
   - tenkawa.on
