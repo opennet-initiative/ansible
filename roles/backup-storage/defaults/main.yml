@@ -20,8 +20,7 @@ backup_storage_source_hosts:
   # Gateways
   - erina.on
   - megumi.on
-  # TODO: bei Erreichbarkeit wieder anschalten
-  #- subaru.on
+  - subaru.on
   # Other
   - server-christoph.on
   - server-mathias.on
