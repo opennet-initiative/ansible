@@ -22,7 +22,12 @@ domain (ip ip6) chain "on-ugw-block-access" {
 domain ip chain "on-ugw-block-access" {
 	############### Beschwerden von Providern ####################
 	# diese Regeln sollten wir regelmaessig begutachten und alte Eintraege entfernen
+
 	# CERT-Bund#2014111728001208] Schadprogramm-Infektionen in AS39138
 	# 24.11.2014 - erina
 	#daddr 217.160.208.160 proto tcp dport 80 DROP;
+
+	# https://www.bsi-fuer-buerger.de/avalanche
+	# 25.09.2018 - subaru
+	daddr 184.105.192.2 proto tcp dport 443 DROP;
 }
