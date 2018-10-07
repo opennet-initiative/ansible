@@ -14,9 +14,36 @@ import sys
 import os
 from opennet.addresses import NodeInfo, parse_ipv4_and_net, parse_ipv6_and_net
 
+SERVER_VERSION = "{{ openvpn_server_version.stdout }}".split(".")[:2]
+
 
 # Debugging?
 #sys.stderr = file("/tmp/vpn-connect.log", "w")
+
+
+# sie Code-Kopie in roles/ugw-server/templates/openvpn/opennet_users/connect_script.py
+def get_compression_config_lines():
+    # parse die ersten beiden Versions-Zahlen
+    client_version = os.getenv("IV_VER").split(".")[:2]
+    # ermittle die passende Kombination von Server- und Client-Kompression
+    if SERVER_VERSION < (2, 4):
+        # older server version supporting only lzo
+        if client_version < (2, 4):
+            compression = ("comp-lzo", "comp-lzo")
+        else:
+            compression = ("comp-lzo", "compress lzo")
+    else:
+        # modern server version supporting all compression algorithms
+        if os.getenv("IV_LZ4v2") == "1":
+            compression = ("compress lz4-v2", "compress lz4-v2")
+        elif os.getenv("IV_LZ4") == "1":
+            compression = ("compress lz4", "compress lz4")
+        elif client_version < (2, 4):
+            compression = ("compress lzo", "comp-lzo")
+        else:
+            compression = ("compress lzo", "compress lzo")
+    yield compression[0]
+    yield 'push "{}"'.format(compression[1])
 
 
 def process_openvpn_connection_event(client_cn):
@@ -34,10 +61,12 @@ def process_openvpn_connection_event(client_cn):
         # push config to ovpn client
         target_filename = sys.argv[1]
         with file(target_filename, 'w') as target_file:
+            config_items = []
             if node.ipv4_address:
-                target_file.write('ifconfig-push %s %s\n' % (node.ipv4_address, node.ipv4_address-1))
+                config_items.append('ifconfig-push {} {}{}'
+                                    .format(node.ipv4_address, node.ipv4_address-1)
             if node.ipv6_address:
-                target_file.write('ifconfig-ipv6-push %s\n' % str(node.ipv6_address))
+                config_items.append('ifconfig-ipv6-push {}'.format(node.ipv6_address))
                 # TODO: dies sind alte erina-Adressen?
                 #if client_cn == '10.mobile.on':
                 #    target_file.write('iroute-ipv6 2a01:a700:4629:fe01::/64')
@@ -45,6 +74,8 @@ def process_openvpn_connection_event(client_cn):
                 #    target_file.write('iroute-ipv6 2a01:a700:4629:fe02::/64')
                 #if client_cn == '2.50.aps.on':
                 #    target_file.write('iroute-ipv6 2a01:a700:4629:fe03::/64')
+            config_items.extend(get_compression_config_lines())
+            target_file.write(os.linesep.join(config_items))
     else:
         # wir wurden als "client-disconnect"-Skript aufgerufen
         pass

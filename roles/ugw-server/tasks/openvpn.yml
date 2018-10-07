@@ -35,6 +35,12 @@
 - name: Diffie-Hellmann initialisieren
   command: creates=/etc/openvpn/dh2048.pem openssl dhparam -out /etc/openvpn/dh2048.pem 2048
 
+# die "connect"-Skripte benoetigen die lokale Server-Version
+- name: OpenVPN-Server-Version ermitteln
+  shell: "dpkg --status openvpn | grep '^Version:' | awk '{print $2}'"
+  register: openvpn_server_version
+  check_mode: no
+
 # Unterverzeichnisse erzeugen
 - name: VPN-Verzeichnisse erzeugen
   file: dest=/etc/openvpn/{{ item }} state=directory
@@ -43,14 +49,18 @@
     - opennet_ugw
 
 - name: Nutzer-VPN-Skripte uebertragen
-  copy: src=openvpn/opennet_users/connect_script.py
-        dest=/etc/openvpn/opennet_users/
-        mode=755
+  template:
+          src=opennet_users-connect_script.py
+          dest=/etc/openvpn/opennet_users/connect_script.py
+          mode=755
+  check_mode: no
 
 - name: UGW-VPN-Skripte uebertragen
-  copy: src=openvpn/opennet_ugw/connect_script.py
-        dest=/etc/openvpn/opennet_ugw/
-        mode=755
+  template:
+          src=opennet_ugw-connect_script.py
+          dest=/etc/openvpn/opennet_ugw/connect_script.py
+          mode=755
+  check_mode: no
 
 - name: CA-Zertifikat uebertragen
   copy: src=openvpn/{{ item }}/ca.crt
