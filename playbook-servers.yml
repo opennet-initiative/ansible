@@ -27,6 +27,11 @@
   roles:
     - media-server
 
+# apt-repository in development
+- hosts: server-mathias.on
+  roles:
+    - apt-repository
+
 #apache2-server Rolle muss am Ende ausgeführt werden, weil sonst Fehlermeldungen
 #wegen Fehlendem DocumentRoot auftreten
 - hosts: izumi.on:tenkawa.on:amano.on
