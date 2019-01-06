@@ -24,14 +24,10 @@ server-matthias.on
 inez.on
 
 [hetzner]
-akito2.on-i.de
+akito.on-i.de
 on-v6.on
 crimson.on
 haruka.on
 hikaru.on
 tenkawa.on
-
-# Server in dieser Gruppe sind noch nicht bereit fuer die "basic-server"-Rolle
-[not-managed]
-# auf akito wenden wir nur die Rollen "backup-storage" und "dns-zone-resolver" an
-akito.on-i.de
+kazama.on

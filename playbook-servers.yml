@@ -5,7 +5,7 @@
     - role: letsencrypt
       when: letsencrypt_certificates is defined
 
-- hosts: ryoko.on:aqua.on:tamago.on:akito2.on-i.de
+- hosts: ryoko.on:aqua.on:tamago.on:akito.on-i.de
   roles:
     - local-dns-resolver
     - virtualization-server

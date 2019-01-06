@@ -17,6 +17,7 @@ backup_storage_source_hosts:
   # TODO: bei Erreichbarkeit wieder anschalten
   #- haruka.on
   - tenkawa.on
+  - kazama.on
   # Gateways
   - erina.on
   - megumi.on
