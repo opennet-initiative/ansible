@@ -1,0 +1,2 @@
+- name: wireguard installieren
+  apt:  name=wireguard state=present

@@ -1,0 +1,11 @@
+# FIXME: Workaround, da Wireguard noch nicht in stable (Stand 2019/01)
+- name: Debian unstable Apt Repo hinzufügen
+  apt_repository:
+        repo="deb http://deb.debian.org/debian/ unstable main"
+        state=present
+        filename="debian-apt-reposository_unstable"
+
+- name: Debian unstable Apt Repo Pinning setzen
+  copy:
+        src=limit_apt-repository_unstable
+        dest=/etc/apt/preferences.d/
