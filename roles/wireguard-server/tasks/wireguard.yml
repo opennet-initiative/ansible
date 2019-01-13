@@ -1,2 +1,63 @@
-- name: wireguard installieren
+- name: Wireguard installieren
   apt:  name=wireguard state=present
+
+- name: Wireguard Konfiguration prüfen
+  stat:
+    path: "{{ wg_server_conf }}"
+  register: wg_conf
+
+- name: Wireguard Schlüssel generieren
+  shell: umask 077; wg genkey | tee {{ wg_server_private }} | wg pubkey > {{ wg_server_public }}
+  register: key_files
+#  with_sequence: start=0 end={{ clients }}
+  when: wg_conf is not defined or wg_conf.stat.exists == false
+
+- name: Wireguard privaten Schlüssel einlesen
+  shell: cat {{ wg_server_private }}
+  register: private_key_files
+#  with_sequence: start=0 end={{ clients }}
+  when: wg_conf is not defined or wg_conf.stat.exists == false
+
+- name: Wireguard öffentlichen Schlüssel einlesen
+  shell: cat {{ wg_server_public }}
+  register: public_key_files
+#  with_sequence: start=0 end={{ clients }}
+  when: wg_conf is not defined or wg_conf.stat.exists == false
+
+#FIXME: Damit keine Konfiguration überschrieben wird, zunächst stoppen.
+- name: Wireguard laufende Instanz stoppen (via systemd)
+  systemd:
+    name: wg-quick@wg0.service
+    state: stopped
+  when: wg_conf is not defined or wg_conf.stat.exists == false
+
+#FIXME: ggf. nochmals alles stoppen
+- name: Wireguard laufende Instanz stoppen (via wg-quick)
+  shell: "wg-quick down wg0 || true"  # ignore failures
+  when: wg_conf is not defined or wg_conf.stat.exists == false
+
+- name: Wireguard Server Konfiguration anlegen
+  template:
+    src: "templates/server.conf"
+    dest: "{{ wg_server_conf }}"
+    owner: root
+    group: root
+    mode: 0600
+  when: wg_conf.stat is not defined or wg_conf.stat.exists == false
+
+- name: Enable wireguard interface
+  systemd:
+    name: wg-quick@wg0
+    enabled: yes
+    state: started
+
+#- name: Register the clients on the vpn server
+#  shell: wg set wg0 peer {{ public_key_files.results[item|int].stdout }} allowed-ips {{ vpn_network }}.{{item|int + 1}}/32
+#  with_sequence: start=1 end={{ clients }}
+#  when: wg0_conf is not defined or wg0_conf.stat.exists == false
+
+#- name: Restart the VPN service to save changes
+#  systemd:
+#    name: wg-quick@wg0.service
+#    state: restarted
+#  when: wg0_conf is not defined or wg0_conf.stat.exists == false

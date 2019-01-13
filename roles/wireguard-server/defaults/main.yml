@@ -1,3 +1,7 @@
 # wireguard server config
-#wg_server: xxx
-
+wg_server_dir: "/etc/wireguard"
+wg_server_conf: "{{ wg_server_dir }}/wg0.conf"
+wg_server_private: "{{ wg_server_dir }}/server.private"
+wg_server_public: "{{ wg_server_dir }}/server.public"
+wg_server_network: "10.1.12"
+wg_server_port: "51820"
