@@ -45,11 +45,17 @@
     mode: 0600
   when: wg_conf.stat is not defined or wg_conf.stat.exists == false
 
-- name: Enable wireguard interface
+- name: Wireguard Netzwerk Schnittstelle aktivieren
   systemd:
     name: wg-quick@wg0
     enabled: yes
     state: started
+
+- name: Externen Datenverkehr zu Wireguard erlauben
+  template:
+    src=ferm/360_wireguard-server.inc
+    dest=/etc/ferm/conf.d/
+  notify: restart ferm
 
 #- name: Register the clients on the vpn server
 #  shell: wg set wg0 peer {{ public_key_files.results[item|int].stdout }} allowed-ips {{ vpn_network }}.{{item|int + 1}}/32
