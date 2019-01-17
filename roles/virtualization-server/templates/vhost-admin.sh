@@ -90,7 +90,7 @@ create_host_volumes() {
 	local maker
 	local size
 	local path
-	echo "	mkfs.ext4	root	3G
+	echo "	mkfs.ext4	root	10G
 		mkswap		swap	512M" \
 	 | while read -r maker vol_type size; do
 		create_volume "$host" "$vol_type" "$size"
