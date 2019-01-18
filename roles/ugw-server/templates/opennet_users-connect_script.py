@@ -64,7 +64,7 @@ def process_openvpn_connection_event(client_cn):
             config_items = []
             if node.ipv4_address:
                 config_items.append('ifconfig-push {} {}{}'
-                                    .format(node.ipv4_address, node.ipv4_address-1)
+                                    .format(node.ipv4_address, node.ipv4_address-1))
             #if node.ipv6_address:
                 #config_items.append('ifconfig-ipv6-push {}'.format(node.ipv6_address))
                 # TODO: dies sind alte erina-Adressen?
