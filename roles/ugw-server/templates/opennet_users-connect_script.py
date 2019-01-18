@@ -65,8 +65,8 @@ def process_openvpn_connection_event(client_cn):
             if node.ipv4_address:
                 config_items.append('ifconfig-push {} {}{}'
                                     .format(node.ipv4_address, node.ipv4_address-1)
-            if node.ipv6_address:
-                config_items.append('ifconfig-ipv6-push {}'.format(node.ipv6_address))
+            #if node.ipv6_address:
+                #config_items.append('ifconfig-ipv6-push {}'.format(node.ipv6_address))
                 # TODO: dies sind alte erina-Adressen?
                 #if client_cn == '10.mobile.on':
                 #    target_file.write('iroute-ipv6 2a01:a700:4629:fe01::/64')
