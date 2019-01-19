@@ -2,12 +2,7 @@
 # ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Server_Installation/Ansible
 """
 Dieses Skript wird beim Aufbau und bei der Trennung einer Nutzer-Tunnel-OpenVPN-Verbindung ausgefuehrt.
-Es ermittelt die zu vergebende IP des OpenVPN-Clients anhand des CN seines Zertifikats und berechnet ausserdem
-die Portbereich, der dem Client fuer die Portweiterleitung zugeordnet ist.
-
-Ausserdem wird dieses Skript als Start-Hook von ferm mit dem Argument "rebuild_port_forward" aufgerufen,
-um die Portweiterleitungsregeln nach einem Flush der Firewall-Regeln anhand der openvpn-Status-Datei
-neu zu erstellen.
+Es ermittelt die zu vergebende IP des OpenVPN-Clients anhand des CN seines Zertifikats.
 """
 
 import sys
@@ -17,11 +12,13 @@ from opennet.addresses import NodeInfo, parse_ipv4_and_net, parse_ipv6_and_net
 SERVER_VERSION = "{{ openvpn_server_version.stdout }}".split(".")[:2]
 
 
-# Debugging?
+# optionale Log-Ausgabe fuer Debugging
+# Dies funktioniert nur bei direkter Ausfuehrung ("openvpn CONFIG_FILE"), da die systemd-Unit ein
+# privates /tmp erzeugt.
 #sys.stderr = file("/tmp/vpn-connect.log", "w")
 
 
-# sie Code-Kopie in roles/ugw-server/templates/openvpn/opennet_users/connect_script.py
+# siehe Code-Kopie in roles/ugw-server/templates/openvpn/opennet_users/connect_script.py
 def get_compression_config_lines():
     # parse die ersten beiden Versions-Zahlen
     client_version = os.getenv("IV_VER").split(".")[:2]
