@@ -21,7 +21,7 @@ SERVER_VERSION = "{{ openvpn_server_version.stdout }}".split(".")[:2]
 # siehe Code-Kopie in roles/ugw-server/templates/openvpn/opennet_users/connect_script.py
 def get_compression_config_lines():
     # parse die ersten beiden Versions-Zahlen
-    client_version = os.getenv("IV_VER").split(".")[:2]
+    client_version = os.getenv("IV_VER", "2.3").split(".")[:2]
     # ermittle die passende Kombination von Server- und Client-Kompression
     if SERVER_VERSION < (2, 4):
         # older server version supporting only lzo
