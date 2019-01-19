@@ -15,6 +15,7 @@
     - vim-nox
     - zip
     - cron
+    - dialog
 
 - name: apt -- Debug-Werkzeuge installieren
   apt: name={{ item }} state=present
