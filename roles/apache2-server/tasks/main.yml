@@ -12,7 +12,7 @@
           - http2
   notify: restart apache2
 
-- name: apache2 - Konfigurierten Module aktivieren
+- name: apache2 - Konfigurierte Module aktivieren
   apache2_module:
          name={{ item.name }}
          state=present
