@@ -70,7 +70,7 @@
 
 # FIXME: changed Status auf Basis stderr Ausgabe, eventuell nicht optimal
 - name: gnupg -- Import der DEV GPG Schlüssel in Apt-Repo Account
-  command: "gpg --import /home/{{ apt_repo_user }}/.gnupg/import/{{ item | basename }}"
+  command: "gpg --no-tty --import /home/{{ apt_repo_user }}/.gnupg/import/{{ item | basename }}"
   register: out_gpg_dev_import
   changed_when: out_gpg_dev_import.stderr | search("import")
   with_fileglob:
