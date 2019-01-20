@@ -12,3 +12,9 @@
   lineinfile: dest=/etc/default/changetrack 
               regexp=^AUTO_TRACK_ALL_CONFFILES= 
               line=AUTO_TRACK_ALL_CONFFILES=yes
+
+- name: changetrack für Strech anpassen
+  patch:
+          src: changetrack_without_find2perl.patch
+          dest: /usr/bin/changetrack
+  when: ansible_distribution_major_version|int == 9

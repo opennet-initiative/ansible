@@ -1,0 +1,11 @@
+--- /usr/bin/changetrack.orig	2016-12-30 01:58:25.000000000 +0100
++++ /usr/bin/changetrack	2019-01-20 04:41:55.154600278 +0100
+@@ -164,7 +164,7 @@
+         my $rest = substr($filename,1);
+ 				
+         # execute as find command
+-        @files = split '\0', `find2perl $rest -print0 |perl`;
++        @files = split '\0', `find $rest -print0`;
+     }
+     else
+     {
