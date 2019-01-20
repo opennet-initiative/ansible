@@ -8,6 +8,8 @@
   with_items:
           # wird für http->https-Redirects verwendet
           - rewrite
+          # wird für HTTP/2 Unterstützung benötigt
+          - http2
   notify: restart apache2
 
 - name: apache2 - Module aktivieren

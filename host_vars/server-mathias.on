@@ -10,6 +10,9 @@ olsr_interfaces:
 letsencrypt_certificates:
   - { on_tld_base: luftdaten }
 
+apache2_sites:
+  - { name: luftdaten }
+
 olsr_nameservice_announcements:
   - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http luftdaten.opennet-initiative.de"
   - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http luftdaten.on-i.de"

@@ -1,1 +1,1 @@
-apache2_mods: []
+apache2_mods: [ http2 ]
