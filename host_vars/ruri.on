@@ -21,3 +21,6 @@ olsr_nameservice_announcements:
 
 letsencrypt_certificates:
 - { on_tld_base: downloads }
+
+apache2_sites:
+  - { name: downloads }
