@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+
+DocumentRoot /var/cache/munin/www
+
+<Directory /var/cache/munin/www>
+        Require all granted
+        Options None
+</Directory>
+
+ScriptAlias /munin-cgi/munin-cgi-graph /usr/lib/munin/cgi/munin-cgi-graph
+<Location /munin-cgi/munin-cgi-graph>
+        Require all granted
+	<IfModule mod_fcgid.c>
+	    SetHandler fcgid-script
+	</IfModule>
+        <IfModule !mod_fcgid.c>
+            SetHandler cgi-script
+        </IfModule>
+</Location>

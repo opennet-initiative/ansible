@@ -39,6 +39,6 @@
 
 #apache2-server Rolle muss am Ende ausgeführt werden, weil sonst Fehlermeldungen
 #wegen Fehlendem DocumentRoot auftreten
-- hosts: izumi.on:tenkawa.on:amano.on:server-mathias.on:ruri.on
+- hosts: izumi.on:tenkawa.on:amano.on:server-mathias.on:ruri.on:howmei.on
   roles:
     - apache2-server
