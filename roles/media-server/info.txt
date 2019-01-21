@@ -1,2 +1,2 @@
-= Media-Server =
+= Media-Mirror =
 Bereitstellung eines Freifunk Media CDN Servers zur Ablage und Auslieferung von Media Dateien für das media.freifunk.net Projekt. Basiert auf Mirrorbits. Wird mit der Rolle Apache-Server kombiniert.
