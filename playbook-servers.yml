@@ -25,7 +25,7 @@
 
 - hosts: tenkawa.on
   roles:
-    - media-server
+    - media-mirror
 
 # apt-repository in development
 - hosts: server-mathias.on
