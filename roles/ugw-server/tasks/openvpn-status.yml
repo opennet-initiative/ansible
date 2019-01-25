@@ -11,20 +11,6 @@
   apt: name=php-cli state=present
   when: ansible_distribution_release == "stretch"
 
-- name: nginx installieren
-  apt: name=nginx-light state=present
-
-- name: nginx-Proxy-Konfiguration fuer UGW-Status übertragen
-  template: src=nginx/usergw
-            dest=/etc/nginx/sites-available/
-  notify: reload nginx
-
-- name: nginx-Proxy-Konfiguration fuer UGW-Status aktivieren
-  file: src=../sites-available/usergw
-        dest=/etc/nginx/sites-enabled/usergw
-        state=link
-  notify: reload nginx
-
 - name: vpnstatus - Verzeichnis anlegen
   file: state=directory
         dest=/var/www/vpnstatus

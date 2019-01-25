@@ -14,3 +14,8 @@ olsr_interfaces:
 #  route-ipv6 2a01:a700:4629:fe02::/64
 #  route-ipv6 2a01:a700:4629:fe03::/64
 
+letsencrypt_certificates:
+  - { on_tld_base: "{{ short_hostname }}" }
+
+apache2_sites:
+  - { name: "{{ short_hostname }}" }

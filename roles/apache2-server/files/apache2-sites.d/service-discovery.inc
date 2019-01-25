@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+
 DocumentRoot /var/www/service-discovery.opennet-initiative.de
 
 <Directory /var/www/service-discovery.opennet-initiative.de>

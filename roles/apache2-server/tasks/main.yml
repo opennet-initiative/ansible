@@ -6,6 +6,8 @@
          name={{ item }}
          state=present
   with_items:
+          # stets https aktiviere
+          - ssl
           # wird für http->https-Redirects verwendet
           - rewrite
           # wird für HTTP/2 Unterstützung benötigt
