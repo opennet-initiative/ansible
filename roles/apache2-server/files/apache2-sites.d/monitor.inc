@@ -2,6 +2,8 @@
 
 DocumentRoot /var/cache/munin/www
 
+Redirect /munin/ /
+
 <Directory /var/cache/munin/www>
         Require all granted
         Options None
