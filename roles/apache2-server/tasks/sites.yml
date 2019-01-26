@@ -1,0 +1,29 @@
+- name: sites - Apache Konfigurationen kopieren
+  copy:
+          src=apache2-sites.d/{{ item.name }}.inc
+          dest=/etc/apache2/on-configs.d/
+  with_items: "{{ apache2_sites }}"
+  notify: restart apache2
+
+
+- name: sites - Apache Sites kopieren
+  template:
+          src=site.conf
+          dest=/etc/apache2/sites-available/{{ item.name }}.conf
+  with_items: "{{ apache2_sites }}"
+  notify: restart apache2
+
+- name: sites - Apache Sites aktivieren
+  file:
+          state=link
+          src=../sites-available/{{ item.name }}.conf
+          dest=/etc/apache2/sites-enabled/{{ item.name }}.conf
+  with_items: "{{ apache2_sites }}"
+  when: "item.enable_later is undefined"
+  notify: restart apache2
+
+- name: sites - Apache Default Site deaktivieren
+  file:
+          path="/etc/apache2/sites-enabled/000-default.conf"
+          state=absent
+  notify: restart apache2

@@ -1,0 +1,27 @@
+- name: https - Letsencrypt Software vorhanden?
+  stat:
+         path=/usr/bin/dehydrated
+  check_mode: no
+  register: le_bin
+
+- name: https - Letsencrypt Apache2 Konfigurationspaket installieren"
+  apt: pkg=dehydrated-apache2 state=present
+  when: le_bin.stat.exists
+
+- name: https - Letsencrypt Zertifikate vorhanden?
+  stat:
+         path=/var/lib/dehydrated/certs
+  check_mode: no
+  register: le_cert
+  when: le_bin.stat.exists
+
+- name: https - Letsencrypt Cron Job ausführen 
+  shell: /usr/bin/dehydrated --cron
+  when: le_cert is defined and le_cert.stat.exists == false
+
+- name: https - Apache Module aktivieren
+  apache2_module:
+         name=ssl
+         state=present
+  notify: restart apache2
+  when: le_bin.stat.exists

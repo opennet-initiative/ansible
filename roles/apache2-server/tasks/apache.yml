@@ -1,0 +1,20 @@
+- name: apache2 - installieren
+  apt: name=apache2 state=present
+
+- name: apache2 - Golbale Module aktivieren
+  apache2_module:
+         name={{ item }}
+         state=present
+  with_items:
+          # wird für http->https-Redirects verwendet
+          - rewrite
+          # wird für HTTP/2 Unterstützung benötigt
+          - http2
+  notify: restart apache2
+
+- name: apache2 - Konfigurierte Module aktivieren
+  apache2_module:
+         name={{ item.name }}
+         state=present
+  with_items: "{{ apache2_mods }}"
+  notify: restart apache2
