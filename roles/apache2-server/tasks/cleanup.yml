@@ -1,0 +1,27 @@
+- name: sites - Apache Default Site deaktivieren
+  file:
+          path="{{ apache2_default_site }}"
+          state=absent
+  notify: restart apache2
+
+- name: sites - Apache Index Page vorhanden?
+  stat:
+          path="{{ apache2_default_dir }}/{{ apache2_default_index }}"
+  register: index_page
+
+- name: sites - Apache Index Page als Debian Default Page vorhanden?
+  shell: "grep -qs '{{ apache2_default_page }}' {{ apache2_default_dir }}/{{ apache2_default_index }} && echo true || echo false"
+  register: default_page
+  when: index_page.stat.exists
+
+- name: sites - Apache Default Page entfernen
+  file:
+          path="{{ apache2_default_dir }}/{{ apache2_default_index }}"
+          state=absent
+  when: default_page.changed and default_page.stdout == "true"
+
+- name: sites - Apache Default Verzeichnis entfernen
+  shell: "rmdir {{ apache2_default_dir }} --ignore-fail-on-non-empty"
+  args: 
+           warn: false
+  when: default_page.changed and default_page.stdout == "true"

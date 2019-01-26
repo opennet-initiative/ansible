@@ -8,3 +8,9 @@ ugw_ip: 10.2.0.248
 olsr_interfaces:
   - { name: "{{ openvpn_ugw_interface }}", quality: 0.16 }
   - { name: "eth0" }
+
+letsencrypt_certificates:
+  - { on_tld_base: "{{ short_hostname }}" }
+
+apache2_sites:
+  - { name: "{{ short_hostname }}" }

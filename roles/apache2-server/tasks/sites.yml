@@ -21,9 +21,3 @@
   with_items: "{{ apache2_sites }}"
   when: "item.enable_later is undefined"
   notify: restart apache2
-
-- name: sites - Apache Default Site deaktivieren
-  file:
-          path="/etc/apache2/sites-enabled/000-default.conf"
-          state=absent
-  notify: restart apache2

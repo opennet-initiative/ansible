@@ -1,1 +1,5 @@
 apache2_mods: []
+apache2_default_site: "/etc/apache2/sites-enabled/000-default.conf"
+apache2_default_dir: "/var/www/html"
+apache2_default_index: "index.html"
+apache2_default_page: "Apache2 Debian Default Page"

@@ -2,3 +2,4 @@
 - include: ferm.yml
 - include: sites.yml
 - include: https.yml
+- include: cleanup.yml
