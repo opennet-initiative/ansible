@@ -10,7 +10,10 @@ olsr_interfaces:
   - { name: "hro-mesh" }
 
 olsr_hna_announcements_ipv4:
-  # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
-  - 139.30.241.200
+  # Hinweis: Wir duerfen die oeffentlichen IPs von Servern, ueber die UGW-APs die Verbindung zu
+  # UGW-Servern aufbauen, nicht via HNA veroeffentlichen. Andernfalls wuerde der
+  # OpenVPN-UGW-Verkehr dieser UGW-APs auf dem Rueckweg den Mesh-Tunnel verwenden wollen. Dies
+  # wuerde den Aufbau des UGW-Tunnels verhindern.
+  #- 139.30.241.200
 
 virtualization_wan_bridge_interface: "br-virt-wan"
