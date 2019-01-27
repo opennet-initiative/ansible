@@ -1,7 +1,10 @@
 - name: apache2 - installieren
   apt: name=apache2 state=present
 
-- name: apache2 - Golbale Module aktivieren
+- name: apache2 - Dienst starten
+  service: name=apache2 state=started
+
+- name: apache2 - Globale Module aktivieren
   apache2_module:
          name={{ item }}
          state=present
