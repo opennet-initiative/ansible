@@ -4,6 +4,8 @@
     - role: olsr-node
     - role: letsencrypt
       when: letsencrypt_certificates is defined
+    - role: apache2-server
+      when: apache2_sites is defined
 
 - hosts: ryoko.on:aqua.on:tamago.on:akito.on-i.de
   roles:
@@ -36,10 +38,3 @@
 - hosts: kazama.on
   roles:
     - wireguard-server
-
-#apache2-server Rolle muss am Ende ausgeführt werden, weil sonst Fehlermeldungen
-#wegen Fehlendem DocumentRoot auftreten
-- hosts: ae22:frieda23:hetzner
-  roles:
-    - role: opache2-server
-      when: apache2_sites is defined

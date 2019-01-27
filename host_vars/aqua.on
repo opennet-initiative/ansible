@@ -11,8 +11,6 @@ olsr_interfaces:
 
 olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
-  # TODO: aktivieren, sobald die UGW-Server erina und megumi mit Debian 9 laufen
-  #       (fuer korrektes openvpn "multihome" mit neuerem Kernel)
-  #- 139.30.241.206
+  - 139.30.241.206
 
 virtualization_wan_bridge_interface: "br-virt-wan"
