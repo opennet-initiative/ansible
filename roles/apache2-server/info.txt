@@ -6,7 +6,7 @@ Enthalten sind:
 * Erzeugen einer Webseiten-Konfiguration:
     * Include-Datei zur Verwendung für http und/oder https
     * domain-spezifische Log-Dateien
-    * optionale https-Nutzung
+    * optionale https-Nutzung (in Abhängigkeit zur letsencrypt Rolle)
     * optionale http->https-Umleitung
     * Verwendung selbstgewählter Domains oder der opennet-typischen Top-Level-Domains
 * Ports 80 und 443 erlauben
