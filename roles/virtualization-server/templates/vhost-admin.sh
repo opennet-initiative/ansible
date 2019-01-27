@@ -15,11 +15,11 @@ DISTRIBUTION=${DISTRIBUTION:-stretch}
 APT_URL="http://ftp.de.debian.org/debian"
 DEBOOTSTRAP_BIN=${DEBOOTSTRAP_BIN:-debootstrap}
 # Zu installierende oder wegzulassende Pakete (komma-separiert)
-# python-apt: fuer ansible
+# python-apt/python3-apt: fuer ansible
 # olsrd: Mesh-Routing
 # acpi-support-base: sanfte Abschaltung via "virsh shutdown"
 # irqbalance: unnoetig fuer einzel-CPU-Systeme
-PACKAGES_INCLUDE="openssh-server,python-apt,olsrd,acpi-support-base,linux-image-amd64,grub-pc"
+PACKAGES_INCLUDE="openssh-server,python-apt,python3-apt,olsrd,acpi-support-base,linux-image-amd64,grub-pc"
 PACKAGES_EXCLUDE="irqbalance"
 AP_FIRMWARE_MAP="\
 	0.4.1	https://downloads.opennet-initiative.de/openwrt/stable/0.4.1/x86/openwrt-x86-generic-combined-squashfs.img

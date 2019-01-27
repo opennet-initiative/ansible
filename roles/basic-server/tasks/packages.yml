@@ -10,6 +10,9 @@
     - molly-guard
     - ntp
     - psmisc
+    # Derzeit (2019) benötigt ansible nur "python-apt" auf der Client-Seite. Dies wird sich
+    # irgendwann ändern.
+    - python3-apt
     - screen
     - tree
     - vim-nox
