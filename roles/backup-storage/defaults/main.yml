@@ -1,6 +1,6 @@
 backup_storage_source_hosts:
   # Virtualization
-  - akito.on-i.de
+  - akito.on
   - aqua.on
   - tamago.on
   - ryoko.on
@@ -22,6 +22,7 @@ backup_storage_source_hosts:
   - erina.on
   - megumi.on
   - subaru.on
+  - gai.on
   # Other
   - server-christoph.on
   - server-mathias.on
