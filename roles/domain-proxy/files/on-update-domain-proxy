@@ -3,7 +3,7 @@
 """
 Aktualisiere http- und https-Proxy-Konfigurationen anhand von announcierten
 Domains einzelner APs.
-Details siehe https://on-i.de/wiki/Opennet_Domain_Proxy
+Details siehe https://opennet-initiative.de/wiki/Opennet_Domain_Proxy
 Dieses Skript sollte regelmäßig als root aufgerufen werden. Es löst bei Bedarf
 einen reload von nginx oder einen restart von slt aus.
 """
@@ -19,7 +19,7 @@ import sys
 
 
 # Beispiel-Eintrag:
-#    http://192.168.10.13:80|tcp|public-domain-http munin.on-i.de            #192.168.10.13
+#    http://192.168.10.13:80|tcp|public-domain-http munin.opennet-initiative.de            #192.168.10.13
 OLSR_NAMESERVICE_ENTRY_BASE_REGEX = r"^(?P<source_url>https?://[^|]+)\|tcp\|%s\s+(?P<domain>\w[\w\-.]+)"
 OLSR_NAMESERVICE_ENTRY_HTTP_REGEX = OLSR_NAMESERVICE_ENTRY_BASE_REGEX % "public-domain-http"
 OLSR_NAMESERVICE_ENTRY_HTTPS_REGEX = OLSR_NAMESERVICE_ENTRY_BASE_REGEX % "public-domain-https"

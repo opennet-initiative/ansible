@@ -16,7 +16,7 @@
     path=/etc/postfix/sasl
 
 - name: smtp-Auth-Kennwort abholen
-  delegate_to: root@heartofgold.on-i.de
+  delegate_to: root@heartofgold.opennet-initiative.de
   shell: awk '{ if ($1 == "{{ mail_relay_host }}") print $2 }' /etc/postfix/sasl/passwd
   register: smtp_auth_password
   changed_when: False

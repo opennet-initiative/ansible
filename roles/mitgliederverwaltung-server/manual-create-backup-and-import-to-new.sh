@@ -6,8 +6,8 @@ echo "Please customize this file before you run it!"
 exit
 
 #current server with mitgliederverwaltung installation
-SERVER_OLD=amano.on-i.de
-SERVER_NEW=totallynewawsomeserver.on-i.de
+SERVER_OLD=amano.opennet-initiative.de
+SERVER_NEW=totallynewawsomeserver.opennet-initiative.de
 
 #
 # data Verzeichnis

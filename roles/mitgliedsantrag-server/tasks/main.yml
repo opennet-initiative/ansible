@@ -21,6 +21,6 @@
     dest=/tmp/on-mitgliedsantrag_1.0_all.deb
     mode=644
     owner=root
-    url="http://dev.on-i.de/export/769439e4d3acfeab7475e57330323cc5af1ed9c3/on_mitgliedsantrag/tmp-bin/on-mitgliedsantrag_1.0_all.deb"
+    url="http://dev.opennet-initiative.de/export/769439e4d3acfeab7475e57330323cc5af1ed9c3/on_mitgliedsantrag/tmp-bin/on-mitgliedsantrag_1.0_all.deb"
 - name: Workaround -- installiere on-mitgliedsantrag manuell (3/3)
   command: dpkg -i /tmp/on-mitgliedsantrag_1.0_all.deb
