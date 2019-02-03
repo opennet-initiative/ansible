@@ -26,6 +26,10 @@
   notify: restart apache2
   when: le_bin.stat.exists
 
+#
+# TODO: Mit Debian Buster erneut prüfen
+# https://lists.debian.org/debian-devel-announce/2017/08/msg00004.html
+# 
 - name: https - Apache SSL Modul unsichere Protokolle deaktivieren
   lineinfile:
          path={{ apache2_https_conf }}
