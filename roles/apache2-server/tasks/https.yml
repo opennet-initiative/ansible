@@ -19,9 +19,33 @@
   shell: /usr/bin/dehydrated --cron
   when: le_cert is defined and le_cert.stat.exists == false
 
-- name: https - Apache Module aktivieren
+- name: https - Apache SSL Modul aktivieren
   apache2_module:
          name=ssl
          state=present
+  notify: restart apache2
+  when: le_bin.stat.exists
+
+- name: https - Apache SSL Modul unsichere Protokolle deaktivieren
+  lineinfile:
+         path={{ apache2_https_conf }}
+         regexp="SSLProtocol"
+         line="	SSLProtocol all -SSLv3 -SSLv3 -TLSv1 -TLSv1.1"
+  notify: restart apache2
+  when: le_bin.stat.exists
+
+- name: https - Apache SSL Modul sichere Cipher Reichenfolge aktivieren
+  lineinfile:
+         path={{ apache2_https_conf }}
+         regexp="SSLHonorCipherOrder"
+         line="	SSLHonorCipherOrder on"
+  notify: restart apache2
+  when: le_bin.stat.exists
+
+- name: https - Apache SSL Modul strikte SNI Kontrolle aktivieren
+  lineinfile:
+         path={{ apache2_https_conf }}
+         regexp="SSLStrictSNIVHostCheck"
+         line="	SSLStrictSNIVHostCheck on"
   notify: restart apache2
   when: le_bin.stat.exists

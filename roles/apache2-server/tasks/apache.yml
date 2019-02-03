@@ -9,10 +9,12 @@
          name={{ item }}
          state=present
   with_items:
-          # wird für http->https-Redirects verwendet
+          # HTTP-HTTPS Redirects
           - rewrite
-          # wird für HTTP/2 Unterstützung benötigt
+          # HTTP/2 Unterstützung
           - http2
+          # HTTP Header Unterstützung
+          - headers
   notify: restart apache2
 
 - name: apache2 - Konfigurierte Module aktivieren

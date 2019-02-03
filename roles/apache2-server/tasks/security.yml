@@ -1,0 +1,6 @@
+- name: security - Apache2 Sicherheitskonfiguration kopieren
+  template:
+          src=security.conf
+          dest={{ apache2_security_conf }}
+          backup=yes
+  notify: restart apache2
