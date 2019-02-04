@@ -1,5 +1,6 @@
 - include: apache.yml
 - include: security.yml
+- include: privacy.yml
 - include: ferm.yml
 - include: sites.yml
 - include: https.yml

@@ -1,0 +1,17 @@
+- name: privacy - Apache RemoveIP Modul installieren
+  apt: pkg=libapache2-mod-removeip state=present
+  register: removeip_install
+
+- name: privacy - Apache RemoveIP Modul aktivieren
+  apache2_module:
+         name=removeip
+         state=present
+  notify: restart apache2
+  register: removeip_activate
+
+- name: privacy - alte Apache Logfiles bereinigen
+  shell: "rm {{ apache2_logging_dir }}/*"
+  args: 
+         warn: false  
+  notify: restart apache2
+  when: removeip_install.changed or removeip_activate.changed

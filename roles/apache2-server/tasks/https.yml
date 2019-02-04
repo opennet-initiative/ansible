@@ -4,7 +4,7 @@
   check_mode: no
   register: le_bin
 
-- name: https - Letsencrypt Apache2 Konfigurationspaket installieren"
+- name: https - Letsencrypt Apache2 Konfigurationspaket installieren
   apt: pkg=dehydrated-apache2 state=present
   when: le_bin.stat.exists
 

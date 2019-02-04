@@ -10,7 +10,8 @@ Enthalten sind:
     * optionale http->https-Umleitung
     * Verwendung selbstgewählter Domains oder der opennet-typischen Top-Level-Domains
 * Ports 80 und 443 erlauben
-
+* Security und Privacy Konfiguration von Apache
+* Default Website von Apache entfernen
 
 = Konfiguration =
 Die Rolle wird auf alle Hosts angewandt, für die eine Variable "apache2_sites" definiert ist.
