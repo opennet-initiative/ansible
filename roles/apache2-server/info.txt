@@ -56,6 +56,11 @@ Dictonaries enthält.
 * name: 
     * Apache2 Modul, welches aktiviert werden soll
 
+Um PHP in Apache zu ermöglichen (realisiert über fcgid) kann folgende Variable gesetzt werden:
+* apache2_php:
+    * aktiviere PHP Unterstützung für Apache
+    * Vorgabewert: false
+
 = TODO =
 * Umgang mit http->https-Umleitung für .on-Domain klären
     * eventuell separaten http-Block verwenden und auf https://FOO.on-i.de umlenken?

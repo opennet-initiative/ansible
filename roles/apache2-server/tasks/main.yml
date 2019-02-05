@@ -5,3 +5,4 @@
 - include: sites.yml
 - include: https.yml
 - include: cleanup.yml
+- include: php.yml

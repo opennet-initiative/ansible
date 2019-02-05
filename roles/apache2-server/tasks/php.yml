@@ -1,0 +1,46 @@
+- name: php - Apache Modul php7.0 deaktivieren
+  apache2_module:
+         name={{ apache2_php_version }}
+         state=absent
+  notify: restart apache2
+
+- name: php - Apache Modul mpm_prefork deaktivieren
+  apache2_module:
+         name=mpm_prefork
+         state=absent
+  notify: restart apache2
+
+- name: php - Apache Modul mpm_event aktivieren
+  apache2_module:
+         name=mpm_event
+         state=present
+  notify: restart apache2
+
+- name: php - Apache Module für PHP installieren
+  apt:   
+         name="{{ packages }}"
+  vars:
+         packages:
+         - libapache2-mod-fcgid
+         - "{{ apache2_php_version }}-fpm"
+  when: apache2_php is defined and apache2_php
+
+- name: php - Apache Module für PHP aktivieren
+  apache2_module:
+         name={{ item }}
+         state=present
+  with_items:
+         - actions
+         - fcgid
+         - proxy_fcgi
+         - alias
+         - setenvif
+  notify: restart apache2
+  when: apache2_php is defined and apache2_php
+
+- name: php - Apache Konfiguration für PHP aktivieren
+  shell: "a2enconf {{ apache2_php_version }}-fpm"
+#  args: 
+#         warn: false  
+  notify: restart apache2
+  when: apache2_php is defined and apache2_php
