@@ -10,8 +10,6 @@
   register: removeip_activate
 
 - name: privacy - alte Apache Logfiles bereinigen
-  shell: "rm {{ apache2_logging_dir }}/*"
-  args: 
-         warn: false  
+  command: 'find "{{ apache2_logging_dir }}" -type f -delete'
   notify: restart apache2
   when: removeip_install.changed or removeip_activate.changed

@@ -1,4 +1,7 @@
+# defaults for host_vars, can be overridden
 apache2_mods: []
+apache2_php: false
+# static tasks variables
 apache2_default_site: "/etc/apache2/sites-enabled/000-default.conf"
 apache2_default_dir: "/var/www/html"
 apache2_default_index: "index.html"
