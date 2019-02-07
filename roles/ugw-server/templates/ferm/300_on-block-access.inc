@@ -30,4 +30,7 @@ domain ip chain "on-ugw-block-access" {
 	# https://www.bsi-fuer-buerger.de/avalanche
 	# 25.09.2018 - subaru
 	daddr 184.105.192.2 proto tcp dport 443 DROP;
+
+	# 07.02.2019 - subaru
+	daddr 195.38.137.100 DROP;
 }
