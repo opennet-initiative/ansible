@@ -1,0 +1,2 @@
+- name: Mediawiki installieren
+  apt: name=mediawiki state=present

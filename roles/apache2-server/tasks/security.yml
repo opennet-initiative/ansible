@@ -1,6 +1,19 @@
 - name: security - Apache2 Sicherheitskonfiguration kopieren
   template:
           src=security.conf
-          dest={{ apache2_security_conf }}
+          dest="{{ apache2_conf_dir }}/security.conf"
           backup=yes
+  notify: restart apache2
+
+- name: security - Apache2 Opennet Sicherheitskonfiguration kopieren
+  template:
+          src=on-security.conf
+          dest="{{ apache2_conf_dir }}/on-security.conf"
+          backup=yes
+  notify: restart apache2
+
+- name: security - Apache2 Opennet Sicherheitskonfiguration aktivieren
+  shell: "a2enconf on-security"
+#  args: 
+#         warn: false  
   notify: restart apache2

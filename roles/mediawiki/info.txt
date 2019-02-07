@@ -1,0 +1,9 @@
+= Überblick =
+Diese Rolle betreibt das Opennet Mediawiki.
+
+Enthalten sind:
+* Paketinstallation
+
+= Konfiguration =
+
+= TODO =

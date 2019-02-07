@@ -38,3 +38,8 @@
 - hosts: kazama.on
   roles:
     - wireguard-server
+
+# mediawiki in development
+- hosts: hikaru.on
+  roles:
+    - mediawiki
