@@ -10,5 +10,7 @@ olsr_interfaces:
 apache2_sites:
   - { name: docs }
 
+apache2_php: true
+
 letsencrypt_certificates:
   - { on_tld_base: docs }

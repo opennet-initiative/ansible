@@ -8,12 +8,13 @@
   apache2_module:
          name=mpm_prefork
          state=absent
-  notify: restart apache2
+         ignore_configcheck=yes
 
 - name: php - Apache Modul mpm_event aktivieren
   apache2_module:
          name=mpm_event
          state=present
+         ignore_configcheck=yes
   notify: restart apache2
 
 - name: php - Apache Module für PHP installieren
