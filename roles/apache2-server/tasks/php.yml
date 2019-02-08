@@ -39,9 +39,10 @@
   notify: restart apache2
   when: apache2_php
 
+# TODO: warte auf Ansible Modul für a2enconf
 - name: php - Apache Konfiguration für PHP aktivieren
-  shell: "a2enconf {{ apache2_php_version }}-fpm"
-#  args: 
-#         warn: false  
+  command: "a2enconf {{ apache2_php_version }}-fpm"
+  register: conf_php
+  changed_when: "'Enabling conf' in conf_php.stdout" 
   notify: restart apache2
   when: apache2_php

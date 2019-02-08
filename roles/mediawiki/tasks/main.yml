@@ -1,2 +1,5 @@
 - name: Mediawiki installieren
   apt: name=mediawiki state=present
+
+- name: automysqlbackup installieren
+  apt: name=automysqlbackup state=present

@@ -12,8 +12,9 @@
           backup=yes
   notify: restart apache2
 
+# TODO: warte auf Ansible Modul für a2enconf
 - name: security - Apache2 Opennet Sicherheitskonfiguration aktivieren
-  shell: "a2enconf on-security"
-#  args: 
-#         warn: false  
+  command: "a2enconf on-security"
+  register: conf_security
+  changed_when: "'Enabling conf' in conf_security.stdout"
   notify: restart apache2
