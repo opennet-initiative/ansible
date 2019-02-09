@@ -46,3 +46,10 @@
   changed_when: "'Enabling conf' in conf_php.stdout" 
   notify: restart apache2
   when: apache2_php
+
+- name: php - APC Benutzer Puffer-Speicher aktivieren
+  apt: name=php-apcu state=present
+  notify: 
+  - restart php-fpm
+  - restart apache2
+  when: apache2_php
