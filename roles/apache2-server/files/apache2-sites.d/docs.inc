@@ -2,9 +2,6 @@
 
 DocumentRoot /var/lib/mediawiki
 
-#RewriteEngine On
-#RewriteRule ^/(.*):(.*) /index.php/$1:$2
-
 <Directory /var/lib/mediawiki/>
 	Options +FollowSymLinks
 	AllowOverride All
