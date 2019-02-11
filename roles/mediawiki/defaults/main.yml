@@ -1,0 +1,2 @@
+mediawiki_mysql_socket: "/var/run/mysqld/mysqld.sock"
+mediawiki_path : "/usr/share/mediawiki"

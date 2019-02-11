@@ -1,3 +1,4 @@
+# TODO: auf python3 PyMySQL wechseln sobald es ohne Py-PIP arbeitet
 - name: Mediawiki und weitere Werkzeuge installieren
   apt:
     name: "{{ packages }}"
@@ -6,6 +7,8 @@
     - mediawiki
     - automysqlbackup
     - imagemagick
+#    - python3-pymysql
+    - python-pymysql
   notify: restart apache2
 
 # TODO: warte auf Ansible Modul für a2enconf
@@ -15,5 +18,31 @@
   changed_when: "'Conf mediawiki disabled' in conf_mediawiki.stdout" 
   notify: restart apache2
 
-#- name: Opennet Logo kopieren
-#  copy: src=opennetlogo.png dest="{{ mediawiki_path }}/images"
+- name: Mediawiki Datenbank einrichten
+  mysql_db:
+    name: mediawiki
+    login_unix_socket: "{{ mediawiki_mysql_socket }}"
+    state: present
+
+# Passwort kann ggf. geändert werden auf dem Host, hier Initialpasswort
+- name: Mediawiki Datenbank Benutzer einrichten
+  mysql_user:
+    name: mediawiki
+    password: mediawiki
+    update_password: on_create
+    priv: "mediawiki.*:ALL,GRANT"
+    login_unix_socket: "{{ mediawiki_mysql_socket }}"
+    state: present
+
+#- name: Installation von APC Benutzer Puffer-Speicher prüfen
+#  command: dpkg-query -l php-apcu
+#  register: mediawiki_apcu
+#  failed_when: False
+#  changed_when: False
+#
+#- name:  
+#  debug: msg="{{ mediawiki.stderr }}"
+#  when: mediawiki_apcu.rc == 1
+
+- name: Opennet Logo kopieren
+  copy: src=opennetlogo.png dest="{{ mediawiki_path }}/images"
