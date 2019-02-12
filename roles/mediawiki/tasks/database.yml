@@ -1,0 +1,15 @@
+- name: database - Mediawiki Datenbank einrichten
+  mysql_db:
+    name: mediawiki
+    login_unix_socket: "{{ mediawiki_mysql_socket }}"
+    state: present
+
+# Passwort kann ggf. geändert werden auf dem Host, hier Initialpasswort
+- name: database - Mediawiki Datenbank Benutzer einrichten
+  mysql_user:
+    name: mediawiki
+    password: mediawiki
+    update_password: on_create
+    priv: "mediawiki.*:ALL,GRANT"
+    login_unix_socket: "{{ mediawiki_mysql_socket }}"
+    state: present

@@ -3,14 +3,16 @@ short_hostname: hikaru
 wan_interface: eth1
 
 olsr_main_ip: 192.168.10.18
-
 olsr_interfaces:
   - { name: "eth0" }
 
 apache2_sites:
   - { name: docs }
-
 apache2_php: true
 
 letsencrypt_certificates:
   - { on_tld_base: docs }
+
+mediawiki_version : "REL1_27"
+mediawiki_extensions:
+ - ContactPage
