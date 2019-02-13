@@ -1,5 +1,17 @@
+# installation
 mediawiki_mysql_socket: "/var/run/mysqld/mysqld.sock"
 mediawiki_path : "/var/lib/mediawiki"
-# role definitions, to be defined per host
+
+# settings, can be overridden
+mediawiki_sitename: "Opennet"
+mediawiki_hostname: "docs"
+mediawiki_mail_address: "admin@opennet-initiative.de"
+mediawiki_mail_enable: true
+mediawiki_logo: "opennetlogo.png"
+mediawiki_database: "mediawiki"
+
+# role definition defaults, to be defined per host
 mediawiki_version : "REL1_27"
-mediawiki_extensions: []
+mediawiki_extensions_wikimedia: []
+mediawiki_extensions_debian: []
+mediawiki_upload_filetypes: []

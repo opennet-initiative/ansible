@@ -11,7 +11,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 
 # Please insert valid keys
 
-$wgDBpassword = "mediawiki";
+$wgDBpassword = "{{ mediawiki_database }}";
 $wgSecretKey = "";
 $wgUpgradeKey = "";
 

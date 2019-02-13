@@ -1,4 +1,5 @@
-- include: mediawiki.yml
+- include: install.yml
 - include: extensions.yml
 - include: database.yml
 #- include: php.yml
+- include: config.yml
