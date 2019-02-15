@@ -9,7 +9,9 @@
     - imagemagick
 #    - python3-pymysql
     - python-pymysql
-  notify: restart apache2
+  notify: 
+    - restart apache2
+    - update mediawiki
 
 # TODO: warte auf Ansible Modul für a2enconf
 - name: install - Debian Apache Konfiguration für MediaWiki deaktivieren
@@ -18,6 +20,9 @@
   changed_when: "'Conf mediawiki disabled' in conf_mediawiki.stdout" 
   notify: restart apache2
 
+- name: install - Kurze URLs aktivieren
+  copy: src="htaccess" dest="{{ mediawiki_path_lib }}/.htaccess"
+ 
 - name: install - Opennet Logo kopieren
   copy: src="{{ mediawiki_logo }}" dest="{{ mediawiki_path_lib }}/images"
 

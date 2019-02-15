@@ -1,2 +1,5 @@
 - name: restart apache2
   service: name=apache2 state=restarted
+
+- name: update mediawiki
+  command: "{{ mediawiki_path_lib }}/maintenance/update.php"

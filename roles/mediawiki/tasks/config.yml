@@ -3,6 +3,7 @@
     src: LocalSettings.php
     dest: "{{ mediawiki_path_conf }}"
     backup: yes
+  notify: update mediawiki
 
 - name: config - Vorlage für Passwortdatei kopieren
   template:
@@ -10,9 +11,11 @@
     dest: "{{ mediawiki_path_conf }}"
     force: no
     backup: yes
+  notify: update mediawiki
 
 - name: config - Opennet Einstellungen kopieren
   template:
     src: config_opennet.php
     dest: "{{ mediawiki_path_conf }}"
-    backup: yes 
+    backup: yes
+  notify: update mediawiki 

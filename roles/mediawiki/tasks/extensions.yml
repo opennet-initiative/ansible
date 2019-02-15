@@ -6,3 +6,4 @@
     depth: 1
     force: yes
   with_items: "{{ mediawiki_extensions_wikimedia }}"
+  notify: update mediawiki
