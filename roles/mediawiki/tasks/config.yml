@@ -1,18 +1,18 @@
 - name: config - Einstellungen kopieren
   template:
     src: LocalSettings.php
-    dest: "/etc/mediawiki/LocalSettings.php"
+    dest: "{{ mediawiki_path_conf }}"
     backup: yes
 
 - name: config - Vorlage für Passwortdatei kopieren
   template:
     src: config_keys.php
-    dest: "/etc/mediawiki"
+    dest: "{{ mediawiki_path_conf }}"
     force: no
     backup: yes
 
 - name: config - Opennet Einstellungen kopieren
   template:
     src: config_opennet.php
-    dest: "/etc/mediawiki"
+    dest: "{{ mediawiki_path_conf }}"
     backup: yes 

@@ -1,7 +1,7 @@
 - name: extensions - Installiere MediaWiki Erweiterungen
   git:
     repo: "https://gerrit.wikimedia.org/r/p/mediawiki/extensions/{{ item }}"
-    dest: "{{ mediawiki_path }}/extensions/{{ item }}"
+    dest: "{{ mediawiki_path_lib }}/extensions/{{ item }}"
     version: "{{ mediawiki_version }}"
     depth: 1
     force: yes

@@ -14,26 +14,29 @@ letsencrypt_certificates:
   - { on_tld_base: docs }
 
 mediawiki_version : "REL1_27"
-mediawiki_extensions_wikimedia:
- - ContactPage
- - MobileFrontend
+#mediawiki_extensions_wikimedia:
+# TODO: some ext. are not fully complaint with REL1_27, include manually
+# - ContactPage
+# - TitleKey
+# - MobileFrontend
+# - CollapsibleVector
 mediawiki_extensions_debian:
- - Cite
- - CiteThisPage
+# - Cite
+# - CiteThisPage
  - ConfirmEdit
- - Gadgets
- - ImageMap
- - InputBox
- - Interwiki
- - LocalisationUpdate
- - Nuke
- - ParserFunctions
- - PdfHandler
- - Poem
- - Renameuser
- - SpamBlacklist
- - SyntaxHighlight_GeSHi
- - TitleBlacklist
+# - Gadgets
+# - ImageMap
+# - InputBox
+# - Interwiki
+# - LocalisationUpdate
+# - Nuke
+# - ParserFunctions
+# - PdfHandler
+# - Poem
+# - Renameuser
+# - SpamBlacklist
+# - SyntaxHighlight_GeSHi
+# - TitleBlacklist
  - WikiEditor
 mediawiki_upload_filetypes:
  - pdf

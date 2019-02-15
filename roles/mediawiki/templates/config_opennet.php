@@ -23,6 +23,10 @@ wfLoadExtension( '{{ item }}' );
 wfLoadExtension( '{{ item }}' );
 {% endfor %}
 
+# TODO: some REL1_27 extension does not support wfLoadExtension yet
+require_once "{{ mediawiki_path_lib}}/extensions/ContactPage/ContactPage.php";
+require_once "{{ mediawiki_path_lib}}/extensions/TitleKey/TitleKey.php";
+
 ## 
 ## Configure Extensions
 ## 
@@ -44,8 +48,24 @@ $wgMFAutodetectMobileView = true;
 ## Other Configuration
 ## 
 
+# Contact Page
+$wgContactUser = 'OpennetContactForm';
+$wgContactSender = $wgPasswordSender;
+$wgContactSenderName = $wgSitename . ' Kontaktformular';
+$wgCaptchaTriggers['contactpage'] = true;
+$wgContactRequireAll = true;
+
 # File Upload
 {% for item in mediawiki_upload_filetypes %}
 $wgFileExtensions[] = "{{ item }}";
 {% endfor %}
+
+# Vector Skin
+$wgVectorUseSimpleSearch = true;
+$wgVectorUseIconWatch = true;
+$wgVectorResponsive = true;
+
+# Favicon
+$wgFavicon = "$wgResourceBasePath/images/favicon.ico";
+
 ?>

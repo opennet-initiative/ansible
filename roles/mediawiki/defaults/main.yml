@@ -1,6 +1,7 @@
 # installation
 mediawiki_mysql_socket: "/var/run/mysqld/mysqld.sock"
-mediawiki_path : "/var/lib/mediawiki"
+mediawiki_path_lib : "/var/lib/mediawiki"
+mediawiki_path_conf: "/etc/mediawiki/"
 
 # settings, can be overridden
 mediawiki_sitename: "Opennet"

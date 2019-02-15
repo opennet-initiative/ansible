@@ -127,11 +127,11 @@ wfLoadSkin( 'Vector' );
 $wgMimeTypeFile = '/etc/mime.types';
 
 # Opennet specific generated settings
-if ( is_file( "/etc/mediawiki/config_keys.php" ) ) {
-	include "/etc/mediawiki/config_keys.php";
+if ( is_file( "{{ mediawiki_path_conf }}/config_keys.php" ) ) {
+	include "{{ mediawiki_path_conf }}/config_keys.php";
 }
-if ( is_file( "/etc/mediawiki/config_opennet.php" ) ) {
-  include "/etc/mediawiki/config_opennet.php";
+if ( is_file( "{{ mediawiki_path_conf }}/config_opennet.php" ) ) {
+  include "{{ mediawiki_path_conf }}/config_opennet.php";
 }
 
 ?>

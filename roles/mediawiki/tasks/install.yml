@@ -19,7 +19,10 @@
   notify: restart apache2
 
 - name: install - Opennet Logo kopieren
-  copy: src="{{ mediawiki_logo }}" dest="{{ mediawiki_path }}/images"
+  copy: src="{{ mediawiki_logo }}" dest="{{ mediawiki_path_lib }}/images"
+
+- name: install - Opennet Favicon kopieren
+  copy: src="favicon.ico" dest="{{ mediawiki_path_lib }}/images"
 
 - name: install - Debian alten mediawiki-extensions Pfad bereinigen
   file: path="/etc/mediawiki-extensions" state=absent
