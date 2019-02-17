@@ -60,6 +60,9 @@ Um PHP in Apache zu ermöglichen (realisiert über fcgid) kann folgende Variable
 * apache2_php:
     * aktiviere PHP Unterstützung für Apache
     * Vorgabewert: false
+* apache2_php_filesize:
+    * lege die maximale Dateigröße für PHP Uploads fest
+    Vorgabewert: 2M
 
 = TODO =
 * Umgang mit http->https-Umleitung für .on-Domain klären
