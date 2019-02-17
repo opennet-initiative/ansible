@@ -9,17 +9,21 @@ olsr_interfaces:
 apache2_sites:
   - { name: docs }
 apache2_php: true
+apache2_php_filesize: 20M
 
 letsencrypt_certificates:
   - { on_tld_base: docs }
 
 mediawiki_version : "REL1_27"
-#mediawiki_extensions_wikimedia:
+mediawiki_extensions_wikimedia:
 # TODO: some ext. are not fully complaint with REL1_27, include manually
 # - ContactPage
 # - TitleKey
-# - MobileFrontend
+ - MobileFrontend
 # - CollapsibleVector
+# - NoTitle
+# - UserFunctions
+# - EmbedVideo
 mediawiki_extensions_debian:
 # - Cite
 # - CiteThisPage
@@ -30,8 +34,8 @@ mediawiki_extensions_debian:
 # - Interwiki
 # - LocalisationUpdate
 # - Nuke
-# - ParserFunctions
-# - PdfHandler
+ - ParserFunctions
+ - PdfHandler
 # - Poem
 # - Renameuser
 # - SpamBlacklist

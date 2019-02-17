@@ -1,12 +1,14 @@
 # defaults for host_vars, can be overridden
 apache2_mods: []
 apache2_php: false
+apache2_php_filesize: 2M
 # static tasks variables
 apache2_default_site: "/etc/apache2/sites-enabled/000-default.conf"
 apache2_default_dir: "/var/www/html"
 apache2_default_index: "index.html"
 apache2_default_page: "Apache2 Debian Default Page"
-apache2_conf_dir: "/etc/apache2/conf-available/"
+apache2_conf_dir: "/etc/apache2/conf-available"
 apache2_https_conf: "/etc/apache2/mods-available/ssl.conf"
 apache2_logging_dir: "/var/log/apache2"
 apache2_php_version: "php7.0"
+apache2_php_dir: "/etc/php/7.0/fpm"

@@ -53,3 +53,25 @@
   - restart php-fpm
   - restart apache2
   when: apache2_php
+
+- name: php - Dateigröße zum Hochladen setzen
+  ini_file:
+    path: "{{ apache2_php_dir }}/php.ini"
+    section: PHP
+    option: upload_max_filesize
+    value: "{{ apache2_php_filesize }}"
+    create: no
+    backup: yes
+  notify: restart php-fpm
+  when: apache2_php
+
+- name: php - POST Größe zum Hochladen setzen
+  ini_file:
+    path: "{{ apache2_php_dir }}/php.ini"
+    section: PHP
+    option: post_max_size
+    value: "{{ apache2_php_filesize }}"
+    create: no
+    backup: yes
+  notify: restart php-fpm
+  when: apache2_php
