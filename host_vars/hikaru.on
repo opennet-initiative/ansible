@@ -17,16 +17,17 @@ letsencrypt_certificates:
 mediawiki_version : "REL1_27"
 mediawiki_extensions_wikimedia:
 # TODO: some ext. are not fully complaint with REL1_27, include manually
-# - ContactPage
-# - TitleKey
  - MobileFrontend
 # - CollapsibleVector
-# - NoTitle
 # - UserFunctions
 # - EmbedVideo
+# TODO: remove mediawiki_extensions_wikimedia_old if all ext. moved to wfLoadExtension
+mediawiki_extensions_wikimedia_old:
+ - ContactPage
+ - NoTitle
+# - TitleKey
+# - UserFunctions 
 mediawiki_extensions_debian:
-# - Cite
-# - CiteThisPage
  - ConfirmEdit
 # - Gadgets
 # - ImageMap

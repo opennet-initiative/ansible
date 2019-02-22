@@ -6,4 +6,7 @@ Enthalten sind:
 
 = Konfiguration =
 
+== Erweiterung ContactPage ==
+Für das Kontaktformular muss ein Wiki Benutzer "OpennetContactForm" (admin@opennet-initiative.de angelegt werden. Die Verifikation der E-Mail Adresse ist erforderlich. Anschlißend funktioniert das Kontaktformular.
+
 = TODO =

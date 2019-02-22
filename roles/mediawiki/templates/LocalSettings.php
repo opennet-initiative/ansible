@@ -128,10 +128,13 @@ $wgMimeTypeFile = '/etc/mime.types';
 
 # Opennet specific generated settings
 if ( is_file( "{{ mediawiki_path_conf }}/config_keys.php" ) ) {
-	include "{{ mediawiki_path_conf }}/config_keys.php";
+  include "{{ mediawiki_path_conf }}/config_keys.php";
 }
-if ( is_file( "{{ mediawiki_path_conf }}/config_opennet.php" ) ) {
-  include "{{ mediawiki_path_conf }}/config_opennet.php";
+if ( is_file( "{{ mediawiki_path_conf }}/config_core.php" ) ) {
+  include "{{ mediawiki_path_conf }}/config_core.php";
+}
+if ( is_file( "{{ mediawiki_path_conf }}/config_extensions.php" ) ) {
+  include "{{ mediawiki_path_conf }}/config_extensions.php";
 }
 
 ?>

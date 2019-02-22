@@ -1,7 +1,7 @@
 # installation
 mediawiki_mysql_socket: "/var/run/mysqld/mysqld.sock"
 mediawiki_path_lib : "/var/lib/mediawiki"
-mediawiki_path_conf: "/etc/mediawiki/"
+mediawiki_path_conf: "/etc/mediawiki"
 
 # settings, can be overridden
 mediawiki_sitename: "Opennet"
@@ -14,5 +14,7 @@ mediawiki_database: "mediawiki"
 # role definition defaults, to be defined per host
 mediawiki_version : "REL1_27"
 mediawiki_extensions_wikimedia: []
+# TODO: remove mediawiki_extensions_wikimedia_old if all ext. moved to wfLoadExtension
+mediawiki_extensions_wikimedia_old: []
 mediawiki_extensions_debian: []
 mediawiki_upload_filetypes: []
