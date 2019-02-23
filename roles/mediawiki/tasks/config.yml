@@ -20,6 +20,13 @@
     backup: yes
   notify: update mediawiki 
 
+- name: config - Skin Einstellungen kopieren
+  template:
+    src: config_skin.php
+    dest: "{{ mediawiki_path_conf }}"
+    backup: yes
+  notify: update mediawiki
+
 - name: config - Extensions Einstellungen kopieren
   template:
     src: config_extensions.php

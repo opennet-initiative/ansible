@@ -133,6 +133,9 @@ if ( is_file( "{{ mediawiki_path_conf }}/config_keys.php" ) ) {
 if ( is_file( "{{ mediawiki_path_conf }}/config_core.php" ) ) {
   include "{{ mediawiki_path_conf }}/config_core.php";
 }
+if ( is_file( "{{ mediawiki_path_conf }}/config_skin.php" ) ) {
+  include "{{ mediawiki_path_conf }}/config_skin.php";
+}
 if ( is_file( "{{ mediawiki_path_conf }}/config_extensions.php" ) ) {
   include "{{ mediawiki_path_conf }}/config_extensions.php";
 }

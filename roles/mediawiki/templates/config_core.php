@@ -12,11 +12,6 @@
 $wgFileExtensions[] = "{{ item }}";
 {% endfor %}
 
-# Vector Skin
-#$wgVectorUseSimpleSearch = true;
-$wgVectorUseIconWatch = true;
-$wgVectorResponsive = true;
-
 # Favicon
 $wgFavicon = "$wgResourceBasePath/images/favicon.ico";
 
@@ -29,27 +24,5 @@ $wgFavicon = "$wgResourceBasePath/images/favicon.ico";
 $wgScriptExtension = ".php";
 $wgArticlePath = "/$1";
 $wgUsePathInfo = true;
-
-# Allow Pagetitle Overrive
-# used for Main_Page
-$wgRestrictDisplayTitle = false; 
-
-# Hide Page History
-function efAddSkinStyles(OutputPage &$out, Skin &$skin) {
-  if(!$skin->getUser()->isLoggedIn()) {
-    $out->addInlineStyle('#ca-view { display:none; }');
-    $out->addInlineStyle('#ca-viewsource { display:none; }');
-    $out->addInlineStyle('#ca-history { display:none; }');
-    $out->addInlineStyle('#mw-mf-last-modified { display:none; }');
-    $out->addInlineStyle('#footer-info { display: none; }');
-    $out->addInlineStyle('#p-tb { display: none; }');
-  }
-  return true;
-}
-$wgHooks['BeforePageDisplay'][] = 'efAddSkinStyles';
-
-# Html / Embedded iFrames, needed? 
-#$wgRawHtml = true;
-#$wgAllowExternalImages = true;
 
 ?>

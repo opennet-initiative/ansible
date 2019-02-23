@@ -10,9 +10,14 @@ mediawiki_mail_address: "admin@opennet-initiative.de"
 mediawiki_mail_enable: true
 mediawiki_logo: "opennetlogo.png"
 mediawiki_database: "mediawiki"
+mediawiki_extensions_url: "https://gerrit.wikimedia.org/r/p/mediawiki/extensions"
+mediawiki_embedvideo_url: "https://github.com/HydraWiki/mediawiki-embedvideo.git"
+mediawiki_version : "REL1_27"
+mediawiki_embedvideo_version: "v2.7.4"
+mediawiki_script_maintainance: "maintenance/update.php"
+mediawiki_script_titlekeys: "extensions/TitleKey/rebuildTitleKeys.php"
 
 # role definition defaults, to be defined per host
-mediawiki_version : "REL1_27"
 mediawiki_extensions_wikimedia: []
 # TODO: remove mediawiki_extensions_wikimedia_old if all ext. moved to wfLoadExtension
 mediawiki_extensions_wikimedia_old: []

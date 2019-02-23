@@ -1,7 +1,7 @@
 # TODO: remove mediawiki_extensions_wikimedia_old if all ext. moved to wfLoadExtension
 - name: extensions - Installiere MediaWiki Erweiterungen
   git:
-    repo: "https://gerrit.wikimedia.org/r/p/mediawiki/extensions/{{ item }}"
+    repo: "{{ mediawiki_extensions_url }}/{{ item }}"
     dest: "{{ mediawiki_path_lib }}/extensions/{{ item }}"
     version: "{{ mediawiki_version }}"
     depth: 1
@@ -9,11 +9,27 @@
   with_items: 
   - "{{ mediawiki_extensions_wikimedia }}"
   - "{{ mediawiki_extensions_wikimedia_old }}"
-  notify: update mediawiki
+  notify: 
+  - update mediawiki
+  - rebuild titlekeys
 
 - name: extensions - Kopiere Konfigurationen für MediaWiki Erweiterungen
   copy:
     src: "extensions-conf.d"
     dest: "{{ mediawiki_path_conf }}"
     backup: yes
+  notify:
+  - update mediawiki
+  - rebuild titlekeys
+
+- name: extensions - Installiere EmbedVideo Erweiterung via Git
+  git:
+    repo: "{{ mediawiki_embedvideo_url }}"
+    dest: "{{ mediawiki_path_lib }}/extensions/EmbedVideo"
+    version: "{{ mediawiki_embedvideo_version }}"
   notify: update mediawiki
+
+- name: extensions - Prüfe TitleKeys Erweiterung
+  stat: 
+    path: "{{ mediawiki_path_lib }}/{{ mediawiki_script_titlekeys }}"
+  register: mediawiki_titlekeys

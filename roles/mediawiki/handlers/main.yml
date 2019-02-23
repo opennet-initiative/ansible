@@ -2,4 +2,7 @@
   service: name=apache2 state=restarted
 
 - name: update mediawiki
-  command: "{{ mediawiki_path_lib }}/maintenance/update.php"
+  command: "php {{ mediawiki_path_lib }}/{{ mediawiki_script_maintainance }}"
+
+- name: rebuild titlekeys
+  command: "php {{ mediawiki_path_lib }}/{{ mediawiki_script_titlekeys }}"

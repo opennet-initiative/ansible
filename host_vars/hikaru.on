@@ -14,34 +14,25 @@ apache2_php_filesize: 20M
 letsencrypt_certificates:
   - { on_tld_base: docs }
 
-mediawiki_version : "REL1_27"
 mediawiki_extensions_wikimedia:
-# TODO: some ext. are not fully complaint with REL1_27, include manually
  - MobileFrontend
-# - CollapsibleVector
-# - UserFunctions
-# - EmbedVideo
+ - UserMerge
+
 # TODO: remove mediawiki_extensions_wikimedia_old if all ext. moved to wfLoadExtension
 mediawiki_extensions_wikimedia_old:
  - ContactPage
  - NoTitle
-# - TitleKey
-# - UserFunctions 
+ - UserFunctions 
+ - TitleKey
+
 mediawiki_extensions_debian:
  - ConfirmEdit
-# - Gadgets
-# - ImageMap
-# - InputBox
-# - Interwiki
-# - LocalisationUpdate
-# - Nuke
+ - Nuke
  - ParserFunctions
  - PdfHandler
-# - Poem
-# - Renameuser
-# - SpamBlacklist
-# - SyntaxHighlight_GeSHi
-# - TitleBlacklist
+ - Renameuser
+ - SpamBlacklist
  - WikiEditor
+
 mediawiki_upload_filetypes:
  - pdf

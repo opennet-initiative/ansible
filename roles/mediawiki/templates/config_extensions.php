@@ -53,7 +53,7 @@ if ( is_file( "{{ mediawiki_path_conf }}/extensions-conf.d/{{ item }}.php" ) ) {
 ## Manual Configs
 ## 
 
-# TODO: third party extension, other git
+# Embed Video is installed via git and needs extra handling
 wfLoadExtension( 'EmbedVideo' );
 
 ?>
