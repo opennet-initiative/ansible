@@ -1,8 +1,10 @@
 - name: changetrack / apt-listchanges installieren
-  apt: pkg={{ item }} state=present
-  with_items:
-          - changetrack
-          - apt-listchanges
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - changetrack
+    - apt-listchanges
 
 - name: changetrack konfigurieren
   copy: src=changetrack.conf
