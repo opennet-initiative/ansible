@@ -20,10 +20,3 @@ ssh root@$SERVER_OLD rm /tmp/data.tar.bz2
 #Entpacke Backup und lösche Datei anschließend 
 ssh root@$SERVER_NEW tar -xvjfC /var/lib/mitgliederverwaltung/data /tmp/data.tar.bz2
 ssh root@$SERVER_NEW rm /tmp/data.tar.bz2
-
-#
-# htpasswd Datei
-#
-#Kopiere basic auth config (htpasswd) zu neuem Server
-scp root@$SERVER_OLD:/var/www/mitgliederverwaltung.htpasswd root@$SERVER_NEW:/var/www/mitgliederverwaltung.htpasswd
-

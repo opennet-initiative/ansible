@@ -55,17 +55,6 @@
     msg: TODO - Du musst das Backup des data/ Verzeichnisses per Hand selbst einspielen. Siehe auch roles/mitgliederverwaltung-server/info.txt
   when: moinmoin_data_installed.stat.isdir is not defined
 
-- name: Ist Apache basic auth htpasswd bereits vorhanden?
-  stat: path=/var/www/mitgliederverwaltung.htpasswd
-  check_mode: no
-  register: moinmoin_htpasswd_installed
-  notify: restart apache2
-
-- name: Apache basic auth htpasswd kopieren
-  fail:
-    msg: TODO - Du musst die htpasswd-Datei per Hand einspielen. Siehe auch roles/mitgliederverwaltung-server/info.txt
-  when: moinmoin_htpasswd_installed.stat.exists == False
-
 - name: apt -- fail2ban Paket installieren
   apt: pkg={{ item }} state=present
   with_items:
