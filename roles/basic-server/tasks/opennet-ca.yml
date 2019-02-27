@@ -1,26 +1,25 @@
-- name: Opennet-CA-Zertifikate uebertragen
-  # Diese Kombination von archive und checksum verhindert Dateiuebertragungen wegen
-  # verschiedener Zeitstempel (z.B. basierend auf dem lokalen git-checkout).
-  synchronize:
-    delete=yes
-    archive=no
-    checksum=yes
-    recursive=yes
-    src=opennet-ca/
-    dest=/usr/local/share/ca-certificates/opennet-initiative.de/
+- name: opennetca - Zertifikate übertragen
+  copy:
+    src: "opennet-ca/"
+    dest: "{{ opennetca_path }}/"
   register: updated_ca_certificates
 
+# TODO: Remove task warning once DEV is using public certs
 # wir muessen die neuen CA-Zertifikate sofort aktivieren, damit der folgende Download funktioniert
-- name: CA-Zertifikate aktivieren
+- name: opennetca - Zertifikate systemweit aktivieren
   command: update-ca-certificates
   when: updated_ca_certificates.changed
+
+# TODO: Remove task when applied to all servers
+- name: opennetca - altes Zertifikatsverzeichnis bereinigen
+  file: path="{{ opennetca_path }}/opennet-initiative.de" state=absent
 
 - name: Verzeichnis /usr/local/sbin erzeugen
   file: state=directory
         recurse=true
         path=/usr/local/sbin
 
-- name: Skript 'opennetca_crldownload' herunterladen
+- name: opennetca - CRL / Widerufslisten Skript herunterladen
   get_url:
     dest=/usr/local/sbin/opennetca_crldownload.sh
     mode=755
@@ -32,17 +31,17 @@
     path=/etc/ssl/crl
     state=directory
 
-- name: Cron-Jobs fuer die Aktualisierung der CA-Widerrufslisten eintragen
+- name: opennetca - Cron-Jobs für CRL / Widerufslisten angelegn
   cron:
     state=present
     name="Zerifikatswiderrufslisten fuer {{ item.name }} regelmaessig aktualisieren"
     hour="1,13"
     minute="{{ item.minute }}"
     job="/usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }} >/dev/null"
-  with_items: "{{opennet_ca_crl_list}}"
+  with_items: "{{opennetca_crl_list}}"
 
-- name: CA-Widerrufslisten erstmals herunterladen, falls nicht vorhanden
+- name: opennetca - Skript CRL / Widerrifslisten erstmalig aufrufen
   command:
     creates=/etc/ssl/crl/{{ item.crl }}
     /usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }}
-  with_items: "{{opennet_ca_crl_list}}"
+  with_items: "{{opennetca_crl_list}}"
