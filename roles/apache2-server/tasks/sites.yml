@@ -1,7 +1,7 @@
 - name: sites - Apache Konfigurationen kopieren
-  copy:
+  template:
           src=apache2-sites.d/{{ item.name }}.inc
-          dest=/etc/apache2/on-configs.d/
+          dest=/etc/apache2/on-configs.d/{{ item.name }}.inc
   with_items: "{{ apache2_sites }}"
   notify: restart apache2
 
