@@ -120,10 +120,11 @@
 ###
 
 - name: gnupg -- mutt, bc installieren (für check-gpg-expire)
-  apt:  name={{item}} state=present
-  with_items:
-    - mutt
-    - bc
+  apt:
+          pkg:
+                  - bc
+                  - mutt
+          state: present
 
 # FIXME: derzeit verursache gpgme einen Fehler beim Mailversand
 # "GPGME: CMS protocol not available", daher deaktivieren

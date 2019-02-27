@@ -1,18 +1,20 @@
 - name: Virtualisierungspakete installieren
-  apt: pkg={{ item }} state=present install_recommends=no
-  with_items:
-          # die meisten Server konfigurieren Bridges
-          - bridge-utils
-          # fuer vhost-admin.sh
-          - curl
-          - debootstrap
-          - libvirt-daemon-system
-          - libvirt-clients
-          - munin-libvirt-plugins
-          # fuer den Client virt-manager
-          - netcat-openbsd
-          - qemu-kvm
-          - uuid-runtime
+  apt:
+          pkg:
+                  # die meisten Server konfigurieren Bridges
+                  - bridge-utils
+                  # fuer vhost-admin.sh
+                  - curl
+                  - debootstrap
+                  - libvirt-daemon-system
+                  - libvirt-clients
+                  - munin-libvirt-plugins
+                  # fuer den Client virt-manager
+                  - netcat-openbsd
+                  - qemu-kvm
+                  - uuid-runtime
+          state: present
+          install_recommends: no
   # irgendwie muss libvirtd nach der Installation von "qemu-kvm" neugestartet werden, um
   # "hvm" zu kennen
   notify: restart libvirtd

@@ -1,8 +1,9 @@
 - name: lokalen DNS-Server installieren
-  apt: pkg={{ item }} state=present
-  with_items:
-          - dnsmasq
-          - resolvconf
+  apt:
+          pkg:
+                  - dnsmasq
+                  - resolvconf
+          state: present
 
 - name: lokalen DNS-Server konfigurieren
   template:

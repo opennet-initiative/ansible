@@ -1,7 +1,7 @@
 - name: apt -- moinmoin Paket installieren
-  apt: pkg={{ item }} state=present
-  with_items:
-    - python-moinmoin
+  apt:
+          pkg: python-moinmoin
+          state: present
 
 - name: DocumentRoot Verzeichnis anlegen
   file: state=directory
@@ -56,9 +56,9 @@
   when: moinmoin_data_installed.stat.isdir is not defined
 
 - name: apt -- fail2ban Paket installieren
-  apt: pkg={{ item }} state=present
-  with_items:
-    - fail2ban
+  apt:
+          pkg: fail2ban
+          state: present
 
 - name: fail2ban apache Config kopieren
   copy: src=etc/fail2ban/
