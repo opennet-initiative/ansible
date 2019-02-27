@@ -17,13 +17,13 @@ class Config(FarmConfig):
 
     logo_string = u'<img src="https://opennet-initiative.de/w/images/opennetlogo.png" height="90px"/>'
 
-    # With GivenAuth moin relies on the webserver doing the authentication:
-    from MoinMoin.auth import GivenAuth
-    auth = [GivenAuth(autocreate=True)]
-    
+    # use authentication data provided by the SSL client certificate (requires "SSLOptions +StdEnvVars")
+    from MoinMoin.auth.sslclientcert import SSLClientCertAuth
+    auth = [SSLClientCertAuth(autocreate=True)]
+
     #enable xmlrpc
     actions_excluded = multiconfig.DefaultConfig.actions_excluded[:]
     #actions_excluded = list(multiconfig.DefaultConfig.actions_excluded)
     actions_excluded.remove('xmlrpc')
     #allow user access via xmlrpc
-    acl_rights_default = u"martin:read,write,delete All:read"
+    acl_rights_default = u"martingarbe.client.on:read,write,delete All:read"
