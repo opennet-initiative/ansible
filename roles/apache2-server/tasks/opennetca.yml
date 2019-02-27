@@ -1,0 +1,26 @@
+- name: opennetca - Verzeichnis erstellen
+  file: 
+    path: "{{ apache2_opennetca_dir }}/"
+    state: directory
+
+- name: opennetca - Links zu Zertifikaten setzen
+  file:
+    src: "{{ apache2_opennetca_src }}/certs/{{ item }}.pem"
+    dest: "{{ apache2_opennetca_dir }}/{{ item }}.crt"
+    state: link
+  with_items: "{{ apache2_opennetca_files }}"
+
+- name: opennetca - Links zu Widerruflisten setzen
+  file:
+    src: "{{ apache2_opennetca_src }}/crl/{{ item }}.crl"
+    dest: "{{ apache2_opennetca_dir }}/{{ item }}.crl"
+    state: link
+  with_items: "{{ apache2_opennetca_files }}" 
+
+- name: opennetca - Installation openssl
+  apt: 
+    name: openssl
+    state: present
+
+- name: opennetca - OpenSSL Hash für Zertifikate und Widerrufslisten erstellen
+  command: "openssl rehash {{ apache2_opennetca_dir }}"

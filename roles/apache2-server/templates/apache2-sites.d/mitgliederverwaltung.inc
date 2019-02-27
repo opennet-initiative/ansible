@@ -22,10 +22,10 @@ ScriptAlias	/					/usr/share/moin/server/moin.cgi/
 SetEnv LANG C.UTF-8
 
 # client certificate authentication
-SSLCACertificateFile /etc/apache2/ssl/root.crt
-SSLCACertificatePath /etc/apache2/ssl/
-SSLCARevocationPath /etc/apache2/ssl/
-SSLCADNRequestPath /etc/apache2/ssl/
+SSLCACertificateFile {{ apache2_opennetca_dir }}/opennet-root.crt
+SSLCACertificatePath {{ apache2_opennetca_dir }}/
+SSLCARevocationPath {{ apache2_opennetca_dir }}/
+SSLCADNRequestPath {{ apache2_opennetca_dir }}/
 SSLCARevocationCheck chain
 
 

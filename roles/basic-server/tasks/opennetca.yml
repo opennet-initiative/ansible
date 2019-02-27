@@ -1,3 +1,7 @@
+# TODO: Remove task when applied to all servers
+- name: opennetca - altes Zertifikatsverzeichnis bereinigen
+  file: path="{{ opennetca_path }}/opennet-initiative.de" state=absent
+
 - name: opennetca - Zertifikate übertragen
   copy:
     src: "opennet-ca/"
@@ -9,10 +13,6 @@
 - name: opennetca - Zertifikate systemweit aktivieren
   command: update-ca-certificates
   when: updated_ca_certificates.changed
-
-# TODO: Remove task when applied to all servers
-- name: opennetca - altes Zertifikatsverzeichnis bereinigen
-  file: path="{{ opennetca_path }}/opennet-initiative.de" state=absent
 
 - name: Verzeichnis /usr/local/sbin erzeugen
   file: state=directory

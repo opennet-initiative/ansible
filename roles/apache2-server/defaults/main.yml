@@ -12,3 +12,8 @@ apache2_https_conf: "/etc/apache2/mods-available/ssl.conf"
 apache2_logging_dir: "/var/log/apache2"
 apache2_php_version: "php7.0"
 apache2_php_dir: "/etc/php/7.0/fpm"
+apache2_opennetca_dir: "/etc/apache2/ssl/opennetca"
+apache2_opennetca_src: "/etc/ssl"
+apache2_opennetca_files:
+- opennet-root
+- opennet-client

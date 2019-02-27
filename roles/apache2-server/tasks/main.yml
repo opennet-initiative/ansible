@@ -6,3 +6,4 @@
 - include: https.yml
 - include: cleanup.yml
 - include: php.yml
+- include: opennetca.yml
