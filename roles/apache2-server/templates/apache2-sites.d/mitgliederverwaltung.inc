@@ -39,12 +39,7 @@ SSLCARevocationCheck chain
         # allow access to certificate details for Moin's authorization
         SSLOptions +StdEnvVars
         # allow specific cert CN
-        SSLRequire %{SSL_CLIENT_S_DN_CN} in { \
-          "mathiasmahnke.client.on", \
-          "larskruse.client.on", \
-          "martingarbe.client.on", \
-          "janconrads.client.on" \
-        }
+        SSLRequire %{SSL_CLIENT_S_DN_CN} in { "{{ mitgliederverwaltung_allowed_users|join('", "') }}" }
 
         # client cert error handling
         RewriteEngine on

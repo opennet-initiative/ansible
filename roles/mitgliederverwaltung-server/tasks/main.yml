@@ -17,9 +17,13 @@
         group=www-data
         mode=755
 
-- name: MoinMoin Wiki Config kopieren
-  copy: src=etc/moin/
-        dest=/etc/moin/
+- name: MoinMoin wiki-farm-Konfiguration kopieren
+  copy: src=moin-farmconfig.py
+        dest=/etc/moin/farmconfig.py
+
+- name: MoinMoin wiki-farm-Konfiguration kopieren
+  template: src=moin-site.py
+            dest=/etc/moin/mitgliederverwaltung.py
 
 - name: MoinMoin underlay-Verzeichnis vorhanden?
   stat: path=/var/lib/mitgliederverwaltung/underlay/

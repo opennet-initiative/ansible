@@ -22,3 +22,12 @@ apache2_sites:
 apache2_mods:
  - { name: cgid }
 # - { name: ssl }
+
+# allowed users may read and write
+# These users need to be defined on the host level, since they are used by multiple roles
+# ("apache-sites" and "mitgliederverwaltung").
+mitgliederverwaltung_allowed_users:
+  - janconrads.client.on
+  - larskruse.client.on
+  - martingarbe.client.on
+  - mathiasmahnke.client.on

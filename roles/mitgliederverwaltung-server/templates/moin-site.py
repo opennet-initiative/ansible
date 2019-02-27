@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# {{ ansible_managed }}
 
 from MoinMoin.config import multiconfig
 from farmconfig import FarmConfig
@@ -13,7 +14,8 @@ class Config(FarmConfig):
     data_dir = '/var/lib/mitgliederverwaltung/data/'
     data_underlay_dir = '/var/lib/mitgliederverwaltung/underlay'
     navi_bar = [u'Mitglieder', u'AktuelleÄnderungen', u'SeiteFinden', u'HilfeInhalt']
-    superuser = [u'lars']
+    # enable temporarily for administrative actions
+    #superuser = [u'foo.client.on']
 
     logo_string = u'<img src="https://opennet-initiative.de/w/images/opennetlogo.png" height="90px"/>'
 
@@ -26,4 +28,4 @@ class Config(FarmConfig):
     #actions_excluded = list(multiconfig.DefaultConfig.actions_excluded)
     actions_excluded.remove('xmlrpc')
     #allow user access via xmlrpc
-    acl_rights_default = u"martingarbe.client.on:read,write,delete All:read"
+    acl_rights_default = u"{{ mitgliederverwaltung_allowed_users|join(',') }}:read,write,delete All:read"
