@@ -23,9 +23,9 @@ class Config(FarmConfig):
     from MoinMoin.auth.sslclientcert import SSLClientCertAuth
     auth = [SSLClientCertAuth(autocreate=True)]
 
-    #enable xmlrpc
-    actions_excluded = multiconfig.DefaultConfig.actions_excluded[:]
-    #actions_excluded = list(multiconfig.DefaultConfig.actions_excluded)
+    # XMLRPC is used remotely via helper scripts (e.g. "search for members")
+    # enable xmlrpc
+    actions_excluded = list(multiconfig.DefaultConfig.actions_excluded)
     actions_excluded.remove('xmlrpc')
-    #allow user access via xmlrpc
+    # allow read access via xmlrpc
     acl_rights_default = u"{{ mitgliederverwaltung_allowed_users|join(',') }}:read,write,delete All:read"
