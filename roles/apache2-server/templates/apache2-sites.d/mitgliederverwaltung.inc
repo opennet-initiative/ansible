@@ -8,6 +8,7 @@ DocumentRoot	/var/www/mitgliederverwaltung/
         Require all granted
 </Directory>
 
+Alias		/opennetlogo.png		/var/www/mitgliederverwaltung/opennetlogo.png
 Alias		/moin_static199/applets/FCKeditor/	/usr/share/fckeditor/
 Alias		/moin_static199/			/usr/share/moin/htdocs/
 ScriptAlias	/					/usr/share/moin/server/moin.cgi/

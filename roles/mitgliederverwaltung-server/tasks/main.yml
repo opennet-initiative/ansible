@@ -10,6 +10,11 @@
         group=www-data
         mode=755
 
+- name: Logo kopieren
+  copy:
+    src: opennetlogo.png
+    dest: /var/www/mitgliederverwaltung/
+
 - name: MoinMoin Haupt-Verzeichnis anlegen
   file: state=directory
         dest=/var/lib/mitgliederverwaltung/

@@ -17,7 +17,7 @@ class Config(FarmConfig):
     # enable temporarily for administrative actions
     #superuser = [u'foo.client.on']
 
-    logo_string = u'<img src="https://opennet-initiative.de/w/images/opennetlogo.png" height="90px"/>'
+    logo_string = u'<img src="/opennetlogo.png" height="90px"/>'
 
     # use authentication data provided by the SSL client certificate (requires "SSLOptions +StdEnvVars")
     from MoinMoin.auth.sslclientcert import SSLClientCertAuth
