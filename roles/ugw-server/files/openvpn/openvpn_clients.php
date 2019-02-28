@@ -32,7 +32,7 @@ while (!feof($fp)) {
     }
     if ($inclients) {
         $cdata = explode(',', $line);
-        $clines[$cdata[1]] = array($cdata[2], $cdata[3], $cdata[4]);
+        $clines[$cdata[0]] = array($cdata[2], $cdata[3], $cdata[4]);
     }
     if (substr($line, 0, 11) == "Common Name") {
         $inclients = true;
@@ -43,7 +43,7 @@ while (!feof($fp)) {
     }
     if ($inrouting) {
         $routedata = explode(',', $line);
-        array_push($clients, array_merge($routedata, $clines[$routedata[2]]));
+        array_push($clients, array_merge($routedata, $clines[$routedata[1]]));
     }
     if (substr($line, 0, 15) == "Virtual Address") {
         $inrouting = true;
