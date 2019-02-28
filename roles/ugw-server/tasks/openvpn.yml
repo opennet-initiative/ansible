@@ -119,7 +119,7 @@
 - name: Zertifikatswiderrufslisten fuer Nutzer-Tunnel regelmaessig via cron aktualisieren
   cron:
     state=present
-    name="Zerifikatswiderrufslisten fuer {{ item.name }} regelmaessig aktualisieren"
+    name="Zertifikatswiderrufslisten fuer {{ item.name }} regelmaessig aktualisieren"
     hour="1,13"
     minute="{{ item.minute }}"
     job="/usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }} >/dev/null"
