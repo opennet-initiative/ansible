@@ -17,6 +17,7 @@ letsencrypt_certificates:
 mediawiki_extensions_wikimedia:
  - MobileFrontend
  - UserMerge
+ - MsCalendar
 
 # TODO: remove mediawiki_extensions_wikimedia_old if all ext. moved to wfLoadExtension
 mediawiki_extensions_wikimedia_old:
@@ -36,3 +37,5 @@ mediawiki_extensions_debian:
 
 mediawiki_upload_filetypes:
  - pdf
+ - dia
+ - odt

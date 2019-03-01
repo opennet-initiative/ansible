@@ -21,6 +21,7 @@ $wgUseCombinedLoginLink = true;
 function efAddSkinStyles(OutputPage &$out, Skin &$skin) {
   if(!$skin->getUser()->isLoggedIn()) {
     $out->addInlineStyle('#ca-view { display:none; }');
+    $out->addInlineStyle('#ca-talk { display:none; }');
     $out->addInlineStyle('#ca-viewsource { display:none; }');
     $out->addInlineStyle('#ca-history { display:none; }');
     $out->addInlineStyle('#mw-mf-last-modified { display:none; }');
