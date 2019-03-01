@@ -1,0 +1,4 @@
+[submodule "mitogen"]
+	path = mitogen
+	url = https://github.com/dw/mitogen.git
+	branch = stable
