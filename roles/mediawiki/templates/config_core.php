@@ -31,4 +31,8 @@ $wgNamespacesWithSubpages[NS_MAIN] = true;
 # Enable subpages in the template namespace
 $wgNamespacesWithSubpages[NS_TEMPLATE] = true;
 
+# Enable page history restrictions for sysop users
+$wgGroupPermissions['sysop']['deletelogentry'] = true;
+$wgGroupPermissions['sysop']['deleterevision'] = true;
+
 ?>
