@@ -9,6 +9,7 @@ DocumentRoot	/var/www/mitgliederverwaltung/
 </Directory>
 
 Alias		/opennetlogo.png		/var/www/mitgliederverwaltung/opennetlogo.png
+Alias		/favicon.ico		/var/www/mitgliederverwaltung/favicon.ico
 Alias		/moin_static199/applets/FCKeditor/	/usr/share/fckeditor/
 Alias		/moin_static199/			/usr/share/moin/htdocs/
 ScriptAlias	/					/usr/share/moin/server/moin.cgi/
