@@ -22,8 +22,8 @@
 
 - hosts: amano.on
   roles:
-    - mitgliederverwaltung-server
-    - mitgliedsantrag-server
+    - mitgliederverwaltung
+    - mitgliedsantrag
 
 - hosts: tenkawa.on
   roles:
