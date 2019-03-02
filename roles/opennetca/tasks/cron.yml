@@ -1,0 +1,64 @@
+- name: cron - Anlegen von "Opennet CA CRL Generator"
+  cron:
+    name: "Opennet CA CRL Generator {{ item }}"
+    minute: "15"
+    hour: "1,13"
+    user: "{{ opennetca_user }}"
+    job: "{{ opennetca_path_user }}/ca/{{ item }}/crl.sh 2>/dev/null"
+  with_items: "{{ opennetca_list }}"
+
+- name: cron - Anlegen von "Opennet CA CRL Copy"
+  cron:
+    name: "Opennet CA CRL Copy {{ item }}"
+    minute: "25"
+    hour: "1,13"
+    job: "cp {{ opennetca_path_user }}/ca/{{ item }}/*.crl {{ opennetca_path_web }}/"
+  with_items: "{{ opennetca_list }}"
+
+- name: cron - Anlegen von "Opennet CA Cert Public List Generator"
+  cron:
+    name: "Opennet CA Cert Public List Generator {{ item }}"
+    minute: "*/10"
+    job: "{{ opennetca_path_user }}/ca/{{ item }}/opennetca_htmlview.sh --public | sponge {{ opennetca_path_web }}/{{ item }}.html"
+  with_items: "{{ opennetca_list }}"
+
+- name: cron - Anlegen von "Opennet CA Cert Private List Generator"
+  cron:
+    name: "Opennet CA Cert Private List Generator {{ item }}"
+    minute: "*/10"
+    job: "{{ opennetca_path_user }}/ca/{{ item }}/opennetca_htmlview.sh --private | sponge {{ opennetca_path_web }}/internal/{{ item }}.html"
+  with_items: "{{ opennetca_list }}"
+
+- name: cron - Anlegen von "Opennet CSR Public List Generator"
+  cron:
+    name: "Opennet CSR Public List Generator"
+    minute: "*/5"
+    job: "{{ opennetca_path_user }}/src/csr/opennetcsr_htmlview.sh --public | sponge {{ opennetca_path_web }}/csr.html"
+
+- name: cron - Anlegen von "Opennet CSR Private List Generator"
+  cron:
+    name: "Opennet CSR Private List Generator"
+    minute: "*/5"
+    job: "{{ opennetca_path_user }}/src/csr/opennetcsr_htmlview.sh --private | sponge {{ opennetca_path_web }}/internal/csr.html"
+
+- name: cron - Anlegen von "Opennet CSR Revoke Batch Job"
+  cron: 
+    name: "Opennet CSR Revoke Batch Job"
+    minute: "*/5"
+    user: "{{ opennetca_user }}"
+    job: "{{ opennetca_path_user }}/src/csr/opennetcsr_revokebatch.sh --revoke >/dev/null 2>&1"
+
+- name: cron - Anlegen von "Opennet CSR Sign Batch Job"
+  cron: 
+    name: "Opennet CSR Sign Batch Job"
+    minute: "*/5"
+    user: "{{ opennetca_user }}"
+    job: "{{ opennetca_path_user }}/src/csr/opennetcsr_signbatch.sh --sign >/dev/null 2>&1"
+
+- name: cron - Anlegen von "Opennet CSR Pening Batch Job"
+  cron:
+    name: "Opennet CSR Pending Batch Job"
+    minute: "30"
+    hour: "7"
+    user: "{{ opennetca_user }}"
+    job: "{{ opennetca_path_user }}/src/csr/opennetcsr_pendingbatch.sh --mail >/dev/null"

@@ -1,0 +1,64 @@
+- name: web - Verzeichnisse anlegen
+  file:
+    path: "{{ opennetca_path_web }}/{{ item }}"
+    state: directory
+  with_items:
+    - internal
+    - csr
+
+- name: web - Opennet Logo kopieren
+  copy: src="Opennet_logo_quer.gif" dest="{{ opennetca_path_web }}/"
+
+- name: web - Opennet Favicon kopieren
+  copy: src="favicon.ico" dest="{{ opennetca_path_web }}/"
+
+- name: web - Dateien der Opennet CA (Public) kopieren
+  copy:
+    src: "{{ opennetca_path_user }}/src/web/public/{{ item }}"
+    dest: "{{ opennetca_path_web }}/{{ item }}"
+    remote_src: yes
+  with_items:
+    - ca-bundle.tar.gz
+    - index.html
+    - ca.html
+
+- name: web - Zertifikate der Opennet CA (Public) entpacken
+  unarchive:
+    src: "{{ opennetca_path_web }}/ca-bundle.tar.gz"
+    dest: "{{ opennetca_path_web }}/"
+    remote_src: yes
+
+- name: web - Dateien der Opennet CA (Internal) kopieren
+  copy:
+    src: "{{ opennetca_path_user }}/src/web/internal/{{ item }}"
+    dest: "{{ opennetca_path_web }}/internal/{{ item }}"
+    remote_src: yes
+  with_items:
+    - index.html
+    - csr_approve.php
+    - revoke_approve.php
+
+- name: web - Dateien der Opennet CA (CSR) kopieren
+  copy:
+    src: "{{ opennetca_path_user }}/src/web/csr/{{ item }}"
+    dest: "{{ opennetca_path_web }}/csr/{{ item }}"
+    remote_src: yes
+  with_items:
+    - index.html
+    - csr_upload.php
+
+- name: web - CSR Upload Verzeichnis anlegen
+  file: 
+    path: "{{ opennetca_path_csr }}"
+    owner: www-data
+    group: www-data
+    mode: g+w
+    state: directory
+
+- name: web - Verweis zum CSR Upload Verzeichnis erstellen
+  file:
+    src: "{{ opennetca_path_csr }}"
+    dest: "{{ opennetca_path_user }}/csr/csr_upload"
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}"
+    state: link

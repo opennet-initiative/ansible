@@ -1,0 +1,11 @@
+opennetca_src: "https://dev.opennet-initiative.de/git/on_opennetca"
+opennetca_user: "opennetca"
+opennetca_path_web : "/var/www/{{ opennetca_user }}"
+opennetca_path_csr : "/var/www/csr_upload"
+opennetca_path_user : "/home/{{ opennetca_user }}"
+opennetca_list: 
+- root
+- vpnuser
+- vpngw
+- client
+- server

@@ -1,0 +1,20 @@
+- name: install - Werkzeuge installieren
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - openssl
+    - jq
+    - mutt
+    - moreutils
+
+- name: install - Benutzer anlegen
+  user:
+    name: "{{ opennetca_user }}"
+    groups: www-data
+
+- name: install - Opennet CA Software via Git übertragen 
+  git:
+    repo: "{{ opennetca_src }}"
+    dest: "{{ opennetca_path_user }}/src"
+    force: yes

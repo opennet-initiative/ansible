@@ -1,0 +1,22 @@
+= Überblick =
+Diese Rolle installiert die Opennet CA Verwaltung.
+
+Enthalten sind:
+* Paketinstallation
+* Anlegen der CA und Sub-CA
+* Ablegen des Webinterfaces (Public, Internal, CSR)
+* Erstellen der Cronjobs
+
+= Konfiguration =
+
+Manuelle Arbeitsschritte:
+* für jede CA / Sub-CA muss der Key/Zertifikat erzeugt werden 
+* eventuell vorhandene CA Informationen müssen kopiert werden
+* bestehende CSR Daten müssen hinzugefügt werden
+
+= TODO =
+
+* API wird derzeit nicht installiert, da nicht fertig gestellt
+* Dateirechte und Eigenschaften prüfen
+* Webinterface auf Links umstellen?
+* Touch Kommandos mit Bedingungen

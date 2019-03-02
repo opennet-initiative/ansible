@@ -24,6 +24,7 @@
   roles:
     - mitgliederverwaltung
     - mitgliedsantrag
+    - opennetca
 
 - hosts: tenkawa.on
   roles:

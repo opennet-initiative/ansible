@@ -1,0 +1,49 @@
+- name: install - Opennet CA / Sub CA anlegen
+  file:
+    path: "{{ opennetca_path_user }}/ca/{{ ca }}/"
+    state: directory
+
+- name: install - Verweise zu Opennet CA Software setzen
+  file:
+    src: "{{ opennetca_path_user }}/src/ca/{{ line_item }}"
+    dest: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
+    state: link
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}"
+  with_items: 
+    - crl.sh
+    - opennetca_crldownload.sh
+    - opennetca.sh
+    - revoke.sh
+    - sign.sh
+    - list.sh
+    - opennetca_htmlview.sh
+    - revoke_batch.sh
+    - sign_batch.sh
+  loop_control:
+    loop_var: line_item
+
+- name: install - Unterverzeichnisse für Opennet CA Software erstellen
+  file:
+    path: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}/"
+    state: directory
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}"
+  with_items:
+    - cert
+    - crl
+    - csr
+    - .backup
+  loop_control:
+    loop_var: line_item
+
+- name: install - Index und Serial für Opennet CA Software anlegen
+  file:
+    path: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
+    state: touch
+    modification_time: preserve
+  with_items:
+    - index.txt
+    - serial.txt
+  loop_control:
+    loop_var: line_item
