@@ -31,10 +31,20 @@
     path=/etc/ssl/crl
     state=directory
 
-- name: opennetca - Cron-Jobs für CRL / Widerufslisten angelegn
+- name: opennetca - Cron-Jobs für CRL / Widerufslisten anlegen
   cron:
     state=present
     name="Zertifikatswiderrufslisten fuer {{ item.name }} regelmaessig aktualisieren"
+    hour="1,13"
+    minute="{{ item.minute }}"
+    job="/usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }} >/dev/null"
+  with_items: "{{opennetca_crl_list}}"
+
+# TODO: Remove task once the old cronjob is been removed everywhere
+- name: opennetca - Alte Cron-Jobs für CRL / Widerufslisten entfernen
+  cron:
+    state=absent
+    name="Zerifikatswiderrufslisten fuer {{ item.name }} regelmaessig aktualisieren"
     hour="1,13"
     minute="{{ item.minute }}"
     job="/usr/local/sbin/opennetca_crldownload.sh {{ item.crl }} /etc/ssl/crl {{ item.ca_cert }} >/dev/null"
