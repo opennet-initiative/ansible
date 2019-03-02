@@ -33,20 +33,20 @@
   cron:
     name: "Opennet CSR Public List Generator"
     minute: "*/5"
-    job: "{{ opennetca_path_user }}/src/csr/opennetcsr_htmlview.sh --public | /usr/bin/sponge {{ opennetca_path_web }}/csr.html"
+    job: "{{ opennetca_path_user }}/csr/opennetcsr_htmlview.sh --public | /usr/bin/sponge {{ opennetca_path_web }}/csr.html"
 
 - name: cron - Anlegen von "Opennet CSR Private List Generator"
   cron:
     name: "Opennet CSR Private List Generator"
     minute: "*/5"
-    job: "{{ opennetca_path_user }}/src/csr/opennetcsr_htmlview.sh --private | /usr/bin/sponge {{ opennetca_path_web }}/internal/csr.html"
+    job: "{{ opennetca_path_user }}/csr/opennetcsr_htmlview.sh --private | /usr/bin/sponge {{ opennetca_path_web }}/internal/csr.html"
 
 - name: cron - Anlegen von "Opennet CSR Revoke Batch Job"
   cron: 
     name: "Opennet CSR Revoke Batch Job"
     minute: "*/5"
     user: "{{ opennetca_user }}"
-    job: "{{ opennetca_path_user }}/src/csr/opennetcsr_revokebatch.sh --revoke >/dev/null 2>&1"
+    job: "{{ opennetca_path_user }}/csr/opennetcsr_revokebatch.sh --revoke >/dev/null 2>&1"
 
 - name: cron - Anlegen von "Opennet CSR Sign Batch Job"
   cron: 
