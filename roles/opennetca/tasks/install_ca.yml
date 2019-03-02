@@ -1,7 +1,9 @@
 - name: install - Opennet CA / Sub CA anlegen
   file:
-    path: "{{ opennetca_path_user }}/ca/{{ ca }}/"
+    path: "{{ opennetca_path_user }}/ca/{{ ca }}"
     state: directory
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}"
 
 - name: install - Verweise zu Opennet CA Software setzen
   copy:
@@ -42,6 +44,8 @@
     path: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
     state: touch
     modification_time: preserve
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}"
   with_items:
     - index.txt
     - serial.txt
