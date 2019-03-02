@@ -24,7 +24,7 @@
     dest=/usr/local/sbin/opennetca_crldownload.sh
     mode=755
     owner=root
-    url="https://dev.opennet-initiative.de/browser/on_opennetca/opennetca_crldownload.sh?format=raw"
+    url="https://dev.opennet-initiative.de/browser/on_opennetca/ca/opennetca_crldownload.sh?format=raw"
 
 - name: CRL-Verzeichnis erstellen
   file:
