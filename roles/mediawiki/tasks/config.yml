@@ -2,7 +2,6 @@
   template:
     src: LocalSettings.php
     dest: "{{ mediawiki_path_conf }}"
-    backup: yes
   notify: update mediawiki
 
 - name: config - Vorlage für Passwortdatei kopieren
@@ -10,26 +9,22 @@
     src: config_keys.php
     dest: "{{ mediawiki_path_conf }}"
     force: no
-    backup: yes
   notify: update mediawiki
 
 - name: config - Allgemeine Einstellungen kopieren
   template:
     src: config_core.php
     dest: "{{ mediawiki_path_conf }}"
-    backup: yes
   notify: update mediawiki 
 
 - name: config - Skin Einstellungen kopieren
   template:
     src: config_skin.php
     dest: "{{ mediawiki_path_conf }}"
-    backup: yes
   notify: update mediawiki
 
 - name: config - Extensions Einstellungen kopieren
   template:
     src: config_extensions.php
     dest: "{{ mediawiki_path_conf }}"
-    backup: yes
   notify: update mediawiki
