@@ -4,12 +4,12 @@
     state: directory
 
 - name: install - Verweise zu Opennet CA Software setzen
-  file:
+  copy:
     src: "{{ opennetca_path_user }}/src/ca/{{ line_item }}"
     dest: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
-    state: link
     owner: "{{ opennetca_user }}"
     group: "{{ opennetca_user }}"
+    remote_src: yes
   with_items: 
     - crl.sh
     - opennetca_crldownload.sh

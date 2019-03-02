@@ -4,12 +4,12 @@
     state: directory
 
 - name: install - Verweise zu Opennet CSR Software setzen
-  file:
+  copy:
     src: "{{ opennetca_path_user }}/src/csr/{{ item }}"
     dest: "{{ opennetca_path_user }}/csr/{{ item }}"
-    state: link
     owner: "{{ opennetca_user }}"
     group: "{{ opennetca_user }}"
+    remote_src: yes
   with_items: 
     - opennetcsr.cfg
     - opennetcsr_pendingbatch.sh
