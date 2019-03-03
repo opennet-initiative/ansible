@@ -19,7 +19,7 @@
   cron:
     name: "Opennet CA Cert Public List Generator {{ item }}"
     minute: "*/10"
-    job: "{{ opennetca_path_user }}/ca/{{ item }}/opennetca_htmlview.sh --publics | ponge {{ opennetca_path_web }}/{{ item }}.html"
+    job: "{{ opennetca_path_user }}/ca/{{ item }}/opennetca_htmlview.sh --public | ponge {{ opennetca_path_web }}/{{ item }}.html"
   with_items: "{{ opennetca_list }}"
 
 - name: cron - Anlegen von "Opennet CA Cert Private List Generator"
