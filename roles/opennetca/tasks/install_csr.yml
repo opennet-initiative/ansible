@@ -11,6 +11,7 @@
     dest: "{{ opennetca_path_user }}/csr/{{ item }}"
     owner: "{{ opennetca_user }}"
     group: "{{ opennetca_user }}"
+    mode: preserve
     remote_src: yes
   with_items: 
     - opennetcsr.cfg

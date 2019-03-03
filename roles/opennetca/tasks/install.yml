@@ -18,3 +18,10 @@
     repo: "{{ opennetca_src }}"
     dest: "{{ opennetca_path_user }}/src"
     force: yes
+
+- name: install - Opennet CA Verzeichnis anlegen
+  file:
+    path: "{{ opennetca_path_user }}/ca"
+    state: directory
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}"
