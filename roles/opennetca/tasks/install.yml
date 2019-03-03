@@ -11,7 +11,8 @@
 - name: install - Benutzer anlegen
   user:
     name: "{{ opennetca_user }}"
-    groups: www-data
+    groups: "{{ opennetca_user_web }}"
+    shell: "{{ opennetca_user_shell }}"
 
 - name: install - Opennet CA Software via Git übertragen 
   git:
@@ -19,9 +20,12 @@
     dest: "{{ opennetca_path_user }}/src"
     force: yes
 
-- name: install - Opennet CA Verzeichnis anlegen
+- name: install - Verzeichnisse anlegen
   file:
-    path: "{{ opennetca_path_user }}/ca"
+    path: "{{ opennetca_path_user }}/{{ item }}"
     state: directory
     owner: "{{ opennetca_user }}"
     group: "{{ opennetca_user }}"
+  with_items:
+    - ca
+    - csr

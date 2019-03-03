@@ -17,6 +17,3 @@ Manuelle Arbeitsschritte:
 = TODO =
 
 * API wird derzeit nicht installiert, da nicht fertig gestellt
-* Dateirechte und Eigenschaften prüfen
-* Webinterface auf Links umstellen?
-* Touch Kommandos mit Bedingungen

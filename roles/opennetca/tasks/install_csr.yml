@@ -1,11 +1,4 @@
-- name: install - Opennet CSR anlegen
-  file:
-    path: "{{ opennetca_path_user }}/csr"
-    state: directory
-    owner: "{{ opennetca_user }}"
-    group: "{{ opennetca_user }}"
-
-- name: install - Verweise zu Opennet CSR Software setzen
+- name: install - Opennet CA CSR Software kopieren 
   copy:
     src: "{{ opennetca_path_user }}/src/csr/{{ item }}"
     dest: "{{ opennetca_path_user }}/csr/{{ item }}"
@@ -14,8 +7,14 @@
     mode: preserve
     remote_src: yes
   with_items: 
-    - opennetcsr.cfg
     - opennetcsr_pendingbatch.sh
     - opennetcsr_signbatch.sh
     - opennetcsr_htmlview.sh
     - opennetcsr_revokebatch.sh
+
+- name: install - Konfiguration für CA CSR erstellen
+  template:
+    src: opennetcsr.cfg
+    dest:  "{{ opennetca_path_user }}/csr/"
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}"

@@ -1,11 +1,13 @@
 opennetca_src: "https://dev.opennet-initiative.de/git/on_opennetca"
 opennetca_user: "opennetca"
+opennetca_user_shell: "/bin/bash"
+opennetca_user_web: "www-data"
 opennetca_path_web : "/var/www/{{ opennetca_user }}"
-opennetca_path_csr : "/var/www/csr_upload"
+opennetca_path_csr : "/var/www/{{ opennetca_user }}_upload"
 opennetca_path_user : "/home/{{ opennetca_user }}"
 opennetca_list: 
-- root
-- vpnuser
-- vpngw
-- client
-- server
+- { name: "root", cn: "ca.on" }
+- { name: "vpnuser", cn: "aps.on mobile.on" }
+- { name: "vpngw", cn: "ugw.on" }
+- { name: "client", cn: "client.on" }
+- { name: "server", cn: "opennet-initiative.de" }

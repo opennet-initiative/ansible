@@ -2,20 +2,32 @@
   file:
     path: "{{ opennetca_path_web }}/{{ item }}"
     state: directory
+    owner: "{{ opennetca_user_web }}"
+    group: "{{ opennetca_user_web }}"
   with_items:
     - internal
     - csr
 
 - name: web - Opennet Logo kopieren
-  copy: src="Opennet_logo_quer.gif" dest="{{ opennetca_path_web }}/"
+  copy: 
+    src: "Opennet_logo_quer.gif" 
+    dest: "{{ opennetca_path_web }}/"
+    owner: "{{ opennetca_user_web }}"
+    group: "{{ opennetca_user_web }}"
 
 - name: web - Opennet Favicon kopieren
-  copy: src="favicon.ico" dest="{{ opennetca_path_web }}/"
+  copy: 
+    src: "favicon.ico"
+    dest: "{{ opennetca_path_web }}/"
+    owner: "{{ opennetca_user_web }}"
+    group: "{{ opennetca_user_web }}"
 
 - name: web - Dateien der Opennet CA (Public) kopieren
   copy:
     src: "{{ opennetca_path_user }}/src/web/public/{{ item }}"
     dest: "{{ opennetca_path_web }}/{{ item }}"
+    owner: "{{ opennetca_user_web }}"
+    group: "{{ opennetca_user_web }}"
     remote_src: yes
   with_items:
     - ca-bundle.tar.gz
@@ -26,12 +38,16 @@
   unarchive:
     src: "{{ opennetca_path_web }}/ca-bundle.tar.gz"
     dest: "{{ opennetca_path_web }}/"
+    owner: "{{ opennetca_user_web }}"
+    group: "{{ opennetca_user_web }}"
     remote_src: yes
 
 - name: web - Dateien der Opennet CA (Internal) kopieren
   copy:
     src: "{{ opennetca_path_user }}/src/web/internal/{{ item }}"
     dest: "{{ opennetca_path_web }}/internal/{{ item }}"
+    owner: "{{ opennetca_user_web }}"
+    group: "{{ opennetca_user_web }}"
     remote_src: yes
   with_items:
     - index.html
@@ -42,6 +58,8 @@
   copy:
     src: "{{ opennetca_path_user }}/src/web/csr/{{ item }}"
     dest: "{{ opennetca_path_web }}/csr/{{ item }}"
+    owner: "{{ opennetca_user_web }}"
+    group: "{{ opennetca_user_web }}"
     remote_src: yes
   with_items:
     - index.html
@@ -50,15 +68,13 @@
 - name: web - CSR Upload Verzeichnis anlegen
   file: 
     path: "{{ opennetca_path_csr }}"
-    owner: www-data
-    group: www-data
+    owner: "{{ opennetca_user_web }}"
+    group: "{{ opennetca_user_web }}"
     mode: g+w
     state: directory
 
 - name: web - Verweis zum CSR Upload Verzeichnis erstellen
   file:
     src: "{{ opennetca_path_csr }}"
-    dest: "{{ opennetca_path_user }}/csr/csr_upload"
-    owner: "{{ opennetca_user }}"
-    group: "{{ opennetca_user }}"
+    dest: "{{ opennetca_path_user }}/csr/upload"
     state: link

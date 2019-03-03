@@ -1,11 +1,11 @@
-- name: install - Opennet CA / Sub CA anlegen
+- name: install - CA / Sub CA anlegen
   file:
     path: "{{ opennetca_path_user }}/ca/{{ ca }}"
     state: directory
     owner: "{{ opennetca_user }}"
     group: "{{ opennetca_user }}"
 
-- name: install - Verweise zu Opennet CA Software setzen
+- name: install - Opennet CA Software kopieren 
   copy:
     src: "{{ opennetca_path_user }}/src/ca/{{ line_item }}"
     dest: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
@@ -26,7 +26,7 @@
   loop_control:
     loop_var: line_item
 
-- name: install - Unterverzeichnisse für Opennet CA Software erstellen
+- name: install - Unterverzeichnisse für CA erstellen
   file:
     path: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}/"
     state: directory
@@ -40,11 +40,16 @@
   loop_control:
     loop_var: line_item
 
-- name: install - Index und Serial für Opennet CA Software anlegen
-  file:
-    path: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
-    state: touch
-    modification_time: preserve
+# Workaround, see https://github.com/ansible/ansible/issues/21342
+- name: install - Index und Serial für CA anlegen
+#  file:
+#    path: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
+#    state: touch
+#    modification_time: preserve
+  copy:
+    content: ""
+    dest: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
+    force: no
     owner: "{{ opennetca_user }}"
     group: "{{ opennetca_user }}"
   with_items:
@@ -52,3 +57,10 @@
     - serial.txt
   loop_control:
     loop_var: line_item
+
+- name: install - Konfiguration für CA erstellen
+  template:
+    src: opennetca.cfg
+    dest:  "{{ opennetca_path_user }}/ca/{{ ca }}/"
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}"
