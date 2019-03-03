@@ -24,3 +24,4 @@
 
 - name: opennetca - OpenSSL Hash für Zertifikate und Widerrufslisten erstellen
   command: "openssl rehash {{ apache2_opennetca_dir }}"
+  changed_when: False
