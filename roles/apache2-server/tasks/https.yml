@@ -8,25 +8,19 @@
   apt: pkg=dehydrated-apache2 state=present
   when: le_bin.stat.exists
 
-#
-# TODO: Weiter prüfen, ob sichere Methode bei Neuinstallationen
-# danach Kommentar und stat entfernen
-#
 - name: https - Letsencrypt Zertifikate vorhanden?
-#  stat:
-#         path=/var/lib/dehydrated/certs
-#  check_mode: no
-  find:
-         path=/var/lib/dehydrated/certs
-         patterns=cert.pem
-         file_type=link
-         recurse=yes
+  stat:
+    path: "/var/lib/dehydrated/certs/{{ item.on_tld_base }}.{{ apache2_tld_base }}/cert.pem"
+  with_items: "{{ letsencrypt_certificates }}"
   register: le_cert
   when: le_bin.stat.exists
 
+- debug: msg="{{ le_cert }}"
+
 - name: https - Letsencrypt Cron Job ausführen 
-  shell: /usr/bin/dehydrated --cron
-  when: le_cert.matched == 0
+  shell: "/usr/bin/dehydrated --cron --domain {{ item.item.on_tld_base }}.{{ apache2_tld_base }}"
+  with_items: "{{ le_cert.results }}"
+  when: item.stat.exists == false
 
 - name: https - Apache SSL Modul aktivieren
   apache2_module:

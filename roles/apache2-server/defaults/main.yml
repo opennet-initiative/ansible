@@ -17,3 +17,4 @@ apache2_opennetca_src: "/etc/ssl"
 apache2_opennetca_files:
 - opennet-root
 - opennet-client
+apache2_tld_base: "opennet-initiative.de"
