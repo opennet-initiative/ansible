@@ -8,6 +8,6 @@ opennetca_path_user : "/home/{{ opennetca_user }}"
 opennetca_list: 
 - { name: "root", cn: "ca.on" }
 - { name: "vpnuser", cn: "aps.on mobile.on" }
-- { name: "vpngw", cn: "ugw.on" }
+- { name: "vpnugw", cn: "ugw.on" }
 - { name: "client", cn: "client.on" }
 - { name: "server", cn: "opennet-initiative.de" }

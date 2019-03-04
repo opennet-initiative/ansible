@@ -1,4 +1,4 @@
-- name: install - Opennet CA CSR Software kopieren 
+- name: csr - Opennet CA CSR Software kopieren 
   copy:
     src: "{{ opennetca_path_user }}/src/csr/{{ item }}"
     dest: "{{ opennetca_path_user }}/csr/{{ item }}"
@@ -12,7 +12,7 @@
     - opennetcsr_htmlview.sh
     - opennetcsr_revokebatch.sh
 
-- name: install - Konfiguration für CA CSR erstellen
+- name: csr - Konfiguration für CA CSR erstellen
   template:
     src: opennetcsr.cfg
     dest:  "{{ opennetca_path_user }}/csr/"

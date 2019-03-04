@@ -29,3 +29,12 @@
   with_items:
     - ca
     - csr
+
+- name: install - Hinweis kopieren
+  copy:
+    src: "{{ opennetca_path_user }}/src/README"
+    dest: "{{ opennetca_path_user }}/"
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}"
+    mode: preserve
+    remote_src: yes

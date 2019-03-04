@@ -1,11 +1,14 @@
-- name: install - CA / Sub CA anlegen
+- name: ca - CA Name ausgeben
+  debug: msg="{{ ca }}"
+
+- name: ca - CA / Sub CA anlegen
   file:
     path: "{{ opennetca_path_user }}/ca/{{ ca }}"
     state: directory
     owner: "{{ opennetca_user }}"
     group: "{{ opennetca_user }}"
 
-- name: install - Opennet CA Software kopieren 
+- name: ca - Opennet CA Software kopieren 
   copy:
     src: "{{ opennetca_path_user }}/src/ca/{{ line_item }}"
     dest: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
@@ -26,7 +29,7 @@
   loop_control:
     loop_var: line_item
 
-- name: install - Unterverzeichnisse für CA erstellen
+- name: ca - Unterverzeichnisse für CA erstellen
   file:
     path: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}/"
     state: directory
@@ -35,13 +38,29 @@
   with_items:
     - cert
     - crl
-    - csr
     - .backup
   loop_control:
     loop_var: line_item
 
+- name: ca - Unterverzeichnis CSR erstellen (root)
+  file:
+    path: "{{ opennetca_path_user }}/ca/{{ ca }}/csr"
+    state: directory
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}"
+  when: ca == "root"
+
+- name: ca - Unterverzeichnis CSR erstellen (non-root)
+  file:
+    src: "{{ opennetca_path_csr }}"
+    dest: "{{ opennetca_path_user }}/ca/{{ ca }}/csr"
+    state: link
+#    owner: "{{ opennetca_user }}"
+#    group: "{{ opennetca_user }}"
+  when: ca != "root"
+
 # Workaround, see https://github.com/ansible/ansible/issues/21342
-- name: install - Index und Serial für CA anlegen
+- name: ca - Index und Serial für CA anlegen
 #  file:
 #    path: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
 #    state: touch
@@ -58,7 +77,7 @@
   loop_control:
     loop_var: line_item
 
-- name: install - Konfiguration für CA erstellen
+- name: ca - Konfiguration für CA erstellen
   template:
     src: opennetca.cfg
     dest:  "{{ opennetca_path_user }}/ca/{{ ca }}/"

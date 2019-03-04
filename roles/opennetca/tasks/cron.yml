@@ -12,7 +12,7 @@
     name: "Opennet CA CRL Copy {{ item.name }}"
     minute: "25"
     hour: "1,13"
-    job: "cp {{ opennetca_path_user }}/ca/{{ item.name }}/*.crl {{ opennetca_path_web }}/"
+    job: "cp {{ opennetca_path_user }}/ca/{{ item.name }}/crl/*.crl {{ opennetca_path_web }}/"
   with_items: "{{ opennetca_list }}"
 
 - name: cron - Anlegen von "Opennet CA Cert Public List Generator"
