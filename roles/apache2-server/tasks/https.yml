@@ -15,8 +15,6 @@
   register: le_cert
   when: le_bin.stat.exists
 
-- debug: msg="{{ le_cert }}"
-
 - name: https - Letsencrypt Cron Job ausführen 
   shell: "/usr/bin/dehydrated --cron --domain {{ item.item.on_tld_base }}.{{ apache2_tld_base }}"
   with_items: "{{ le_cert.results }}"
