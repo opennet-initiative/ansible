@@ -59,12 +59,7 @@
 #    group: "{{ opennetca_user }}"
   when: ca != "root"
 
-# Workaround, see https://github.com/ansible/ansible/issues/21342
 - name: ca - Index und Serial für CA anlegen
-#  file:
-#    path: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
-#    state: touch
-#    modification_time: preserve
   copy:
     content: ""
     dest: "{{ opennetca_path_user }}/ca/{{ ca }}/{{ line_item }}"
