@@ -39,3 +39,9 @@
     group: "{{ opennetca_user }}"
     mode: preserve
     remote_src: yes
+
+- name: install - Mutt GPG konfigurieren
+  lineinfile:
+    path: "{{ opennetca_mutt_gpgrc }}"
+    regexp: "crypt_use_gpgme"
+    line: "set crypt_use_gpgme=no"
