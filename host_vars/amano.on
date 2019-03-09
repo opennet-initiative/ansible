@@ -14,12 +14,12 @@ olsr_hna_announcements_ipv4:
 letsencrypt_certificates:
   - { on_tld_base: mitgliederverwaltung }
   - { on_tld_base: mitgliedsantrag }
-  - { on_tld_base: ca-test }
+  - { on_tld_base: ca }
 
 apache2_sites:
   - { name: mitgliederverwaltung }
   - { name: mitgliedsantrag }
-  - { name: ca-test }
+  - { name: ca }
 apache2_mods:
  - { name: cgid }
 apache2_php: true
