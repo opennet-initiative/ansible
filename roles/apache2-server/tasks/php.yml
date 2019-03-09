@@ -17,13 +17,13 @@
          ignore_configcheck=yes
   notify: restart apache2
 
-- name: php - Apache Module für PHP installieren
+- name: php - Apache Module FPM für PHP installieren
   apt:   
-         name="{{ packages }}"
+    name: "{{ packages }}"
   vars:
-         packages:
-         - libapache2-mod-fcgid
-         - "{{ apache2_php_version }}-fpm"
+    packages:
+      - libapache2-mod-fcgid
+      - "{{ apache2_php_version }}-fpm"
   when: apache2_php
 
 - name: php - Apache Module für PHP aktivieren
@@ -37,6 +37,16 @@
          - alias
          - setenvif
   notify: restart apache2
+  when: apache2_php
+
+- name: php - Apache Module MODPHP für PHP bereinigen
+  apt:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+      - libapache2-mod-php
+      - libapache2-mod-php7.0
   when: apache2_php
 
 # TODO: warte auf Ansible Modul für a2enconf
