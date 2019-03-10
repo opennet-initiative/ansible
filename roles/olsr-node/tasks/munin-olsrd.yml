@@ -1,9 +1,9 @@
 - name: munin-Plugin fuer OLSR herunterladen
   get_url:
-    url=http://dev.opennet-initiative.de/export/HEAD/on_firmware/opennet/packages/on-monitoring/files/usr/share/munin-plugins-available/olsrd
-    dest=/etc/munin/plugins/olsrd
-    force=yes
-    mode=0755
+    url: "http://dev.opennet-initiative.de/export/HEAD/on_firmware/opennet/packages/on-monitoring/files/usr/share/munin-plugins-available/olsrd"
+    dest: /etc/munin/plugins/olsrd
+    force: yes
+    mode: 0755
   # nicht im "check"-Modus ausfuehren (es gilt sonst immer als Änderung)
   when: not ansible_check_mode
   notify: restart munin-node
