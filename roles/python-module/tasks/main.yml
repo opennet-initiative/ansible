@@ -1,12 +1,7 @@
 - name: kopiere opennet-Python-Module
-  # Diese Kombination von archive und checksum verhindert Dateiuebertragungen wegen
-  # verschiedener Zeitstempel (z.B. basierend auf dem lokalen git-checkout).
-  synchronize:
-          archive=no
-          checksum=yes
-          recursive=yes
-          src=opennet/
-          dest=/usr/local/lib/python2.7/dist-packages/opennet/
+  copy:
+    src: "opennet/"
+    dest: "/usr/local/lib/python2.7/dist-packages/opennet/"
 
 - name: Abhaengigkeiten der python-Module installieren
   apt: pkg=python-ipaddr state=present
