@@ -20,4 +20,4 @@ apache2_sites:
     certificate:
       cert: /etc/ssl/service-discovery.opennet-initiative.de.crt
       key: /etc/ssl/private/service-discovery.opennet-initiative.de.key
-      chain: /usr/local/share/ca-certificates/opennet-initiative.de/server.crt
+      chain: /usr/local/share/ca-certificates/opennet-server.crt
