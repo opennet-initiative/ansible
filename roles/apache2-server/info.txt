@@ -29,6 +29,8 @@ Diese enthält eine Liste von Dictionaries mit folgenden Attributen:
 * redirect_http_to_https:
     * erzeuge eine Umlenkung von http-Zugriffen auf https
     * Vorgabewert: true
+* redirect_http_to_https_exclude_paths:
+    * eine Liste regulärer Ausdrücke für Pfade, die auch via http bedient werden sollen
 * https:
     * erzeuge einen VirtualHost-Block fuer https-Zugriffe
     * Vorgabewert: true
