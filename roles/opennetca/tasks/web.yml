@@ -65,6 +65,13 @@
     - index.html
     - csr_upload.php
 
+- name: csr - CSR Upload Konfiguration erstellen
+  template:
+    src: csr_upload_config.php
+    dest:  "{{ opennetca_path_web }}/csr/"
+    owner: "{{ opennetca_user_web }}"
+    group: "{{ opennetca_user_web }}"
+
 - name: web - CSR Upload Verzeichnis anlegen
   file: 
     path: "{{ opennetca_path_csr }}"

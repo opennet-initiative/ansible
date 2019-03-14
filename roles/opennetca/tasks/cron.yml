@@ -1,32 +1,32 @@
 - name: cron - Anlegen von "Opennet CA CRL Generator"
   cron:
-    name: "Opennet CA CRL Generator {{ item.name }}"
+    name: "Opennet CA CRL Generator {{ item.ca }}"
     minute: "15"
     hour: "1,13"
     user: "{{ opennetca_user }}"
-    job: "{{ opennetca_path_user }}/ca/{{ item.name }}/crl.sh 2>/dev/null"
+    job: "{{ opennetca_path_user }}/ca/{{ item.ca }}/crl.sh 2>/dev/null"
   with_items: "{{ opennetca_list }}"
 
 - name: cron - Anlegen von "Opennet CA CRL Copy"
   cron:
-    name: "Opennet CA CRL Copy {{ item.name }}"
+    name: "Opennet CA CRL Copy {{ item.ca }}"
     minute: "25"
     hour: "1,13"
-    job: "cp {{ opennetca_path_user }}/ca/{{ item.name }}/crl/{{ item.name }}.crl {{ opennetca_path_web }}/opennet-{{ item.name }}.crl"
+    job: "cp {{ opennetca_path_user }}/ca/{{ item.ca }}/crl/{{ item.ca }}.crl {{ opennetca_path_web }}/opennet-{{ item.ca }}.crl"
   with_items: "{{ opennetca_list }}"
 
 - name: cron - Anlegen von "Opennet CA Cert Public List Generator"
   cron:
-    name: "Opennet CA Cert Public List Generator {{ item.name }}"
+    name: "Opennet CA Cert Public List Generator {{ item.ca }}"
     minute: "*/10"
-    job: "{{ opennetca_path_user }}/ca/{{ item.name }}/opennetca_htmlview.sh --public | sponge {{ opennetca_path_web }}/{{ item.name }}.html"
+    job: "{{ opennetca_path_user }}/ca/{{ item.ca }}/opennetca_htmlview.sh --public | sponge {{ opennetca_path_web }}/{{ item.ca }}.html"
   with_items: "{{ opennetca_list }}"
 
 - name: cron - Anlegen von "Opennet CA Cert Private List Generator"
   cron:
-    name: "Opennet CA Cert Private List Generator {{ item.name }}"
+    name: "Opennet CA Cert Private List Generator {{ item.ca }}"
     minute: "*/10"
-    job: "{{ opennetca_path_user }}/ca/{{ item.name }}/opennetca_htmlview.sh --private | sponge {{ opennetca_path_web }}/internal/{{ item.name }}.html"
+    job: "{{ opennetca_path_user }}/ca/{{ item.ca }}/opennetca_htmlview.sh --private | sponge {{ opennetca_path_web }}/internal/{{ item.ca }}.html"
   with_items: "{{ opennetca_list }}"
 
 - name: cron - Anlegen von "Opennet CSR Revoke Batch Job"

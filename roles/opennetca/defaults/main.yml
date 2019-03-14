@@ -6,11 +6,13 @@ opennetca_path_web : "/var/www/{{ opennetca_user }}"
 opennetca_path_csr : "/var/www/{{ opennetca_user }}_upload"
 opennetca_path_user : "/home/{{ opennetca_user }}"
 opennetca_list: 
-- { name: "root", cn: "ca.on" }
-- { name: "vpn-user", cn: "aps.on mobile.on" }
-- { name: "vpn-ugw", cn: "ugw.on" }
-- { name: "client", cn: "client.on" }
-- { name: "server", cn: "opennet-initiative.de" }
-opennetca_mutt_gpgrc: "/etc/Muttrc.d/gpg.rc"
-opennet_ca_weblinks:
+- { ca: "root", cn: "ca.on" }
+- { ca: "vpn-user", cn: "aps.on mobile.on" }
+- { ca: "vpn-ugw", cn: "ugw.on" }
+- { ca: "client", cn: "client.on" }
+- { ca: "server", cn: "opennet-initiative.de" }
+opennetca_mail_gpgrc: "/etc/Muttrc.d/gpg.rc"
+opennetca_mail_csrto: "csr@opennet-initiative.de"
+opennetca_mail_url: "https://ca.opennet-initiative.de"
+opennetca_weblinks:
 - { src: "opennet-ca-bundle.tar.gz", dest: "ca-bundle.tar.gz"}

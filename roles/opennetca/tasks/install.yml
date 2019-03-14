@@ -40,8 +40,8 @@
     mode: preserve
     remote_src: yes
 
-- name: install - Mutt GPG konfigurieren
+- name: install - Mail (Mutt) GPG konfigurieren
   lineinfile:
-    path: "{{ opennetca_mutt_gpgrc }}"
+    path: "{{ opennetca_mail_gpgrc }}"
     regexp: "crypt_use_gpgme"
     line: "set crypt_use_gpgme=no"
