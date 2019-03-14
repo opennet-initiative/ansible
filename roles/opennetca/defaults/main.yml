@@ -13,7 +13,8 @@ opennetca_list:
 - { ca: "server", cn: "opennet-initiative.de" }
 opennetca_mail_gpgrc: "/etc/Muttrc.d/gpg.rc"
 opennetca_mail_csrto: "csr@opennet-initiative.de"
-opennetca_mail_url: "https://ca.opennet-initiative.de"
+opennetca_url: "https://ca.opennet-initiative.de"
+opennetca_year: "2013"
 # used for backwards compatibility, names changed in 2019
 opennetca_weblinks:
 - { src: "opennet-ca-bundle.tar.gz", dest: "ca-bundle.tar.gz" }

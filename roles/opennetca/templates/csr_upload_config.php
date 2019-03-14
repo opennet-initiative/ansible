@@ -19,6 +19,6 @@ $cnFilter = array(
 $mailto = "Opennet CSR Team <{{ opennetca_mail_csrto }}>";
 $mailfrom = "Opennet CA <opennetca@opennet-initiative.de>";
 $mailsubject = "Opennet CA (upload): Signing Request / Zertifikatsanfrage";
-$mailfooter = "-- \r\nOpennet Initiative e.V.\r\nhttps://www.opennet-initiative.de\r\nCA Status: {{ opennetca_mail_url }}";
-$approveurl = "{{ opennetca_mail_url }}/internal/csr_approve.php?";
+$mailfooter = "-- \r\nOpennet Initiative e.V.\r\nhttps://www.opennet-initiative.de\r\nCA Status: {{ opennetca_url }}";
+$approveurl = "{{ opennetca_url }}/internal/csr_approve.php?";
 ?>

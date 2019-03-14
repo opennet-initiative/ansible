@@ -70,9 +70,16 @@
   loop_control:
     loop_var: line_item
 
-- name: ca - Konfiguration für CA erstellen
+- name: ca - Konfiguration (Opennet CA) für CA erstellen
   template:
     src: opennetca.cfg
     dest:  "{{ opennetca_path_user }}/ca/{{ ca }}/"
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}"
+
+- name: ca - Konfiguration (OpenSSL) für CA erstellen
+  template:
+    src: opennetca_openssl.conf 
+    dest: "{{ opennetca_path_user }}/ca/{{ ca }}/opennet-{{ ca }}.ca.on_{{ opennetca_year }}.conf"
     owner: "{{ opennetca_user }}"
     group: "{{ opennetca_user }}"
