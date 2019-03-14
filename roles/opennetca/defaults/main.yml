@@ -12,3 +12,5 @@ opennetca_list:
 - { name: "client", cn: "client.on" }
 - { name: "server", cn: "opennet-initiative.de" }
 opennetca_mutt_gpgrc: "/etc/Muttrc.d/gpg.rc"
+opennet_ca_weblinks:
+- { src: "opennet-ca-bundle.tar.gz", dest: "ca-bundle.tar.gz"}

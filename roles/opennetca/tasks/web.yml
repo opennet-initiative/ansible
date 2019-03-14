@@ -30,13 +30,13 @@
     group: "{{ opennetca_user_web }}"
     remote_src: yes
   with_items:
-    - ca-bundle.tar.gz
+    - opennet-ca-bundle.tar.gz
     - index.html
     - ca.html
 
 - name: web - Zertifikate der Opennet CA (Public) entpacken
   unarchive:
-    src: "{{ opennetca_path_web }}/ca-bundle.tar.gz"
+    src: "{{ opennetca_path_web }}/opennet-ca-bundle.tar.gz"
     dest: "{{ opennetca_path_web }}/"
     owner: "{{ opennetca_user_web }}"
     group: "{{ opennetca_user_web }}"
