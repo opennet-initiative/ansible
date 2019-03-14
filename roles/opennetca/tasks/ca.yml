@@ -55,8 +55,6 @@
     src: "{{ opennetca_path_csr }}"
     dest: "{{ opennetca_path_user }}/ca/{{ ca }}/csr"
     state: link
-#    owner: "{{ opennetca_user }}"
-#    group: "{{ opennetca_user }}"
   when: ca != "root"
 
 - name: ca - Index und Serial für CA anlegen

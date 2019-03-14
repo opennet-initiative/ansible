@@ -14,5 +14,24 @@ opennetca_list:
 opennetca_mail_gpgrc: "/etc/Muttrc.d/gpg.rc"
 opennetca_mail_csrto: "csr@opennet-initiative.de"
 opennetca_mail_url: "https://ca.opennet-initiative.de"
+# used for backwards compatibility, names changed in 2019
 opennetca_weblinks:
-- { src: "opennet-ca-bundle.tar.gz", dest: "ca-bundle.tar.gz"}
+- { src: "opennet-ca-bundle.tar.gz", dest: "ca-bundle.tar.gz" }
+- { src: "opennet-root.crt", dest: "root.crt" }
+- { src: "opennet-root.crl", dest: "root.crl" }
+- { src: "opennet-vpn-user.crt", dest: "vpn-user.crt" }
+- { src: "opennet-vpn-user.crl", dest: "vpn-ugw.crl" }
+- { src: "opennet-vpn-ugw.crt", dest: "vpn-ugw.crt" }
+- { src: "opennet-vpn-ugw.crl", dest: "vpn-ugw.crl" }
+- { src: "opennet-client.crt", dest: "client.crt" }
+- { src: "opennet-client.crl", dest: "client.crl" }
+- { src: "opennet-server.crt", dest: "server.crt" }
+- { src: "opennet-server.crl", dest: "server.crl" }
+- { src: "opennet-vpn-user_certchain.crt", dest: "vpn-user_certchain.crt" }
+- { src: "opennet-vpn-ugw_certchain.crt", dest: "vpn-ugw_certchain.crt" }
+- { src: "opennet-client_certchain.crt", dest: "vpn-client_certchain.crt" }
+- { src: "opennet-server_certchain.crt", dest: "vpn-server_certchain.crt" }
+- { src: "opennet-vpn-user.crt", dest: "vpnuser.crt" }
+- { src: "opennet-vpn-user.crl", dest: "vpnugw.crl" }
+- { src: "opennet-vpn-ugw.crt", dest: "vpnugw.crt" }
+- { src: "opennet-vpn-ugw.crl", dest: "vpnugw.crl" }

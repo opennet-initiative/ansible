@@ -42,6 +42,16 @@
     group: "{{ opennetca_user_web }}"
     remote_src: yes
 
+# use force since src might not exists yet (based on cron jobs)
+- name: web - Verweise der Opennet CA (Public) erstellen
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ opennetca_path_web }}/{{ item.dest }}"
+    state: link
+    force: yes
+  with_items: "{{ opennetca_weblinks }}"
+  when: opennetca_weblinks is defined
+
 - name: web - Dateien der Opennet CA (Internal) kopieren
   copy:
     src: "{{ opennetca_path_user }}/src/web/internal/{{ item }}"
