@@ -1,0 +1,5 @@
+homematic_user: "homematic"
+homematic_user_shell: "/bin/bash"
+homematic_user_web: "www-data"
+homematic_path_user: "/home/{{ homematic_user }}"
+homematic_path_web: "/var/www/{{ homematic_user }}"

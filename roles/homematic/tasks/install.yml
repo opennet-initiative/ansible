@@ -1,0 +1,37 @@
+- name: Werkzeuge installieren
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - httpie
+    - jq
+
+- name: Benutzer anlegen
+  user:
+    name: "{{ homematic_user }}"
+    system: yes
+    shell: "{{ homematic_user_shell }}"
+
+- name: Verzeichnis für CLI Skript anlegen
+  file:
+    path: "{{ homematic_path_user }}"
+    state: directory
+    owner: "{{ homematic_user }}"
+    group: "{{ homematic_user }}"
+
+- name: CLI Skript übertragen
+  copy:
+    src: "cli/homematic.sh"
+    dest: "{{ homematic_path_user }}"
+    owner: "{{ homematic_user }}"
+    group: "{{ homematic_user }}"
+    mode: preserve
+
+# only copy if file not exists, do not override
+- name: CLI Skript Konfiguration anlegen
+  copy:
+    src: "cli/homematic.cfg"
+    dest: "{{ homematic_path_user }}"
+    owner: "{{ homematic_user }}"
+    group: "{{ homematic_user }}"
+    force: no

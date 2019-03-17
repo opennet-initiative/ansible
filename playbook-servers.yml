@@ -30,6 +30,10 @@
   roles:
     - media-mirror
 
+- hosts: kinjo.on
+  roles:
+    - homematic
+
 # apt-repository in development
 - hosts: server-mathias.on
   roles:

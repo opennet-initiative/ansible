@@ -1,0 +1,33 @@
+- name: Verzeichnisse für Webseite anlegen
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ homematic_user_web }}"
+    group: "{{ homematic_user_web }}"
+  with_items:
+    - "{{ homematic_path_web }}"
+    - "{{ homematic_path_web }}/internal"
+
+- name: Dateien für Webseite (Public) übertragen
+  copy:
+    src: "web/{{ item }}"
+    dest: "{{ homematic_path_web }}"
+    owner: "{{ homematic_user_web }}"
+    group: "{{ homematic_user_web }}"
+  with_items:
+    - Opennet_logo_quer.gif
+    - favicon.ico
+    - index.html
+    - open.png
+    - close.png
+    - sl-logo_0.jpg
+
+- name: Dateien für Webseite (Internal) übertragen
+  template:
+    src: "door_template.php"
+    dest: "{{ homematic_path_web }}/internal/door_{{ item.task }}.php"
+    owner: "{{ homematic_user_web }}"
+    group: "{{ homematic_user_web }}"
+  with_items:
+    - { task: "open", de: "Öffne", en: "Open" } 
+    - { task: "close", de: "Schließe", en: "Close" }
