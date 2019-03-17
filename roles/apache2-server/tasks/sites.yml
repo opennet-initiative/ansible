@@ -1,23 +1,27 @@
+- name: sites - Apache Verzeichnis für Konfigurationen anlegen
+  file:
+    path: "/etc/apache2/on-configs.d"
+    state: directory
+
 - name: sites - Apache Konfigurationen kopieren
   template:
-          src=apache2-sites.d/{{ item.name }}.inc
-          dest=/etc/apache2/on-configs.d/{{ item.name }}.inc
+    src: "apache2-sites.d/{{ item.name }}.inc"
+    dest: "/etc/apache2/on-configs.d/{{ item.name }}.inc"
   with_items: "{{ apache2_sites }}"
   notify: restart apache2
 
-
 - name: sites - Apache Sites kopieren
   template:
-          src=site.conf
-          dest=/etc/apache2/sites-available/{{ item.name }}.conf
+    src: "site.conf"
+    dest: "/etc/apache2/sites-available/{{ item.name }}.conf"
   with_items: "{{ apache2_sites }}"
   notify: restart apache2
 
 - name: sites - Apache Sites aktivieren
   file:
-          state=link
-          src=../sites-available/{{ item.name }}.conf
-          dest=/etc/apache2/sites-enabled/{{ item.name }}.conf
+    src: "../sites-available/{{ item.name }}.conf"
+    dest: "/etc/apache2/sites-enabled/{{ item.name }}.conf"
+    state: link
   with_items: "{{ apache2_sites }}"
   when: "item.enable_later is undefined"
   notify: restart apache2
