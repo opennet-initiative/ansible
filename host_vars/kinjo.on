@@ -24,3 +24,16 @@ letsencrypt_certificates:
 apache2_sites:
   - { name: frieda23 }
 apache2_php: true
+
+homematic_allowed_users:
+  - christianwedell.client.on
+  - henningrieger.client.on
+  - joergpeeck.client.on
+  - larskruse.client.on
+  - mathiasmahnke.client.on
+  - philippmarkwardt.client.on
+  - martingarbe.client.on
+  - matthiasmeisser.client.on
+  - christophkottke.client.on
+  - janconrads.client.on
+  - kaiuweeckhardt.client.on

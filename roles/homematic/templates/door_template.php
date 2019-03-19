@@ -5,9 +5,6 @@
 </head>
 <body>
 <h1>Frieda23 - {{ item.de }} Tür / {{ item.en }} Door</h1>
-<p>
-Willkommen in der / Welcome at the <a href="https://wiki.opennet-initiative.de/wiki/Frieda23">Frieda23 - Opennet Initiative e.V.</a>
-</p>
 
 <table cellpadding="15" cellspacing="0">
 <tr>
@@ -18,7 +15,7 @@ Willkommen in der / Welcome at the <a href="https://wiki.opennet-initiative.de/w
 <tr bgcolor="#eeeeee">
 <td>
   <pre>
-<?php echo shell_exec('{{ homematic_path_user }}/homematic.sh --test'); ?>
+<?php echo shell_exec('{{ homematic_path_user }}/homematic.sh --{{ item.task }}-door'); ?>
   </pre>
 </td>
 </tr>
