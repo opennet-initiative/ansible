@@ -1,4 +1,4 @@
-- name: Werkzeuge installieren
+- name: install - Werkzeuge installieren
   apt:
     name: "{{ packages }}"
   vars:
@@ -6,7 +6,7 @@
     - httpie
     - jq
 
-- name: Benutzer anlegen
+- name: install - Benutzer anlegen
   user:
     name: "{{ homematic_user }}"
     system: yes
@@ -19,7 +19,7 @@
     owner: "{{ homematic_user }}"
     group: "{{ homematic_user }}"
 
-- name: CLI Skript übertragen
+- name: install - CLI Skript übertragen
   copy:
     src: "cli/homematic.sh"
     dest: "{{ homematic_path_user }}"
@@ -28,10 +28,30 @@
     mode: preserve
 
 # only copy if file not exists, do not override
-- name: CLI Skript Konfiguration anlegen
+- name: install - CLI Skript Konfiguration anlegen
   copy:
     src: "cli/homematic.cfg"
     dest: "{{ homematic_path_user }}"
     owner: "{{ homematic_user }}"
     group: "{{ homematic_user }}"
     force: no
+
+- name: install - CLI Skript Logfile prüfen
+  stat:
+    path: "{{ homematic_log }}"
+  register: homematic_log_stat
+
+# create empty file if not exists
+- name: install - CLI Skript Logfile anlegen
+  file:
+    path: "{{ homematic_log }}"
+    state: touch
+  when: homematic_log_stat.stat.exists == false
+
+# always set permissions and owner/group
+- name: install - CLI Skript Logfile Berechtigungen setzen
+  file:
+    path: "{{ homematic_log }}"
+    owner: "{{ homematic_user }}"
+    group: "{{ homematic_user_web }}"
+    mode: g+w
