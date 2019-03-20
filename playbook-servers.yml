@@ -1,7 +1,7 @@
 - hosts: ae22:frieda23:hetzner
   roles:
     - role: basic-server
-    - role: olsr-node
+    - role: olsr
     - role: letsencrypt
       when: letsencrypt_certificates is defined
     - role: apache2-server

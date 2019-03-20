@@ -1,0 +1,24 @@
+- name: olsr - Software installieren
+  apt: state=present pkg=olsrd-plugins
+
+- name: olsr - Konfiguration erstellen
+  template:
+    src: "olsrd.conf"
+    dest: "/etc/olsrd/"
+  notify: restart olsrd
+
+- name: olsr - Dienst aktivieren
+  lineinfile:
+    dest: "/etc/default/olsrd"
+    backrefs: yes
+    regexp: 'START_OLSRD'
+    line: 'START_OLSRD="YES"'
+  notify: restart olsrd
+
+- name: olsr - Interface 'wlan' abschalten
+  lineinfile:
+    dest: "/etc/default/olsrd"
+    backrefs: yes
+    regexp: '^DAEMON_OPTS=(.*)'
+    line: '#DAEMON_OPTS=\1'
+  notify: restart olsrd

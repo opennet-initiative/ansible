@@ -7,16 +7,7 @@ olsr_main_ip: 192.168.10.20
 olsr_interfaces:
   - { name: "eth0" }
 olsr_nameservice_announcements:
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http frieda23.opennet-initiative.de"
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http frieda23.on-i.de"
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http frieda23.rostock.freifunk.net"
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http frieda23.schwerin.freifunk.net"
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http frieda23.wismar.freifunk.net"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https frieda23.opennet-initiative.de"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https frieda23.on-i.de"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https frieda23.rostock.freifunk.net"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https frieda23.schwerin.freifunk.net"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https frieda23.wismar.freifunk.net"
+  - { on_tld_base: frieda23 }
 
 letsencrypt_certificates:
   - { on_tld_base: frieda23 }

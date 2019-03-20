@@ -6,21 +6,11 @@ olsr_main_ip: 192.168.10.13
 
 olsr_interfaces:
   - { name: "eth0" }
+olsr_nameservice_announcements:
+  - { on_tld_base: monitor }
+
+letsencrypt_certificates:
+  - { on_tld_base: monitor }
 
 apache2_sites:
   - { name: monitor }
-
-olsr_nameservice_announcements:
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http monitor.opennet-initiative.de"
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http monitor.on-i.de"
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http monitor.rostock.freifunk.net"
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http monitor.schwerin.freifunk.net"
-  - "http://{{ olsr_main_ip }}:80|tcp|public-domain-http monitor.wismar.freifunk.net"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https monitor.opennet-initiative.de"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https monitor.on-i.de"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https monitor.rostock.freifunk.net"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https monitor.schwerin.freifunk.net"
-  - "https://{{ olsr_main_ip }}:443|tcp|public-domain-https monitor.wismar.freifunk.net"
-
-letsencrypt_certificates:
-- { on_tld_base: monitor }

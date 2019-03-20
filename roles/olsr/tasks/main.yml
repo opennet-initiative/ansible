@@ -1,4 +1,4 @@
 - include: olsr.yml
 - include: policy-routing.yml
 - include: ferm.yml
-- include: munin-olsrd.yml
+- include: munin.yml

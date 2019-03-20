@@ -21,20 +21,10 @@ olsr_extra_settings: |
       PlParam "dbcreatescript" "/usr/sbin/ondataservice-create-database"
   }
 
-letsencrypt_certificates:
-- { domains: [api.opennet-initiative.de, api.on-i.de] }
-- { domains: [map.opennet-initiative.de, map.on-i.de] }
-
 olsr_nameservice_announcements:
-  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.opennet-initiative.de"
-  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.on-i.de"
-  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.on"
-  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.opennet-initiative.de"
-  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.on-i.de"
-  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.on"
-  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http map.opennet-initiative.de"
-  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http map.on-i.de"
-  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http map.on"
-  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.opennet-initiative.de"
-  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.on-i.de"
-  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.on"
+  - { on_tld_base: api }
+  - { on_tld_base: map }
+
+letsencrypt_certificates:
+  - { on_tld_base: api }
+  - { on_tld_base: map }

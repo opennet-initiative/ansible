@@ -1,0 +1,5 @@
+- name: ferm - Konfiguration auf olsr-Interfaces ausweiten
+  template:
+    src: "ferm/100_olsr.inc"
+    dest: "/etc/ferm/conf.d/"
+  notify: restart ferm

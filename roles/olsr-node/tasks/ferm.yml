@@ -1,6 +1,0 @@
-- name: ferm-Konfiguration auf olsr-Interfaces ausweiten
-  template: src=ferm/{{ item }}
-            dest=/etc/ferm/conf.d/
-  with_items:
-    - 100_olsr.inc
-  notify: restart ferm
