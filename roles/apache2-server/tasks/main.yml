@@ -2,8 +2,8 @@
 - include: security.yml
 - include: privacy.yml
 - include: ferm.yml
+- include: php.yml
+- include: opennetca.yml
 - include: sites.yml
 - include: https.yml
 - include: cleanup.yml
-- include: php.yml
-- include: opennetca.yml
