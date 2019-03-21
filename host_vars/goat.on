@@ -11,15 +11,16 @@ olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
   - 139.30.241.208
 
-#letsencrypt_certificates:
-#  - { on_tld_base: dev2 }
+letsencrypt_certificates:
+  - { on_tld_base: dev2 }
 
-#apache2_sites:
-#  - { name: dev2 }
-#apache2_mods:
-# - { name: cgid }
-#apache2_php: true
+apache2_sites:
+  - { name: dev2 }
+apache2_mods:
+ - { name: wsgi }
 
-#trac_allowed_users:
-#  - larskruse.client.on
-#  - mathiasmahnke.client.on
+trac_allowed_users:
+  - larskruse.client.on
+  - mathiasmahnke.client.on
+  - martingarbe.client.on
+  - philippmarkwardt.client.on

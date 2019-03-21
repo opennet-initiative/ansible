@@ -34,6 +34,10 @@
   roles:
     - homematic
 
+- hosts: goat.on
+  roles:
+    - trac
+
 # apt-repository in development
 - hosts: server-mathias.on
   roles:

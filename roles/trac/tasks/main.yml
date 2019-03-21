@@ -1,0 +1,20 @@
+- name: Software installieren
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - trac
+    - trac-bitten
+    - libapache2-mod-wsgi
+    # TODO: reenable trac-announcer once available in Debian Buster
+    #- trac-announcer
+
+- name: Verzeichnisse anlegen
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ trac_user_web }}"
+    group: "{{ trac_user_web }}"
+  with_items:
+    - "/var/trac"
+    - "/var/www/trac"
