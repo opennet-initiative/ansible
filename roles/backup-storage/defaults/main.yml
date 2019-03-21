@@ -18,6 +18,7 @@ backup_storage_source_hosts:
   - tenkawa.on
   - kazama.on
   - kinjo.on
+  - goat.on
   # Gateways
   - erina.on
   - megumi.on
