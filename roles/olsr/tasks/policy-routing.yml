@@ -5,12 +5,14 @@
 # werden, da der Verkehr zwaw ins Mesh geroutet, jedoch nicht von der
 # Firewall zugelassen wird.
 
+# TODO: use rt_tables.d file
 - name: policy-routing - OLSR Routing Tabelle anlegen
   lineinfile:
     dest: "/etc/iproute2/rt_tables"
     line: "{{ olsr_routing_table_id }} {{ olsr_routing_table_name }}"
     regexp: '^\d+\s+{{ olsr_routing_table_name }}$'
 
+# TODO: Race Condition, script will be called multiple times
 - name: policy-routing - OLSR Routing aktivieren
   template:
     src: "ifup-policy-routing"

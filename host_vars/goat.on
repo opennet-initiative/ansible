@@ -1,0 +1,25 @@
+short_hostname: goat
+
+wan_interface: eth1
+
+olsr_main_ip: 192.168.10.21
+
+olsr_interfaces:
+  - { name: "eth0" }
+
+olsr_hna_announcements_ipv4:
+  # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
+  - 139.30.241.208
+
+#letsencrypt_certificates:
+#  - { on_tld_base: dev2 }
+
+#apache2_sites:
+#  - { name: dev2 }
+#apache2_mods:
+# - { name: cgid }
+#apache2_php: true
+
+#trac_allowed_users:
+#  - larskruse.client.on
+#  - mathiasmahnke.client.on
