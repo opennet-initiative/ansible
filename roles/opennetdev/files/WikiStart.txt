@@ -1,0 +1,20 @@
+== Opennet Software Development ==
+
+Hier findest du die Opennet Software Projekte.
+Here you can find the Opennet Software Projects.
+
+* [/browser/on_firmware on_firmware] - Opennet Firmware, basiert auf OpenWrt [https://wiki.opennet-initiative.de/wiki/Opennet_Firmware_2014 Opennet-Wiki]
+* [/browser/on_geronimo on_geronimo] - Opennet API, basiert auf interner Datensammlung [https://wiki.opennet-initiative.de/wiki/Geronimo Opennet-Wiki]
+* [/browser/on_map on_map] - Opennet Karte, basiert auf OpenLayers [https://wiki.opennet-initiative.de/wiki/Projekt_Openlayers Opennet-Wiki]
+* [/browser/on_opennetca on_opennetca] - Opennet Zertifizierungsstelle, basiert auf OpenSSL [https://wiki.opennet-initiative.de/wiki/Opennet_CA Opennet-Wiki]
+* [/browser/on_radar on_radar] - Opennet Radar, Untersuchung zu DFS unter OpenWrt/LEDE [https://wiki.opennet-initiative.de/wiki/OpenWrt_DFS Opennet-Wiki]
+* [/browser/on_ansible on_ansible] - Opennet Ansibile, zentrale Serverkonfigurationen [https://wiki.opennet-initiative.de/wiki/Server_Installation/Ansible Opennet-Wiki]
+* [/browser/on_twitterbot on_twitterbot] - Opennet Twitterbot, Blog nach Twitter Automatisierung [https://wiki.opennet-initiative.de/wiki/Twitter Opennet-Wiki]
+* [/browser/on_mitgliedsantrag on_mitgliedsantrag] - Opennet Mitgliedsantrag, Webformular für Mitgliedsanträge
+* [/browser/on_mitgliedsverwaltung on_mitgliedsverwaltung] - Opennet Mitgliedsverwaltung, Werkzeuge zur Mitgliedsverwaltung
+* [/browser/on_attic on_attic] - alte Opennet Projekte, ehemals in Opennet CVS und SVN, hier als Archiv
+* [/browser/on_test on_test] - eine reine Ausprobierplattform für dieses System
+
+Bei Fragen und Wünschen zu dieser DEV Umgebung gern jeder Zeit an uns wenden. [http://wiki.opennet-initiative.de/wiki/Impressum Impressum] / [http://wiki.opennet-initiative.de/wiki/Opennet_DEV Opennet-Wiki]
+
+Opennet Initiative e.V. https://www.opennet-initiative.de/

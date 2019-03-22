@@ -5,7 +5,6 @@
     packages:
     - trac
     - trac-bitten
-    - trac-xmlrpc
     - libapache2-mod-wsgi
     # TODO: reenable trac-announcer once available in Debian Buster
     #- trac-announcer
@@ -50,6 +49,13 @@
 - name: trac-install - Opennet Favicon kopieren
   copy:
     src: "{{ opennetdev_trac_icon }}"
+    dest: "{{ opennetdev_trac_path_web }}/htdocs/site/"
+    owner: "{{ opennetdev_trac_user_web }}"
+    group: "{{ opennetdev_trac_user_web }}"
+
+- name: trac-install - Robots Datei kopieren
+  copy:
+    src: "robots.txt"
     dest: "{{ opennetdev_trac_path_web }}/htdocs/site/"
     owner: "{{ opennetdev_trac_user_web }}"
     group: "{{ opennetdev_trac_user_web }}"

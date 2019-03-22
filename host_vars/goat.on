@@ -24,7 +24,6 @@ opennetdev_allowed_users:
   - larskruse.client.on
   - mathiasmahnke.client.on
   - martingarbe.client.on
-  - philippmarkwardt.client.on
 opennetdev_repositories:
   - on_ansible
   - on_attic

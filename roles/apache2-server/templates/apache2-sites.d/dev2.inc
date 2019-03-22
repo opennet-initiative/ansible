@@ -2,6 +2,7 @@
 
 WSGIScriptAlias / /var/www/trac/cgi-bin/trac.wsgi
 Alias /chrome/ /var/www/trac/htdocs/
+Alias /robots.txt /var/www/trac/htdocs/site/robots.txt
 <Directory /var/www/trac/trac.wsgi>
         WSGIProcessGroup trac
 	      WSGIApplicationGroup %{GLOBAL}

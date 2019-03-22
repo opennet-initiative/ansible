@@ -5,7 +5,7 @@
   command: "trac-admin {{ opennetdev_trac_path }} wiki upgrade"
 
 - name: reconfigure-trac - Aktualisiere Webseite
-  command: "trac-admin {{ opennetdev_trac_path }} deploy {{ trac_path_web }}"
+  command: "trac-admin {{ opennetdev_trac_path }} deploy {{ opennetdev_trac_path_web }}"
 
 - name: reconfigure-trac - Aktualisiere Dateirechte
   file:
