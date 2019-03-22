@@ -36,7 +36,7 @@
 
 - hosts: goat.on
   roles:
-    - trac
+    - opennetdev
 
 # apt-repository in development
 - hosts: server-mathias.on

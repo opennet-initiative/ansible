@@ -1,0 +1,3 @@
+TODO
+- Trac Announcer Plugin fehlt in Debian, in Buster erneuert prüfen?
+- ggf. Umstellung auf PostgreSql Datenbank

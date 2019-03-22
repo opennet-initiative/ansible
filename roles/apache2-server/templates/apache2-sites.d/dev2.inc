@@ -1,7 +1,5 @@
 # {{ ansible_managed }}
 
-#DocumentRoot/var/www/trac/
-
 WSGIScriptAlias / /var/www/trac/cgi-bin/trac.wsgi
 Alias /chrome/ /var/www/trac/htdocs/
 <Directory /var/www/trac/trac.wsgi>
@@ -26,8 +24,10 @@ SSLCARevocationCheck chain
         SSLVerifyDepth 3
         # allow access to certificate details
         SSLOptions +StdEnvVars
+        # forward auth to cgi
+        SSLUserName SSL_CLIENT_S_DN_CN
         # allow specific cert CN
-        SSLRequire %{SSL_CLIENT_S_DN_CN} in { "{{ trac_allowed_users|join('", "') }}" }
+        SSLRequire %{SSL_CLIENT_S_DN_CN} in { "{{ opennetdev_allowed_users|join('", "') }}" }
         # client cert error handling
         RewriteEngine on
         RewriteCond %{SSL:SSL_CLIENT_VERIFY} !=SUCCESS

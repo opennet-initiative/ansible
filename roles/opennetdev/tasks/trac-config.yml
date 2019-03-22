@@ -1,0 +1,21 @@
+- name: trac-config - Konfiguration anpassen
+  ini_file:
+    path: "{{ opennetdev_trac_path }}/conf/{{ opennetdev_trac_ini }}"
+    section: "{{ item.sec }}"
+    option: "{{ item.opt }}"
+    value: "{{ item.val }}"
+  with_items:
+#    - { sec: "components", opt: "bitten.*", val: "enabled" }
+    # TODO: reenable trac-announcer once available in Debian Buster
+    #- { sec: "components", opt: "announcer.*", val: "enabled" }
+#    - { sec: "", opt: "", val: "" }
+    - { sec: "project", opt: "admin", val: "{{ opennetdev_trac_admin }}" }
+    - { sec: "project", opt: "descr", val: "{{ opennetdev_trac_desc }}" }
+    - { sec: "project", opt: "footer", val: "{{ opennetdev_trac_footer }}" }
+    - { sec: "project", opt: "icon", val: "site/{{ opennetdev_trac_icon }}" }
+    - { sec: "project", opt: "url", val: "{{ opennetdev_trac_url }}" }
+    - { sec: "header_logo", opt: "alt", val: "{{ opennetdev_trac_desc }}1" }
+    - { sec: "header_logo", opt: "link", val: "/" }
+    - { sec: "header_logo", opt: "src", val: "site/{{ opennetdev_trac_logo }}" }
+    - { sec: "header_logo", opt: "height", val: "60" }
+  notify: reconfigure trac

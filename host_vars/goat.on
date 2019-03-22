@@ -19,8 +19,21 @@ apache2_sites:
 apache2_mods:
  - { name: wsgi }
 
-trac_allowed_users:
+opennetdev_name: "dev2"
+opennetdev_allowed_users:
   - larskruse.client.on
   - mathiasmahnke.client.on
   - martingarbe.client.on
   - philippmarkwardt.client.on
+opennetdev_repositories:
+  - on_ansible
+  - on_attic
+  - on_firmware
+  - on_geronimo
+  - on_map
+  - on_mitgliedsantrag
+  - on_mitgliedsverwaltung
+  - on_opennetca
+  - on_radar
+  - on_test
+  - on_twitterbot

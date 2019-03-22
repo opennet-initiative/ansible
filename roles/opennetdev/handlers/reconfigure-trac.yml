@@ -1,0 +1,18 @@
+- name: reconfigure-trac - Aktualisiere Trac Installation
+  command: "trac-admin {{ opennetdev_trac_path }} upgrade"
+
+- name: reconfigure-trac - Aktualisiere Trac Wiki
+  command: "trac-admin {{ opennetdev_trac_path }} wiki upgrade"
+
+- name: reconfigure-trac - Aktualisiere Webseite
+  command: "trac-admin {{ opennetdev_trac_path }} deploy {{ trac_path_web }}"
+
+- name: reconfigure-trac - Aktualisiere Dateirechte
+  file:
+    path: "{{ item }}"
+    owner: "{{ opennetdev_trac_user_web }}"
+    group: "{{ opennetdev_trac_user_web }}"
+    recurse: yes
+  with_items:
+    - "{{ opennetdev_trac_path }}"
+    - "{{ opennetdev_trac_path_web }}" 

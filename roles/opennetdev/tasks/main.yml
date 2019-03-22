@@ -1,0 +1,4 @@
+- include: trac-install.yml
+- include: trac-config.yml
+- include: trac-user.yml user="{{ item }}"
+  with_items: "{{ opennetdev_allowed_users }}"
