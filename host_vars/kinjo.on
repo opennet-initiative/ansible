@@ -28,3 +28,5 @@ homematic_allowed_users:
   - christophkottke.client.on
   - janconrads.client.on
   - kaiuweeckhardt.client.on
+  - carstenvogel.client.on
+  - johannesschuetzel.client.on
