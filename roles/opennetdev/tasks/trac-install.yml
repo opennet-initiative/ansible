@@ -41,21 +41,21 @@
 
 - name: trac-install - Opennet Logo kopieren
   copy:
-    src: "{{ opennetdev_trac_logo }}"
+    src: "trac/{{ opennetdev_trac_logo }}"
     dest: "{{ opennetdev_trac_path_web }}/htdocs/site/"
     owner: "{{ opennetdev_trac_user_web }}"
     group: "{{ opennetdev_trac_user_web }}"
 
 - name: trac-install - Opennet Favicon kopieren
   copy:
-    src: "{{ opennetdev_trac_icon }}"
+    src: "trac/{{ opennetdev_trac_icon }}"
     dest: "{{ opennetdev_trac_path_web }}/htdocs/site/"
     owner: "{{ opennetdev_trac_user_web }}"
     group: "{{ opennetdev_trac_user_web }}"
 
 - name: trac-install - Robots Datei kopieren
   copy:
-    src: "robots.txt"
+    src: "trac/robots.txt"
     dest: "{{ opennetdev_trac_path_web }}/htdocs/site/"
     owner: "{{ opennetdev_trac_user_web }}"
     group: "{{ opennetdev_trac_user_web }}"

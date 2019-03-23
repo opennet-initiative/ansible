@@ -1,0 +1,33 @@
+- name: git-install - Software installieren
+  apt: name="gitolite3"
+
+- name: git-install - Benutzer anlegen
+  user:
+    name: "{{ opennetdev_git_user }}"
+    shell: "{{ opennetdev_git_shell }}"
+
+- name: git-install - Verzeichnisse anlegen
+  file:
+    path: "{{ opennetdev_git_path }}/{{ item }}"
+    state: directory
+    owner: "{{ opennetdev_git_user }}"
+    group: "{{ opennetdev_git_user }}"
+    mode: "{{ opennetdev_git_mode }}"
+  with_items:
+    - keys
+    - repositories
+
+- name: git-install - SSH Public Keys kopieren
+  copy:
+    src: "git/keys/{{ item.split('.')[0] }}.pub"
+    dest: "{{ opennetdev_git_path }}/keys/"
+    owner: "{{ opennetdev_git_user }}"
+    group: "{{ opennetdev_git_user }}"
+  with_items: "{{ opennetdev_allowed_users }}"
+
+- name: git-install - Gitolite Dateirechte (UMASK) setzen
+  replace:
+    path: "{{ opennetdev_git_path }}/.gitolite.rc"
+    regexp: 'UMASK.*=>.*'
+    replace: "UMASK                           =>  {{ opennetdev_git_umask }},"
+    backup: yes

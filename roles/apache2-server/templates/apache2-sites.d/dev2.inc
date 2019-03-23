@@ -3,6 +3,7 @@
 WSGIScriptAlias / /var/www/trac/cgi-bin/trac.wsgi
 Alias /chrome/ /var/www/trac/htdocs/
 Alias /robots.txt /var/www/trac/htdocs/site/robots.txt
+Alias /favicon.ico /var/www/trac/htdocs/site/favicon.ico
 <Directory /var/www/trac/trac.wsgi>
         WSGIProcessGroup trac
 	      WSGIApplicationGroup %{GLOBAL}
@@ -35,3 +36,16 @@ SSLCARevocationCheck chain
         RewriteRule .? - [F]
         ErrorDocument 403 "You need a certificate issued by Opennet Client Sub-CA to access this site."
 </Location>
+
+Alias /git/ /var/www/git/
+
+<Location /git>
+        Options Indexes FollowSymLinks MultiViews
+        Order deny,allow
+        Allow from all
+	      HeaderName /git/HEADER.html
+	      ReadmeName /git/FOOTER.html
+</Location>
+<Directory /var/www/git>
+        IndexIgnore Opennet_logo_quer.gif HEADER.html FOOTER.html
+</Directory>

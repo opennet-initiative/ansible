@@ -1,9 +1,9 @@
-# host variables, may be overridden
+# common variables, may be overridden on host-level
 opennetdev_name: "dev"
 opennetdev_allowed_users: []
 opennetdev_repositories: []
 
-# trac specific variables
+# trac variables
 opennetdev_trac_path: "/var/trac"
 opennetdev_trac_path_web: "/var/www/trac"
 opennetdev_trac_user_web: "www-data"
@@ -35,3 +35,12 @@ opennetdev_trac_removeversions:
   - "2.0"
 opennetdev_trac_defaultcomponent: "on_test"
 opennetdev_trac_defaultticket: "task"
+
+# git variables
+opennetdev_git_user: "git"
+opennetdev_git_shell: "/bin/bash"
+opennetdev_git_path: "/home/{{ opennetdev_git_user }}"
+opennetdev_git_path_web: "/var/www/git"
+opennetdev_git_user_web: "www-data"
+opennetdev_git_mode: "0750"
+opennetdev_git_umask: "0027"

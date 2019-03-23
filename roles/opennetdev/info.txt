@@ -1,3 +1,29 @@
-TODO
-- Trac Announcer Plugin fehlt in Debian, in Buster erneuert prüfen?
-- ggf. Umstellung auf PostgreSql Datenbank
+= Überblick =
+Diese Rolle installiert die Opennet DEV Umgebung.
+
+Enthalten sind:
+* Paketinstallation Trac und Gitolite
+* Konfiguration von Trac, Veröffentlichung für das Web
+* Anlegen von Benutzern, Komponenten, Meilensteinen in Trac
+* Setzen von Benutzerrechten in Trac
+* Anlegen eines Git Benutzers
+
+= Konfiguration =
+
+Manuelle Arbeitsschritte:
+* Gitolite Installation muss via dpkg bereit gestellt werden
+* eine bestehende Git / Gitolite Installation muss manuell übertragen werden
+
+Gitolite Initialisierung:
+# dpkg-reconfigure gitolite3
+  System username for gitolite: git
+  Repository path: /home/git/repositories
+  Admin User: <keys/vornamenachname.pub>
+
+Vorhandenes Git Verzeichnis kopieren:
+<new-host># cd /home/git; rsync -avuz --progress root@<old-host>.on:/var/git/ .
+
+= TODO =
+
+* Trac Announcer Plugin fehlt in Debian, in Buster erneuert prüfen?
+* ggf. Umstellung auf PostgreSql Datenbank

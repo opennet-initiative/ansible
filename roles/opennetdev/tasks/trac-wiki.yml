@@ -1,6 +1,6 @@
 - name: trac-config - WikiStart übertragen
   copy:
-    src: "WikiStart.txt"
+    src: "trac/WikiStart.txt"
     dest: "{{ opennetdev_trac_path }}/conf/"
     owner: "{{ opennetdev_trac_user_web }}"
     group: "{{ opennetdev_trac_user_web }}"

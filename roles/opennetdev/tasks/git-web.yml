@@ -1,0 +1,31 @@
+- name: git-install - Benutzerrechte anpassen
+  user:
+    name: "{{ opennetdev_git_user_web }}"
+    groups: "{{ opennetdev_git_user }}"
+    append: yes
+  notify: restart apache2
+
+- name: git-web - Verzeichnis anlegen
+  file:
+    path: "{{ opennetdev_git_path_web }}"
+    state: directory
+    owner: "{{ opennetdev_git_user_web }}"
+    group: "{{ opennetdev_git_user_web }}"
+
+- name: git-web - Dateien kopieren
+  copy:
+    src: "git/web/{{ item }}"
+    dest: "{{ opennetdev_git_path_web }}/"
+    owner: "{{ opennetdev_git_user_web }}"
+    group: "{{ opennetdev_git_user_web }}"
+  with_items:
+    - HEADER.html
+    - FOOTER.html
+    - Opennet_logo_quer.gif
+
+- name: git-web - Verweise zu Repositories erzeugen
+  file:
+    src: "{{ opennetdev_git_path }}/repositories/{{ item }}.git"
+    dest: "{{ opennetdev_git_path_web }}/{{ item }}"
+    state: link
+  with_items: "{{ opennetdev_repositories }}"

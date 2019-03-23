@@ -15,3 +15,5 @@
   with_items: "{{ opennetdev_allowed_users }}"
 - include: trac-user.yml username="anonymous" permission="{{ item }}"
   with_items: "{{ opennetdev_trac_permission_anon }}"
+- include: git-install.yml
+- include: git-web.yml
