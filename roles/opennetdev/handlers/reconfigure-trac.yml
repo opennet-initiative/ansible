@@ -15,4 +15,8 @@
     recurse: yes
   with_items:
     - "{{ opennetdev_trac_path }}"
-    - "{{ opennetdev_trac_path_web }}" 
+    - "{{ opennetdev_trac_path_web }}"
+
+- name: reconfigure-trac - Aktualisiere Repositories (Resync)
+  command: "trac-admin {{ opennetdev_trac_path }} repository resync {{ item }}"
+  with_items: "{{ opennetdev_repositories }}" 

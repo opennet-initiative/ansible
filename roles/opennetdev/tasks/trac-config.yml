@@ -6,9 +6,9 @@
     value: "{{ item.val }}"
   with_items:
 #    - { sec: "components", opt: "bitten.*", val: "enabled" }
+    - { sec: "components", opt: "tracopt.versioncontrol.git.*", val: "enabled" }
     # TODO: reenable trac-announcer once available in Debian Buster
     #- { sec: "components", opt: "announcer.*", val: "enabled" }
-#    - { sec: "", opt: "", val: "" }
     - { sec: "project", opt: "admin", val: "{{ opennetdev_trac_admin }}" }
     - { sec: "project", opt: "descr", val: "{{ opennetdev_trac_desc }}" }
     - { sec: "project", opt: "footer", val: "{{ opennetdev_trac_footer }}" }
@@ -28,4 +28,7 @@
     - { sec: "timeline", opt: "ticket_show_details", val: "enabled" }
     - { sec: "trac", opt: "base_url", val: "{{ opennetdev_trac_url }}" }
     - { sec: "wiki", opt: "ignore_missing_pages", val: "enabled" }
+    - { sec: "git", opt: "cached_repository", val: "enabled" }
+    - { sec: "git", opt: "persistent_cache", val: "enabled" }
+    - { sec: "logging", opt: "log_type", val: "none" }
   notify: reconfigure trac

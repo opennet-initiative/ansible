@@ -4,24 +4,47 @@ Diese Rolle installiert die Opennet DEV Umgebung.
 Enthalten sind:
 * Paketinstallation Trac und Gitolite
 * Konfiguration von Trac, Veröffentlichung für das Web
+* Import von vorhandener Trac Datenbank und Dateianhängen
+* Bereinigung der vorhandenen Trac Datenbank und Upgrade
 * Anlegen von Benutzern, Komponenten, Meilensteinen in Trac
 * Setzen von Benutzerrechten in Trac
 * Anlegen eines Git Benutzers
+* Vorbereitung der Gitolite Installation
+* Bereitstellung der Git Repositories via HTTPS
 
 = Konfiguration =
 
 Manuelle Arbeitsschritte:
+* bestehende Git Repositories müssen manuell übertragen werden
 * Gitolite Installation muss via dpkg bereit gestellt werden
-* eine bestehende Git / Gitolite Installation muss manuell übertragen werden
+* anschließend Gitolite Konfiguration (via push) übernehmen
+* abschließend "gitolite setup" ausführen
+* Übernahme der Datenbank und Anhängen aus vorhandenem Trac
+
+# TODO -- Anleitung verbessern....
+Vorhandenes Git Verzeichnis kopieren:
+<new-host># cd /home/git; rsync -avuz --progress root@<old-host>.on:/var/git/ .
 
 Gitolite Initialisierung:
-# dpkg-reconfigure gitolite3
+<new-host># dpkg-reconfigure gitolite3
   System username for gitolite: git
   Repository path: /home/git/repositories
   Admin User: <keys/vornamenachname.pub>
 
-Vorhandenes Git Verzeichnis kopieren:
-<new-host># cd /home/git; rsync -avuz --progress root@<old-host>.on:/var/git/ .
+Gitolite Konfiguration übernehmen:
+<client># git clone git@<old-host>:gitolite-admin; cd gitolite-admin
+<client># git remote rename origin old-host
+<client># git remote add origin git@<new-host>:gitolite-admin
+<client># git push -f origin master
+
+Gitolote Hooks aktualisieren:
+<new-host># su - git
+<new-host># gitolite setup
+
+Trac Datenbank und Anhänge ins Git übernehmen:
+<old-host># cd <old-trac>; tar zcvf attachments.tar.gz attachments/ 
+<client># scp root@<old-host>:<old-trac>/attachments.tar.gz <ansible-role>/files/import/
+<client># scp root@<old-host>:<old-trac>/db/trac.db <ansible-role>/files/import/
 
 = TODO =
 

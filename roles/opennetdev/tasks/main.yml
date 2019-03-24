@@ -3,17 +3,19 @@
 - include: trac-wiki.yml
 - include: trac-feature.yml feature="component" count="1" command="remove"
   with_items: "{{ opennetdev_trac_removecomponents }}"
-- include: trac-feature.yml feature="component" count="0" command="add"
-  with_items: "{{ opennetdev_repositories }}"
+#- include: trac-feature.yml feature="component" count="0" command="add"
+#  with_items: "{{ opennetdev_repositories }}"
 - include: trac-feature.yml feature="milestone" count="1" command="remove"
   with_items: "{{ opennetdev_trac_removemilestones }}"
 - include: trac-feature.yml feature="milestone" count="0" command="add"
   with_items: "{{ opennetdev_repositories }}"
-- include: trac-feature.yml feature="version" count="1" command="remove"
-  with_items: "{{ opennetdev_trac_removeversions }}"
+#- include: trac-feature.yml feature="version" count="1" command="remove"
+#  with_items: "{{ opennetdev_trac_removeversions }}"
 - include: trac-user.yml username="{{ item }}" permission="{{ opennetdev_trac_permission_user }}"
   with_items: "{{ opennetdev_allowed_users }}"
 - include: trac-user.yml username="anonymous" permission="{{ item }}"
   with_items: "{{ opennetdev_trac_permission_anon }}"
+- include: trac-repository.yml
+  with_items: "{{ opennetdev_repositories }}"
 - include: git-install.yml
 - include: git-web.yml

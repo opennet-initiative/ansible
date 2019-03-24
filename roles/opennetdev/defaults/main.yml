@@ -19,9 +19,21 @@ opennetdev_trac_url: "https://{{ opennetdev_name }}.opennet-iniative.de"
 opennetdev_trac_logo: "Opennet_logo_quer.gif"
 opennetdev_trac_permission_user: "TRAC_ADMIN"
 opennetdev_trac_permission_anon: 
-- "TICKET_CREATE"
-- "TICKET_APPEND"
-#- "BUILD_VIEW"
+  - "TICKET_CREATE"
+  - "TICKET_APPEND"
+  - "BROWSER_VIEW"
+  - "CHANGESET_VIEW"
+  - "FILE_VIEW"
+  - "LOG_VIEW"
+  - "MILESTONE_VIEW"
+  - "REPORT_SQL_VIEW"
+  - "REPORT_VIEW"
+  - "ROADMAP_VIEW"
+  - "SEARCH_VIEW"
+  - "TICKET_VIEW"
+  - "TIMELINE_VIEW"
+  - "WIKI_VIEW"
+  #- "BUILD_VIEW"
 opennetdev_trac_removecomponents:
   - "component1"
   - "component2"
@@ -30,11 +42,20 @@ opennetdev_trac_removemilestones:
   - "milestone2"
   - "milestone3"
   - "milestone4"
-opennetdev_trac_removeversions:
-  - "1.0"
-  - "2.0"
+opennetdev_trac_removeversions: []
 opennetdev_trac_defaultcomponent: "on_test"
 opennetdev_trac_defaultticket: "task"
+opennetdev_trac_dbimport_delete:
+  - repository
+  - auth_cookie
+  - session
+  - session_attribute
+  - permission
+  - component
+  #- report
+opennetdev_trac_dbimport_ipanon:
+  - attachment
+  - wiki
 
 # git variables
 opennetdev_git_user: "git"

@@ -25,6 +25,7 @@ opennetdev_allowed_users:
   - mathiasmahnke.client.on
   - martingarbe.client.on
 opennetdev_repositories:
+  - gitolite-admin
   - on_ansible
   - on_attic
   - on_firmware

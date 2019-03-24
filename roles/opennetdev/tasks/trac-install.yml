@@ -4,8 +4,9 @@
   vars:
     packages:
     - trac
-    - trac-bitten
+    #- trac-bitten
     - libapache2-mod-wsgi
+    - sqlite3
     # TODO: reenable trac-announcer once available in Debian Buster
     #- trac-announcer
 
@@ -23,6 +24,11 @@
   command: "trac-admin {{ opennetdev_trac_path }} initenv '{{ opennetdev_trac_desc }}' '{{ opennetdev_trac_db }}'"
   args:
     creates: "{{ opennetdev_trac_path }}/conf/{{ opennetdev_trac_ini }}"
+  register: tracinit
+
+- name: trac-install - Import durchführen
+  include: trac-import.yml
+  when: tracinit.changed
 
 - name: trac-install - Webseite initialisieren
   command: "trac-admin {{ opennetdev_trac_path }} deploy {{ opennetdev_trac_path_web }}"

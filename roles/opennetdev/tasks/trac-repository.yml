@@ -1,0 +1,24 @@
+- name: trac-repository - Repository prüfen
+  shell: "trac-admin {{ opennetdev_trac_path }} repository list | grep -c '{{ item }}' || true"
+  register: result
+  changed_when: False
+
+- name: trac-repository - Repository hinzufügen
+  command: "trac-admin {{ opennetdev_trac_path }}/ repository add {{ item }} {{ opennetdev_git_path }}/repositories/{{ item }}.git git"
+  when: result.stdout == "0"
+
+- name: reconfigure-trac - Repositories aktualisieren (Resync)
+  command: "trac-admin {{ opennetdev_trac_path }} repository resync {{ item }}"
+  when: result.stdout == "0"
+
+- name: trac-repository - Repository URL setzen
+  command: "trac-admin {{ opennetdev_trac_path }}/ repository set {{ item }} url {{ opennetdev_trac_url}}/git/{{ item }}"
+  when: result.stdout == "0"
+
+- name: trac-repository - Git Hook hinzufügen
+  template:
+    src: "post-update"
+    dest: "{{ opennetdev_git_path }}/repositories/{{ item }}.git/hooks/"
+    owner: "{{ opennetdev_git_user }}"
+    group: "{{ opennetdev_git_user }}"
+  notify: reconfigure trac
