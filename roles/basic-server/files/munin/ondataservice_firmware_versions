@@ -1,52 +1,35 @@
 #!/bin/sh
 
-
 . "$MUNIN_LIBDIR/plugins/plugin.sh"
 
 
 set -eu
 
-# verwende eine Kopie, um Locking-Konflikte zu vermeiden
-ORIG_DATABASE="/tmp/database"
-DATABASE=$(mktemp)
-trap "rm -f '$DATABASE'" EXIT
-cp "$ORIG_DATABASE" "$DATABASE"
+
+UNKNOWN_VERSION="unknown"
 
 
-execute_sql() {
-	echo "$1;" | sqlite3 "$DATABASE"
+# prepend numeric versions with a "v" (otherwise the first character is lost)
+get_version_fieldname() {
+	local version="$1"
+	if echo "$version" | grep -q "^[0-9]"; then
+		clean_fieldname "v$version"
+	else
+		clean_fieldname "$version"
+	fi
 }
 
-
-get_versions() {
-	execute_sql "SELECT DISTINCT on_core_ver from nodes" | sort --version-sort
-}
-
-
-get_version_count() {
-	execute_sql "select COUNT() from nodes where on_core_ver='$1'"
-}
-
-
-# Es gibt einen ondataservice-Fehler, der bei der Uebertragung von "nodes"-Datensaetzen auftritt, sofern sie
-# groesser als 2080 Byte sind. Dieser Fehler ist daran erkennbar, dass ein Eintrag in der ifaces-Tabelle vorliegt,
-# jedoch keiner in der nodes-Tabelle.
-get_broken_ondataservice_version_count() {
-	local all_known
-	all_full_submissions=$(sqlite3 "$DATABASE" 'select distinct mainip from nodes')
-	all_partial_submissions=$(sqlite3 "$DATABASE" 'select distinct mainip from ifaces')
-	echo "$all_partial_submissions" | while read ip; do
-		echo "$all_full_submissions" | grep -qwF "$ip" || echo 1
-	done | wc -l
-}
-
-
-get_missing_ondataservice_version_count() {
-	local all_known
-	all_known=$(sqlite3 "$DATABASE" 'select distinct mainip from ifaces')
-	echo /topology | nc localhost 2006 | grep "^192\.168\.[1-9]\." | awk '{print $1}' | sort | uniq | while read ip; do
-		echo "$all_known" | grep -qwF "$ip" || echo 1
-	done | wc -l
+get_version_counts() {
+	# numeric sorting of versions
+	# The "000000" substitution helps to sort "unstable" before the following regular release.
+	curl -s https://api.on-i.de/api/v1/accesspoint/ \
+		| jq -r '.[].opennet_version' \
+		| sed 's/^null$//' \
+		| sed 's/unstable-.*$/000000/' \
+		| sed 's/^$/unknown/' \
+		| sort -V \
+		| sed 's/000000/unstable/' \
+		| uniq -c
 }
 
 
@@ -55,22 +38,20 @@ if [ "${1:-}" = "config" ]; then
 	echo "graph_category opennet"
 	echo "graph_vlabel Anzahl der APs"
 
-	get_versions | while read version; do
-		fieldname=$(clean_fieldname "$version")
-		echo "$fieldname.label $version"
+	get_version_counts | while read -r count version; do
+		fieldname=$(get_version_fieldname "$version")
+                if [ "$version" = "$UNKNOWN_VERSION" ]; then
+			echo "$fieldname.label unbekannt (keine ondataservice-Daten)"
+		else
+			echo "$fieldname.label $version"
+                fi
 		echo "$fieldname.draw AREASTACK"
 	done
-	echo "broken_ondataservice.label unbekannt (ondataservice-Uebertragungsproblem)"
-	echo "broken_ondataservice.draw AREASTACK"
-	echo "unknown.label unbekannt (keine ondataservice-Daten)"
-	echo "unknown.draw AREASTACK"
-	exit 0
+	if [ "${MUNIN_CAP_DIRTYCONFIG:-0}" != 1 ]; then exit 0; fi
 fi
 
 
-get_versions | while read version; do
-	fieldname=$(clean_fieldname "$version")
-	echo "$fieldname.value $(get_version_count "$version")"
+get_version_counts | while read -r count version; do
+	fieldname=$(get_version_fieldname "$version")
+	echo "$fieldname.value $count"
 done
-echo "unknown.value $(get_missing_ondataservice_version_count)"
-echo "broken_ondataservice.value $(get_broken_ondataservice_version_count)"
