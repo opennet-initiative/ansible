@@ -23,9 +23,5 @@ olsr_extra_settings: |
       PlParam	"database"	"/tmp/database"
   }
 
-# Auswertung von ondataservice-Daten
-munin_plugins:
-  - ondataservice_firmware_versions
-
 letsencrypt_certificates:
   - { on_tld_base: [www, wiki, mail, list, olsr] }
