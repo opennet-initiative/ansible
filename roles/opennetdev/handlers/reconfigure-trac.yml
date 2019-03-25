@@ -19,4 +19,4 @@
 
 - name: reconfigure-trac - Aktualisiere Repositories (Resync)
   command: "trac-admin {{ opennetdev_trac_path }} repository resync {{ item }}"
-  with_items: "{{ opennetdev_repositories }}" 
+  with_items: "{{ opennetdev_repositories }}"

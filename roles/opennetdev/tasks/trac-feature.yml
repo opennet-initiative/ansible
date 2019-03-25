@@ -3,9 +3,6 @@
   register: result
   changed_when: False
 
-- name: debug
-  debug: msg="{{ result }}"
-
 - name: trac-feature - Eigenschaft anpassen
   command: "trac-admin {{ opennetdev_trac_path }}/ {{ feature }} {{ command }} {{ item }}"
   when: result.stdout == count

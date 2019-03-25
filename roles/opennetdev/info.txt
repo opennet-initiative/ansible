@@ -42,7 +42,7 @@ Gitolote Hooks aktualisieren:
 <new-host># gitolite setup
 
 Trac Datenbank und Anhänge ins Git übernehmen:
-<old-host># cd <old-trac>; tar zcvf attachments.tar.gz attachments/ 
+<old-host># cd <old-trac>; tar zcvf attachments.tar.gz attachments/
 <client># scp root@<old-host>:<old-trac>/attachments.tar.gz <ansible-role>/files/import/
 <client># scp root@<old-host>:<old-trac>/db/trac.db <ansible-role>/files/import/
 
