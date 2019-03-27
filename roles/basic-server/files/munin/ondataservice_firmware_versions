@@ -22,7 +22,7 @@ get_version_fieldname() {
 get_version_counts() {
 	# numeric sorting of versions
 	# The "000000" substitution helps to sort "unstable" before the following regular release.
-	curl -s https://api.on-i.de/api/v1/accesspoint/ \
+	curl -s https://api.opennet-initiative.de/api/v1/accesspoint/ \
 		| jq -r '.[].opennet_version' \
 		| sed 's/^null$//' \
 		| sed 's/unstable-.*$/000000/' \
