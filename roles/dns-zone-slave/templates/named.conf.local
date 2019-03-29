@@ -29,7 +29,7 @@ options {
 	allow-query { opennet; };
 	allow-recursion { opennet; };
 	# fuer das munin-Plugin "bind9_rndc"
-  # TODO: Deaktivated due to file size issue, 2019/03/29 mathias mahnke
+  # TODO: Deactivated due to file size issue, 2019/03/29 mathias mahnke
 	#statistics-file "/run/named/stats";
 };
 
