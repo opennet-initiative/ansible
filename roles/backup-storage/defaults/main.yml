@@ -19,6 +19,7 @@ backup_storage_source_hosts:
   - kazama.on
   - kinjo.on
   - goat.on
+  - hoshino.on
   # Gateways
   - erina.on
   - megumi.on
