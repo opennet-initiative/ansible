@@ -20,6 +20,7 @@ apache2_mods:
  - { name: wsgi }
 
 opennetdev_name: "dev2"
+opennetdev_trac_mailto: "ap27@opennet-initiative.de"
 opennetdev_allowed_users:
   - larskruse.client.on
   - mathiasmahnke.client.on

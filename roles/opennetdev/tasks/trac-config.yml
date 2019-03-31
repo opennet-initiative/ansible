@@ -10,7 +10,7 @@
     # TODO: reenable trac-announcer once available in Debian Buster
     #- { sec: "components", opt: "announcer.*", val: "enabled" }
     - { sec: "project", opt: "admin", val: "{{ opennetdev_trac_admin }}" }
-    - { sec: "project", opt: "descr", val: "{{ opennetdev_trac_desc }}" }
+#    - { sec: "project", opt: "descr", val: "{{ opennetdev_trac_desc }}" }
     - { sec: "project", opt: "footer", val: "{{ opennetdev_trac_footer }}" }
     - { sec: "project", opt: "icon", val: "site/{{ opennetdev_trac_icon }}" }
     - { sec: "project", opt: "url", val: "{{ opennetdev_trac_url }}" }
@@ -22,6 +22,8 @@
     - { sec: "notification", opt: "email_sender", val: "SendmailEmailSender" }
     - { sec: "notification", opt: "smtp_from", val: "{{ opennetdev_trac_mailfrom }}" }
     - { sec: "notification", opt: "smtp_from_name", val: "{{ opennetdev_trac_desc }}" }
+    - { sec: "notification", opt: "smtp_always_cc", val: "{{ opennetdev_trac_mailto }}" }
+    - { sec: "notification", opt: "smtp_subject_prefix", val: "{{ opennetdev_trac_subject }}" }
     - { sec: "ticket", opt: "default_component", val: "{{ opennetdev_trac_defaultcomponent }}" }
     - { sec: "ticket", opt: "default_type", val: "{{ opennetdev_trac_defaultticket }}" }
     - { sec: "timeline", opt: "ticket_show_component", val: "enabled" }
