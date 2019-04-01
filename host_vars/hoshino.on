@@ -10,12 +10,12 @@ olsr_interfaces:
 olsr_nameservice_announcements:
   - { on_tld_base: downloads2 }
 
-#letsencrypt_certificates:
-#  - { on_tld_base: downloads2 }
+letsencrypt_certificates:
+  - { on_tld_base: downloads2 }
 
-#apache2_sites:
-#  - name: downloads2
-#    redirect_http_to_https_exclude_paths:
-#      # die Firmware-Versionen vor 0.5.4 unterstützen kein HTTPS
-#      - ^/openwrt/stable/0\.[1-4][./]
-#      - ^/openwrt/stable/0\.5\.[0123]
+apache2_sites:
+  - name: downloads2
+    redirect_http_to_https_exclude_paths:
+      # die Firmware-Versionen vor 0.5.4 unterstützen kein HTTPS
+      - ^/openwrt/stable/0\.[1-4][./]
+      - ^/openwrt/stable/0\.5\.[0123]

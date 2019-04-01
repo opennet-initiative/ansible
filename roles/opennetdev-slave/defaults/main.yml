@@ -1,0 +1,3 @@
+# web variables
+opennetdev_slave_path_web: "/var/www/downloads"
+opennetdev_slave_user_web: "www-data"

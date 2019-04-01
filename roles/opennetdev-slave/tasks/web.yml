@@ -1,0 +1,18 @@
+- name: web - Verzeichnis anlegen
+  file:
+    path: "{{ opennetdev_slave_path_web }}"
+    state: directory
+    owner: "{{ opennetdev_slave_user_web }}"
+    group: "{{ opennetdev_slave_user_web }}"
+
+- name: web - Dateien kopieren
+  copy:
+    src: "{{ item }}"
+    dest: "{{ opennetdev_slave_path_web }}/"
+    owner: "{{ opennetdev_slave_user_web }}"
+    group: "{{ opennetdev_slave_user_web }}"
+  with_items:
+    - HEADER.html
+    - FOOTER.html
+    - Opennet_logo_quer.gif
+    - favicon.ico
