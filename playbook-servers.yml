@@ -36,7 +36,11 @@
 
 - hosts: goat.on
   roles:
-    - opennetdev
+    - opennetdev-master
+
+- hosts: hoshino.on
+  roles:
+    - opennetdev-slave
 
 # apt-repository in development
 - hosts: server-mathias.on
