@@ -1,4 +1,4 @@
-- name: git-install - Benutzerrechte anpassen
+- name: git-web - Benutzerrechte anpassen
   user:
     name: "{{ opennetdev_git_user_web }}"
     groups: "{{ opennetdev_git_user }}"
