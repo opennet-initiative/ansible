@@ -4,6 +4,7 @@
     state: directory
     owner: "{{ opennetdev_slave_user_web }}"
     group: "{{ opennetdev_slave_user_web }}"
+    recurse: yes
 
 - name: web - Dateien kopieren
   copy:
