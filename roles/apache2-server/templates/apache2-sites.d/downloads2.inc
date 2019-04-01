@@ -11,7 +11,7 @@ Alias /openwrt/testing /var/lib/buildbot/export
 	IndexIgnore *.ico Opennet_logo_quer.gif HEADER.html FOOTER.html
 	HeaderName /HEADER.html
 	ReadmeName /FOOTER.html
-  AddDescription "Ubiquity Firmware" ubnt
+  AddDescription "Ubiquiti Firmware" ubnt
   AddDescription "OpenWrt Firmware" openwrt
   AddDescription "Opennet Debian Pakete" debian
   IndexOrderDefault Descending Date
