@@ -6,7 +6,21 @@
 
 - name: install - Konfiguration erstellen
   command: "buildbot create-slave {{ opennetdev_slave_buildbot_path }}/{{ opennetdev_name }} {{ opennetdev_name }}.opennet-initiative.de {{ opennetdev_name }} {{ opennetdev_slave_buildbot_pass }}"
-  when: buildslave_install.changed
+  args: 
+    creates: "{{ opennetdev_slave_buildbot_path }}/{{ opennetdev_name }}/buildbot.tac"
+  notify: restart buildslave
+
+- name: install - Hostnamen setzen
+  copy:
+    content: "{{ opennetdev_slave_buildbot_host }}"
+    dest: "{{ opennetdev_slave_buildbot_path }}/{{ opennetdev_name }}/info/host"
+  notify:  restart buildslave
+
+- name: install - Admin Kontakt setzen
+  copy:
+    content: "{{ opennetdev_slave_buildbot_admin }}"
+    dest: "{{ opennetdev_slave_buildbot_path }}/{{ opennetdev_name }}/info/admin"
+  notify:  restart buildslave
 
 - name: install - Dienst aktivieren
   lineinfile:
