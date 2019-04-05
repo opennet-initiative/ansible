@@ -1,2 +1,2 @@
-- include: install.yml
+- include: buildbot.yml
 - include: web.yml
