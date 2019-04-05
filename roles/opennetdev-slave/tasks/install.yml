@@ -1,0 +1,17 @@
+- name: install - Software installieren
+  apt:
+    name: buildbot-slave
+    install_recommends: no
+  register: buildslave_install
+
+- name: install - Konfiguration erstellen
+  command: "buildbot create-slave {{ opennetdev_slave_buildbot_path }}/{{ opennetdev_name }} {{ opennetdev_name }}.opennet-initiative.de {{ opennetdev_name }} {{ opennetdev_slave_buildbot_pass }}"
+  when: buildslave_install.changed
+
+- name: install - Dienst aktivieren
+  lineinfile:
+    dest: "/etc/default/buildslave"
+    backrefs: yes
+    regexp: "SLAVE_ENABLED[1]"
+    line: "SLAVE_ENABLED[1]=1"
+  notify: restart buildslave

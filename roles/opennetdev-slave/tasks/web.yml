@@ -1,17 +1,17 @@
 - name: web - Verzeichnis anlegen
   file:
-    path: "{{ opennetdev_slave_path_web }}"
+    path: "{{ opennetdev_slave_web_path }}"
     state: directory
-    owner: "{{ opennetdev_slave_user_web }}"
-    group: "{{ opennetdev_slave_user_web }}"
+    owner: "{{ opennetdev_slave_web_user }}"
+    group: "{{ opennetdev_slave_web_user }}"
     recurse: yes
 
 - name: web - Dateien kopieren
   copy:
     src: "{{ item }}"
-    dest: "{{ opennetdev_slave_path_web }}/"
-    owner: "{{ opennetdev_slave_user_web }}"
-    group: "{{ opennetdev_slave_user_web }}"
+    dest: "{{ opennetdev_slave_web_path }}/"
+    owner: "{{ opennetdev_slave_web_user }}"
+    group: "{{ opennetdev_slave_web_user }}"
   with_items:
     - HEADER.html
     - FOOTER.html

@@ -1,3 +1,10 @@
+# common variables, may be overridden on host-level
+opennetdev_name: "dev"
+
+# buildbot variables
+opennetdev_slave_buildbot_path: "/var/lib/buildbot/slaves"
+opennetdev_slave_buildbot_pass: "opennet"
+
 # web variables
-opennetdev_slave_path_web: "/var/www/downloads"
-opennetdev_slave_user_web: "www-data"
+opennetdev_slave_web_path: "/var/www/downloads"
+opennetdev_slave_web_user: "www-data"
