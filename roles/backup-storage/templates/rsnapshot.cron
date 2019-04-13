@@ -2,3 +2,6 @@
 30 02	* * *	root	/usr/bin/rsnapshot sync && /usr/bin/rsnapshot beta
 00 01	* * 1	root	/usr/bin/rsnapshot gamma
 30 23	1 * *	root	/usr/bin/rsnapshot delta
+
+# loesche aeltere Backups von munins RRD-Dateien - sie nehmen viel Platz ein, sind aber nur kurzfristig nuetzlich
+20 12	* * 1	root	for period in gamma delta; do for munin_dir in /media/backup/rsnapshot/${period}.*/howmei.on/var/lib/munin; do if [ -d "$munin_dir" ]; then find "$munin_dir" -type f -name "*.rrd" -delete; fi; done; done
