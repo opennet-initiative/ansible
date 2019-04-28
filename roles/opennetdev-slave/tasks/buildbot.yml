@@ -1,4 +1,4 @@
- name: buildbot - Software installieren
+- name: buildbot - Software installieren
   apt:
     name: buildbot-slave
     install_recommends: no
