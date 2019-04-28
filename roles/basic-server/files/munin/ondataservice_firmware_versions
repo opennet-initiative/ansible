@@ -19,39 +19,85 @@ get_version_fieldname() {
 	fi
 }
 
-get_version_counts() {
+get_ap_versions() {
 	# numeric sorting of versions
 	# The "000000" substitution helps to sort "unstable" before the following regular release.
 	curl -s https://api.opennet-initiative.de/api/v1/accesspoint/ \
-		| jq -r '.[].opennet_version' \
-		| sed 's/^null$//' \
-		| sed 's/unstable-.*$/000000/' \
-		| sed 's/^$/unknown/' \
+		| jq -r '.[] | [.opennet_version, .main_ip] | @tsv' \
+		| sed 's/^\t/unknown\t/' \
+		| sed 's/unstable-[^\t]*/__unstable__/' \
 		| sort -V \
-		| sed 's/000000/unstable/' \
-		| uniq -c
+		| sed 's/__unstable__/unstable/'
 }
 
 
-if [ "${1:-}" = "config" ]; then
-	echo "graph_title Firmware-Versionen auf APs"
-	echo "graph_category opennet"
-	echo "graph_vlabel Anzahl der APs"
+count_ap_versions() {
+	awk '
+		{
+			if ($1 != current_version) {
+				if (current_count > 0) { print(current_count, current_version); }
+				current_version = $1;
+				current_count = 1;
+			} else {
+				current_count++;
+			}
+		}
+		END {
+			if (current_count > 0) { print(current_count, current_version); }
+		}'
+}
 
-	get_version_counts | while read -r count version; do
+
+get_version_label() {
+	if [ "$version" = "$UNKNOWN_VERSION" ]; then
+		echo "unbekannt (keine ondataservice-Daten)"
+	else
+		echo "$version"
+	fi
+}
+
+
+get_all_version_counts() {
+	while read -r count version; do
 		fieldname=$(get_version_fieldname "$version")
-                if [ "$version" = "$UNKNOWN_VERSION" ]; then
-			echo "$fieldname.label unbekannt (keine ondataservice-Daten)"
-		else
-			echo "$fieldname.label $version"
-                fi
+		version_label=$(get_version_label "$version")
+		echo "$version $fieldname $count $version_label"
+	done
+}
+
+
+all_ap_versions=$(get_ap_versions)
+all_version_counts=$(echo "$all_ap_versions" | count_ap_versions | get_all_version_counts)
+access_point_count=$(echo "$all_ap_versions" | wc -l)
+
+
+if [ "${1:-}" = "config" ]; then
+	echo "multigraph opennet_firmware_versions"
+	echo "graph_title Verteilung der Firmware-Versionen"
+	echo "graph_category opennet"
+	echo "graph_vlabel Versionsanteile (%)"
+	echo "$all_version_counts" | while read -r version fieldname count label; do
+		echo "$fieldname.label $label"
 		echo "$fieldname.draw AREASTACK"
+	done
+	echo "$all_version_counts" | while read -r version fieldname count label; do
+		echo
+		echo "multigraph opennet_firmware_versions.$fieldname"
+		echo "graph_title APs mit Firmware-Version $label"
+		echo "graph_category opennet"
+		echo "graph_vlabel Anzahl der APs"
+		echo "count.label $label"
 	done
 	if [ "${MUNIN_CAP_DIRTYCONFIG:-0}" != 1 ]; then exit 0; fi
 fi
 
 
-get_version_counts | while read -r count version; do
-	fieldname=$(get_version_fieldname "$version")
-	echo "$fieldname.value $count"
+echo "multigraph opennet_firmware_versions"
+echo "$all_version_counts" | awk '{ print($2".value", ($3 / '"$access_point_count"') * 100); }'
+
+echo "$all_version_counts" | while read -r version fieldname count label; do
+	echo
+	echo "multigraph opennet_firmware_versions.$fieldname"
+	echo "count.value $count"
+	echo "count.extinfo $(echo "$all_ap_versions" | awk '{ if ($1 == "'"$version"'") printf(" %s", $2); }')"
 done
