@@ -76,6 +76,7 @@ if [ "${1:-}" = "config" ]; then
 	echo "graph_title Verteilung der Firmware-Versionen"
 	echo "graph_category opennet"
 	echo "graph_vlabel Versionsanteile (%)"
+	echo "graph_args --lower-limit 0"
 	echo "$all_version_counts" | while read -r version fieldname count label; do
 		echo "$fieldname.label $label"
 		echo "$fieldname.draw AREASTACK"
