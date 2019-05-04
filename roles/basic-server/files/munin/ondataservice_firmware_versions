@@ -87,6 +87,7 @@ if [ "${1:-}" = "config" ]; then
 		echo "graph_title APs mit Firmware-Version $label"
 		echo "graph_category opennet"
 		echo "graph_vlabel Anzahl der APs"
+		echo "graph_args --lower-limit 0"
 		echo "count.label $label"
 	done
 	if [ "${MUNIN_CAP_DIRTYCONFIG:-0}" != 1 ]; then exit 0; fi
