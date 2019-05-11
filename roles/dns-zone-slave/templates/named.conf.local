@@ -29,7 +29,7 @@ options {
 	allow-query { opennet; };
 	allow-recursion { opennet; };
 	# fuer das munin-Plugin "bind9_rndc"
-  # TODO: Deactivated due to file size issue, 2019/03/29 mathias mahnke
+	# TODO: Deactivated due to file size issue, 2019/03/29 mathias mahnke
 	#statistics-file "/run/named/stats";
 };
 
@@ -73,3 +73,9 @@ zone "2.10.in-addr.arpa"  {
 	masters { {{ (dns_zone_masters_ipv4 + dns_zone_masters_ipv6)|join('; ') }}; };
 };
 
+// internal ULA ipv6 - reverse
+zone "a.d.7.8.3.d.8.d.2.3.d.f.ip6.arpa" IN {
+	type slave;
+	file "db.fd32_d8d3_87da";
+	masters { {{ (dns_zone_masters_ipv4 + dns_zone_masters_ipv6)|join('; ') }}; };
+};
