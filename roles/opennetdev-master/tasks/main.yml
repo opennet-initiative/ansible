@@ -19,3 +19,4 @@
   with_items: "{{ opennetdev_repositories }}"
 - include: git-install.yml
 - include: git-web.yml
+- include: buildbot.yml

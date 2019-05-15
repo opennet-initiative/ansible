@@ -9,7 +9,3 @@ Enthalten sind:
 Vorhandenes Downloads Verzeichnis kopieren:
 <client># ssh -A <new-host>
 <new-host># cd /var/www/downloads; rsync -avuz --progress root@<old-host>.on:/var/www/<old-path>/ .
-
-Passwort zur Buildbot Anbindung sollte geändert werden:
-<new-host>:/var/lib/buildbot/slaves/<dir>/buildbot.tac
-  passwd = '<new-pass>'

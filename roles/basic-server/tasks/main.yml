@@ -6,7 +6,8 @@
 - include: opennetca.yml
 - include: change-notifications.yml
 # die Python-Version in wheezy unterstützt kein SNI - daher schlägt der Schlüssel-Download fehl
-- include: opennet-apt.yml
+#FIXME: remove opennet apt finally?
+#- include: opennet-apt.yml
   when: ansible_distribution_release != "wheezy"
 # Mail-Konfiguration nur auf Host anwenden, die die "mail_relay_host"-Variable
 # nicht geloescht haben (z.B. "on-v6" - der zentrale Mailserver)
