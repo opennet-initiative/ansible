@@ -36,6 +36,7 @@
     - netdiag
     - strace
     - tcpdump
+    - needrestart
 
 - name: apt -- apt-dater-host installieren
   apt: install_recommends=no state=present name=apt-dater-host
