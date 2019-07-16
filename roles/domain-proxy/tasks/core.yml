@@ -13,5 +13,5 @@
 
 - name: Erlaube Zugriffe auf http- und https-Port
   copy: src=ferm/340_domain-proxy.inc
-        dest=/etc/ferm/conf.d/
+        dest=/etc/ferm/ferm.d/
   notify: restart ferm

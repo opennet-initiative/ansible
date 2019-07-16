@@ -10,5 +10,5 @@
 - name: Firewall-Regeln für lokales privates Netzwerk setzen
   template:
           src=ferm/350_virt_wan.inc
-          dest=/etc/ferm/conf.d/
+          dest=/etc/ferm/ferm.d/
   notify: restart ferm

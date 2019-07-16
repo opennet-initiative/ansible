@@ -1,7 +1,7 @@
 - name: firewall - UGW-Regeln und Verkehrsverbote kopieren
   template:
     src=ferm/{{ item }}
-    dest=/etc/ferm/conf.d/
+    dest=/etc/ferm/ferm.d/
   with_items:
     - 300_on-block-access.inc
     - 330_ugw.inc

@@ -1,6 +1,6 @@
 ###############################################################################
 # {{ ansible_managed }}
-# Lokale Anpassungen koennen unter /etc/ferm/conf.d/ abgelegt werden.
+# Lokale Anpassungen koennen unter /etc/ferm/ferm.d/ abgelegt werden.
 ###############################################################################
 
 
