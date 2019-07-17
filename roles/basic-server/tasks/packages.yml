@@ -21,7 +21,12 @@
     - zip
     - cron
     - dialog
+
+- name: apt -- server-relevante Pakete installieren (ab Jessie)
+  apt:
+    name:
     - needrestart
+  when: ansible_distribution_major_version|int >= 8
 
 - name: apt -- Debug-Werkzeuge installieren
   apt:
