@@ -7,7 +7,7 @@ set -eu
 
 LVM_GROUP="{{ virtualization_lvm_group }}"
 RAW_IMAGE_PATH="{{ virtualization_storage_path }}"
-VIRT_BASE_CONFIG=/etc/libvirt/qemu/_template.xml
+VIRT_BASE_CONFIG=/etc/libvirt/qemu/new-vm.template
 USE_LVM='{% if virtualization_storage == "lvm" %}true{% else %}false{% endif %}'
 MOUNTPOINT=$(mktemp -d)
 SUB_MOUNTS="dev proc sys"
