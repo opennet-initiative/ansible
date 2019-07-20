@@ -72,7 +72,7 @@
 - name: gnupg -- Import der DEV GPG Schlüssel in Apt-Repo Account
   command: "gpg --no-tty --import /home/{{ apt_repo_user }}/.gnupg/import/{{ item | basename }}"
   register: out_gpg_dev_import
-  changed_when: out_gpg_dev_import.stderr | search("import")
+  changed_when: out_gpg_dev_import.stderr is search("import")
   with_fileglob:
     - gpg_keys/aptrepo-user/*.asc
   become: yes
