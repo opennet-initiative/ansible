@@ -15,8 +15,15 @@
 
 - name: firewall - conf-Verzeichnis erzeugen
   file:
-    path=/etc/ferm/conf.d
+    path=/etc/ferm/ferm.d
     state=directory
+
+# Seit Debian Buster enthält die ferm-Paketierung das Unterverzeichnis /etc/ferm/ferm.d.
+# Somit verschieben wir unsere Dateien aus dem vorherigen Verzeichnis /etc/ferm/conf.d dorthin.
+- name: firewall - Inhalt des alten Konfigurationsunterverzeichnis verschieben
+  shell: find /etc/ferm/conf.d -type f -print0 | xargs -r -0 mv -t /etc/ferm/ferm.d/ && rmdir /etc/ferm/conf.d
+  args:
+    removes: /etc/ferm/conf.d
 
 # Aufraeumen (Umstellung der Pfade)
 - name: firewall - alte Dateien loeschen

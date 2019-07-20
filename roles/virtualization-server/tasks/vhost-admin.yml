@@ -33,9 +33,14 @@
           dest=/usr/local/sbin/
           mode=755
 
+- name: alte VM-Template-Datei umbenennen
+  shell: mv /etc/libvirt/qemu/_template.xml /etc/libvirt/qemu/new-vm.template
+  args:
+    removes: /etc/libvirt/qemu/_template.xml
+
 - name: libvirt-Template übertragen
   # force=no: nur einmalig übertragen, um Netzwerk- und Emulatoranpassungen zu ermöglichen
   template:
           src=libvirt_host_template.xml
-          dest=/etc/libvirt/qemu/_template.xml
+          dest=/etc/libvirt/qemu/new-vm.template
           force=no

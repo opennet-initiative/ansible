@@ -54,7 +54,7 @@
 - name: Externen Datenverkehr zu Wireguard erlauben
   template:
     src=ferm/360_wireguard-server.inc
-    dest=/etc/ferm/conf.d/
+    dest=/etc/ferm/ferm.d/
   notify: restart ferm
 
 #- name: Register the clients on the vpn server
