@@ -1,4 +1,4 @@
-- name: php - Apache Modul php7.0 deaktivieren
+- name: php - Apache Modul php deaktivieren
   apache2_module:
          name={{ apache2_php_version }}
          state=absent
@@ -47,6 +47,7 @@
     packages:
       - libapache2-mod-php
       - libapache2-mod-php7.0
+      - libapache2-mod-php7.3
   when: apache2_php
 
 # TODO: warte auf Ansible Modul für a2enconf
