@@ -1,0 +1,4 @@
+- name: IRCd installieren
+  apt:
+    name: ircd-hybrid
+    install_recommends: no
