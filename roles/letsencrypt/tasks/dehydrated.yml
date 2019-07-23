@@ -8,6 +8,7 @@
 
 - name: "[dehydrated] Installation"
   apt: pkg=dehydrated state=present
+  when: ansible_distribution_major_version|int >= 8
 
 - name: "[cron] regelmäßige Erneuerung via cron"
   cron:
@@ -17,20 +18,24 @@
           minute=37
           state=present
           job="dehydrated --cron >/dev/null"
+  when: ansible_distribution_major_version|int >= 8 
 
 - name: "[dehydrated] renew-Hook konfigurieren"
   copy:
           src=dehydrated.conf
           dest=/etc/dehydrated/conf.d/local-hook.sh
+  when: ansible_distribution_major_version|int >= 8 
 
 - name: "[dehydrated] renew-Hook kopieren"
   copy:
           src=dehydrated-hook
           dest=/etc/dehydrated/hook.sh
           mode=755
+  when: ansible_distribution_major_version|int >= 8 
 
 - name: "[dehydrated] Domains festlegen"
   template:
           src=domains.txt
           dest=/etc/dehydrated/
   notify: update dehydrated-domains
+  when: ansible_distribution_major_version|int >= 8 
