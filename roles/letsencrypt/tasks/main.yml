@@ -6,8 +6,7 @@
   check_mode: no
   register: apache2_installed
 
-- name: apache2 Konfigurationspaket installieren
-  apt: pkg=dehydrated-apache2 state=present
+- include: "apache2.yml"
   when: apache2_installed.stat.exists
 
 # nginx
