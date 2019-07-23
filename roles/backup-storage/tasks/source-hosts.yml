@@ -1,5 +1,7 @@
 - name: rsync installieren
-  apt: pkg=rsync state=present
+  apt: 
+    name: rsync
+  delegate_to: root@{{ backup_source_host }}
 
 # mittels des "rrsync"-Skripts lassen sich die Aktionen des Backup-Servers auf ein Minimum (Lese-Zugriff) beschraenken
 - name: rrsync entpacken
