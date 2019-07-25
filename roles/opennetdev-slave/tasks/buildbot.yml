@@ -1,6 +1,6 @@
 - name: buildbot - Software installieren
   apt:
-    name: buildbot-slave
+    name: buildbot-worker
     install_recommends: no
 
 - name: buildbot - Konfiguration erstellen
