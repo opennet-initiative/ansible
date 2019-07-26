@@ -29,7 +29,7 @@
     state: present
 
 - name: Locale konfigurieren
-  command: update-locale LANG={{ opennet_locale }}
+  command: update-locale LANG={{ opennet_locale }} LANGUAGE={{ opennet_locale }}
   # Wir könnten in die /etc/default/locale schauen, ob die Handlung notwendig ist, aber damit
   # müssten wir Interna von update-locale nachbilden.
   # Also lieber immer ausführen ohne Änderungen zu berichten.
