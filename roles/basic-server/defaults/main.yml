@@ -22,7 +22,8 @@ mail_relay_host: relayhost.opennet-initiative.de
 
 # Lokalisierung
 opennet_timezone: Europe/Berlin
-opennet_locale: de_DE.UTF-8
+opennet_locale_lang: de_DE.UTF-8
+opennet_locale_language: de_DE:en_EN
 
 # APT Repository
 opennet_apt_key: "https://downloads.opennet-initiative.de/debian/keys/opennet-apt-key.asc"

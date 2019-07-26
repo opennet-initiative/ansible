@@ -25,12 +25,16 @@
 
 - name: Locale erzeugen
   locale_gen:
-    name: "{{ opennet_locale }}"
+    name: "{{ opennet_locale_lang }}"
     state: present
 
-- name: Locale konfigurieren
-  command: update-locale LANG={{ opennet_locale }} LANGUAGE={{ opennet_locale }}
+- name: Locale konfigurieren (LANG)
+  command: update-locale LANG={{ opennet_locale_lang }}
   # Wir könnten in die /etc/default/locale schauen, ob die Handlung notwendig ist, aber damit
   # müssten wir Interna von update-locale nachbilden.
   # Also lieber immer ausführen ohne Änderungen zu berichten.
+  changed_when: False
+
+- name: Locale konfigurieren (LANGUAGE)
+  command: update-locale LANGUAGE={{ opennet_locale_language }}
   changed_when: False

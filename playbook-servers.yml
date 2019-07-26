@@ -40,7 +40,7 @@
 
 - hosts: hoshino.on
   roles:
-    - opennetdev-slave
+#    - opennetdev-slave
 
 # apt-repository in development
 - hosts: server-mathias.on
