@@ -1,0 +1,11 @@
+- name: "[domain-proxy] Installiere apache2"
+  apt: pkg=apache2 state=present
+
+# forcieren des Symlinks, da bei der Erstinstallation die Konfigurationsdatei fehlt
+- name: "[domain-proxy] Aktiviere die apache2-Konfiguration für den http-Domain-Proxy"
+  file:
+          src: ../sites-available/on-domain-proxy.conf
+          dest: /etc/apache2/sites-enabled/on-domain-proxy.conf
+          state: link
+          force: yes
+  notify: restart apache2

@@ -58,6 +58,30 @@ def get_olsrd_nameservice_entries(fname):
     return http_results, https_results
 
 
+def get_apache2_config(domain_map):
+    logger = logging.getLogger()
+    backend_entries = []
+    for domain, source_url in domain_map:
+        backend_entries.append("Use DomainProxy {} {}".format(domain, source_url.rstrip("/")))
+        logger.info("HTTP-Proxy-Eintrag gesetzt: %s -> %s", domain, source_url)
+    return """# ACHTUNG: diese Datei wird regelmaessig automatisch generiert durch {script_name}
+<Macro DomainProxy $domain $backend>
+<VirtualHost *:80>
+        ServerName $domain
+        ProxyPreserveHost On
+        ProxyPass / $backend/
+        ProxyPassReverse / $backend/
+        CustomLog /dev/null common
+        ErrorLog /dev/null
+</VirtualHost>
+</Macro>
+
+{proxy_entries}
+
+UndefMacro DomainProxy
+""".format(script_name=__file__, proxy_entries=os.linesep.join(backend_entries))
+
+
 def get_nginx_config(domain_map):
     logger = logging.getLogger()
     backend_entries = []
@@ -140,9 +164,11 @@ def get_parsed_arguments():
                         help="zu überschreibende Zieldatei für Logging (Vorgabe: Standardausgabe)")
     parser.add_argument("--olsr-nameservices", dest="olsr_nameservice_filename",
                         default="/var/run/services_olsr", help="Pfad der OLSR-nameservice-Datei")
-    parser.add_argument("--nginx-config", dest="nginx_filename",
-                        default="/etc/nginx/sites-available/domain-proxy",
-                        help="Pfad der zu überschreibenden nginx-Konfigurationsdatei")
+    parser.add_argument("--target-config", dest="target_config",
+                        default="/etc/apache2/sites-available/on-domain-proxy.conf",
+                        help="Pfad der zu überschreibenden Webserver-Konfigurationsdatei")
+    parser.add_argument("--webserver", dest="webserver", default="apache2",
+                        choices=("nginx", "apache2"), help="Zu konfigurierender Webserver-Typ")
     parser.add_argument("--slt-config", dest="slt_filename", default="/etc/slt.conf",
                         help="Pfad der zu überschreibenden slt-Konfigurationsdatei")
     return parser.parse_args()
@@ -156,10 +182,16 @@ if __name__ == "__main__":
     logger = logging.getLogger()
     logger.info("Beginn der Domain-Proxy-Aktualisierung: %s", datetime.datetime.now())
     http_map, https_map = get_olsrd_nameservice_entries(args.olsr_nameservice_filename)
-    nginx_config = get_nginx_config(http_map)
-    if update_config_file(args.nginx_filename, nginx_config):
-        logger.warning("Neustart von nginx (http-Proxy) wird ausgeloest")
-        subprocess.call(["/usr/sbin/service", "nginx", "reload"])
+    if args.webserver == "nginx":
+        webserver_config = get_nginx_config(http_map)
+    else:
+        webserver_config = get_apache2_config(http_map)
+    if update_config_file(args.target_config, webserver_config):
+        logger.warning("Neustart des Webservers wird ausgeloest")
+        if args.webserver == "nginx":
+            subprocess.call(["/usr/sbin/service", "nginx", "reload"])
+        else:
+            subprocess.call(["/usr/sbin/service", "apache2", "restart"])
     else:
         logger.info("Neustart von nginx (http-Proxy) ist nicht erforderlich")
     slt_config = get_slt_config(https_map)
