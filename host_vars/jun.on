@@ -49,9 +49,21 @@ olsr_nameservice_announcements:
  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.rostock.freifunk.net"
  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.schwerin.freifunk.net"
  - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.wismar.freifunk.net"
+ # die http-Umleitung für domain-proxy.on-i.de ist nicht notwendig, da apache2 diese direkt ausliefert
+ - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https domain-proxy.opennet-initiative.de"
+ - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https domain-proxy.on-i.de"
+ - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https domain-proxy.rostock.freifunk.net"
+ - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https domain-proxy.schwerin.freifunk.net"
+ - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https domain-proxy.wismar.freifunk.net"
 #  - { on_tld_base: api }
 #  - { on_tld_base: map }
+
+apache2_sites:
+  - { name: domain-proxy }
+# slt läuft auf Port 443 - somit müssen unsere eigenen Dienste auf Port 444 laufen
+apache2_port_https: 444
 
 letsencrypt_certificates:
   - { on_tld_base: api }
   - { on_tld_base: map }
+  - { on_tld_base: domain-proxy }
