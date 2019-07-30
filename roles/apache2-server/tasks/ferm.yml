@@ -1,8 +1,7 @@
 - name: ferm - Port öffnen
-  copy:
-          src=ferm/350_apache2.inc
-          dest=/etc/ferm/ferm.d/
-#  notify: restart ferm
+  template:
+          src: ferm/350_apache2.inc
+          dest: /etc/ferm/ferm.d/
   register: ferm_apache
 
 # Ferm immer sofort neu laden, da später LE abhängig

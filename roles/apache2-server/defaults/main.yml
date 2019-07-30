@@ -18,3 +18,5 @@ apache2_opennetca_files:
 - opennet-root
 - opennet-client
 apache2_tld_base: "opennet-initiative.de"
+apache2_port_http: 80
+apache2_port_https: 443
