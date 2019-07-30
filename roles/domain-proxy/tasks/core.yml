@@ -2,9 +2,10 @@
   apt: pkg=python3 state=present
 
 - name: Kopiere Aktualisierungsskript
-  copy: src=on-update-domain-proxy
-        dest=/usr/local/sbin/
-        mode=755
+  template:
+          src: on-update-domain-proxy
+          dest: /usr/local/sbin/
+          mode: 755
 
 - name: Aktiviere cron-Job für regelmäßige Aktualisierung
   cron: name=on-update-domain-proxy

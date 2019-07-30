@@ -9,5 +9,5 @@
         state=link
         force=yes
   with_items:
-    - { dest: apache2.conf, src: /etc/apache2/sites-enabled/on-domain-proxy.conf }
+    - { dest: apache2.conf, src: "/etc/apache2/sites-enabled/{{ domain_proxy_apache2_config_name }}.conf" }
     - { dest: slt.conf, src: /etc/slt.conf }
