@@ -54,18 +54,11 @@ welche typischerweise folgende Informationen enthält:
 * "Directory"-Direktive für das DocumentRoot mit "Require all granted"
 * Webseiten-spezifische Details
 
-Neben der Variable "apache2_sites" gibt es noch die Variable "apache2_mods", welche eine Liste von
-Dictonaries enthält.
-* name: 
-    * Apache2 Modul, welches aktiviert werden soll
-
-Um PHP in Apache zu ermöglichen (realisiert über fcgid) kann folgende Variable gesetzt werden:
-* apache2_php:
-    * aktiviere PHP Unterstützung für Apache
-    * Vorgabewert: false
-* apache2_php_filesize:
-    * lege die maximale Dateigröße für PHP Uploads fest
-    * Vorgabewert: 2M
+Neben der Variable "apache2_sites" gibt es weitere Konfigurationsvariablen:
+* apache2_mods: Liste von Dictionaries mit folgenden Inhalten zur Aktivierung von apache2-Modulen
+    * name: Name des zu aktivierenden apache2-Moduls
+* apache2_php: aktiviere PHP-Unterstützung in apache2 via fcgid (boolean; Vorgabe: false)
+* apache2_php_filesize: Festlegung der maximalen Dateigröße für PHP-Uploads (Vorgabe: 2M)
 
 = TODO =
 * Umgang mit http->https-Umleitung für .on-Domain klären
