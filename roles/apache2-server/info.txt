@@ -42,9 +42,9 @@ Diese enthält eine Liste von Dictionaries mit folgenden Attributen:
 * certificate:
     * enthält entweder den Text "letsencrypt" oder ein Dictionary mit folgenden Attributen:
         * cert: Dateiname des Zertifikats
-	  (optional inklusive Vertrauenskette) - siehe SSLCertificateFile)
-	* key: Dateiname des privaten Schlüssels
-	* chain: Dateiname der Vertrauenskette (siehe SSLCertificateChainFile)
+          (optional inklusive Vertrauenskette) - siehe SSLCertificateFile)
+        * key: Dateiname des privaten Schlüssels
+        * chain: Dateiname der Vertrauenskette (siehe SSLCertificateChainFile)
     * falls "letsencrypt", dann werden die üblichen Pfade des letsencrypt-Clients verwendet
     * Vorgabewert: letsencrypt
 
