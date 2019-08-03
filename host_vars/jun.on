@@ -62,6 +62,11 @@ apache2_sites:
   - { name: domain-proxy }
 # slt läuft auf Port 443 - somit müssen unsere eigenen Dienste auf Port 444 laufen
 apache2_port_https: 444
+# Geräte und Dienste, die via domain-proxy ausgeliefert werden, können unsaubere
+# Content-Type-Header versenden.  Ein praktisches Beispiel ist die Kamera auf der Petrikirche
+# (http://kamera-petri.opennet-initiative.de/). Ihre Content-Type-Header sind fehlerhaft, auf dass
+# die Javascript-Dateien vom Browser im Falle von "nosniff" verworfen werden.
+apache2_security_force_nosniff: false
 
 letsencrypt_certificates:
   - { on_tld_base: api }

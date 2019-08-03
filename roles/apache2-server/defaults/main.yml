@@ -2,6 +2,7 @@
 apache2_mods: []
 apache2_php: false
 apache2_php_filesize: 2M
+apache2_security_force_nosniff: true
 # static tasks variables
 apache2_default_site: "/etc/apache2/sites-enabled/000-default.conf"
 apache2_default_dir: "/var/www/html"

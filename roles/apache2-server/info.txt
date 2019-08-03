@@ -59,6 +59,8 @@ Neben der Variable "apache2_sites" gibt es weitere Konfigurationsvariablen:
     * name: Name des zu aktivierenden apache2-Moduls
 * apache2_php: aktiviere PHP-Unterstützung in apache2 via fcgid (boolean; Vorgabe: false)
 * apache2_php_filesize: Festlegung der maximalen Dateigröße für PHP-Uploads (Vorgabe: 2M)
+* apache2_security_force_nosniff: aktivieren des Headers "X-Content-Type-Options" mit dem Inhalt
+  "nosniff" (Vorgabe: true)
 
 = TODO =
 * Umgang mit http->https-Umleitung für .on-Domain klären
