@@ -61,6 +61,9 @@ Neben der Variable "apache2_sites" gibt es weitere Konfigurationsvariablen:
 * apache2_php_filesize: Festlegung der maximalen Dateigröße für PHP-Uploads (Vorgabe: 2M)
 * apache2_security_force_nosniff: aktivieren des Headers "X-Content-Type-Options" mit dem Inhalt
   "nosniff" (Vorgabe: true)
+* apache2_security_frame_options: verbiete Einbettung von ausgelieferten Inhalten in anderen
+  Webseiten (siehe https://developer.mozilla.org/de/docs/Web/HTTP/Headers/X-Frame-Options)
+  (Vorgabe: "sameorigin")
 
 = TODO =
 * Umgang mit http->https-Umleitung für .on-Domain klären

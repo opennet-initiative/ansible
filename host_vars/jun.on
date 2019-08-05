@@ -67,6 +67,7 @@ apache2_port_https: 444
 # (http://kamera-petri.opennet-initiative.de/). Ihre Content-Type-Header sind fehlerhaft, auf dass
 # die Javascript-Dateien vom Browser im Falle von "nosniff" verworfen werden.
 apache2_security_force_nosniff: false
+apache2_security_frame_options: null
 
 letsencrypt_certificates:
   - { on_tld_base: api }
