@@ -15,11 +15,13 @@ letsencrypt_certificates:
   - { on_tld_base: mitgliederverwaltung }
   - { on_tld_base: mitgliedsantrag }
   - { on_tld_base: ca }
+  - { on_tld_base: ca-internal }
 
 apache2_sites:
   - { name: mitgliederverwaltung }
   - { name: mitgliedsantrag }
   - { name: ca }
+  - { name: ca-internal }
 apache2_mods:
  - { name: cgid }
 apache2_php: true
