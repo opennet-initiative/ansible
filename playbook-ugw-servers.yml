@@ -1,4 +1,4 @@
-- hosts: ugw-server
+- hosts: ugw_server
   roles:
     - basic-server
     - olsr
