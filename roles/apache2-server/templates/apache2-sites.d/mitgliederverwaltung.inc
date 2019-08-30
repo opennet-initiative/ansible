@@ -30,22 +30,21 @@ SSLCARevocationPath {{ apache2_opennetca_dir }}/
 SSLCADNRequestPath {{ apache2_opennetca_dir }}/
 SSLCARevocationCheck chain
 
+        Options Indexes FollowSymLinks MultiViews
+
+# client cert auth
+SSLVerifyClient optional
+SSLVerifyDepth 3
+# allow access to certificate details for Moin's authorization
+SSLOptions +StdEnvVars
 
 <Location />
-        Options Indexes FollowSymLinks MultiViews
-        Require all granted
-
-        # client cert auth
-        SSLVerifyClient optional
-        SSLVerifyDepth 3
-        # allow access to certificate details for Moin's authorization
-        SSLOptions +StdEnvVars
         # allow specific cert CN
         SSLRequire %{SSL_CLIENT_S_DN_CN} in { "{{ mitgliederverwaltung_allowed_users|join('", "') }}" }
-
-        # client cert error handling
-        RewriteEngine on
-        RewriteCond %{SSL:SSL_CLIENT_VERIFY} !=SUCCESS
-        RewriteRule .? - [F]
-        ErrorDocument 403 "You need a certificate issued by Opennet Client Sub-CA to access this site."
 </Location>
+
+# client cert error handling
+RewriteEngine on
+RewriteCond %{SSL:SSL_CLIENT_VERIFY} !=SUCCESS
+RewriteRule .? - [F]
+ErrorDocument 403 "You need a certificate issued by Opennet Client Sub-CA to access this site."
