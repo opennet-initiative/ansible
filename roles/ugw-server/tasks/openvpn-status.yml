@@ -3,13 +3,8 @@
 # und nginx nicht direkt php-Code ausführen mag, erstellen wir via cron-Job regelmäßig
 # den Output des PHP-Skripts und stellen es via nginx statisch zur Verfügung.
 
-- name: php installieren (nicht stretch)
-  apt: name=php5-cli state=present
-  when: ansible_distribution_release != "stretch"
-
-- name: php installieren (stretch)
+- name: php installieren 
   apt: name=php-cli state=present
-  when: ansible_distribution_release == "stretch"
 
 - name: vpnstatus - Verzeichnis anlegen
   file: state=directory
