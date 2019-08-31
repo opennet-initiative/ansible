@@ -30,7 +30,8 @@ domain (ip ip6) table filter {
 		}
 
 		# ein paar UGW-Firmware-Versionen versuchen DNS und NTP ueber die oeffentliche IP zu erreichen
-		interface $IF_WAN proto (udp tcp) dport (domain ntp) REJECT;
+    interface $IF_WAN proto udp dport ntp REJECT;
+		interface $IF_WAN proto (udp tcp) dport domain REJECT;
 	}
 }
 
