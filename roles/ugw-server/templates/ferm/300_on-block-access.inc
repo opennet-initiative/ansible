@@ -33,4 +33,8 @@ domain ip chain "on-ugw-block-access" {
 
 	# 07.02.2019 - subaru
 	daddr 195.38.137.100 DROP;
+
+	# 04.09.2019 - subaru
+	# Schadsoftware "andromeda"
+	daddr (173.231.184.56 173.231.184.58) DROP;
 }
