@@ -1,7 +1,7 @@
 - name: opennet-apt - APT Repository GPG Public Key herunterladen
   get_url:
     dest: /etc/apt/trusted.gpg.d/
-    mode: 644
+    mode: 0644
     owner: root
     url: "{{ opennet_apt_key }}"
     force: yes

@@ -5,7 +5,7 @@
   template:
           src: on-update-domain-proxy
           dest: /usr/local/sbin/
-          mode: 755
+          mode: 0755
 
 - name: Aktiviere cron-Job für regelmäßige Aktualisierung
   cron: name=on-update-domain-proxy

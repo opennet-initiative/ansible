@@ -17,5 +17,5 @@
   template:
     src: "ifup-policy-routing"
     dest: "/etc/network/if-up.d/on-policy-routing-olsr"
-    mode: 755
+    mode: 0755
   notify: run on-policy-routing-olsr
