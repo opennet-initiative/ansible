@@ -14,7 +14,6 @@
 - name: Workaround -- installiere on-mitgliedsantrag manuell (1/2)
   apt:
           pkg:
-                  - libapache2-mod-php
                   - libphp-phpmailer
                   - pdftk
           state: present
