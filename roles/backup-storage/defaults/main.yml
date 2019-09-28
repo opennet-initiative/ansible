@@ -14,7 +14,7 @@ backup_storage_source_hosts:
   - amano.on
   - crimson.on
   - hikaru.on
-  - haruka.on
+#  - haruka.on
   - tenkawa.on
   - kazama.on
   - kinjo.on
