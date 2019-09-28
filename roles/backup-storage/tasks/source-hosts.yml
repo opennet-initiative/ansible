@@ -4,9 +4,9 @@
   delegate_to: root@{{ backup_source_host }}
 
 # mittels des "rrsync"-Skripts lassen sich die Aktionen des Backup-Servers auf ein Minimum (Lese-Zugriff) beschraenken
-- name: rrsync entpacken
+- name: rrsync bereitstellen
   shell:
-      gunzip --to-stdout /usr/share/doc/rsync/scripts/rrsync.gz >/usr/local/bin/rrsync && chmod +x /usr/local/bin/rrsync
+      cp /usr/share/doc/rsync/scripts/rrsync /usr/local/bin/rrsync && chmod +x /usr/local/bin/rrsync
       creates=/usr/local/bin/rrsync
   delegate_to: root@{{ backup_source_host }}
 
