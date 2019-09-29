@@ -1,3 +1,7 @@
+- name: Servernamen setzen
+  hostname:
+    name: "{{ short_hostname }}"
+
 - name: Willkommensnachricht uebertragen
   template: src=motd
             dest=/etc/motd
