@@ -4,10 +4,12 @@
   delegate_to: root@{{ backup_source_host }}
 
 # mittels des "rrsync"-Skripts lassen sich die Aktionen des Backup-Servers auf ein Minimum (Lese-Zugriff) beschraenken
-- name: rrsync bereitstellen
-  shell:
-      cp /usr/share/doc/rsync/scripts/rrsync /usr/local/bin/rrsync && chmod +x /usr/local/bin/rrsync
-      creates=/usr/local/bin/rrsync
+- name: rrsync bereitstellen 
+  copy:
+    src: /usr/share/doc/rsync/scripts/rrsync
+    dest: /usr/local/bin/rrsync
+    mode: +x
+    remote_src: yes
   delegate_to: root@{{ backup_source_host }}
 
 - name: öffentlichen Teil des ssh-Server-Schlüssels abholen
