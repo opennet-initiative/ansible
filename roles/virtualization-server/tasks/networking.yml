@@ -8,4 +8,4 @@
 - name: bridge-Modul früh laden
   copy:
           dest=/etc/modules-load.d/on-bridge.conf
-          content="{{ "bridge" if ansible_distribution_release == "jessie" else "br_netfilter" }}\n"
+          content="{{ "bridge" if ansible_distribution_major_version|int <= 8 else "br_netfilter" }}\n"

@@ -19,7 +19,7 @@
         owner=openvpn
         group=openvpn
         mode=700
-  when: ansible_distribution_release != "stretch"
+  when: ansible_distribution_major_version|int < 9
 
 # Beim Anlegen der Status-Dateien wird seit openvpn v2.4 der Besitzer (root?) und nicht mehr die
 # aktuellen Rechte geprueft. Somit muss der Besitzer des Verzeichnis "root" sein (anstelle des
@@ -30,7 +30,7 @@
         owner=root
         group=root
         mode=700
-  when: ansible_distribution_release == "stretch"
+  when: ansible_distribution_major_version|int >= 9
 
 - name: Diffie-Hellmann initialisieren
   command: creates=/etc/openvpn/dh2048.pem openssl dhparam -out /etc/openvpn/dh2048.pem 2048
