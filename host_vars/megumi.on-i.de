@@ -19,3 +19,5 @@ letsencrypt_certificates:
 
 apache2_sites:
   - { name: "{{ short_hostname }}" }
+
+debian_release: stretch

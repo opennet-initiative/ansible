@@ -1,0 +1,7 @@
+###############################################################################
+# {{ ansible_managed }}
+# Lokale Anpassungen werden unter /etc/apt/sources.list.d/ abgelegt
+###############################################################################
+
+deb https://{{ apt_debian_server }}/debian {{ debian_release }} {{ apt_debian_components }}
+deb https://{{ apt_debian_server }}/debian-security {{ debian_release }}/updates {{ apt_debian_components }}

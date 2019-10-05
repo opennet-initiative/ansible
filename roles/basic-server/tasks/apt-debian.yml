@@ -1,0 +1,10 @@
+- name: apt-debian - sources.list aus Opennet Template anlegen
+  template:
+    src: sources.list
+    dest: /etc/apt/sources.list
+  register: updated_apt_debian
+
+- name: apt-Debian - Repository Cache aktualisieren
+  apt:
+    update_cache: yes
+  when: updated_apt_debian.changed

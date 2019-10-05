@@ -6,3 +6,5 @@ olsr_main_ip: 192.168.5.10
 
 olsr_interfaces:
   - { name: "eth0" }
+
+debian_release: buster

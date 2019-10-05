@@ -3,7 +3,6 @@ short_hostname: server-mathias
 wan_interface: eth1
 
 olsr_main_ip: 192.168.5.1
-
 olsr_interfaces:
   - { name: "eth0" }
 
@@ -13,8 +12,9 @@ letsencrypt_certificates:
 apache2_sites:
   - name: luftdaten
     redirect_http_to_https: false
-
 apache2_php: true
 
 olsr_nameservice_announcements:
   - { on_tld_base: luftdaten }
+
+debian_release: buster
