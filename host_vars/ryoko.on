@@ -9,3 +9,6 @@ olsr_interfaces:
   - { name: "f23-mesh" }
 
 virtualization_wan_bridge_interface: "br-virt-wan"
+
+debian_release: buster
+debian_additional_components: contrib non-free

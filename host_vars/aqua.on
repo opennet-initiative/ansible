@@ -17,3 +17,6 @@ olsr_hna_announcements_ipv4:
   #- 139.30.241.206
 
 virtualization_wan_bridge_interface: "br-virt-wan"
+
+debian_release: buster
+debian_additional_components: contrib non-free
