@@ -42,3 +42,5 @@ opennetca_allowed_users:
   - larskruse.client.on
   - mathiasmahnke.client.on
   - philippmarkwardt.client.on
+
+debian_release: buster

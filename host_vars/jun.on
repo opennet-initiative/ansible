@@ -73,3 +73,5 @@ letsencrypt_certificates:
   - { on_tld_base: api }
   - { on_tld_base: map }
   - { on_tld_base: domain-proxy }
+
+debian_release: buster

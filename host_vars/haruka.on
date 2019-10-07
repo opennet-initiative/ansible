@@ -11,3 +11,4 @@ olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
   - 46.4.100.206
 
+debian_release: buster

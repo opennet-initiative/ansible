@@ -21,3 +21,5 @@ apache2_sites:
       - ^/openwrt/stable/0\.5\.[0123]
 
 opennetdev_name: "dev2"
+
+debian_release: buster

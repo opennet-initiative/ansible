@@ -21,3 +21,5 @@ apache2_sites:
       cert: /etc/ssl/service-discovery.opennet-initiative.de.crt
       key: /etc/ssl/private/service-discovery.opennet-initiative.de.key
       chain: /usr/local/share/ca-certificates/opennet-server.crt
+
+debian_release: buster

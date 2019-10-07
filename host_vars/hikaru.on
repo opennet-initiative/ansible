@@ -39,3 +39,5 @@ mediawiki_upload_filetypes:
  - pdf
  - dia
  - odt
+
+debian_release: buster

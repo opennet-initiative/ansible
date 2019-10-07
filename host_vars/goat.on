@@ -38,3 +38,5 @@ opennetdev_repositories:
   - on_radar
   - on_test
   - on_twitterbot
+
+debian_release: buster

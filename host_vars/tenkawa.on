@@ -16,3 +16,5 @@ letsencrypt_certificates:
 
 apache2_sites:
   - { name: media-mirror }
+
+debian_release: buster

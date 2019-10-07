@@ -19,3 +19,5 @@ apache2_sites:
       # die Firmware-Versionen vor 0.5.4 unterstützen kein HTTPS
       - ^/openwrt/stable/0\.[1-4][./]
       - ^/openwrt/stable/0\.5\.[0123]
+
+debian_release: buster
