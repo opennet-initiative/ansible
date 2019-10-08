@@ -3,8 +3,14 @@
     name: "{{ short_hostname }}"
 
 - name: Willkommensnachricht uebertragen
-  template: src=motd
-            dest=/etc/motd
+  template:
+    src: motd
+    dest: /etc/motd
+
+- name: Hosts Datei übertragen
+  template:
+    src: hosts
+    dest: /etc/hosts 
 
 # Das Modul funktioniert unter Debian aktuell nicht, da es /etc/timezone statt /etc/localtime
 # bearbeitet:
