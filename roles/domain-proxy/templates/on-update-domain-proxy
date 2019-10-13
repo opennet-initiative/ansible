@@ -73,6 +73,11 @@ def get_apache2_config(domain_map):
         ProxyPreserveHost On
         ProxyPass / $backend/
         ProxyPassReverse / $backend/
+        # we need to override dehydrated's "Alias" directive (servers handle letsencrypt requests on their own)
+        <Location /.well-known/acme-challenge/>
+                ProxyPass $backend/.well-known/acme-challenge/
+                ProxyPassReverse $backend/.well-known/acme-challenge/
+        </Location>
         CustomLog /dev/null common
         ErrorLog /dev/null
 </VirtualHost>
