@@ -33,4 +33,6 @@
     - { sec: "git", opt: "cached_repository", val: "enabled" }
     - { sec: "git", opt: "persistent_cache", val: "enabled" }
     - { sec: "logging", opt: "log_type", val: "none" }
+    - { sec: "attachment", opt: "max_size", val: "{{ opennetdev_trac_sizefile }}" }
+    - { sec: "attachment", opt: "max_zip_size", val: "{{ opennetdev_trac_sizezip }}" }
   notify: reconfigure trac

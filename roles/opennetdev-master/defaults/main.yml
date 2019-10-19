@@ -19,6 +19,8 @@ opennetdev_trac_footer: "<a href=\"https://www.opennet-initiative.de\">Opennet I
 opennetdev_trac_icon: "favicon.ico"
 opennetdev_trac_url: "https://{{ opennetdev_name }}.opennet-initiative.de"
 opennetdev_trac_logo: "Opennet_logo_quer.gif"
+opennetdev_trac_sizefile: 5242880
+opennetdev_trac_sizezip: 31457280
 opennetdev_trac_permission_user: "TRAC_ADMIN"
 opennetdev_trac_permission_anon: 
   - "TICKET_CREATE"

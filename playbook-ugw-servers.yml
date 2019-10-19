@@ -4,7 +4,7 @@
     - olsr
     - python-module
     - ugw-server
-    - dns-zone-slave
+    - nameserver-slave
     - role: letsencrypt
       when: letsencrypt_certificates is defined
     - role: apache2-server

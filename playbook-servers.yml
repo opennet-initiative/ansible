@@ -9,7 +9,7 @@
 
 - hosts: ryoko.on:aqua.on:tamago.on:akito.on-i.de
   roles:
-    - local-dns-resolver
+    - nameserver-resolver
     - virtualization-server
 
 - hosts: jun.on
