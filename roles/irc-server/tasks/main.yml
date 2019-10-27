@@ -2,3 +2,9 @@
   apt:
     name: ircd-hybrid
     install_recommends: no
+
+- name: Zugang zum IRC-Server erlauben
+  template:
+    src: ferm/380_irc-server.inc
+    dest: /etc/ferm/ferm.d/
+  notify: restart ferm
