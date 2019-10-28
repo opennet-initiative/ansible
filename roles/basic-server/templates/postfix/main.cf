@@ -21,5 +21,5 @@ smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
 smtp_sasl_security_options = 
 smtp_tls_security_level = encrypt
 
-# Kampatibilität (andernfalls erfolgen Warnmeldungen)
+# Kompatibilität (andernfalls erfolgen Warnmeldungen)
 compatibility_level = 2
