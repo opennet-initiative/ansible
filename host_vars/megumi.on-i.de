@@ -18,6 +18,10 @@ letsencrypt_certificates:
   - { on_tld_base: "{{ short_hostname }}" }
 
 apache2_sites:
-  - { name: "{{ short_hostname }}" }
+  - name: "{{ short_hostname }}"
+    redirect_http_to_https_exclude_paths:
+      - ^/\.big$
+      - ^/\.megabyte$
+      - ^/\.10megabyte$
 
 debian_release: stretch
