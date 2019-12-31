@@ -8,6 +8,7 @@
   service: name=ferm state=restarted
 
 - name: restart openvpn
+#  service: name=openvpn@opennet_user_l2vpn_v6 state=restarted
   service: name=openvpn state=restarted
 
 - name: restart radvd

@@ -5,5 +5,16 @@
             dest={{item.dest}}
   with_items:
     - { src: 'opennet_user_l2vpn_v6.conf', dest: '/etc/openvpn/opennet_user_l2vpn_v6.conf' }
-    - { src: 'openvpn-script-set_ipv6_addr.sh', dest: '/etc/openvpn/openvpn-script-set_ipv6_addr.sh' }
+    - { src: 'openvpn-script-ifup.sh', dest: '/etc/openvpn/openvpn-script-ifup.sh' }
+    - { src: 'openvpn-script-ifdown.sh', dest: '/etc/openvpn/openvpn-script-ifdown.sh' }
+
+- name: Dateirechte fuer OpenVPN Skripte anspassen
+  file:
+    path: "{{ item }}"
+    owner: root
+    group: openvpn
+    mode: '0774'
+  loop:
+    - /etc/openvpn/openvpn-script-ifup.sh
+    - /etc/openvpn/openvpn-script-ifdown.sh
   notify: restart openvpn
