@@ -1,0 +1,8 @@
+- name: firewall - IPv6 UGW-Regeln und Verkehrsverbote kopieren
+  template:
+    src=ferm/{{ item }}
+    dest=/etc/ferm/ferm.d/
+  with_items:
+    - 300_on-block-access-user-l2vpn-v6.inc
+    - 330_ugw-l2vpn-ipv6.inc
+  notify: restart ferm

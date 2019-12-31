@@ -1,0 +1,14 @@
+- name: restart isc-dhcp-server
+  service: name=isc-dhcp-server state=restarted
+
+- name: restart sysctl
+  service: name=procps state=restarted
+
+- name: restart ferm
+  service: name=ferm state=restarted
+
+- name: restart openvpn
+  service: name=openvpn state=restarted
+
+- name: restart radvd
+  service: name=radvd state=restarted

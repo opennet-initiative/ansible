@@ -1,0 +1,9 @@
+#Hier wird die Rolle ugw-server vorausgesetzt und somit auch der Inhalt der dortigen openvpn.yml
+
+- name: UGW-VPN-Konfiguration uebertragen
+  template: src={{item.src}}
+            dest={{item.dest}}
+  with_items:
+    - { src: 'opennet_user_l2vpn_v6.conf', dest: '/etc/openvpn/opennet_user_l2vpn_v6.conf' }
+    - { src: 'openvpn-script-set_ipv6_addr.sh', dest: '/etc/openvpn/openvpn-script-set_ipv6_addr.sh' }
+  notify: restart openvpn

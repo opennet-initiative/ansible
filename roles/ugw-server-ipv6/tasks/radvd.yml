@@ -1,0 +1,8 @@
+- name: radvd installieren
+  apt: pkg=radvd state=present
+
+- name: radvd config uebertragen
+  template:
+    src=radvd.conf
+    dest=/etc/radvd.conf
+  notify: restart radvd

@@ -3,6 +3,7 @@ short_hostname: gai
 wan_interface: eth0
 
 olsr_main_ip: 192.168.0.245
+olsr_main_ipv6: fd32:d8d3:87da::245
 ugw_ip: 10.2.0.245
 
 olsr_interfaces:

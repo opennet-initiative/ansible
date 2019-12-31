@@ -1,0 +1,9 @@
+- name: Paket-Weiterleitung erlauben
+  lineinfile:
+        create=yes
+        line="{{ item.key }}={{ item.value }}"
+        regexp="{{ item.key }}="
+        dest=/etc/sysctl.d/opennet.conf
+  with_items:
+    - { key: "net.ipv6.conf.all.forwarding", value: 1}
+  notify: restart sysctl

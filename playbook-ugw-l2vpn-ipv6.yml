@@ -1,0 +1,4 @@
+# Layer2 User VPN with IPv6 in development
+- hosts: gai.on-i.de
+  roles:
+    - ugw-server-ipv6

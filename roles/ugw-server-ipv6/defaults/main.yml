@@ -1,0 +1,25 @@
+# manche Server moechten zusaetzliche IPs announcieren - alle anderen brauchen keine extra-Einstellungen
+# Sobald wir IPv6 unterstuetzen, brauchen wir diese Einstellungen.
+ugw_openvpn_users_extra_settings: ""
+
+openvpn_users_cert_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.crt
+openvpn_users_key_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.key
+openvpn_ugw_cert_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.crt
+openvpn_ugw_key_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.key
+
+ugw_server_crl_list:
+  - { name: "Nutzer-Tunnel", minute: "48", crl: "opennet-vpn-user.crl", ca_cert: "/etc/openvpn/opennet_users/ca.crt" }
+  - { name: "UGW-Tunnel", minute: "49", crl: "opennet-vpn-ugw.crl", ca_cert: "/etc/openvpn/opennet_ugw/ca.crt" }
+
+openvpn_users_l2_v6_interface: tap-users-v6
+
+# Oeffentliche IP-Adressen von Hosts, die auch im Mesh erreichbar sein sollen
+ugw_external_forward_allow_ipv6:
+  # downloads.openwrt.org: Paketinstallation fuer APs
+  - 2a01:4f8:150:6449::2
+  # archive.openwrt.org: Paketinstallation fuer aeltere Releases
+  - 2001:470:2030:2::3
+  # www.geodaten-mv.de: Luftbilder als Hintergrund der alten Karte (opennet-initiative.de/map)
+  #- hat noch keine V6 IP
+  # a.tile.openstreetmap.org: Hintergrund-Tiles fuer OSM-Layer der alten Karte (opennet-initiative.de/map)
+  #- hat noch keine v6 IPs
