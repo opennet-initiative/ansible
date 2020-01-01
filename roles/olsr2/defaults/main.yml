@@ -1,3 +1,6 @@
+olsr2_routing_table_id: 121
+olsr2_routing_table_name: olsrd2
+
 olsr2_interfaces:
   - { name: 'tap-mesh' }
   - { name: 'loopback' }

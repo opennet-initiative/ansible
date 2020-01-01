@@ -1,0 +1,14 @@
+# TODO: use rt_tables.d file
+- name: policy-routing - OLSR Routing Tabelle anlegen
+  lineinfile:
+    dest: "/etc/iproute2/rt_tables"
+    line: "{{ olsr2_routing_table_id }} {{ olsr2_routing_table_name }}"
+    regexp: '^\d+\s+{{ olsr2_routing_table_name }}$'
+
+# TODO: Race Condition, script will be called multiple times
+- name: policy-routing - OLSR Routing aktivieren
+  template:
+    src: "ifup-policy-routing"
+    dest: "/etc/network/if-up.d/on-policy-routing-olsr2"
+    mode: 0755
+  notify: run on-policy-routing-olsr2

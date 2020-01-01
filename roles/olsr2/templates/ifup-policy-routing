@@ -1,0 +1,2 @@
+#!/bin/sh
+ip rule add lookup {{ olsr2_routing_table_name }}
