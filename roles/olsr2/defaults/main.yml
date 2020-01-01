@@ -1,0 +1,3 @@
+olsr2_interfaces:
+  - { name: 'tap-mesh' }
+  - { name: 'loopback' }

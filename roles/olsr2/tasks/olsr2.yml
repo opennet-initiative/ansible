@@ -1,0 +1,11 @@
+#Wir benötigen ein Repo mit olsrd2 .deb file. Leider gibt es das derzeit nicht.
+#Stand Dez.2019 : ein selbst kompiliertes Installationspaket liegt unter:
+# gai:/root/olsrd2_0.15.1-0_amd64.deb
+- name: olsr2 - Software installieren
+  apt: state=present pkg=olsrd2
+
+- name: olsr - Konfiguration erstellen
+  template:
+    src: "olsrd2.conf"
+    dest: "/etc/olsrd2/"
+  notify: restart olsrd2
