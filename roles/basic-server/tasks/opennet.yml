@@ -48,3 +48,8 @@
 - name: Locale konfigurieren (LANGUAGE)
   command: update-locale LANGUAGE={{ opennet_locale_language }}
   changed_when: False
+
+- name: Standard Editor setzen (vim.nox)
+  alternatives:
+    name: editor
+    path: /usr/bin/vim.nox
