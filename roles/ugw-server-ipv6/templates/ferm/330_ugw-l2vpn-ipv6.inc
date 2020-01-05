@@ -19,10 +19,11 @@ domain ip6 table filter {
 		# discard-Dienst fuer Upload-Messungen der UGWs
 		proto tcp dport discard ACCEPT;
 
-		# wir bieten NTP und DNS via Tunnel und Mesh an
+		# wir bieten NTP + DNS + DHCPv6-PD via Tunnel und Mesh an
 		interface ($IF_ON_USERS_V6) {
 			proto udp dport ntp ACCEPT;
 			proto (udp tcp) dport domain ACCEPT;
+			NTP + DNS + DHCPv6-PD
 		}
 	}
 }
