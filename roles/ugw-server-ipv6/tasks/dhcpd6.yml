@@ -10,7 +10,7 @@
   with_items:
     - { key: "INTERFACESv6", value: "{{ openvpn_users_l2_v6_interface }}" }
     - { key: "OPTIONS", value: "-6" }
-  notify: restart isc-dhcp-serverd
+  notify: restart isc-dhcp-server
 
 - name: DHCPv6 Server Konfiguration uebertragen
   copy:
