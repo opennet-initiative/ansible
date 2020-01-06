@@ -89,7 +89,7 @@ domain ip table nat {
 
 	chain PREROUTING {
 		# Portweiterleitungen fuer Nutzer-Tunnel
-                mod addrtype dst-type LOCAL proto (tcp udp) dport 10000:17639 jump user_dnat;
+                mod addrtype dst-type LOCAL proto (tcp udp) dport 10000:22739 jump user_dnat;
 		# ohne diese Regel werden die eigenen Antwort-Pakete mit falschen Quell-IPs verschickt
 		interface $IF_OLSR daddr $LOCAL_HNA_IP REDIRECT;
 	}
@@ -97,8 +97,7 @@ domain ip table nat {
 	chain POSTROUTING {
 		# private Opennet-IP-Adresse nicht nach aussen dringen lassen
 		outerface $IF_WAN saddr (192.168.0.0/16 10.0.0.0/8) MASQUERADE;
-		# Zugriff von User-VPN auf Opennet Mesh via NAT ermoeglichen 
+		# Zugriff von User-VPN auf Opennet Mesh via NAT ermoeglichen
 		outerface $IF_OLSR saddr 10.1.0.0/16 MASQUERADE;
 	}
 }
-
