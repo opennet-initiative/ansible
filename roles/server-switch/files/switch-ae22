@@ -203,28 +203,28 @@ interface GigabitEthernet1/0/11
  shutdown
 !
 interface GigabitEthernet1/0/12
- description uniro-mesh
+ description uniro-uplink
  switchport access vlan 100
  switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/13
- description uniro-mesh
+ description uniro/AP2.180
  switchport access vlan 100
  switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/14
- description uniro-mesh
+ description uniro/AP2.181
  switchport access vlan 100
  switchport mode access
  macro description uniro-mesh
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/15
- description uniro-mesh
+ description uniro/AP2.182
  switchport access vlan 100
  switchport mode access
  macro description uniro-mesh
