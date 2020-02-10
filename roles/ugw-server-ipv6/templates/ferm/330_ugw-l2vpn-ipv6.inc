@@ -23,7 +23,7 @@ domain ip6 table filter {
 		interface ($IF_ON_USERS_V6) {
 			proto udp dport ntp ACCEPT;
 			proto (udp tcp) dport domain ACCEPT;
-			NTP + DNS + DHCPv6-PD
+			proto udp dport 547 ACCEPT;
 		}
 	}
 }
