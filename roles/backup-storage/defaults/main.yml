@@ -1,34 +1,34 @@
 backup_storage_source_hosts:
-  # Virtualization
-  - akito.on
-  - aqua.on
-  - tamago.on
-  - ryoko.on
-  # Services
-  - heartofgold.on
-  - howmei.on
-  - jun.on
-  - ruri.on
-  - yurika.on
-  - izumi.on
-  - amano.on
-  - crimson.on
-  - hikaru.on
-#  - haruka.on
-  - tenkawa.on
-  - kazama.on
-  - kinjo.on
-  - goat.on
-  - hoshino.on
-  # Gateways
-  - erina.on
-  - megumi.on
-  - subaru.on
-  - gai.on
-  # Other
-  - server-christoph.on
-  - server-mathias.on
-  - server-matthias.on
+        # Virtualization
+        - name: akito.on
+        - name: aqua.on
+        - name: tamago.on
+        - name: ryoko.on
+        # Services
+        - name: heartofgold.on
+        - name: howmei.on
+        - name: jun.on
+        - name: ruri.on
+        - name: yurika.on
+        - name: izumi.on
+        - name: amano.on
+        - name: crimson.on
+        - name: hikaru.on
+        #- haruka.on
+        - name: tenkawa.on
+        - name: kazama.on
+        - name: kinjo.on
+        - name: goat.on
+        - name: hoshino.on
+        # Gateways
+        - name: erina.on
+        - name: megumi.on
+        - name: subaru.on
+        - name: gai.on
+        # Other
+        - name: server-christoph.on
+        - name: server-mathias.on
+        - name: server-matthias.on
 
 backup_storage_rsnapshot_directory: /media/backup/rsnapshot
 
