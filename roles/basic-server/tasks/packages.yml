@@ -49,6 +49,9 @@
 - name: apt -- acpi-support-base installieren
   apt: install_recommends=no state=present name=acpi-support-base
 
+- name: apt -- rsyslog installieren
+  apt: install_recommends=no state=present name=rsyslog
+
 # FIXME: wegen Fehler bei postinst.d/update-initramfs in initramfs-tools (12/2017)
 # kann eventuell wieder entfernt werden, wenn die Abhängigkeit upstream gelöst ist
 - name: apt -- busybox installieren (initramfs Abhängigkeit)
