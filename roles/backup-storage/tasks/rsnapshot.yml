@@ -18,3 +18,10 @@
       ssh_key_bits=4096
       ssh_key_comment=backup-{{ ansible_hostname }}
       ssh_key_file={{ backup_storage_ssh_public_key_path }}
+
+- name: rsnapshot - alte munin-Daten beräumen
+  cron:
+          name: remove older munin data files
+          job: find /media/backup/rsnapshot/{gamma,delta}.*/howmei.on/var/lib/munin/ -type f -name "*.rrd" -delete
+          hour: 8
+          minute: 12
