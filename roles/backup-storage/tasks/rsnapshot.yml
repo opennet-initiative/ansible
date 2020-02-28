@@ -22,6 +22,6 @@
 - name: rsnapshot - alte munin-Daten beräumen
   cron:
     name: remove older munin data files
-    job: find /media/backup/rsnapshot/{gamma,delta}.*/howmei.on/var/lib/munin/ -type f -name "*.rrd" -delete
+    job: for a in gamma delta; do find /media/backup/rsnapshot/"$a".*/howmei.on/var/lib/munin/ -type f -name "*.rrd" -delete; done
     hour: 8
     minute: 12
