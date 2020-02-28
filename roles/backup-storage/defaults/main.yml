@@ -1,37 +1,40 @@
 backup_storage_source_hosts:
-        # Virtualization
-        - name: akito.on
-        - name: aqua.on
-        - name: tamago.on
-        - name: ryoko.on
-        # Services
-        - name: heartofgold.on
-        - name: howmei.on
-          age_checks: [ /var/log/munin/munin-node.log ]
-        - name: jun.on
-        - name: ruri.on
-        - name: yurika.on
-        - name: izumi.on
-        - name: amano.on
-        - name: crimson.on
-          age_checks: [ /var/log/munin/munin-node.log ]
-        - name: hikaru.on
-        #- haruka.on
-        - name: tenkawa.on
-        - name: kazama.on
-        - name: kinjo.on
-        - name: goat.on
-        - name: hoshino.on
-        # Gateways
-        - name: erina.on
-        - name: megumi.on
-          age_checks: [ /var/log/munin/munin-node.log ]
-        - name: subaru.on
-        - name: gai.on
-        # Other
-        - name: server-christoph.on
-        - name: server-mathias.on
-        - name: server-matthias.on
+  # Virtualization
+  - name: akito.on
+  - name: aqua.on
+  - name: tamago.on
+  - name: ryoko.on
+  # Services
+  - name: heartofgold.on
+  - name: howmei.on
+    # howmei is not logging to /var/log/syslog 
+    # due to remote rsyslog logging config
+    age_checks: [ /var/log/munin/munin-node.log ]
+  - name: jun.on
+  - name: ruri.on
+  - name: yurika.on
+  - name: izumi.on
+  - name: amano.on
+  - name: crimson.on
+    # crimson is not logging to /var/log/syslog
+    # due to mail filter rsyslog logging config
+    age_checks: [ /var/log/munin/munin-node.log ]
+  - name: hikaru.on
+  #- name: haruka.on
+  - name: tenkawa.on
+  - name: kazama.on
+  - name: kinjo.on
+  - name: goat.on
+  - name: hoshino.on
+  # Gateways
+  - name: erina.on
+  - name: megumi.on
+  - name: subaru.on
+  - name: gai.on
+  # Other
+  - name: server-christoph.on
+  - name: server-mathias.on
+  - name: server-matthias.on
 
 backup_storage_rsnapshot_directory: /media/backup/rsnapshot
 
