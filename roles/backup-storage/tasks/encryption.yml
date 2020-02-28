@@ -8,7 +8,7 @@
   template:
     src: oni-init-crypto
     dest: /usr/local/bin/
-    mode: 755
+    mode: 0755
 
 - name: Verschlüsselung - Crypto-Hinweis kopieren
   copy:
