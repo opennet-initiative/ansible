@@ -3,25 +3,25 @@
 
 - name: rsnapshot - Konfigurationsdatei übertragen
   template:
-      src=rsnapshot.conf
-      dest=/etc/rsnapshot.conf
+    src: rsnapshot.conf
+    dest: /etc/rsnapshot.conf
 
 - name: rsnapshot - cron-Jobs übertragen
   template:
-      src=rsnapshot.cron
-      dest=/etc/cron.d/rsnapshot
+    src: rsnapshot.cron
+    dest: /etc/cron.d/rsnapshot
 
 - name: rsnapshot - ssh-Schlüssel erzeugen
   user:
-      name=root
-      generate_ssh_key=true
-      ssh_key_bits=4096
-      ssh_key_comment=backup-{{ ansible_hostname }}
-      ssh_key_file={{ backup_storage_ssh_public_key_path }}
+    name=root
+    generate_ssh_key=true
+    ssh_key_bits=4096
+    ssh_key_comment=backup-{{ ansible_hostname }}
+    ssh_key_file={{ backup_storage_ssh_public_key_path }}
 
 - name: rsnapshot - alte munin-Daten beräumen
   cron:
-          name: remove older munin data files
-          job: find /media/backup/rsnapshot/{gamma,delta}.*/howmei.on/var/lib/munin/ -type f -name "*.rrd" -delete
-          hour: 8
-          minute: 12
+    name: remove older munin data files
+    job: find /media/backup/rsnapshot/{gamma,delta}.*/howmei.on/var/lib/munin/ -type f -name "*.rrd" -delete
+    hour: 8
+    minute: 12

@@ -1,18 +1,17 @@
 - name: monitoring - installiere Abhängigkeiten
   apt:
-          name:
-                  - moreutils
+    name:
+      - moreutils
 
 - name: monitoring - übertrage on-backup-check
   template:
-          src: on-backup-check
-          dest: /usr/local/sbin/on-backup-check
-          mode: 0755
+    src: on-backup-check
+    dest: /usr/local/sbin/on-backup-check
+    mode: 0755
 
 - name: monitoring - cron-Job für on-backup-check
   cron:
-          name: on-backup-check
-          hour: 14
-          minute: 30
-          job: chronic /usr/local/sbin/on-backup-check
-
+    name: on-backup-check
+    hour: 14
+    minute: 30
+    job: chronic /usr/local/sbin/on-backup-check

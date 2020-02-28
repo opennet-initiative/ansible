@@ -21,24 +21,24 @@
 
 - name: ssh-Server-Schlüssel in known_hosts importieren
   known_hosts:
-      name={{ backup_source_host.name }}
-      key="{{ backup_source_host.name }} {{ ssh_server_key_public.stdout }}"
-      state=present
+    name={{ backup_source_host.name }}
+    key="{{ backup_source_host.name }} {{ ssh_server_key_public.stdout }}"
+    state=present
 
 - name: Backup-ssh-Schlüssel übertragen
   authorized_key:
-      user=root
-      key={{ backup_storage_ssh_public_key.stdout }}
-      key_options='command="/usr/local/bin/rrsync -ro /"'
-      state=present
+    user=root
+    key={{ backup_storage_ssh_public_key.stdout }}
+    key_options='command="/usr/local/bin/rrsync -ro /"'
+    state=present
   delegate_to: root@{{ backup_source_host.name }}
 
 - name: veraltete Backup-ssh-Schlüssel löschen
   authorized_key:
-      user=root
-      key={{ item }}
-      key_options="command='/usr/local/bin/rrsync -ro /'"
-      state=absent
+    user=root
+    key={{ item }}
+    key_options="command='/usr/local/bin/rrsync -ro /'"
+    state=absent
   delegate_to: root@{{ backup_source_host.name }}
   with_items:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDCc+ZKQduv10V4dnIKEPMnt2N27cnVrlO3PJhac4tN2xctBz2fxkZe4zC44/xbFx9lPjT5v7+41cY3NMlxRbemYPxp8718Umv2QB0Ml6Gqem/vd12A0VGSrd+a8w3SHIaz+N4tf15Maj2ieVOBROrAJo/i2dvL0YIeMd6BnZf8/dvexkQ/chjhS5QFEFu2TAU9ja35mSFHYj1ZZd5gttFRUzLzuFZ59lYObjF3q/k0CpSZ1t5lcvRniaR+JGmhx/iytrEVFQu4JEoi4A4JjSaIjMTlJdraGM0OsNK9WCDvTqNoXQXLn0GBH5StQhkWC9eODSv6K5GOO9zQubMYGR6V8dzaiERDr9pZxxj+vtfz4p18dQ5UpiWERl79F3WQomH4Xoim8CZT7drIFFLqCxyXTTEk8sSnUOa4wjs+HT67TdsR46q2QtevU9v4agRtKQdF0LQKO0qLS9rsYKEi+tBiJ9jBYtsdGkvEjAR50UcPwHYbl9tTxYpr4b4JLj+W+9O7hZfVlhRx8JRARAazJ4kab2ABdhjzRr5plRVPqQEhWnBsqNKT10lsLVfFgEZ+QmaznFF85nsOSQs8dNE/66fcwBGP2wy3XHAqExlK8IKDEED7Ah86apyQLsE2F8KFAPhqciRxStcdzWr2Jaik+8z3CPEecBwNYQAGB0i+oFw5BQ== backup-akito

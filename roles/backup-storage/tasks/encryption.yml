@@ -1,13 +1,16 @@
 - name: Verschlüsselung - cryptsetup installieren
-  apt: pkg=cryptsetup state=present install_recommends=no
+  apt: 
+    pkg: cryptsetup
+    state: present 
+    install_recommends: no
 
 - name: Verschlüsselung - Skript kopieren
   template:
-      src=oni-init-crypto
-      dest=/usr/local/bin/
-      mode=755
+    src: oni-init-crypto
+    dest: /usr/local/bin/
+    mode: 755
 
 - name: Verschlüsselung - Crypto-Hinweis kopieren
   copy:
-      src=profile.d/oni-init-crypto.sh
-      dest=/etc/profile.d/
+    src: profile.d/oni-init-crypto.sh
+    dest: /etc/profile.d/
