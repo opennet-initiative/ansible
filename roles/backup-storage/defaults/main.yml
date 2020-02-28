@@ -7,12 +7,14 @@ backup_storage_source_hosts:
         # Services
         - name: heartofgold.on
         - name: howmei.on
+          age_checks: [ /var/log/munin/munin-node.log ]
         - name: jun.on
         - name: ruri.on
         - name: yurika.on
         - name: izumi.on
         - name: amano.on
         - name: crimson.on
+          age_checks: [ /var/log/munin/munin-node.log ]
         - name: hikaru.on
         #- haruka.on
         - name: tenkawa.on
@@ -23,6 +25,7 @@ backup_storage_source_hosts:
         # Gateways
         - name: erina.on
         - name: megumi.on
+          age_checks: [ /var/log/munin/munin-node.log ]
         - name: subaru.on
         - name: gai.on
         # Other

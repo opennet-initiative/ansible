@@ -14,3 +14,5 @@
   with_items: "{{ backup_storage_source_hosts }}"
   loop_control:
           loop_var: "backup_source_host"
+
+- include: monitoring.yml

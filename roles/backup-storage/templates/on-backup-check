@@ -1,0 +1,88 @@
+#!/bin/sh
+#
+# Report missing or outdated backup files.
+
+set -eu
+
+
+NOW=$(date +%s)
+FILE_AGE_WARNING_THRESHOLD=48
+ERROR_FLAG_FILE=$(mktemp "$(basename "$0").XXXXXXX")
+RSNAPSHOT_BASE_DIR="{{ backup_storage_rsnapshot_directory }}"
+RSNAPSHOT_AGE_CHECK_FILES="
+{%- for host in backup_storage_source_hosts %}
+  {%- for age_check_path in host.age_checks|default(['/var/log/syslog']) -%}
+    beta.0/{{ host.name }}{{ age_check_path }}
+  {% endfor %}
+{% endfor %}"
+RSNAPSHOT_EXIST_CHECK_FILES="
+{%- for host in backup_storage_source_hosts %}
+  {%- for exist_check_path in host.exist_checks|default(['/']) -%}
+    beta.0/{{ host.name }}{{ exist_check_path }}
+  {% endfor %}
+{% endfor %}"
+
+
+get_file_age_hours() {
+    local path="$1"
+    local timestamp
+    timestamp=$(date --reference "$path" +%s)
+    echo "$(( (NOW - timestamp) / 3600 ))"
+}
+
+
+check_missing() {
+    local path="$1"
+    if [ -e "$path" ]; then
+        return 0
+    else
+        printf 'MISSING:\t%s\n' "$path"
+        return 1
+    fi
+}
+
+
+check_outdated() {
+    local path="$1"
+    local max_hours="$2"
+    local age_hours
+    age_hours=$(get_file_age_hours "$path")
+    if [ "$age_hours" -ge "$max_hours" ]; then
+        printf 'OUTDATED (%dh):\t%s\n' "$age_hours" "$path"
+        return 1
+    else
+        return 0
+    fi
+}
+
+
+notify_error() {
+    printf . >>"$ERROR_FLAG_FILE"
+}
+
+
+trap 'rm -f "$ERROR_FLAG_FILE"' EXIT
+
+echo "= Backup files check (rsnapshot) ="
+echo "$RSNAPSHOT_AGE_CHECK_FILES" | while read -r path; do
+    [ -z "$path" ] && continue
+    abs_path="$RSNAPSHOT_BASE_DIR/$path"
+    check_missing "$abs_path" && check_outdated "$abs_path" "$FILE_AGE_WARNING_THRESHOLD" && continue
+    notify_error
+done
+echo
+
+echo "= Backup directories check (rsnapshot) ="
+echo "$RSNAPSHOT_EXIST_CHECK_FILES" | while read -r path; do
+    [ -z "$path" ] && continue
+    abs_path="$RSNAPSHOT_BASE_DIR/$path"
+    check_missing "$abs_path" "$abs_path" && continue
+    notify_error
+done
+echo
+
+if [ -s "$ERROR_FLAG_FILE" ]; then
+    exit 1
+else
+    exit 0
+fi
