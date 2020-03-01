@@ -34,6 +34,8 @@ mitgliederverwaltung_allowed_users:
   - larskruse.client.on
   - martingarbe.client.on
   - mathiasmahnke.client.on
+  - tobiasmeyer.client.on
+  - friedrichmeincke.client.on
 
 opennetca_allowed_users:
   - christianwedell.client.on
