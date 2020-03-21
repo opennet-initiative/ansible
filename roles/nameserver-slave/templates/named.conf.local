@@ -3,7 +3,7 @@
 acl opennet {
 	127.0.0.0/8; 10.0.0.0/8; 192.168.0.0/16;
 	{{ (dns_zone_masters_ipv4 + dns_zone_masters_ipv6)|join('; ') }};
-	::1; fd32:d8d3:87da::/48;
+	::1; fd32:d8d3:87da::/48; 2a0a:4580:1010::/48;
 };
 
 
