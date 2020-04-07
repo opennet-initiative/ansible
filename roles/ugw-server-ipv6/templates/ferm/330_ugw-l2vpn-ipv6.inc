@@ -7,7 +7,6 @@
 @def $LOCAL_HNA_IPv6 = {{ olsr_main_ipv6 }};
 @def $IF_ON_USERS_V6 = {{ openvpn_users_l2_v6_interface }};
 
-
 domain ip6 table filter {
 	chain service-input {
 		# Layer2 User-VPN fuer IPv6
@@ -25,6 +24,17 @@ domain ip6 table filter {
 			proto (udp tcp) dport domain ACCEPT;
 			proto udp dport 547 ACCEPT;
 		}
+	}
+}
+
+#Workaround: Erlaube auch Verbindungen via IPv4 zum OpenVPN Server.
+#Allgemein praeferieren wir IPv6 aber es gibt (Stand April 2020) noch viele IPv4-only Verbindungen im Mesh.
+#Nutzer hinter diesen Knoten koennten diesen Dienst hier nicht nutzen, wenn er nur per IPv6 erreichbar waere.
+#TODO: so frueh wie moeglich diese Firewallregel hier deaktivieren.
+domain ip table filter {
+	chain service-input {
+		# Layer2 User-VPN fuer IPv6
+		proto udp dport (1700) ACCEPT;
 	}
 }
 
