@@ -1,0 +1,10 @@
+- name: setze IPv6 ULA Adresse auf Loopback Interface
+  template:
+    src: "loopback-oni-ula"
+    dest: "/etc/network/interfaces.d/"
+  register: add_loopback_ula
+  notify: restart olsrd2
+
+- name: restart loopback Interface
+  command: bash -c "ifdown lo && ifup lo"
+  when: add_loopback_ula.changed == true

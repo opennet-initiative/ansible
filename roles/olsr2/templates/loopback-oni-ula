@@ -1,0 +1,3 @@
+iface lo inet6 static
+	address {{ olsr_main_ipv6 }}
+	netmask 64
