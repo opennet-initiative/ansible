@@ -1,0 +1,36 @@
+// {{ ansible_managed }}
+
+// opennet acls
+acl "internetx" {
+        62.116.132.5;   
+        62.116.131.31;   # a.ns14.net
+        217.160.113.32;  # b.ns14.net
+        83.169.55.5;     # b.ns14.net
+        195.34.161.195;  # c.ns14.net
+        74.208.164.110;  # d.ns14.net
+};
+
+// opennet keys
+include "/etc/bind/keys/opennet-transfer.key";
+include "/etc/bind/keys/opennet-dyndns-aps.key";
+
+// opennet options
+options {
+	directory "/var/cache/bind";
+	dnssec-validation auto;
+	listen-on-v6 { any; };
+	// opennet
+	version "opennet";
+	recursion no;
+	allow-query { any; };
+	allow-transfer { 
+    127.0.0.1; 
+    key dnskey.opennet;
+    internetx;
+  };
+	key-directory "/etc/bind/keys";
+	dnssec-enable yes;
+};
+
+// opennet zones
+include "/etc/bind/zones.opennet";

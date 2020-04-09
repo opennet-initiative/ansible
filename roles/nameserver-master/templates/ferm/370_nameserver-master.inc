@@ -1,11 +1,7 @@
 ###############################################################################
 # {{ ansible_managed }}
+# Lokale Anpassungen koennen unter /etc/ferm/ferm.d/ abgelegt werden.
 ###############################################################################
 
-[local]
-fqdn = localhost
-method = local
-incoming = ~/{{ apt_md_dir  }}/mini-dinstall/incoming
-post_upload_command = mini-dinstall --batch
-allow_unsigned_uploads = 0
-run_lintian = 1
+# Opennet DNS Master Server 
+domain (ip ip6) table filter chain service-input proto (udp tcp) dport domain ACCEPT;

@@ -1,0 +1,99 @@
+// {{ ansible_managed }}
+
+// opennet zones
+
+// public on - forward ddns dynamic dns zone
+zone "dyn.opennet-initiative.de" IN {
+  type master;
+  file "/etc/bind/zones/dyn.opennet-initiative.de.zone";
+  include "/etc/bind/notifiers/opennet-extern.notifiers";
+  update-policy { 
+    grant dyndns_aps.key. subdomain aps.dyn.opennet-initiative.de. AAAA;
+  };
+};
+
+// public on - forward (includes vpn)
+zone "opennet-initiative.de" IN { 
+  type master;  
+  file "/etc/bind/zones/opennet-initiative.de.zone";  
+  include "/etc/bind/notifiers/opennet-extern.notifiers";
+};
+
+// public on - forward (includes vpn)
+zone "on-i.de" IN { 
+  type master;  
+  file "/etc/bind/zones/opennet-initiative.de.zone";  
+  include "/etc/bind/notifiers/opennet-extern.notifiers";
+};
+
+// public on - forward (includes vpn)
+zone "rostock.freifunk.net" IN {
+  type master;
+  file "/etc/bind/zones/opennet-initiative.de.zone";
+  include "/etc/bind/notifiers/opennet-extern.notifiers";
+};
+
+// public on - forward (includes vpn)
+zone "schwerin.freifunk.net" IN {
+  type master;
+  file "/etc/bind/zones/opennet-initiative.de.zone";
+  include "/etc/bind/notifiers/opennet-extern.notifiers";
+};
+
+// public on - forward (includes vpn)
+zone "wismar.freifunk.net" IN {
+  type master;
+  file "/etc/bind/zones/opennet-initiative.de.zone";
+  include "/etc/bind/notifiers/opennet-extern.notifiers";
+};
+
+// public on - forward (includes vpn)
+zone "ludwigslust.freifunk.net" IN {
+  type master;
+  file "/etc/bind/zones/opennet-initiative.de.zone";
+  include "/etc/bind/notifiers/opennet-extern.notifiers";
+};
+
+// public on - forward (includes vpn)
+zone "parchim.freifunk.net" IN {
+  type master;
+  file "/etc/bind/zones/opennet-initiative.de.zone";
+  include "/etc/bind/notifiers/opennet-extern.notifiers";
+};
+
+// public gai ipv6 - reverse
+zone "0.1.0.1.0.8.5.4.a.0.a.2.ip6.arpa" IN {
+  type master;
+  file "/etc/bind/zones/2a0a_4580_1010.zone";
+  include "/etc/bind/notifiers/opennet-extern.notifiers";
+};
+
+// on - forward (includes vpn)
+zone "on." {
+  type master;
+  file "/etc/bind/zones/on.zone";
+  include "/etc/bind/notifiers/opennet-intern.notifiers";
+};
+
+// on - reverse
+zone "168.192.in-addr.arpa" {
+  type master;
+  file "/etc/bind/zones/192.168.zone";
+  include "/etc/bind/notifiers/opennet-intern.notifiers";
+};
+
+// on-vpn - reverse
+zone "1.10.in-addr.arpa" {
+  type master;
+  file "/etc/bind/zones/10.1.zone";
+  include "/etc/bind/notifiers/opennet-intern.notifiers";
+};
+
+// on-ugw - reverse
+zone "2.10.in-addr.arpa" {
+  type master;
+  file "/etc/bind/zones/10.2.zone";
+  include "/etc/bind/notifiers/opennet-intern.notifiers";
+  // TODO - still needed?
+  check-names warn;  
+};

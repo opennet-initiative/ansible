@@ -1,7 +1,0 @@
-- name: dput installieren
-  apt: name=dput state=present
-
-- name: dput konfigurieren
-  template:
-          src=dput.cf
-          dest=/home/{{ apt_repo_user }}/.dput.cf

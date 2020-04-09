@@ -42,11 +42,6 @@
   roles:
 #    - opennetdev-slave
 
-# apt-repository in development
-- hosts: server-mathias.on
-  roles:
-    - apt-repository
-
 # wireguard-server in development
 - hosts: kazama.on
   roles:
