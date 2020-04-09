@@ -61,6 +61,11 @@
   roles:
     - irc-server
 
+#migrate to olsr2
+- hosts: erina.on-i.de
+  roles:
+    - olsr2
+
 # Layer2 User VPN with IPv6 in development
 - hosts: gai.on-i.de
   roles:
