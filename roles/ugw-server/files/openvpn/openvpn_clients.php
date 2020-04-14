@@ -148,7 +148,7 @@ a {
     $client[5] = number_format($client[5] / 8000, 0, '', '.');
     $client[2] = str_replace('::', '', $client[2]);
     $client[2] = str_replace('ffff:', '', $client[2]); 
-    $client[2] = substr($client[2], 0, strlen($client[2])*0.75) . '***';
+    $client[2] = substr($client[2], 0, strlen($client[2])*0.6) . '***';
     $client[1] = '<a href=http://' . $client[1] . '>' . $client[1] . '</a>';
 $i = 0;
 ?>
