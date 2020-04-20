@@ -2,6 +2,7 @@
   roles:
     - basic-server
     - olsr
+    - olsr2
     - python-module
     - ugw-server
     - nameserver-slave
