@@ -1,11 +1,3 @@
-# in Jessie ist noch kein dehydrated-Paket enthalten
-- name: "[dehydrated] jessie-backports-Repository hinzufügen"
-  apt_repository:
-          repo="deb http://ftp.debian.org/debian jessie-backports main"
-          filename="jessie-backports"
-          state=present
-  when: ansible_distribution_release == "jessie"
-
 - name: "[dehydrated] Installation"
   apt: pkg=dehydrated state=present
 
