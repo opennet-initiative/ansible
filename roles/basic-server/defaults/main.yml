@@ -26,8 +26,5 @@ opennet_locale_lang: de_DE.UTF-8
 opennet_locale_language: de_DE:en_EN
 
 # APT Repository
-apt_opennet_key: "https://downloads.opennet-initiative.de/debian/keys/opennet-apt-key.asc"
-apt_opennet_repo: "deb https://downloads.opennet-initiative.de/debian/ unstable/"
-apt_opennet_name: "opennet-repository"
 apt_debian_server: "deb.debian.org"
 apt_debian_components: "main"
