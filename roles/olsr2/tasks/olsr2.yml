@@ -2,7 +2,14 @@
 #Ein selbst kompiliertes Installationspaket liegt unter:
 #  https://downloads.opennet-initiative.de/debian/
 - name: olsr2 - Software installieren
-  apt: state=present pkg=olsrd2
+  apt: 
+    deb: "{{ olsr2_debian_url }}/{{ olsr2_debian10_file }}" 
+  when: ansible_distribution_major_version|int >= 10
+
+- name: olsr2 - Software installieren (buster)
+  apt:
+    deb: "{{ olsr2_debian_url }}/{{ olsr2_debian9_file }}"
+  when: ansible_distribution_major_version|int = 9
 
 - name: olsr - Konfiguration erstellen
   template:
