@@ -4,4 +4,4 @@
 ip -6 rule | grep -wq "fwmark" && exit 0
 
 ip -6 rule add lookup {{ olsr2_routing_table_name }}
-ip -6 rule add fwmark {{ non_olsr_policy_routing_mark }}/{{ non_olsr_policy_routing_mark }} lookup main
+ip -6 rule add fwmark {{ non_olsr2_policy_routing_mark }}/{{ non_olsr2_policy_routing_mark }} lookup main
