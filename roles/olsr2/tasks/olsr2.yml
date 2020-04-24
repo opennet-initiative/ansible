@@ -9,7 +9,7 @@
 - name: olsr2 - Software installieren (buster)
   apt:
     deb: "{{ olsr2_debian_url }}/{{ olsr2_debian9_file }}"
-  when: ansible_distribution_major_version|int = 9
+  when: ansible_distribution_major_version|int == 9
 
 - name: olsr - Konfiguration erstellen
   template:
