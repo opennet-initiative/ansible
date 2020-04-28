@@ -1,8 +1,0 @@
-#
-# cron-jobs for creating routes for DHCPv6-PD
-#
-
-#TODO create a hook instead of this cron job, see e.g. https://invalidmagic.wordpress.com/2010/03/27/magic-dhcp-stuff-isc-dynamic-host-configuration-protocol/
-
-#Check every minute whether we have a new prefix delegation and create route for it
-* * * * *	root /usr/local/bin/on-routes4pd.py -v 1 -l /var/log/create-routes4pd.log
