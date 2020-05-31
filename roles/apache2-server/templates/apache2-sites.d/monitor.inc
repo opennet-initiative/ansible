@@ -6,8 +6,10 @@ DocumentRoot /var/cache/munin/www
 RewriteEngine On
 
 # Static files
-RewriteRule ^/favicon.ico /var/cache/munin/www/static/favicon.ico [L]
+#RewriteRule ^/favicon.ico /var/cache/munin/www/static/favicon.ico [L]
 RewriteRule ^/static/(.*) /var/cache/munin/www/static/$1          [L]
+RewriteRule ^/favicon.ico /var/www/html/favicon.ico [L]
+RewriteRule ^/robots.txt /var/www/html/robots.txt [L]
 
 # HTML
 RewriteRule ^(/.*\.html)?$ /munin-cgi/munin-cgi-html/$1 [PT]
