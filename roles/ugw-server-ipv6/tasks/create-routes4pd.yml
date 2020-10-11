@@ -1,3 +1,11 @@
 #create routes for DHCPv6 prefix delegation networks
-#TODO
-#files/create-routes4pd/*
+copy files/create-routes4pd/* /usr/local/bin/on-routes4pd-wrapper.sh
+- name: Skript für Routenerstellung von DHCPv6 PD Netzen kopieren (on-routes4pd.py)
+  copy:
+    src=create-routes4pd/on-routes4pd.py
+    dest=/usr/local/bin/on-routes4pd.py
+
+- name: Skript für Routenerstellung von DHCPv6 PD Netzen kopieren (on-routes4pd-wrapper.sh)
+  copy:
+    src=create-routes4pd/on-routes4pd-wrapper.sh
+    dest=/usr/local/bin/on-routes4pd-wrapper.sh
