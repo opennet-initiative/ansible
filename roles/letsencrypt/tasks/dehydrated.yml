@@ -1,7 +1,7 @@
-- name: "[dehydrated] Installation"
+- name: "dehydrated - Installation"
   apt: pkg=dehydrated state=present
 
-- name: "[cron] regelmäßige Erneuerung via cron"
+- name: "dehydrated - regelmäßige Erneuerung via cron"
   cron:
           name=dehydrated
           weekday=0
@@ -10,19 +10,22 @@
           state=present
           job="dehydrated --cron >/dev/null"
 
-- name: "[dehydrated] renew-Hook konfigurieren"
+- name: "dehydrated - renew-Hook konfigurieren"
   copy:
           src=dehydrated.conf
           dest=/etc/dehydrated/conf.d/local-hook.sh
 
-- name: "[dehydrated] renew-Hook kopieren"
+- name: "dehydrated - renew-Hook kopieren"
   copy:
           src=dehydrated-hook
           dest=/etc/dehydrated/hook.sh
           mode=755
 
-- name: "[dehydrated] Domains festlegen"
+- name: "dehydrated - Domains festlegen"
   template:
           src=domains.txt
           dest=/etc/dehydrated/
   notify: update dehydrated-domains
+
+- name: "dehydrated - Lizenzbedingungen akzeptieren"
+  command: "dehydrated --register --accept-terms"
