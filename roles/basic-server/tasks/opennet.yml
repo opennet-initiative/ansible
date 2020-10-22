@@ -1,3 +1,8 @@
+# Notwendig für das setzen eines Servernames
+# Vgl. auch https://github.com/ansible/ansible/issues/25543
+- name: dbus-Paket installieren
+  apt: pkg=dbus state=present
+
 - name: Servernamen setzen
   hostname:
     name: "{{ short_hostname }}"
