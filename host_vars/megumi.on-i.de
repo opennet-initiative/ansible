@@ -25,4 +25,4 @@ apache2_sites:
       - ^/\.megabyte$
       - ^/\.10megabyte$
 
-debian_release: stretch
+debian_release: buster 
