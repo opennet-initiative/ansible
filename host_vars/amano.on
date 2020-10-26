@@ -30,12 +30,12 @@ apache2_php: true
 # These users need to be defined on the host level, since they are used by multiple roles
 # ("apache-sites" and "mitgliederverwaltung").
 mitgliederverwaltung_allowed_users:
-  - janconrads.client.on
   - larskruse.client.on
   - martingarbe.client.on
   - mathiasmahnke.client.on
   - tobiasmeyer.client.on
   - friedrichmeincke.client.on
+  - reneborrmann.client.on
 
 opennetca_allowed_users:
   - christianwedell.client.on
