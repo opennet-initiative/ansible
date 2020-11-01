@@ -27,5 +27,11 @@
           dest=/etc/dehydrated/
   notify: update dehydrated-domains
 
+- name: "dehydrated - Registierung prüfen"
+  stat:
+    path: /var/lib/dehydrated/accounts
+  register: dehydrated_accounts_stat
+
 - name: "dehydrated - Lizenzbedingungen akzeptieren"
   command: "dehydrated --register --accept-terms"
+  when: dehydrated_accounts_stat.stat.exists == false
