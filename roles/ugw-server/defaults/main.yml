@@ -28,6 +28,8 @@ ugw_external_forward_allow_ipv4:
   - 144.76.70.77
   - 185.66.195.245
   - 195.201.226.63
+  # router.eu.thethings.network: LoRaWan
+  - 52.169.76.203
 
 openvpn_ugw_interface: tap-mesh
 openvpn_users_interface: tun-users
