@@ -14,3 +14,11 @@ DocumentRoot /var/www/luftdaten.opennet-initiative.de
 	HeaderName /HEADER.html
 	ReadmeName /FOOTER.html
 </Directory>
+
+# InfluxDB
+ProxyPass /db/ http://localhost:8086/
+ProxyPassReverse /db/ http://localhost:8086/
+
+# Grafana
+ProxyPass / http://localhost:3000/
+ProxyPassReverse / http://localhost:3000/

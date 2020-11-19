@@ -11,8 +11,11 @@ letsencrypt_certificates:
 
 apache2_sites:
   - name: luftdaten
-    redirect_http_to_https: false
+#    redirect_http_to_https: false
 apache2_php: true
+# proxy needed for InfluxDB and Grafana
+apache2_mods:
+ - { name: proxy }
 
 olsr_nameservice_announcements:
   - { on_tld_base: luftdaten }
