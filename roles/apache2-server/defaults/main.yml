@@ -23,3 +23,15 @@ apache2_opennetca_files:
 apache2_tld_base: "opennet-initiative.de"
 apache2_port_http: 80
 apache2_port_https: 443
+apache2_mods_enable:
+# HTTP-HTTPS Redirects
+- rewrite
+# HTTP/2 Unterstützung
+- http2
+# HTTP Header Unterstützung
+- headers
+apache2_mods_disable:
+# /server-info
+- info
+# /server-status
+- status

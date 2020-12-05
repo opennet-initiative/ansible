@@ -6,20 +6,21 @@
 
 - name: apache2 - Globale Module aktivieren
   apache2_module:
-         name={{ item }}
-         state=present
-  with_items:
-          # HTTP-HTTPS Redirects
-          - rewrite
-          # HTTP/2 Unterstützung
-          - http2
-          # HTTP Header Unterstützung
-          - headers
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ apache2_mods_enable }}"
+  notify: restart apache2
+
+- name: apache2 - Globale Module deaktivieren
+  apache2_module:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ apache2_mods_disable }}"
   notify: restart apache2
 
 - name: apache2 - Konfigurierte Module aktivieren
   apache2_module:
-         name={{ item.name }}
-         state=present
+    name: "{{ item.name }}"
+    state: present
   with_items: "{{ apache2_mods }}"
   notify: restart apache2
