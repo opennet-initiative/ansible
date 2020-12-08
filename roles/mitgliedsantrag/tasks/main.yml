@@ -1,23 +1,14 @@
-- name: Opennet apt repo einbinden (TODO)
-  # TODO: einrichten, sobald repo final vorhanden ist
-  command: /bin/false
-  ignore_errors: yes
-  changed_when: False
+- name: Ermittle alle installierten Pakete
+  package_facts:
+    manager: "auto"
 
-- name: apt -- on-mitgliedsantrag Paket aus Repo installieren (TODO)
-  apt:
-          pkg: on-mitgliedsantrag
-          state: present
-  ignore_errors: yes # TODO: entfernen, sobald es ein finales ONI apt repo gibt
-
-# TODO: die unteren beiden Worarounds löschen, sobald ONI apt repo vorhanden ist
-- name: Workaround -- installiere on-mitgliedsantrag manuell (1/2)
-  apt:
-          pkg:
-                  - libphp-phpmailer
-                  - pdftk
-          state: present
-
-- name: Workaround -- installiere on-mitgliedsantrag manuell (2/2)
-  apt:
-          deb: http://dev.opennet-initiative.de/export/769439e4d3acfeab7475e57330323cc5af1ed9c3/on_mitgliedsantrag/tmp-bin/on-mitgliedsantrag_1.0_all.deb
+# Wenn das Paket noch nicht installiert ist, muss es per Hand installiert werden.
+# Gründe hierfür sind:
+#   * ermitteln der neuesten Version und diese herunterladen
+#   * installieren der Abhängigkeiten
+# Mit einem ONI Debian Repo könnten wir dies auch automatisch machen.
+- name: Installiere on-mitgliedsantrag Debian Paket
+  debug:
+    # Anhängigkeiten libphp-phpmailer + pdftk sollten automatisch installiert werden.
+    msg: Installiere neueste https://downloads.opennet-initiative.de/debian/on-mitgliedsantrag_*.deb mittels apt Befehl manuell.
+  when: "'on-mitgliedsantrag' not in ansible_facts.packages"
