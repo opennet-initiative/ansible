@@ -19,6 +19,7 @@ ugw_server_crl_list:
 ugw_external_forward_allow_ipv4:
   # downloads.openwrt.org: Paketinstallation fuer APs
   - 176.9.48.73
+  - 168.119.138.211
   # archive.openwrt.org: Paketinstallation fuer aeltere Releases
   - 81.0.124.218
   # www.geodaten-mv.de: Luftbilder als Hintergrund der alten Karte (opennet-initiative.de/map)
