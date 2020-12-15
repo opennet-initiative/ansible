@@ -1,4 +1,4 @@
-- name: Willkommensnachricht uebertragen
+- name: opennet - Willkommensnachricht uebertragen
   template:
     src: motd
     dest: /etc/motd
@@ -12,7 +12,7 @@
 #  timezone:
 #    name: "{{ opennet_timezone }}"
 
-- name: Zeitzone setzen
+- name: opennet - Zeitzone setzen
   file:
     path: /etc/localtime
     src: /usr/share/zoneinfo/{{ opennet_timezone }}
@@ -21,26 +21,26 @@
     force: yes
   notify: reconfigure tzdata
 
-- name: locales-Paket installieren
+- name: opennet - locales-Paket installieren
   apt: pkg=locales state=present
 
-- name: Locale erzeugen
+- name: opennet - Locale erzeugen
   locale_gen:
     name: "{{ opennet_locale_lang }}"
     state: present
 
-- name: Locale konfigurieren (LANG)
+- name: opennet - Locale konfigurieren (LANG)
   command: update-locale LANG={{ opennet_locale_lang }}
   # Wir könnten in die /etc/default/locale schauen, ob die Handlung notwendig ist, aber damit
   # müssten wir Interna von update-locale nachbilden.
   # Also lieber immer ausführen ohne Änderungen zu berichten.
   changed_when: False
 
-- name: Locale konfigurieren (LANGUAGE)
+- name: opennet - Locale konfigurieren (LANGUAGE)
   command: update-locale LANGUAGE={{ opennet_locale_language }}
   changed_when: False
 
-- name: Standard Editor setzen (vim.nox)
+- name: opennet - Standard Editor setzen (vim.nox)
   alternatives:
     name: editor
     path: /usr/bin/vim.nox
