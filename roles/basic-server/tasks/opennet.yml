@@ -1,21 +1,7 @@
-# Notwendig für das setzen eines Servernames
-# Vgl. auch https://github.com/ansible/ansible/issues/25543
-- name: dbus-Paket installieren
-  apt: pkg=dbus state=present
-
-- name: Servernamen setzen
-  hostname:
-    name: "{{ short_hostname }}"
-
 - name: Willkommensnachricht uebertragen
   template:
     src: motd
     dest: /etc/motd
-
-- name: Hosts Datei übertragen
-  template:
-    src: hosts
-    dest: /etc/hosts 
 
 # Das Modul funktioniert unter Debian aktuell nicht, da es /etc/timezone statt /etc/localtime
 # bearbeitet:

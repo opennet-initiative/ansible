@@ -26,3 +26,6 @@ apache2_sites:
       - ^/\.10megabyte$
 
 debian_release: buster
+
+# needed since hoster will override files
+hostfiles_immutable: true

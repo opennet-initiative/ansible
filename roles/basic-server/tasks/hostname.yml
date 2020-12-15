@@ -1,0 +1,31 @@
+# Notwendig für das setzen eines Servernames
+# Vgl. auch https://github.com/ansible/ansible/issues/25543
+- name: hostname -- dbus-Paket installieren
+  apt: pkg=dbus state=present
+
+# Bearbeitungsschutz ggf. aufgeben
+- name: hostname -- Hostdateien Bearbeitung erlauben
+  file:
+    path: "{{ item }}"
+    attr: -i
+  changed_when: false
+  with_items: "{{ hostfiles }}"
+  when: hostfiles_immutable
+
+- name: hostname -- Servernamen setzen
+  hostname:
+    name: "{{ short_hostname }}"
+
+- name: hostname -- Hosts Datei übertragen
+  template:
+    src: hosts
+    dest: /etc/hosts
+
+# Bearbeitungsschutz wieder setzen
+- name: hostname  -- Hostdateien Bearbeitung schützen
+  file:
+    path: "{{ item }}"
+    attr: +i
+  changed_when: false 
+  with_items: "{{ hostfiles }}"
+  when: hostfiles_immutable

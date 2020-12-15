@@ -28,3 +28,9 @@ opennet_locale_language: de_DE:en_EN
 # APT Repository
 apt_debian_server: "deb.debian.org"
 apt_debian_components: "main"
+
+# Host Dateien
+hostfiles:
+  - /etc/hostname
+  - /etc/hosts
+hostfiles_immutable: false
