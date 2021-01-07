@@ -1,29 +1,39 @@
-- name: Installiere Hugo + Python
+- name: Installiere Python und Bibliotheken
   apt:
     pkg:
-    - hugo
     - python3
     - python3-lxml #to have a fixed parser for bs4
     - python3-bs4 #BeautifulSoup for parsing (even malformed) HTML
+    - python3-requests
+
+- name: Installiere xz-utils damit Hugo via URL installierbar ist
+  apt:
+    pkg: xz-utils
+
+- name: Installiere neueres Hugo
+  apt:
+    #install newer version of hugo because for syna theme
+    #syna 0.17.4 needs at least hugo 0.76
+    #on Debian10 only hugo 0.56 is available
+    deb: https://github.com/gohugoio/hugo/releases/download/v0.79.1/hugo_extended_0.79.1_Linux-64bit.deb
+
+- name: Hugo Benutzer anlegen
+  user:
+    name: "hugo"
+    shell: "/bin/bash"
 
 - name: Clone hugo static-frontpage Repo und Submodules
   git:
     repo: 'https://git.hack-hro.de/opennet-initiative/static-frontpage'
-    dest: /opt/hugo
-
-# Spaeter soll der User neu generierte Seiten nach
-#  /var/www/www.opennet-initaitive.de kopieren koennen
-- name: Setze www-data als Eigentuemer von /opt/hugo
-  file:
-    path: /opt/hugo
-    owner: www-data
-    recurse: yes
+    dest: /home/hugo/static-frontpage
+  become_user: hugo
+  become: yes
 
 - name: Erstelle Verzeichnis für statische Webseiten
   file:
     state: directory
     path: /var/www/www.opennet-initiative.de
-    owner: www-data
+    owner: hugo
 
 #TODO
 #- name: Aktiviere cron-Job für regelmäßige Hugo-RSS-Aktualisierung
