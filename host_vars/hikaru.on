@@ -8,11 +8,13 @@ olsr_interfaces:
 
 apache2_sites:
   - { name: docs }
+  - { name: www2 }
 apache2_php: true
 apache2_php_filesize: 20M
 
 letsencrypt_certificates:
   - { on_tld_base: docs }
+  - { on_tld_base: www2 }
 
 mediawiki_extensions_wikimedia:
  - MobileFrontend
