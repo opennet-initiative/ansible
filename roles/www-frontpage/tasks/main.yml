@@ -44,10 +44,3 @@
     minute: "5"
     hour: "2"
     user: hugo
-
-- name: Starte Cron-Job zur Aktualisierung der RSS Daten
-  command: ./on-hugo-deploy-prod.sh
-  become_user: hugo
-  become: yes
-  args:
-    chdir: /home/hugo/static-frontpage
