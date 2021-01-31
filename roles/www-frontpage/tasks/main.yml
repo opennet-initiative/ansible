@@ -28,6 +28,7 @@
     dest: /home/hugo/static-frontpage
   become_user: hugo
   become: yes
+  become_method: su
 
 - name: Erstelle Verzeichnis für statische Webseiten
   file:
