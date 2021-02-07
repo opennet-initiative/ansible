@@ -51,7 +51,7 @@
 - hosts: hikaru.on
   roles:
     - mediawiki
-    - www-frontpage
+    - www-server
 
 - hosts: izumi.on
   roles:
