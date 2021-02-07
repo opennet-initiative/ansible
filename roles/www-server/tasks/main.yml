@@ -36,6 +36,11 @@
     path: /var/www/www.opennet-initiative.de
     owner: hugo
 
+- name: Erstelle Unterverzeichnisse für weitere Webinhalte
+  file:
+    state: directory
+    path: /var/www/www.opennet-initiative.de/download
+
 - name: Installiere Cron-Job für regelmäßige RSS-Aktualisierung
   cron:
     name: "on-hugo-deploy-prod.sh"
