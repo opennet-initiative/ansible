@@ -61,3 +61,8 @@
 - hosts: gai.on-i.de
   roles:
     - ugw-server-ipv6
+
+# Gluon+Babel Tests
+- hosts: itsuki.on-i.de
+  roles:
+    - basic-server
