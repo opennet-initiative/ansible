@@ -13,4 +13,9 @@ ff02::2		ip6-allrouters
 ff02::3		ip6-allhosts
 
 # Opennet Mesh FQDN
+{% if olsr_main_ip is defined %}
 {{ olsr_main_ip }}	{{ short_hostname }}.on {{ short_hostname }}
+{% endif %}
+{% if olsr_main_ipv6 is defined %}
+{{ olsr_main_ipv6 }}	{{ short_hostname }}.on {{ short_hostname }}
+{% endif %}
