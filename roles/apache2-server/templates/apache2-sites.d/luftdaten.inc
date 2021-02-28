@@ -15,6 +15,14 @@ DocumentRoot /var/www/luftdaten.opennet-initiative.de
 	ReadmeName /FOOTER.html
 </Directory>
 
+# AmKabutzenhof Image Cache
+Alias /amkabutzenhof /var/www/html/amkabutzenhof
+<Directory /var/www/html/amkabutzenhof>
+	Order allow,deny
+	Allow from all
+</Directory>
+ProxyPass /amkabutzenhof !
+
 # InfluxDB
 ProxyPass /db/ http://localhost:8086/
 ProxyPassReverse /db/ http://localhost:8086/
