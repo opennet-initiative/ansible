@@ -5,6 +5,7 @@
     - python3-lxml #to have a fixed parser for bs4
     - python3-bs4 #BeautifulSoup for parsing (even malformed) HTML
     - python3-requests
+    - python3-pip #for ics module installation
 
 - name: Installiere xz-utils damit Hugo via URL installierbar ist
   apt:
@@ -21,6 +22,18 @@
   user:
     name: "hugo"
     shell: "/bin/bash"
+
+- name: Installiere Python Bibliothek ics via pip
+  pip:
+    name: ics
+    executable: pip3
+  become_user: hugo
+  become: yes
+  become_method: su
+  vars:
+    #explicitely name python3 here. Else ansible is searching for python2-setuptools
+    #because python2 is default value for ansible_python_interpreter
+    ansible_python_interpreter: /usr/bin/python3
 
 - name: Clone hugo static-frontpage Repo und Submodules
   git:
