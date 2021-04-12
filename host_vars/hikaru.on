@@ -15,7 +15,8 @@ apache2_php_filesize: 20M
 
 letsencrypt_certificates:
   - { on_tld_base: docs }
-  - { on_tld_base: www }
+#  - { on_tld_base: www }  #TODO uncomment when www is finally migrated
+  - { on_tld_base: www2 }  #TODO delete when www is finally migrated
 
 mediawiki_extensions_wikimedia:
  - MobileFrontend
