@@ -24,4 +24,4 @@ olsr_extra_settings: |
   }
 
 letsencrypt_certificates:
-  - { on_tld_base: [wiki, mail, list, olsr, gallery] }
+  - { on_tld_base: [wiki, mail, list, gallery] }
