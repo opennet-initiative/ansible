@@ -31,6 +31,8 @@ ugw_external_forward_allow_ipv4:
   - 195.201.226.63
   # router.eu.thethings.network: LoRaWan
   - 52.169.76.203
+  # opennet.uisp.com : Ubiquiti UISP Verwaltung
+  - 167.172.186.250
 
 openvpn_ugw_interface: tap-mesh
 openvpn_users_interface: tun-users
