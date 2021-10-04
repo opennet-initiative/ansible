@@ -33,5 +33,6 @@ homematic_allowed_users:
   - reneborrmann.client.on
   - tobiasmeyer.client.on
   - friedrichmeincke.client.on
+  - thomasschmidt.client.on
 
 debian_release: buster
