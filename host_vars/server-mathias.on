@@ -8,9 +8,11 @@ olsr_interfaces:
 
 letsencrypt_certificates:
   - { on_tld_base: luftdaten }
+  - { on_tld_base: petri }
 
 apache2_sites:
-  - name: luftdaten
+  - { name: luftdaten }
+  - { name: petri }
 #    redirect_http_to_https: false
 apache2_php: true
 # proxy needed for InfluxDB and Grafana
@@ -19,5 +21,6 @@ apache2_mods:
 
 olsr_nameservice_announcements:
   - { on_tld_base: luftdaten }
+  - { on_tld_base: petri }
 
 debian_release: buster
