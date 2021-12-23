@@ -6,4 +6,4 @@ on_default_top_level_domains:
         - on-i.de
         - rostock.freifunk.net
         - schwerin.freifunk.net
-        - wismar.freifunk.net
+#        - wismar.freifunk.net
