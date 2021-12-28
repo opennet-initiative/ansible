@@ -21,6 +21,7 @@
     - zip
     - cron
     - dialog
+    - aptitude
 
 - name: apt -- server-relevante Pakete installieren (ab Jessie)
   apt:
