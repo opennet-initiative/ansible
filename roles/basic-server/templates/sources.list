@@ -5,4 +5,4 @@
 
 deb https://{{ apt_debian_server }}/debian {{ debian_release }} {{ apt_debian_components }}{% if debian_additional_components is defined %} {{ debian_additional_components }}{% endif %}
 
-deb https://{{ apt_debian_server }}/debian-security {{ debian_release }}/updates {{ apt_debian_components }}{% if debian_additional_components is defined %} {{ debian_additional_components }}{% endif %}
+deb https://{{ apt_debian_server }}/debian-security {{ debian_release }}{% if debian_release == 'buster' %}/updates{% else %}-security{% endif %} {{ apt_debian_components }}{% if debian_additional_components is defined %} {{ debian_additional_components }}{% endif %}
