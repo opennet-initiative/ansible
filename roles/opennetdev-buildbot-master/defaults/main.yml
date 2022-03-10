@@ -1,0 +1,2 @@
+opennetdev_buildbot_master_name: "opennet"
+opennetdev_buildbot_master_path: "/var/lib/buildbot/masters/{{ opennetdev_buildbot_master_name }}"

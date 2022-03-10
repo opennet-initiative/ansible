@@ -1,0 +1,8 @@
+= Debugging =
+
+F: Ist der Master erfolgreich gestartet?
+A: Prüfe erreichbarkeit von http://goat.on:8010/#/workers
+   Prüfe `systemctl status buildbot-worker@opennet`
+   Prüfe, ob Prozess läuft `ps -ef | grep buildbot-worker`.
+   Prüfe auf Worker Log unter /var/lib/buildbot/masters/opennet/twistd.log
+

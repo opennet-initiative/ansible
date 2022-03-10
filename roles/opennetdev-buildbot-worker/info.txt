@@ -1,0 +1,10 @@
+= Debugging =
+
+F: Ist der Worker mit dem Master verbunden?
+A: Prüfe unter http://goat.on:8010/#/workers  (wobei goat.on hier der Master ist)
+
+F: Was kann man prüfen, wenn der Worker sich anscheinend nicht mit dem Master verbinden?
+A: Prüfe auf Worker `systemctl status buildbot-worker@on_worker1`
+   Prüfe, ob Prozess läuft `ps -ef | grep buildbot-worker`.
+   Prüfe auf Worker Log unter /var/lib/buildbot/workers/on_worker1/twistd.log
+

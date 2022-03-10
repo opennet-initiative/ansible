@@ -1,0 +1,10 @@
+- name: ferm - Port öffnen
+  template:
+          src: ferm/380_buildbot_master.inc
+          dest: /etc/ferm/ferm.d/
+  register: ferm_buildbot
+
+# Ferm immer sofort neu laden, da später LE abhängig
+- name: ferm - Dienst neu laden
+  service: name=ferm state=reloaded
+  when: ferm_buildbot.changed 

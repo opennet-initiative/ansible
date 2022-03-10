@@ -40,3 +40,6 @@ opennetdev_repositories:
   - on_twitterbot
 
 debian_release: buster
+
+# refactor password usage in ansible below. Maybe use ansible-vault.
+buildbot-example-worker-password: "hereshouldbeasecurepassword"

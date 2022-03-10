@@ -1,0 +1,70 @@
+- name: buildbot - Software installieren
+  apt:
+    name: buildbot-worker
+    install_recommends: no
+
+- name: buildbot - Konfiguration erstellen
+  command: "buildbot-worker create-worker {{ opennetdev_buildbot_worker_path }} {{opennetdev_buildbot_master_host}} {{opennetdev_buildbot_worker1_name}} {{opennetdev_buildbot_worker1_password}}"
+  notify: restart buildbot
+
+- name: buildbot - Owner der Dateien aendern
+  file:
+    path: "{{ opennetdev_buildbot_worker_path }}"
+    state: directory
+    recurse: yes
+    owner: buildbot
+
+- name: buildbot - Worker Dienst freischalten
+  lineinfile:
+    dest: "/etc/default/buildbot-worker"
+    backrefs: yes
+    regexp: "WORKER_ENABLED[1]"
+    line: "WORKER_ENABLED[1]=1"
+  notify: restart buildbot
+
+- name: buildbot - Worker name setzen
+  lineinfile:
+    dest: "/etc/default/buildbot-worker"
+    backrefs: yes
+    regexp: "WORKER_NAME[1]"
+    line: "WORKER_NAME[1]=\"{{ opennetdev_buildbot_worker1_name }}\""
+  notify: restart buildbot
+
+- name: buildbot - Worker basedir setzen
+  lineinfile:
+    dest: "/etc/default/buildbot-worker"
+    backrefs: yes
+    regexp: "WORKER_BASEDIR[1]"
+    line: "WORKER_BASEDIR[1]=\"{{ opennetdev_buildbot_worker_path }}\""
+  notify: restart buildbot
+
+- name: buildbot - Worker Autostart aktivieren
+  systemd:
+    name: "buildbot-worker@{{ opennetdev_buildbot_worker1_name }}"
+    enabled: yes
+
+# folgendes wird nicht mehr benötigt, sobald wir docker container nutzen
+- name: buildbot - Worker dev tools installieren
+  apt:
+    name: 
+      # packages mentioned in https://downloads.opennet-initiative.de/openwrt/testing/latest/doc/md__entwicklung.html#dependencies
+      - build-essential 
+      - git 
+      - flex 
+      - gcc-multilib 
+      - subversion 
+      - doxygen 
+      - file 
+      - gawk 
+      - unzip 
+      - python 
+      - quilt
+      - libncurses5-dev 
+      - zlib1g-dev 
+      - liblzo2-dev 
+      - libssl-dev
+      - rsync 
+      - qemu-utils 
+      - python3-distutils 
+      - python3-lib2to3
+    state: present
