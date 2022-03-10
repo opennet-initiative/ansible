@@ -7,3 +7,7 @@ on_default_top_level_domains:
         - rostock.freifunk.net
         - schwerin.freifunk.net
 #        - wismar.freifunk.net
+
+opennetdev_buildbot_worker1_name: "on_worker1"
+opennetdev_buildbot_worker1_password: "{{ vault_opennetdev_buildbot_worker1_password }}"
+# Info: wenn mehr Worker hinzugefuegt werden sollen, dann muss die master.cfg im Master auch angepasst werden
