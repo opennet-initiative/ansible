@@ -17,29 +17,6 @@ letsencrypt_certificates:
 apache2_sites:
   - { name: dev2 }
 apache2_mods:
- - { name: wsgi }
-
-opennetdev_name: "dev2"
-opennetdev_trac_mailto: "ap27@opennet-initiative.de"
-opennetdev_allowed_users:
-  - larskruse.client.on
-  - mathiasmahnke.client.on
-  - martingarbe.client.on
-opennetdev_repositories:
-  - gitolite-admin
-  - on_ansible
-  - on_attic
-  - on_firmware
-  - on_geronimo
-  - on_map
-  - on_mitgliedsantrag
-  - on_mitgliedsverwaltung
-  - on_opennetca
-  - on_radar
-  - on_test
-  - on_twitterbot
+ - { name: proxy_http }
 
 debian_release: buster
-
-# refactor password usage in ansible below. Maybe use ansible-vault.
-buildbot-example-worker-password: "hereshouldbeasecurepassword"
