@@ -1,0 +1,12 @@
+= Wording =
+
+Wir bezeichnen den "buildbot master" bei uns als "buildbot controller".
+
+= Debugging =
+
+F: Ist der Controller erfolgreich gestartet?
+A: Prüfe erreichbarkeit von http://goat.on:8010/#/workers
+   Prüfe `systemctl status buildbot-worker@opennet`
+   Prüfe, ob Prozess läuft `ps -ef | grep buildbot-worker`.
+   Prüfe auf Worker Log unter /var/lib/buildbot/controllers/opennet/twistd.log
+

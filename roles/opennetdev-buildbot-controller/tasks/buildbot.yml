@@ -12,19 +12,19 @@
   command: "pip3 install buildbot-www buildbot-waterfall-view buildbot-console_view buildbot-grid-view"
 
 - name: buildbot - Konfiguration erstellen
-  command: "buildbot create-master --relocatable {{ opennetdev_buildbot_master_path }}"
+  command: "buildbot create-master --relocatable {{ opennetdev_buildbot_controller_path }}"
   args:
-    creates: "{{ opennetdev_buildbot_master_path }}/buildbot.tac"
+    creates: "{{ opennetdev_buildbot_controller_path }}/buildbot.tac"
   notify: restart buildbot
 
 - name: buildbot - Owner der Dateien aendern
   file:
-    path: "{{ opennetdev_buildbot_master_path }}"
+    path: "{{ opennetdev_buildbot_controller_path }}"
     state: directory
     recurse: yes
     owner: buildbot
 
-- name: buildbot - Master Dienst freischalten
+- name: buildbot - Controller Dienst freischalten
   lineinfile:
     dest: "/etc/default/buildbot"
     backrefs: yes
@@ -32,29 +32,29 @@
     line: "MASTER_ENABLED[1]=1"
   notify: restart buildbot
 
-- name: buildbot - Master name setzen
+- name: buildbot - Controller Name setzen
   lineinfile:
     dest: "/etc/default/buildbot"
     backrefs: yes
     regexp: "MASTER_NAME[1]"
-    line: "MASTER_NAME[1]=\"{{ opennetdev_buildbot_master_name }}\""
+    line: "MASTER_NAME[1]=\"{{ opennetdev_buildbot_controller_name }}\""
   notify: restart buildbot
 
-- name: buildbot - Master basedir setzen
+- name: buildbot - Controller basedir setzen
   lineinfile:
     dest: "/etc/default/buildbot"
     backrefs: yes
     regexp: "MASTER_BASEDIR[1]"
-    line: "MASTER_BASEDIR[1]=\"{{ opennetdev_buildbot_master_path }}\""
+    line: "MASTER_BASEDIR[1]=\"{{ opennetdev_buildbot_controller_path }}\""
   notify: restart buildbot
 
 - name: buildbot - master.cfg erstellen
   template:
     src: master.cfg.j2
-    dest: "{{ opennetdev_buildbot_master_path }}/master.cfg"
+    dest: "{{ opennetdev_buildbot_controller_path }}/master.cfg"
   notify: restart buildbot
 
-- name: buildbot - Master Autostart aktivieren
+- name: buildbot - Controller Autostart aktivieren
   systemd:
-    name: "buildbot@{{ opennetdev_buildbot_master_name }}"
+    name: "buildbot@{{ opennetdev_buildbot_controller_name }}"
     enabled: yes

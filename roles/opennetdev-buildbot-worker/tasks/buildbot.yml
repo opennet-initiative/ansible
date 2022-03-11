@@ -4,15 +4,8 @@
     install_recommends: no
 
 - name: buildbot - Konfiguration erstellen
-  command: "buildbot-worker create-worker {{ opennetdev_buildbot_worker_path }} {{opennetdev_buildbot_master_host}} {{opennetdev_buildbot_worker1_name}} {{opennetdev_buildbot_worker1_password}}"
+  command: "buildbot-worker create-worker {{ opennetdev_buildbot_worker_path }} {{opennetdev_buildbot_controller_host}} {{opennetdev_buildbot_worker1_name}} {{opennetdev_buildbot_worker1_password}}"
   notify: restart buildbot
-
-- name: buildbot - Owner der Dateien aendern
-  file:
-    path: "{{ opennetdev_buildbot_worker_path }}"
-    state: directory
-    recurse: yes
-    owner: buildbot
 
 - name: buildbot - Worker Dienst freischalten
   lineinfile:

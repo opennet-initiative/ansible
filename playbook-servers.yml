@@ -36,7 +36,7 @@
 
 - hosts: goat.on
   roles:
-    - opennetdev-buildbot-master
+    - opennetdev-buildbot-controller
   tags:
     - buildbot
 

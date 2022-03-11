@@ -1,6 +1,6 @@
 - name: ferm - Port öffnen
   template:
-          src: ferm/380_buildbot_master.inc
+          src: ferm/380_buildbot_controller.inc
           dest: /etc/ferm/ferm.d/
   register: ferm_buildbot
 
