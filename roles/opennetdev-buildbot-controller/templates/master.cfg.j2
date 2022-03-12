@@ -66,7 +66,7 @@ factory.addStep(steps.ShellCommand(command=["make", "init"]))
 #  - use 2 CPUs. This is specific for hoshino at the moment.
 #  - set timeout to 1 hour (3600sec) because last build step (make[4] -C target/linux install) needs much time
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "ath79"], timeout=3600))  
-# TODO: export of binaries - factory.addStep(steps.ShellCommand(command=["on_firmware/opennet/tools/trac-bitten-slave/export-build.sh", "ath79"]))
+factory.addStep(steps.ShellCommand(command=["on_firmware/opennet/tools/buildbot-worker/export-build-buildbot.sh"]))
 factory.addStep(steps.ShellCommand(command=["make", "unpatch"]))
 
 c['builders'] = []
