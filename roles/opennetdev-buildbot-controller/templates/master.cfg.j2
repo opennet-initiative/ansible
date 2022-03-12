@@ -102,6 +102,18 @@ c['buildbotURL'] = "https://dev2.opennet-initiative.de/"
 c['www'] = dict(port="tcp:8010:interface=127.0.0.1",
                 plugins=dict(waterfall_view={}, console_view={}, grid_view={}))
 
+# The default configuration allows everyone to perform any task, like creating or 
+# stopping builds via the web interface. To restrict this to a user:
+c['www']['authz'] = util.Authz(
+        allowRules = [
+            util.AnyControlEndpointMatcher(role="admins"),
+        ],
+        roleMatchers = [
+            util.RolesFromUsername(roles=['admins'], usernames=['admin'])
+        ]
+)
+c['www']['auth'] = util.UserPasswordAuth([('admin','opennet')])  # obviously not secure! Only for testing.
+
 ####### DB URL
 
 c['db'] = {
