@@ -12,6 +12,12 @@
     creates: "/{{ opennetdev_buildbot_home }}/.ssh/ssh_host_rsa_key"
   register: sshkey
 
+- name: Buildbot - Upload - change owner/group of private ssh key
+  file:
+    path: "{{ opennetdev_buildbot_home }}/.ssh/ssh_host_rsa_key"
+    owner: buildbot
+    group: buildbot
+
 - name: Buildbot - Upload - copy new ssh key to download server
   debug:
     msg: New SSH key was created. This key needs to be added to ruri:/home/trac-bitten-slave/.ssh/authorized_keys manually!!! Stopping here! Rerun ansible after implementing this change.
