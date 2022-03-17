@@ -1,4 +1,5 @@
 # Opennet ansible
+[![CodeQL](https://github.com/opennet-initiative/ansible/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/opennet-initiative/ansible/actions/workflows/codeql-analysis.yml)
 
 Opennet Server Verwaltung per [Ansible](https://www.ansible.com).
 
