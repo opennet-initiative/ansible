@@ -3,6 +3,3 @@
 # {{ ansible_managed }}
 
 exec git update-server-info
-
-REV=$(git rev-parse HEAD)
-exec trac-admin {{ opennetdev_trac_path }} changeset added "{{ item }}" $REV
