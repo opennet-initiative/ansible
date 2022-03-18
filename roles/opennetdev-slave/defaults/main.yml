@@ -1,12 +1,6 @@
 # common variables, may be overridden on host-level
 opennetdev_name: "dev"
 
-# buildbot variables
-opennetdev_slave_buildbot_path: "/var/lib/buildbot/slaves"
-opennetdev_slave_buildbot_pass: "opennet"
-opennetdev_slave_buildbot_host: "Opennet DEV Slave ({{ short_hostname }})"
-opennetdev_slave_buildbot_admin: "Opennet Admin Group <admin@opennet-initiative.de>"
-
 # web variables
 opennetdev_slave_web_path: "/var/www/downloads"
 opennetdev_slave_web_user: "www-data"
