@@ -3,64 +3,6 @@ opennetdev_name: "dev"
 opennetdev_allowed_users: []
 opennetdev_repositories: []
 
-# trac variables
-opennetdev_trac_path: "/var/trac"
-opennetdev_trac_path_web: "/var/www/trac"
-opennetdev_trac_user_web: "www-data"
-opennetdev_trac_desc: "Opennet Development"
-opennetdev_trac_db: "sqlite:db/trac.db"
-opennetdev_trac_ini: "trac.ini"
-opennetdev_trac_cgi: "trac.wsgi"
-opennetdev_trac_admin: "admin@opennet-initiative.de"
-opennetdev_trac_mailfrom: "{{ opennetdev_name }}@opennet-iniative.de"
-opennetdev_trac_mailto: "{{ opennetdev_name }}@opennet-iniative.de"
-opennetdev_trac_subject: ""
-opennetdev_trac_footer: "<a href=\"https://www.opennet-initiative.de\">Opennet Initiative e.V.</a>"
-opennetdev_trac_icon: "favicon.ico"
-opennetdev_trac_url: "https://{{ opennetdev_name }}.opennet-initiative.de"
-opennetdev_trac_logo: "Opennet_logo_quer.gif"
-opennetdev_trac_sizefile: 5242880
-opennetdev_trac_sizezip: 31457280
-opennetdev_trac_permission_user: "TRAC_ADMIN"
-opennetdev_trac_permission_anon: 
-  - "TICKET_CREATE"
-  - "TICKET_APPEND"
-  - "BROWSER_VIEW"
-  - "CHANGESET_VIEW"
-  - "FILE_VIEW"
-  - "LOG_VIEW"
-  - "MILESTONE_VIEW"
-  - "REPORT_SQL_VIEW"
-  - "REPORT_VIEW"
-  - "ROADMAP_VIEW"
-  - "SEARCH_VIEW"
-  - "TICKET_VIEW"
-  - "TIMELINE_VIEW"
-  - "WIKI_VIEW"
-  #- "BUILD_VIEW"
-opennetdev_trac_removecomponents:
-  - "component1"
-  - "component2"
-opennetdev_trac_removemilestones:
-  - "milestone1"
-  - "milestone2"
-  - "milestone3"
-  - "milestone4"
-opennetdev_trac_removeversions: []
-opennetdev_trac_defaultcomponent: "on_test"
-opennetdev_trac_defaultticket: "task"
-opennetdev_trac_dbimport_delete:
-  - repository
-  - auth_cookie
-  - session
-  - session_attribute
-  - permission
-  - component
-  - version
-opennetdev_trac_dbimport_ipanon:
-  - attachment
-  - wiki
-
 # git variables
 opennetdev_git_user: "git"
 opennetdev_git_shell: "/bin/bash"
@@ -69,7 +11,3 @@ opennetdev_git_path_web: "/var/www/git"
 opennetdev_git_user_web: "www-data"
 opennetdev_git_mode: "0750"
 opennetdev_git_umask: "0027"
-
-# buildbot variables
-opennetdev_buildbot_path: "/var/lib/buildbot/masters"
-opennetdev_buildbot_pass: "opennet"
