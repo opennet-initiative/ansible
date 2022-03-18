@@ -1,18 +1,12 @@
-= Überblick =
+# Überblick
 Diese Rolle installiert die Opennet DEV Umgebung.
 
 Enthalten sind:
-* Paketinstallation Trac und Gitolite
-* Konfiguration von Trac, Veröffentlichung für das Web
-* Import von vorhandener Trac Datenbank und Dateianhängen
-* Bereinigung der vorhandenen Trac Datenbank und Upgrade
-* Anlegen von Benutzern, Komponenten, Meilensteinen in Trac
-* Setzen von Benutzerrechten in Trac
 * Anlegen eines Git Benutzers
 * Vorbereitung der Gitolite Installation
 * Bereitstellung der Git Repositories via HTTPS
 
-= Konfiguration =
+## Konfiguration
 
 Manuelle Arbeitsschritte:
 * bestehende Git Repositories müssen manuell übertragen werden
@@ -21,7 +15,7 @@ Manuelle Arbeitsschritte:
 * abschließend "gitolite setup" ausführen
 * Übernahme der Datenbank und Anhängen aus vorhandenem Trac
 
-# TODO -- Anleitung verbessern....
+TODO -- Anleitung verbessern....
 Vorhandenes Git Verzeichnis kopieren:
 <new-host># cd /home/git; rsync -avuz --progress root@<old-host>.on:/var/git/ .
 
@@ -41,12 +35,4 @@ Gitolote Hooks aktualisieren:
 <new-host># su - git
 <new-host># gitolite setup
 
-Trac Datenbank und Anhänge ins Git übernehmen:
-<old-host># cd <old-trac>; tar zcvf attachments.tar.gz attachments/
-<client># scp root@<old-host>:<old-trac>/attachments.tar.gz <ansible-role>/files/import/
-<client># scp root@<old-host>:<old-trac>/db/trac.db <ansible-role>/files/import/
-
-= TODO =
-
-* Trac Announcer Plugin fehlt in Debian, in Buster erneuert prüfen?
-* ggf. Umstellung auf PostgreSql Datenbank
+# TODO
