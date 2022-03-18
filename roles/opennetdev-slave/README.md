@@ -1,10 +1,10 @@
-= Überblick =
+# Überblick
 Diese Rolle installiert die Opennet DEV Slave / Downloads Umgebung.
 
 Enthalten sind:
 * Vorbereitung der Downloads Webdienstes
 
-= Konfiguration =
+## Konfiguration
 
 Vorhandenes Downloads Verzeichnis kopieren:
 <client># ssh -A <new-host>
