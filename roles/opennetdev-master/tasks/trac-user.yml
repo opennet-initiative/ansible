@@ -1,8 +1,0 @@
-- name: trac-user - Benutzer prüfen
-  shell: "trac-admin {{ opennetdev_trac_path }} permission list | grep -c '{{ username }}.*{{ permission }}' || true"
-  register: result
-  changed_when: False
-
-- name: trac-user - Benutzer authorisieren
-  command: "trac-admin {{ opennetdev_trac_path }} permission add {{ username }} {{ permission}}"
-  when: result.stdout == "0"
