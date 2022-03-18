@@ -1,5 +1,2 @@
-- name: reconfigure trac
-  include: reconfigure-trac.yml
-
 - name: restart apache2
   service: name=apache2 state=restarted
