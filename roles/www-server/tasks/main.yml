@@ -37,7 +37,7 @@
 
 - name: Clone hugo static-frontpage Repo und Submodules
   git:
-    repo: 'https://git.hack-hro.de/opennet-initiative/static-frontpage'
+    repo: 'https://github.com/opennet-initiative/hugo.git'
     dest: /home/hugo/static-frontpage
   become_user: hugo
   become: yes
