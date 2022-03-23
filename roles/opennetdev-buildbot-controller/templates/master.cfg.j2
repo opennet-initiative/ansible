@@ -32,7 +32,7 @@ c['protocols'] = {'pb': {'port': 9989}}
 
 c['change_source'] = []
 c['change_source'].append(changes.GitPoller(
-        'git://github.com/opennet-initiative/firmware.git',
+        'https://github.com/opennet-initiative/firmware.git',
         workdir='gitpoller-workdir', branch='main',
         pollInterval=600))
 
@@ -59,7 +59,7 @@ c['schedulers'].append(schedulers.ForceScheduler(
 
 factory = util.BuildFactory()
 # check out the source
-factory.addStep(steps.Git(repourl='git://github.com/opennet-initiative/firmware.git', mode='incremental'))
+factory.addStep(steps.Git(repourl='https://github.com/opennet-initiative/firmware.git', mode='incremental'))
 factory.addStep(steps.ShellCommand(command=["make", "autobuilder-clean"]))
 factory.addStep(steps.ShellCommand(command=["make", "init"]))
 # build architecture with following parameters:
