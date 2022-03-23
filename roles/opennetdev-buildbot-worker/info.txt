@@ -1,3 +1,7 @@
+= Wording =
+
+Wir bezeichnen den "buildbot master" bei uns als "buildbot controller".
+
 = Debugging =
 
 F: Ist der Worker mit dem Controller verbunden?
