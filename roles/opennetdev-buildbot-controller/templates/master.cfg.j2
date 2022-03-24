@@ -49,7 +49,46 @@ c['schedulers'].append(schedulers.SingleBranchScheduler(
                             builderNames=["opennet-builder"]))
 c['schedulers'].append(schedulers.ForceScheduler(
                             name="force",
-                            builderNames=["opennet-builder"]))
+                            builderNames=["opennet-builder"],
+                            codebases=[
+                                util.CodebaseParameter(
+                                    "",
+                                    label="Main repository",
+                                    # will generate a combo box
+                                    branch=util.ChoiceStringParameter(
+                                        name="branch",
+                                        choices=["main"],
+                                        default="main"),
+                                    # will generate nothing in the form, but revision, repository,
+                                    # and project are needed by buildbot scheduling system so we
+                                    # need to pass a value ("")
+                                    revision=util.FixedParameter(name="revision", default=""),
+                                    repository=util.FixedParameter(name="repository", default=""),
+                                    project=util.FixedParameter(name="project", default=""),
+                                ),
+                            ],
+                            # will generate a text input
+                            reason=util.StringParameter(name="reason", label="reason:", required=True, size=80),
+                            # A completely customized property list.  The name of the
+                            # property is the name of the parameter
+                            properties=[
+                                util.NestedParameter(
+                                    name="options", 
+                                    label="Build Options",
+                                    layout="vertical", 
+                                    fields=[
+                                        util.BooleanParameter(name="force_make_distclean", label="force a make distclean", default=False)
+                                    ]
+                                )
+                            ]
+                            ))
+
+# helper function for checking the parameter in builder
+def enforcedMakeDistclean(step):
+    if step.getProperty('force_make_distclean'):
+        return True
+    return False
+
 
 ####### BUILDERS
 
@@ -60,6 +99,7 @@ c['schedulers'].append(schedulers.ForceScheduler(
 factory = util.BuildFactory()
 # check out the source
 factory.addStep(steps.Git(repourl='https://github.com/opennet-initiative/firmware.git', mode='incremental'))
+factory.addStep(steps.ShellCommand(command=["make", "distclean"], doStepIf=enforcedMakeDistclean))
 factory.addStep(steps.ShellCommand(command=["make", "autobuilder-clean"]))
 factory.addStep(steps.ShellCommand(command=["make", "init"]))
 # build architecture with following parameters:
