@@ -1,0 +1,170 @@
+# -*- python -*-
+# ex: set filetype=python:
+
+from buildbot.plugins import *
+
+# This is a sample buildmaster config file. It must be installed as
+# 'master.cfg' in your buildmaster's base directory.
+
+# This is the dictionary that the buildmaster pays attention to. We also use
+# a shorter alias to save typing.
+c = BuildmasterConfig = {}
+
+####### WORKERS
+
+# First we declare that the secrets are stored in a directory of the filesystem
+# each file contains one secret identified by the filename
+c['secretsProviders'] = [secrets.SecretInAFile(dirname="{{ opennetdev_buildbot_controller_path }}/_secrets/")]
+
+# The 'workers' list defines the set of recognized workers. Each element is
+# a Worker object, specifying a unique worker name and password.  The same
+# worker name and password must be configured on the worker.
+c['workers'] = [worker.Worker("{{ opennetdev_buildbot_worker1_name }}", 
+                              util.Secret("{{ opennetdev_buildbot_worker1_name }}"))]  # read password from secret file
+
+# 'protocols' contains information about protocols which master will use for
+# communicating with workers. You must define at least 'port' option that workers
+# could connect to your master with this protocol.
+# 'port' must match the value configured into the workers (with their
+# --master option)
+c['protocols'] = {'pb': {'port': 9989}}
+
+####### CHANGESOURCES
+
+# the 'change_source' setting tells the buildmaster how it should find out
+# about source code changes.  Here we point to the buildbot version of a python hello-world project.
+
+c['change_source'] = []
+c['change_source'].append(changes.GitPoller(
+        'https://github.com/opennet-initiative/firmware.git',
+        workdir='gitpoller-workdir', branch='main',
+        pollInterval=600))
+
+####### SCHEDULERS
+
+# Configure the Schedulers, which decide how to react to incoming changes.  In this
+# case, just kick off a 'runtests' build
+
+c['schedulers'] = []
+c['schedulers'].append(schedulers.SingleBranchScheduler(
+                            name="all",
+                            change_filter=util.ChangeFilter(branch='main'),
+                            treeStableTimer=None,
+                            builderNames=["opennet-builder"]))
+c['schedulers'].append(schedulers.ForceScheduler(
+                            name="force",
+                            builderNames=["opennet-builder"],
+                            codebases=[
+                                util.CodebaseParameter(
+                                    "",
+                                    label="Main repository",
+                                    # will generate a combo box
+                                    branch=util.ChoiceStringParameter(
+                                        name="branch",
+                                        choices=["main"],
+                                        default="main"),
+                                    # will generate nothing in the form, but revision, repository,
+                                    # and project are needed by buildbot scheduling system so we
+                                    # need to pass a value ("")
+                                    revision=util.FixedParameter(name="revision", default=""),
+                                    repository=util.FixedParameter(name="repository", default=""),
+                                    project=util.FixedParameter(name="project", default=""),
+                                ),
+                            ],
+                            # will generate a text input
+                            reason=util.StringParameter(name="reason", label="reason:", required=True, size=80),
+                            # A completely customized property list.  The name of the
+                            # property is the name of the parameter
+                            properties=[
+                                util.NestedParameter(
+                                    name="options", 
+                                    label="Build Options",
+                                    layout="vertical", 
+                                    fields=[
+                                        util.BooleanParameter(name="force_make_distclean", label="force a make distclean", default=False)
+                                    ]
+                                )
+                            ]
+                            ))
+
+# helper function for checking the parameter in builder
+def enforcedMakeDistclean(step):
+    if step.getProperty('force_make_distclean'):
+        return True
+    return False
+
+
+####### BUILDERS
+
+# The 'builders' list defines the Builders, which tell Buildbot how to perform a build:
+# what steps, and which workers can execute them.  Note that any particular build will
+# only take place on one worker.
+
+factory = util.BuildFactory()
+# check out the source
+factory.addStep(steps.Git(repourl='https://github.com/opennet-initiative/firmware.git', mode='incremental'))
+factory.addStep(steps.ShellCommand(command=["make", "distclean"], doStepIf=enforcedMakeDistclean))
+factory.addStep(steps.ShellCommand(command=["make", "autobuilder-clean"]))
+factory.addStep(steps.ShellCommand(command=["make", "init"]))
+# build architecture with following parameters:
+#  - use 2 CPUs. This is specific for hoshino at the moment.
+#  - set timeout to 1 hour (3600sec) because last build step (make[4] -C target/linux install) needs much time
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "ath79"], timeout=3600))  
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "mikrotik"], timeout=3600))
+factory.addStep(steps.ShellCommand(command=["opennet/tools/buildbot-worker/export-build-buildbot.sh"]))
+factory.addStep(steps.ShellCommand(command=["make", "unpatch"]))
+
+c['builders'] = []
+c['builders'].append(
+    util.BuilderConfig(name="opennet-builder",
+      workernames=["{{ opennetdev_buildbot_worker1_name }}"],
+      factory=factory))
+
+####### BUILDBOT SERVICES
+
+# 'services' is a list of BuildbotService items like reporter targets. The
+# status of each build will be pushed to these targets. buildbot/reporters/*.py
+# has a variety to choose from, like IRC bots.
+
+c['services'] = []
+
+####### PROJECT IDENTITY
+
+# the 'title' string will appear at the top of this buildbot installation's
+# home pages (linked to the 'titleURL').
+
+c['title'] = "Opennet CI"
+c['titleURL'] = "https://www.opennet-initiative.de"
+
+# the 'buildbotURL' string should point to the location where the buildbot's
+# internal web server is visible. This typically uses the port number set in
+# the 'www' entry below, but with an externally-visible host name which the
+# buildbot cannot figure out without some help.
+
+c['buildbotURL'] = "https://dev2.opennet-initiative.de/"
+
+# restrict access to localhost
+c['www'] = dict(port="tcp:8010:interface=127.0.0.1",
+                plugins=dict(waterfall_view={}, console_view={}, grid_view={}))
+
+# The default configuration allows everyone to perform any task, like creating or 
+# stopping builds via the web interface. To restrict this to a user:
+c['www']['authz'] = util.Authz(
+        allowRules = [
+            util.AnyControlEndpointMatcher(role="admins"),
+        ],
+        roleMatchers = [
+            util.RolesFromUsername(roles=['admins'], usernames=['admin'])
+        ]
+)
+c['www']['auth'] = util.UserPasswordAuth([('admin','opennet')])  # obviously not secure! Only for testing.
+
+####### DB URL
+
+c['db'] = {
+    # This specifies what database buildbot uses to store its state.
+    # It's easy to start with sqlite, but it's recommended to switch to a dedicated
+    # database, such as PostgreSQL or MySQL, for use in production environments.
+    # http://docs.buildbot.net/current/manual/configuration/global.html#database-specification
+    'db_url' : "sqlite:///state.sqlite",
+}

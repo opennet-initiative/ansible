@@ -1,0 +1,86 @@
+- name: buildbot - Software installieren
+  apt:
+    name: buildbot
+    install_recommends: no
+
+- name: buildbot - pip3 installieren
+  apt:
+    name: python3-pip
+    install_recommends: no
+
+- name: buildbot - Installiere buildbot-www und weitere UI Anhaengigkeiten
+  command: "pip3 install buildbot-www buildbot-waterfall-view buildbot-console_view buildbot-grid-view"
+
+- name: buildbot - Konfiguration erstellen
+  command: "buildbot create-master --relocatable {{ opennetdev_buildbot_controller_path }}"
+  args:
+    creates: "{{ opennetdev_buildbot_controller_path }}/buildbot.tac"
+  notify: restart buildbot
+
+- name: buildbot - Owner der Dateien aendern
+  file:
+    path: "{{ opennetdev_buildbot_controller_path }}"
+    state: directory
+    recurse: yes
+    owner: buildbot
+
+- name: buildbot - secrets Verzeichnis erstellen
+  file:
+    path: "{{ opennetdev_buildbot_controller_path }}/_secrets/"
+    state: directory
+    owner: buildbot
+
+# Wir benötigen ein Passwort für den Worker. Da wir keinerlei ansible-vault nutzen, muss ein admin
+# beim ersten Lauf von ansible diese Dateie per Hand erstellen. In der Datei muss lediglich
+# das Passwort stehe, mehr nicht.
+- name: buildbot - Vorhandensein von secret fuer worker1 pruefen (1)
+  stat:
+    path: "{{ opennetdev_buildbot_controller_path }}/_secrets/{{ opennetdev_buildbot_worker1_name }}"
+  register: secret_worker1
+
+- name: buildbot - Vorhandensein von secret fuer worker1 pruefen (2)
+  fail: msg="Passwort fehlt in {{ opennetdev_buildbot_controller_path }}/_secrets/{{ opennetdev_buildbot_worker1_name }}"
+  when: secret_worker1.stat.isreg is not defined
+
+- name: buildbot - Vorhandensein von secret fuer worker1 pruefen (3)
+  fail: msg="Datei muss buildbot User gehoeren - {{ opennetdev_buildbot_controller_path }}/_secrets/{{ opennetdev_buildbot_worker1_name }}"
+  when: secret_worker1.stat.pw_name != 'buildbot'
+
+- name: buildbot - Vorhandensein von secret fuer worker1 pruefen (4)
+  fail: msg="Datei darf nur 'u+rw' Rechte haben (aktuell '{{ secret_worker1.stat.mode }}'') - {{ opennetdev_buildbot_controller_path }}/_secrets/{{ opennetdev_buildbot_worker1_name }}"
+  when: secret_worker1.stat.mode != '0600'
+
+- name: buildbot - Controller Dienst freischalten
+  lineinfile:
+    dest: "/etc/default/buildbot"
+    backrefs: yes
+    regexp: "MASTER_ENABLED[1]"
+    line: "MASTER_ENABLED[1]=1"
+  notify: restart buildbot
+
+- name: buildbot - Controller Name setzen
+  lineinfile:
+    dest: "/etc/default/buildbot"
+    backrefs: yes
+    regexp: "MASTER_NAME[1]"
+    line: "MASTER_NAME[1]=\"{{ opennetdev_buildbot_controller_name }}\""
+  notify: restart buildbot
+
+- name: buildbot - Controller basedir setzen
+  lineinfile:
+    dest: "/etc/default/buildbot"
+    backrefs: yes
+    regexp: "MASTER_BASEDIR[1]"
+    line: "MASTER_BASEDIR[1]=\"{{ opennetdev_buildbot_controller_path }}\""
+  notify: restart buildbot
+
+- name: buildbot - master.cfg erstellen
+  template:
+    src: master.cfg.j2
+    dest: "{{ opennetdev_buildbot_controller_path }}/master.cfg"
+  notify: restart buildbot
+
+- name: buildbot - Controller Autostart aktivieren
+  systemd:
+    name: "buildbot@{{ opennetdev_buildbot_controller_name }}"
+    enabled: yes

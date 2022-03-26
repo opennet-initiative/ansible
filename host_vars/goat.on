@@ -17,26 +17,10 @@ letsencrypt_certificates:
 apache2_sites:
   - { name: dev2 }
 apache2_mods:
- - { name: wsgi }
+ - { name: proxy }
+ - { name: proxy_http }
+ - { name: proxy_http2 }
+ - { name: proxy_wstunnel }
 
-opennetdev_name: "dev2"
-opennetdev_trac_mailto: "ap27@opennet-initiative.de"
-opennetdev_allowed_users:
-  - larskruse.client.on
-  - mathiasmahnke.client.on
-  - martingarbe.client.on
-opennetdev_repositories:
-  - gitolite-admin
-  - on_ansible
-  - on_attic
-  - on_firmware
-  - on_geronimo
-  - on_map
-  - on_mitgliedsantrag
-  - on_mitgliedsverwaltung
-  - on_opennetca
-  - on_radar
-  - on_test
-  - on_twitterbot
 
 debian_release: buster

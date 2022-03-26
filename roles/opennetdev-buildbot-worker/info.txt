@@ -1,0 +1,14 @@
+= Wording =
+
+Wir bezeichnen den "buildbot master" bei uns als "buildbot controller".
+
+= Debugging =
+
+F: Ist der Worker mit dem Controller verbunden?
+A: Prüfe unter http://goat.on:8010/#/workers  (wobei goat.on hier der Controller ist)
+
+F: Was kann man prüfen, wenn der Worker sich anscheinend nicht mit dem Controller verbinden?
+A: Prüfe auf Worker `systemctl status buildbot-worker@on_worker1`
+   Prüfe, ob Prozess läuft `ps -ef | grep buildbot-worker`.
+   Prüfe auf Worker Log unter /var/lib/buildbot/workers/on_worker1/twistd.log
+

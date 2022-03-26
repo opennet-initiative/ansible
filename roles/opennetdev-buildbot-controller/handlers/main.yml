@@ -1,0 +1,2 @@
+- name: restart buildbot
+  service: name=buildbot@opennet state=restarted

@@ -1,0 +1,3 @@
+opennetdev_buildbot_worker_path: "/var/lib/buildbot/workers/{{ opennetdev_buildbot_worker1_name }}"
+opennetdev_buildbot_controller_host: "goat.on"
+opennetdev_buildbot_home: "/var/lib/buildbot"  # home directory of buildbot user

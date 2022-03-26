@@ -1,0 +1,2 @@
+- name: restart buildbot
+  service: "name=buildbot-worker@{{ opennetdev_buildbot_worker1_name }} state=restarted"

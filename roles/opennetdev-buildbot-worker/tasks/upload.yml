@@ -1,0 +1,32 @@
+- name: Buildbot - Upload - create ssh dir
+  file:
+    path: "{{ opennetdev_buildbot_home }}/.ssh"
+    state: directory
+    owner: buildbot
+    group: buildbot
+    mode: '0700'
+
+- name: Buildbot - Upload - generate RSA host key
+  command: "ssh-keygen -q -t rsa -b 4096 -f /{{ opennetdev_buildbot_home }}/.ssh/ssh_host_rsa_key -C \"{{ opennetdev_buildbot_worker1_name }}@{{ inventory_hostname }}\" -N \"\""
+  args:
+    creates: "/{{ opennetdev_buildbot_home }}/.ssh/ssh_host_rsa_key"
+  register: sshkey
+
+- name: Buildbot - Upload - change owner/group of private ssh key
+  file:
+    path: "{{ opennetdev_buildbot_home }}/.ssh/ssh_host_rsa_key"
+    owner: buildbot
+    group: buildbot
+
+- name: Buildbot - Upload - copy new ssh key to download server
+  debug:
+    msg: New SSH key was created. This key needs to be added to ruri:/home/trac-bitten-slave/.ssh/authorized_keys manually!!! Stopping here! Rerun ansible after implementing this change.
+  when: sshkey.changed
+
+- name: Buildbot - Upload - stop of manual steps
+  fail:
+    msg: Please do manual steps.
+  when: sshkey.changed
+
+- name: Buildbot - Upload - Test rsync connection to check ssh key is working
+  command: "ssh -q -i /{{ opennetdev_buildbot_home }}/.ssh/ssh_host_rsa_key -o PasswordAuthentication=no trac-bitten-slave@ruri.on ls"

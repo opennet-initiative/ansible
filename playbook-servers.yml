@@ -36,11 +36,15 @@
 
 - hosts: goat.on
   roles:
-#    - opennetdev-master
+    - opennetdev-buildbot-controller
+  tags:
+    - buildbot
 
 - hosts: hoshino.on
   roles:
-#    - opennetdev-slave
+    - opennetdev-buildbot-worker
+  tags:
+    - buildbot
 
 # wireguard-server in development
 - hosts: kazama.on

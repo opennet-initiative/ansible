@@ -1,0 +1,2 @@
+- include: buildbot.yml
+- include: upload.yml
