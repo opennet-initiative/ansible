@@ -3,4 +3,3 @@ ansible.log
 *.pyc
 *.retry
 playbook-test*
-.vault_pass

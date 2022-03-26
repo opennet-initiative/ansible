@@ -24,6 +24,32 @@
     recurse: yes
     owner: buildbot
 
+- name: buildbot - secrets Verzeichnis erstellen
+  file:
+    path: "{{ opennetdev_buildbot_controller_path }}/_secrets/"
+    state: directory
+    owner: buildbot
+
+# Wir benötigen ein Passwort für den Worker. Da wir keinerlei ansible-vault nutzen, muss ein admin
+# beim ersten Lauf von ansible diese Dateie per Hand erstellen. In der Datei muss lediglich
+# das Passwort stehe, mehr nicht.
+- name: buildbot - Vorhandensein von secret fuer worker1 pruefen (1)
+  stat:
+    path: "{{ opennetdev_buildbot_controller_path }}/_secrets/{{ opennetdev_buildbot_worker1_name }}"
+  register: secret_worker1
+
+- name: buildbot - Vorhandensein von secret fuer worker1 pruefen (2)
+  fail: msg="Passwort fehlt in {{ opennetdev_buildbot_controller_path }}/_secrets/{{ opennetdev_buildbot_worker1_name }}"
+  when: secret_worker1.stat.isreg is not defined
+
+- name: buildbot - Vorhandensein von secret fuer worker1 pruefen (3)
+  fail: msg="Datei muss buildbot User gehoeren - {{ opennetdev_buildbot_controller_path }}/_secrets/{{ opennetdev_buildbot_worker1_name }}"
+  when: secret_worker1.stat.pw_name != 'buildbot'
+
+- name: buildbot - Vorhandensein von secret fuer worker1 pruefen (4)
+  fail: msg="Datei darf nur 'u+rw' Rechte haben (aktuell '{{ secret_worker1.stat.mode }}'') - {{ opennetdev_buildbot_controller_path }}/_secrets/{{ opennetdev_buildbot_worker1_name }}"
+  when: secret_worker1.stat.mode != '0600'
+
 - name: buildbot - Controller Dienst freischalten
   lineinfile:
     dest: "/etc/default/buildbot"

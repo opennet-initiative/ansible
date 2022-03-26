@@ -12,11 +12,15 @@ c = BuildmasterConfig = {}
 
 ####### WORKERS
 
+# First we declare that the secrets are stored in a directory of the filesystem
+# each file contains one secret identified by the filename
+c['secretsProviders'] = [secrets.SecretInAFile(dirname="{{ opennetdev_buildbot_controller_path }}/_secrets/")]
+
 # The 'workers' list defines the set of recognized workers. Each element is
 # a Worker object, specifying a unique worker name and password.  The same
 # worker name and password must be configured on the worker.
 c['workers'] = [worker.Worker("{{ opennetdev_buildbot_worker1_name }}", 
-                              "{{ opennetdev_buildbot_worker1_password }}")]
+                              util.Secret("{{ opennetdev_buildbot_worker1_name }}"))]  # read password from secret file
 
 # 'protocols' contains information about protocols which master will use for
 # communicating with workers. You must define at least 'port' option that workers
