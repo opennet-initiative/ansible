@@ -112,6 +112,7 @@ factory.addStep(steps.ShellCommand(command=["make", "init"]))
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "ath79"], timeout=3600))  
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "mikrotik"], timeout=3600))
 factory.addStep(steps.ShellCommand(command=["opennet/tools/buildbot-worker/export-build-buildbot.sh"]))
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "mikrotik24"], timeout=3600))
 factory.addStep(steps.ShellCommand(command=["make", "unpatch"]))
 
 c['builders'] = []
