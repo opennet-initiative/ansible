@@ -111,7 +111,6 @@ factory.addStep(steps.ShellCommand(command=["make", "init"]))
 #  - set timeout to 1 hour (3600sec) because last build step (make[4] -C target/linux install) needs much time
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "ath79"], timeout=3600))  
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "mikrotik"], timeout=3600))
-factory.addStep(steps.ShellCommand(command=["opennet/tools/buildbot-worker/export-build-buildbot.sh"]))
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2708"], timeout=3600))
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2709"], timeout=3600))
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2710"], timeout=3600))
@@ -122,6 +121,7 @@ factory.addStep(steps.ShellCommand(command=["make", "-j2", "ramips7620"], timeou
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "x86"], timeout=3600))
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "doc"], timeout=3600))
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "mikrotik24"], timeout=3600))
+factory.addStep(steps.ShellCommand(command=["opennet/tools/buildbot-worker/export-build-buildbot.sh"]))
 factory.addStep(steps.ShellCommand(command=["make", "unpatch"]))
 
 c['builders'] = []
