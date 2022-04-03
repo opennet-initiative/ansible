@@ -7,6 +7,11 @@
           dest: /usr/local/sbin/
           mode: 0755
 
+- name: Erstelle statische Nameservice Datei für Opennet Server
+  template:
+    src: services_static.j2
+    dest: /var/run/services_static
+
 - name: Aktiviere cron-Job für regelmäßige Aktualisierung
   cron: name=on-update-domain-proxy
         job="/usr/local/sbin/on-update-domain-proxy --log-level info --log-file {{ domain_proxy_www_path }}/{{ short_hostname }}/update.log"

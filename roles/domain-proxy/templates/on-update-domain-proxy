@@ -48,9 +48,9 @@ def get_olsrd_nameservice_entries(fname):
                     match = regex.match(line.strip())
                     if match:
                         target_list.append(Result(**match.groupdict()))
-                        logger.info("Proxy-Domain gefunden ({label}, via OLSR nameservice)): "
+                        logger.info("Proxy-Domain gefunden ({label}, via {input_src})): "
                                     "{domain} -> {source_url}"
-                                    .format(label=label, **match.groupdict()))
+                                    .format(label=label, **match.groupdict(), input_src=fname))
     except FileNotFoundError:
         # the services_olsr file may be empty if there are no olsr neighbours / no known services
         pass
@@ -59,6 +59,13 @@ def get_olsrd_nameservice_entries(fname):
     https_results.sort(key=lambda item: item.domain)
     return http_results, https_results
 
+
+# Our servers should be handled manually via ansible. We do not want to rely on nameservice plugin here.
+# Via ansible we create a service file with similar format as olsrd nameservice plugin. Therefore we can
+# use the same parsing steps.
+def get_static_domain_proxy_entries(fname):
+    return get_olsrd_nameservice_entries(fname)
+    
 
 def get_apache2_config(domain_map):
     logger = logging.getLogger()
@@ -171,6 +178,8 @@ def get_parsed_arguments():
                         help="zu überschreibende Zieldatei für Logging (Vorgabe: Standardausgabe)")
     parser.add_argument("--olsr-nameservices", dest="olsr_nameservice_filename",
                         default="/var/run/services_olsr", help="Pfad der OLSR-nameservice-Datei")
+    parser.add_argument("--static-nameservices", dest="static_nameservice_filename",
+                        default="/var/run/services_static", help="Pfad der statischen nameservice-Datei")
     parser.add_argument("--target-config", dest="target_config",
                         default="/etc/apache2/sites-available/{{ domain_proxy_apache2_config_name }}.conf",
                         help="Pfad der zu überschreibenden Webserver-Konfigurationsdatei")
@@ -188,7 +197,10 @@ if __name__ == "__main__":
                         format="[%(levelname)s] %(message)s")
     logger = logging.getLogger()
     logger.info("Beginn der Domain-Proxy-Aktualisierung: %s", datetime.datetime.now())
-    http_map, https_map = get_olsrd_nameservice_entries(args.olsr_nameservice_filename)
+    http_olsr_map, https_olsr_map = get_olsrd_nameservice_entries(args.olsr_nameservice_filename)
+    http_static_map, https_static_map = get_static_domain_proxy_entries(args.static_nameservice_filename)
+    http_map = http_olsr_map + http_static_map
+    https_map = https_olsr_map + https_static_map
     if args.webserver == "nginx":
         webserver_config = get_nginx_config(http_map)
     else:
