@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+
+{% for host in groups['all'] %}
+{%  if hostvars[host]['domain_proxy_redirect'] is defined %}
+{%   for redirect in hostvars[host]['domain_proxy_redirect'] %}
+{%    for on_tld in on_default_top_level_domains %}
+{%     if redirect['service'] == 'http' %}
+http://{{ hostvars[host]['olsr_main_ip'] }}:{{ redirect['port'] }}|tcp|public-domain-http {{ redirect['on_tld_base'] }}.{{ on_tld }}
+{%     elif redirect['service'] == 'https' %}
+https://{{ hostvars[host]['olsr_main_ip'] }}:{{ redirect['port'] }}|tcp|public-domain-https {{ redirect['on_tld_base'] }}.{{ on_tld }}
+{%     endif %}
+{%    endfor %}
+{%   endfor %}
+{%  endif %}
+{% endfor %}
+
+{# todo: migrate the following domains #}
+{# -api #}
+{# -map #}
+{# -domain-proxy #}
+{# -monitor #}
+{# -downloads #}
+{# -frieda23 #}
