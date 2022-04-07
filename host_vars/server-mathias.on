@@ -19,8 +19,14 @@ apache2_php: true
 apache2_mods:
  - { name: proxy }
 
-olsr_nameservice_announcements:
-  - { on_tld_base: luftdaten }
-  - { on_tld_base: petri }
+#olsr_nameservice_announcements:
+#  - { on_tld_base: luftdaten }
+#  - { on_tld_base: petri }
+
+domain_proxy_redirect:
+  - { on_tld_base: luftdaten, ip: "{{ olsr_main_ip }}", port: 80, service: http }
+  - { on_tld_base: luftdaten, ip: "{{ olsr_main_ip }}", port: 443, service: https }
+  - { on_tld_base: petri, ip: "{{ olsr_main_ip }}", port: 80, service: http }
+  - { on_tld_base: petri, ip: "{{ olsr_main_ip }}", port: 443, service: https }
 
 debian_release: buster
