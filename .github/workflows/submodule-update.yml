@@ -9,7 +9,7 @@ on:
 
 # Run the job
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     env:
       PARENT_REPOSITORY: 'opennet-initiative/ansible'
@@ -17,10 +17,11 @@ jobs:
       PR_AGAINST_BRANCH: 'main'
       OWNER: 'opennet-initiative'
     steps:
-    - uses: actions/checkout@v2
+    - name: checkout code
+      uses: actions/checkout@v2
     - name: run action
       id: run_action
-      uses: ./
+      uses: releasehub-com/github-action-create-pr-parent-submodule@v1
       with: 
         github_token: ${{ secrets.GITHUB_TOKEN }}
         parent_repository: ${{ env.PARENT_REPOSITORY }}
