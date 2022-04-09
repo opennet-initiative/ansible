@@ -1,0 +1,29 @@
+name: 'submodule update'
+
+# When to start the job
+on: 
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Run the job
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      PARENT_REPOSITORY: 'opennet-initiative/ansible'
+      CHECKOUT_BRANCH: 'main'
+      PR_AGAINST_BRANCH: 'main'
+      OWNER: 'opennet-initiative'
+    steps:
+    - uses: actions/checkout@v2
+    - name: run action
+      id: run_action
+      uses: ./
+      with: 
+        github_token: ${{ secrets.SUBMODULE_UPDATE_SECRET }}
+        parent_repository: ${{ env.PARENT_REPOSITORY }}
+        checkout_branch: ${{ env.CHECKOUT_BRANCH}}
+        pr_against_branch: ${{ env.PR_AGAINST_BRANCH }}
+        owner: ${{ env.OWNER }}
