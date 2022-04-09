@@ -1,5 +1,16 @@
-- name: rsnapshot - installieren
-  apt: pkg=rsnapshot state=present
+- name: rsnapshot - installieren (bis Buster)
+  apt: 
+    pkg: rsnapshot 
+  when: ansible_distribution_major_version|int <= 10
+
+# TODO: Bei Debian Bullseye ist rsnapshot entfernt worden
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=986709
+# Wir nutzen daher ein Upstream DEB Paket abgelegt unter:
+#  https://downloads.opennet-initiative.de/debian/
+- name: olsr2 - Software installieren (ab Bullseye)
+  apt:
+    deb: "{{ rsnapshot_debian_url }}/{{ rsnapshot_debian11_file }}"
+  when: ansible_distribution_major_version|int >= 11
 
 - name: rsnapshot - Konfigurationsdatei übertragen
   template:
