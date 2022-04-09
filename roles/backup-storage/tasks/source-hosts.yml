@@ -4,13 +4,21 @@
   delegate_to: root@{{ backup_source_host.name }}
 
 # mittels des "rrsync"-Skripts lassen sich die Aktionen des Backup-Servers auf ein Minimum (Lese-Zugriff) beschraenken
-- name: rrsync bereitstellen 
-  copy:
-    src: /usr/share/doc/rsync/scripts/rrsync
-    dest: /usr/local/bin/rrsync
-    mode: +x
-    remote_src: yes
-  delegate_to: root@{{ backup_source_host.name }}
+# Ab Debian Bullseye wird es bereits als Symlink in /usr/bin/rrsync bereit gestellt
+#- name: rrsync bereitstellen
+#  copy:
+#    src: /usr/share/doc/rsync/scripts/rrsync
+#    dest: /usr/local/bin/rrsync
+#    mode: +x
+#    remote_src: yes
+#  delegate_to: root@{{ backup_source_host.name }}
+
+# Somit müssen wir mit Debian Bullseye den alten Symlink wieder entfernen
+#- name: rrsync alte Kopie entfernen (Bullseye)
+#  file: 
+#    path: /usr/local/bin/rrsync
+#    state: absent
+#  delegate_to: root@{{ backup_source_host.name }}
 
 - name: öffentlichen Teil des ssh-Server-Schlüssels abholen
   command: cat /etc/ssh/ssh_host_rsa_key.pub
@@ -29,7 +37,7 @@
   authorized_key:
     user=root
     key={{ backup_storage_ssh_public_key.stdout }}
-    key_options='command="/usr/local/bin/rrsync -ro /"'
+    key_options='command="rrsync -ro /"'
     state=present
   delegate_to: root@{{ backup_source_host.name }}
 
