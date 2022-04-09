@@ -6,6 +6,7 @@
 - include_tasks: opennetca.yml
 - include_tasks: change-notifications.yml
 - include_tasks: munin-node.yml
+- include_tasks: apt-debian.yml
 # Mail-Konfiguration nur auf Host anwenden, die die "mail_relay_host"-Variable
 # nicht geloescht haben (z.B. "on-v6" - der zentrale Mailserver)
 - include_tasks: mail-delivery.yml
