@@ -1,2 +1,2 @@
-- include: debian-unstable.yml
-- include: wireguard.yml
+- include_tasks: debian-unstable.yml
+- include_tasks: wireguard.yml

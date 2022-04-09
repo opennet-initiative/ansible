@@ -1,4 +1,4 @@
-- include: "dehydrated.yml"
+- include_tasks: "dehydrated.yml"
   when: ansible_distribution_major_version|int >= 8
 
 # apache2
@@ -7,7 +7,7 @@
   check_mode: no
   register: apache2_installed
 
-- include: "apache2.yml"
+- include_tasks: "apache2.yml"
   when: apache2_installed.stat.exists
 
 # nginx
@@ -16,5 +16,5 @@
   check_mode: no
   register: nginx_installed
 
-- include: "nginx.yml"
+- include_tasks: "nginx.yml"
   when: nginx_installed.stat.exists

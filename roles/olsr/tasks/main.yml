@@ -1,4 +1,4 @@
-- include: olsr.yml
-- include: policy-routing.yml
-- include: ferm.yml
-- include: munin.yml
+- include_tasks: olsr.yml
+- include_tasks: policy-routing.yml
+- include_tasks: ferm.yml
+- include_tasks: munin.yml

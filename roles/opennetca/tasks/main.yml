@@ -1,6 +1,6 @@
-- include: install.yml
-- include: web.yml
-- include: csr.yml
+- include_tasks: install.yml
+- include_tasks: web.yml
+- include_tasks: csr.yml
 - include: ca.yml ca="{{ item.ca }}" cn="{{ item.cn }}"
   with_items: "{{ opennetca_list }}"
-- include: cron.yml
+- include_tasks: cron.yml

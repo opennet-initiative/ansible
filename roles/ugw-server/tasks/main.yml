@@ -1,8 +1,8 @@
-- include: networking.yml
-- include: user-port-forwards.yml
-- include: ferm.yml
-- include: openvpn.yml
-- include: openvpn-status.yml
-- include: munin-openvpn.yml
-- include: web.yml
-- include: speed-tests.yml
+- include_tasks: networking.yml
+- include_tasks: user-port-forwards.yml
+- include_tasks: ferm.yml
+- include_tasks: openvpn.yml
+- include_tasks: openvpn-status.yml
+- include_tasks: munin-openvpn.yml
+- include_tasks: web.yml
+- include_tasks: speed-tests.yml

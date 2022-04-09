@@ -1,5 +1,5 @@
-- include: install.yml
-- include: extensions.yml
-- include: database.yml
-#- include: php.yml
-- include: config.yml
+- include_tasks: install.yml
+- include_tasks: extensions.yml
+- include_tasks: database.yml
+#- include_tasks: php.yml
+- include_tasks: config.yml

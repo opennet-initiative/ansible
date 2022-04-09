@@ -5,18 +5,18 @@
 # Es wird angenommen, dass die Rolle "ugw-server" bereits installiert ist.
 # Ansonsten müssten große Teile davon übernommen werden.
 #
-- include: networking.yml
+- include_tasks: networking.yml
 # Wir wollen erstmal ohne User-Port-Forward arbeiten. Somit wird erstmal ein
 # Tunnel im Tunnel aufgebaut. Zum Testen reicht uns das erstmal.
-#- include: user-port-forwards.yml
+#- include_tasks: user-port-forwards.yml
 
-- include: ferm.yml
-- include: openvpn.yml
-- include: radvd.yml
-- include: dhcpd6.yml
+- include_tasks: ferm.yml
+- include_tasks: openvpn.yml
+- include_tasks: radvd.yml
+- include_tasks: dhcpd6.yml
 
 #TODO Monitoring
-#- include: openvpn-status.yml
-#- include: munin-openvpn.yml
-#- include: web.yml
-#- include: speed-tests.yml
+#- include_tasks: openvpn-status.yml
+#- include_tasks: munin-openvpn.yml
+#- include_tasks: web.yml
+#- include_tasks: speed-tests.yml

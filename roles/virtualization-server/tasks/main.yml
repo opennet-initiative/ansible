@@ -1,6 +1,6 @@
-- include: networking.yml
-- include: vhost-admin.yml
-- include: virt-wan.yml
+- include_tasks: networking.yml
+- include_tasks: vhost-admin.yml
+- include_tasks: virt-wan.yml
   when: virtualization_wan_bridge_interface != ""
 
 # grub moege nicht alle Volumes nach bootfaehigen Dateisystemen durchsuchen

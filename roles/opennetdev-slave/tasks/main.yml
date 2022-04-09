@@ -1,1 +1,1 @@
-- include: web.yml
+- include_tasks: web.yml

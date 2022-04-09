@@ -1,6 +1,6 @@
-- include: rsnapshot.yml
+- include_tasks: rsnapshot.yml
 
-- include: encryption.yml
+- include_tasks: encryption.yml
   when: backup_storage_crypto_device != ""
 
 - name: öffentlichen ssh-Schlüssel des Backup-Sammlers abholen
@@ -10,9 +10,9 @@
   check_mode: False
 
 # bereite alle zu sichernden Hosts vor
-- include: source-hosts.yml
+- include_tasks: source-hosts.yml
   with_items: "{{ backup_storage_source_hosts }}"
   loop_control:
     loop_var: "backup_source_host"
 
-- include: monitoring.yml
+- include_tasks: monitoring.yml

@@ -1,2 +1,2 @@
-- include: install.yml
-- include: web.yml
+- include_tasks: install.yml
+- include_tasks: web.yml

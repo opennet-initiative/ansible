@@ -1,4 +1,4 @@
-- include: network.yml
-- include: olsr2.yml
-- include: policy-routing.yml
-- include: ferm.yml
+- include_tasks: network.yml
+- include_tasks: olsr2.yml
+- include_tasks: policy-routing.yml
+- include_tasks: ferm.yml

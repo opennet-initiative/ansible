@@ -1,2 +1,2 @@
-- include: buildbot.yml
-- include: upload.yml
+- include_tasks: buildbot.yml
+- include_tasks: upload.yml
