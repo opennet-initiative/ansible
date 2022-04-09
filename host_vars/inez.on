@@ -12,4 +12,4 @@ backup_storage_crypto_device: backup-storage
 backup_storage_crypto_mount_points:
   - /media/backup
 
-debian_release: buster
+debian_release: bullseye 
