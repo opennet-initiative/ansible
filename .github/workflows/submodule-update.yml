@@ -22,7 +22,7 @@ jobs:
       id: run_action
       uses: ./
       with: 
-        github_token: ${{ secrets.SUBMODULE_UPDATE_SECRET }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         parent_repository: ${{ env.PARENT_REPOSITORY }}
         checkout_branch: ${{ env.CHECKOUT_BRANCH}}
         pr_against_branch: ${{ env.PR_AGAINST_BRANCH }}
