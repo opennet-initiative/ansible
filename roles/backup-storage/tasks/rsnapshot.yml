@@ -7,7 +7,7 @@
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=986709
 # Wir nutzen daher ein Upstream DEB Paket abgelegt unter:
 #  https://downloads.opennet-initiative.de/debian/
-- name: olsr2 - Software installieren (ab Bullseye)
+- name: rsnapshot - installieren (ab Bullseye)
   apt:
     deb: "{{ rsnapshot_debian_url }}/{{ rsnapshot_debian11_file }}"
   when: ansible_distribution_major_version|int >= 11
