@@ -51,8 +51,9 @@
 - name: apt -- acpi-support-base installieren
   apt: install_recommends=no state=present name=acpi-support-base
 
-- name: apt -- rsyslog installieren
+- name: apt -- rsyslog installieren (bis Buster)
   apt: install_recommends=no state=present name=rsyslog
+  when: ansible_distribution_major_version|int <= 10
 
 # FIXME: wegen Fehler bei postinst.d/update-initramfs in initramfs-tools (12/2017)
 # kann eventuell wieder entfernt werden, wenn die Abhängigkeit upstream gelöst ist
