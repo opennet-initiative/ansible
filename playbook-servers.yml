@@ -19,6 +19,7 @@
 - hosts: inez.on:maki.on
   roles:
     - backup-storage
+    - olsr2
 
 - hosts: amano.on
   roles:

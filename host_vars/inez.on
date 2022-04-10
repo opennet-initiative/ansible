@@ -3,6 +3,7 @@ short_hostname: inez
 wan_interface: eth1
 
 olsr_main_ip: 192.168.10.3
+olsr_main_ipv6: fd32:d8d3:87da::10:3
 
 olsr_interfaces:
   - { name: "eth0" }
