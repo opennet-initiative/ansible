@@ -157,6 +157,8 @@ create_debian_system() {
 		printf 'SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="%s", NAME="eth%d"\n' "$mac" "$id"
 	done >"$MOUNTPOINT/etc/udev/rules.d/70-persistent-net.rules"
 	cat - >"$MOUNTPOINT/etc/network/interfaces" <<-EOF
+    source /etc/network/interfaces.d/*
+
 		auto lo
 		iface lo inet loopback
 
