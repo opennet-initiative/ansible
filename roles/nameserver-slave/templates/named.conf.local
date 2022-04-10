@@ -45,7 +45,7 @@ logging {
 };
 
 
-// on - forward (includes vpn)
+//on - forward (includes vpn)
 zone "on." {
 	type    slave;
 	file    "db.on";
@@ -67,15 +67,15 @@ zone "1.10.in-addr.arpa" {
 };
 
 //on-ugw reverse
-zone "2.10.in-addr.arpa"  {
+zone "2.10.in-addr.arpa" {
 	type    slave;
 	file    "db.10.2";
 	masters { {{ (dns_zone_masters_ipv4 + dns_zone_masters_ipv6)|join('; ') }}; };
 };
 
-// internal ULA ipv6 - reverse
-zone "a.d.7.8.3.d.8.d.2.3.d.f.ip6.arpa" IN {
-	type slave;
-	file "db.fd32_d8d3_87da";
+//on-v6-ula - reverse
+zone "a.d.7.8.3.d.8.d.2.3.d.f.ip6.arpa" {
+	type    slave;
+	file    "db.fd32_d8d3_87da";
 	masters { {{ (dns_zone_masters_ipv4 + dns_zone_masters_ipv6)|join('; ') }}; };
 };
