@@ -11,7 +11,7 @@ ERROR_FLAG_FILE=$(mktemp "$(basename "$0").XXXXXXX")
 RSNAPSHOT_BASE_DIR="{{ backup_storage_rsnapshot_directory }}"
 RSNAPSHOT_AGE_CHECK_FILES="
 {%- for host in backup_storage_source_hosts %}
-  {%- for age_check_path in host.age_checks|default(['/var/log/syslog']) -%}
+  {%- for age_check_path in host.age_checks|default([backup_storage_age_check]) -%}
     beta.0/{{ host.name }}{{ age_check_path }}
   {% endfor %}
 {% endfor %}"
