@@ -1,10 +1,18 @@
-- name: setze IPv6 ULA Adresse auf Loopback Interface
+- name: network - prüfe interface.d Einbindung
+  lineinfile:
+    path: /etc/network/interfaces
+    line: source /etc/network/interfaces.d/*
+    insertbefore: BOF
+    create: no
+    backup: yes
+
+- name: network - setze IPv6 ULA Adresse auf Loopback Interface
   template:
     src: "loopback-oni-ula"
     dest: "/etc/network/interfaces.d/"
   register: add_loopback_ula
   notify: restart olsrd2
 
-- name: restart loopback Interface
+- name: network - restart loopback Interface
   command: bash -c "ifdown lo && ifup lo"
   when: add_loopback_ula.changed == true
