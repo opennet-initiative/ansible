@@ -1,5 +1,31 @@
-- name: olsr - Software installieren
-  apt: state=present pkg=olsrd-plugins
+- name: olsr - Software installieren (bis Buster)
+  apt:
+    pkg: olsrd-plugins
+  when: ansible_distribution_major_version|int <= 10
+
+# TODO: Bei Debian Bullseye ist olsrd entfernt worden
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=943202
+# Ein selbst kompiliertes Installationspaket liegt unter:
+#  https://downloads.opennet-initiative.de/debian/
+- name: olsr - Software installieren (ab Bullseye)
+  apt:
+    deb: "{{item}}"
+  with_items:
+    - "{{ olsr_debian_url }}/{{ olsr_debian11_file }}"
+    - "{{ olsr_debian_url }}/{{ olsr_plugins_debian11_file }}"
+  when: ansible_distribution_major_version|int >= 11
+
+# TODO: Das selbst kompilierte olsrd sucht in /usr/lib
+# Vorübergehend daher ein Symlink erstellen.
+- name: olsr - Symlink txtinfo + httpinfo Plugin (ab Bullseye)
+  file:
+    src: "/usr/lib/olsrd/{{ item }}"
+    dest: "/usr/lib/{{ item }}"
+    state: link
+  loop:
+    - olsrd_txtinfo.so.1.1
+    - olsrd_httpinfo.so.0.1
+  when: ansible_distribution_major_version|int >= 11
 
 - name: olsr - Konfiguration erstellen
   template:

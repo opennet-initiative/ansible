@@ -13,3 +13,8 @@ non_olsr_policy_routing_mark: 32
 
 non_olsr_interfaces:
   - "{{ wan_interface|default('nonexisting') }}"
+
+# Debian Packages
+olsr_debian_url: "https://downloads.opennet-initiative.de/debian"
+olsr_debian11_file: "olsrd_0.9.8-3_amd64+deb11.deb"
+olsr_plugins_debian11_file: "olsrd-plugins_0.9.8-3_amd64+deb11.deb"
