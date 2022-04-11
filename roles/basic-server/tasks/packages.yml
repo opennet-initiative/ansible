@@ -22,6 +22,7 @@
       - aptitude
       - apt-dater-host
       - acpi-support-base
+      - debian-security-support
 
 - name: packages -- Server-relevante Pakete installieren (ab Jessie)
   apt:
