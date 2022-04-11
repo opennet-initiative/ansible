@@ -86,3 +86,16 @@
     backup: yes
   notify: restart php-fpm
   when: apache2_php
+
+# Fehler sollten nicht mehr in eine Datei geschrieben
+# wir nutzen systemd-journald als Syslog-Ersatz
+- name: php - Fehlermeldungen Syslog anpassen (ab Bullseye)
+  ini_file:
+    path: "{{ apache2_php_dir }}/php-fpm.conf"
+    section: global
+    option: error_log
+    value: syslog
+    create: no
+    backup: yes
+  notify: restart php-fpm
+  when: apache2_php and ansible_distribution_major_version|int >= 11
