@@ -3,11 +3,10 @@ short_hostname: kinjo
 wan_interface: eth1
 
 olsr_main_ip: 192.168.10.20
+olsr_main_ipv6: fd32:d8d3:87da::5:20
 
 olsr_interfaces:
   - { name: "eth0" }
-olsr_nameservice_announcements:
-  - { on_tld_base: frieda23 }
 
 letsencrypt_certificates:
   - { on_tld_base: frieda23 }
@@ -15,6 +14,10 @@ letsencrypt_certificates:
 apache2_sites:
   - { name: frieda23 }
 apache2_php: true
+
+domain_proxy_redirect:
+  - { on_tld_base: frieda23, ip: "{{ olsr_main_ip }}", port: 80, service: http }
+  - { on_tld_base: frieda23, ip: "{{ olsr_main_ip }}", port: 443, service: https }
 
 homematic_allowed_users:
   - christianwedell.client.on
@@ -35,4 +38,4 @@ homematic_allowed_users:
   - friedrichmeincke.client.on
   - thomasschmidt.client.on
 
-debian_release: buster
+debian_release: bullseye 
