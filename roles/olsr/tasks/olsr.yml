@@ -3,26 +3,29 @@
     pkg: olsrd-plugins
   when: ansible_distribution_major_version|int <= 10
 
+# Bei Debian Bullseye ist olsrd entfernt worden
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=943202
+# Ein selbst kompiliertes Installationspaket liegt unter:
+#  https://downloads.opennet-initiative.de/debian/
+
 - name: olsr - Abhängigkeit gpslib vorbereiten (ab Bullseye)
   apt:
     pkg: libgps28
   when: ansible_distribution_major_version|int >= 11
 
-# TODO: Bei Debian Bullseye ist olsrd entfernt worden
-# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=943202
-# Ein selbst kompiliertes Installationspaket liegt unter:
-#  https://downloads.opennet-initiative.de/debian/
 - name: olsr - Software installieren (ab Bullseye)
   apt:
-    deb: "{{item}}"
-  with_items:
-    - "{{ olsr_debian_url }}/{{ olsr_debian11_file }}"
-    - "{{ olsr_debian_url }}/{{ olsr_plugins_debian11_file }}"
+    deb: "{{ olsr_debian_url }}/{{ olsr_debian11_file }}"
+  when: ansible_distribution_major_version|int >= 11
+
+- name: olsr - Plugins installieren (ab Bullseye)
+  apt:
+    deb: "{{ olsr_debian_url }}/{{ olsr_plugins_debian11_file }}"
   when: ansible_distribution_major_version|int >= 11
 
 # TODO: Das selbst kompilierte olsrd sucht in /usr/lib
 # Vorübergehend daher ein Symlink erstellen.
-- name: olsr - Symlink txtinfo + httpinfo Plugin (ab Bullseye)
+- name: olsr - Plugins Symlink txtinfo + httpinfo (ab Bullseye)
   file:
     src: "/usr/lib/olsrd/{{ item }}"
     dest: "/usr/lib/{{ item }}"
@@ -30,6 +33,11 @@
   loop:
     - olsrd_txtinfo.so.1.1
     - olsrd_httpinfo.so.0.1
+  when: ansible_distribution_major_version|int >= 11
+
+- name: olsr - Software installieren (ab Bullseye)
+  apt:
+    deb: "{{ olsr_debian_url }}/{{ olsr_debian11_file }}"
   when: ansible_distribution_major_version|int >= 11
 
 - name: olsr - Konfiguration erstellen
