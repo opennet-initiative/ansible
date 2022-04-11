@@ -1,61 +1,61 @@
-- name: apt -- server-relevante Pakete installieren
-  apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - bash-completion
-    - bzip2    
-    - git
-    - less
-    - locales
-    - mc
-    - molly-guard
-    - ntp
-    - psmisc
-    # Derzeit (2019) benötigt ansible nur "python-apt" auf der Client-Seite. Dies wird sich
-    # irgendwann ändern.
-    - python3-apt
-    - screen
-    - tree
-    - vim-nox
-    - zip
-    - cron
-    - dialog
-    - aptitude
-
-- name: apt -- server-relevante Pakete installieren (ab Jessie)
+- name: packages -- Server-relevante Pakete installieren
   apt:
     name:
-    - needrestart
+      - bash-completion
+      - bzip2    
+      - git
+      - less
+      - locales
+      - mc
+      - molly-guard
+      - ntp
+      - psmisc
+      # Derzeit (2019) benötigt ansible nur "python-apt" auf der 
+      # Client-Seite. Dies wird sich irgendwann ändern.
+      - python3-apt
+      - screen
+      - tree
+      - vim-nox
+      - zip
+      - cron
+      - dialog
+      - aptitude
+      - apt-dater-host
+      - acpi-support-base
+
+- name: packages -- Server-relevante Pakete installieren (ab Jessie)
+  apt:
+    name: needrestart
   when: ansible_distribution_major_version|int >= 8
 
-- name: apt -- Debug-Werkzeuge installieren
+- name: packages -- Debug-Werkzeuge installieren
   apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - bwm-ng
-    - dnsutils
-    - iftop
-    - iotop
-    - iperf
-    - mtr-tiny
-    - netdiag
-    - strace
-    - tcpdump
-    - netcat
+    name: 
+      - bwm-ng
+      - dnsutils
+      - iftop
+      - iotop
+      - iperf
+      - mtr-tiny
+      - netdiag
+      - strace
+      - tcpdump
+      - netcat
 
-- name: apt -- apt-dater-host installieren
-  apt: install_recommends=no state=present name=apt-dater-host
-
-- name: apt -- acpi-support-base installieren
-  apt: install_recommends=no state=present name=acpi-support-base
-
-- name: apt -- rsyslog installieren (bis Buster)
+- name: packages -- rsyslog installieren (bis Buster)
   apt: install_recommends=no state=present name=rsyslog
   when: ansible_distribution_major_version|int <= 10
 
+- name: packages -- rsyslog / logrotate entfernen (ab Bullseye)
+  apt:
+    name: 
+      - rsyslog
+      - logrotate
+    state: absent
+    purge: yes
+  when: ansible_distribution_major_version|int >= 11
+
 # FIXME: wegen Fehler bei postinst.d/update-initramfs in initramfs-tools (12/2017)
 # kann eventuell wieder entfernt werden, wenn die Abhängigkeit upstream gelöst ist
-- name: apt -- busybox installieren (initramfs Abhängigkeit)
+- name: packages -- busybox installieren (initramfs Abhängigkeit)
   apt: name=busybox state=present
