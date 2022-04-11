@@ -3,6 +3,11 @@
     pkg: olsrd-plugins
   when: ansible_distribution_major_version|int <= 10
 
+- name: olsr - Abhängigkeit gpslib vorbereiten (ab Bullseye)
+  apt:
+    pkg: libgps28
+  when: ansible_distribution_major_version|int >= 11
+
 # TODO: Bei Debian Bullseye ist olsrd entfernt worden
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=943202
 # Ein selbst kompiliertes Installationspaket liegt unter:
