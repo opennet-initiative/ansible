@@ -1,0 +1,6 @@
+# grub moege nicht alle Volumes nach bootfaehigen Dateisystemen durchsuchen
+- name: grub -- Anpassung OS Prober Variable in Grub-Default
+  lineinfile:
+    path: /etc/default/grub
+    line: 'GRUB_DISABLE_OS_PROBER="true"'
+    regexp: '^GRUB_DISABLE_OS_PROBER='

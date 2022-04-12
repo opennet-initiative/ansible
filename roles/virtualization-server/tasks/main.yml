@@ -2,9 +2,4 @@
 - include_tasks: vhost-admin.yml
 - include_tasks: virt-wan.yml
   when: virtualization_wan_bridge_interface != ""
-
-# grub moege nicht alle Volumes nach bootfaehigen Dateisystemen durchsuchen
-- lineinfile:
-        path=/etc/default/grub
-        line='GRUB_DISABLE_OS_PROBER="true"'
-        regexp='^GRUB_DISABLE_OS_PROBER='
+- include_tasks: grub.yml
