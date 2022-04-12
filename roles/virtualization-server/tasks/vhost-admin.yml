@@ -11,7 +11,7 @@
       - munin-libvirt-plugins
       # fuer den Client virt-manager
       - netcat-openbsd
-      - qemu-kvm
+      - qemu-system-x86
       - uuid-runtime
     state: present
     install_recommends: no
