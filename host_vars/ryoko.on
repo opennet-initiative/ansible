@@ -3,6 +3,7 @@ short_hostname: ryoko
 wan_interface: br-wan
 
 olsr_main_ip: 192.168.10.10
+olsr_main_ipv6: fd32:d8d3:87da::10:10
 
 olsr_interfaces:
   - { name: "br-mesh" }
@@ -10,5 +11,5 @@ olsr_interfaces:
 
 virtualization_wan_bridge_interface: "br-virt-wan"
 
-debian_release: buster
+debian_release: bullseye 
 debian_additional_components: contrib non-free

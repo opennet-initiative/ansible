@@ -44,17 +44,31 @@
       - netcat
 
 - name: packages -- rsyslog installieren (bis Buster)
-  apt: install_recommends=no state=present name=rsyslog
+  apt: 
+    name: rsyslog 
+    install_recommends: no 
   when: ansible_distribution_major_version|int <= 10
 
-- name: packages -- rsyslog / logrotate entfernen (ab Bullseye)
+- name: packages -- rsyslog entfernen (ab Bullseye)
   apt:
-    name: 
-      - rsyslog
-      - logrotate
+    name: rsyslog
     state: absent
     purge: yes
-  when: ansible_distribution_major_version|int >= 11
+  when: ansible_distribution_major_version|int >=11 
+
+- name: packages -- Lese installierte Debian Pakete (ab Bullseye)
+  package_facts:
+    manager: auto
+  when: ansible_distribution_major_version|int >=11
+
+# TODO: avoid removing logrotate on virtualization-hosts
+# currently the package_fact check is not an optimal solution
+- name: packages -- logrotate entfernen (ab Bullseye)
+  apt:
+    name: logrotate
+    state: absent
+    purge: yes
+  when: ( ansible_distribution_major_version|int >=11 ) and ( "'libvirt-daemon-system' not in ansible_facts.packages" ) == true
 
 # FIXME: wegen Fehler bei postinst.d/update-initramfs in initramfs-tools (12/2017)
 # kann eventuell wieder entfernt werden, wenn die Abhängigkeit upstream gelöst ist
