@@ -1,7 +1,8 @@
-- name: apt -- moinmoin Paket installieren
-  apt:
-          pkg: python-moinmoin
-          state: present
+#TODO: Nicht mehr in Debian Bullseye enthalten
+#- name: apt -- moinmoin Paket installieren
+#  apt:
+#          pkg: python-moinmoin
+#          state: present
 
 - name: DocumentRoot Verzeichnis anlegen
   file: state=directory
