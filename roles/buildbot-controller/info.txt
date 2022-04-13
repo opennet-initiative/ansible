@@ -14,3 +14,22 @@ A: Prüfe erreichbarkeit von http://goat.on:8010/#/workers
    Prüfe, ob Prozess läuft `ps -ef | grep buildbot`.
    Prüfe Log unter /var/lib/buildbot/controllers/opennet/twistd.log
 
+= Wartung = 
+
+Aktuelle Versionen prüfen:
+
+  # pip3 list | grep buildbot
+  buildbot                2.10.1.post1
+  buildbot-console-view   3.5.0
+  buildbot-grid-view      3.5.0
+  buildbot-waterfall-view 3.5.0
+  buildbot-www            3.5.0
+
+Aktualisierungsprüfung:
+
+  # pip3 list --outdated | grep buildbot
+  buildbot         2.10.1.post1 3.5.0   wheel
+
+Aktualisierung durchführen:
+  
+  # pip3 install --upgrade <package>
