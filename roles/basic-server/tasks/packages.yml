@@ -61,14 +61,14 @@
     manager: auto
   when: ansible_distribution_major_version|int >=11
 
-# TODO: avoid removing logrotate on virtualization-hosts
+# TODO: avoid removing logrotate on virtualization and backup hosts
 # currently the package_fact check is not an optimal solution
 - name: packages -- logrotate entfernen (ab Bullseye)
   apt:
     name: logrotate
     state: absent
     purge: yes
-  when: ( ansible_distribution_major_version|int >=11 ) and ( "'libvirt-daemon-system' not in ansible_facts.packages" ) == true
+  when: ( ansible_distribution_major_version|int >=11 ) and ( "'libvirt-daemon-system' not in ansible_facts.packages" ) == true and ( "'rsnapshot' not in ansible_facts.packages" ) == true
 
 # FIXME: wegen Fehler bei postinst.d/update-initramfs in initramfs-tools (12/2017)
 # kann eventuell wieder entfernt werden, wenn die Abhängigkeit upstream gelöst ist
