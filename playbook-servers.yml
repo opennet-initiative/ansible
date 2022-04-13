@@ -37,13 +37,13 @@
 
 - hosts: goat.on
   roles:
-    - opennetdev-buildbot-controller
+    - buildbot-controller
   tags:
     - buildbot
 
 - hosts: hoshino.on
   roles:
-    - opennetdev-buildbot-worker
+    - buildbot-worker
   tags:
     - buildbot
 
