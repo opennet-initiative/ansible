@@ -3,6 +3,7 @@ short_hostname: goat
 wan_interface: eth1
 
 olsr_main_ip: 192.168.10.21
+olsr_main_ipv6: fd32:d8d3:87da::10:21
 
 olsr_interfaces:
   - { name: "eth0" }
@@ -22,5 +23,4 @@ apache2_mods:
  - { name: proxy_http2 }
  - { name: proxy_wstunnel }
 
-
-debian_release: buster
+debian_release: bullseye 
