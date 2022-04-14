@@ -1,2 +1,2 @@
-opennetdev_buildbot_controller_name: "opennet"
-opennetdev_buildbot_controller_path: "/var/lib/buildbot/masters/{{ opennetdev_buildbot_controller_name }}"
+buildbot_controller_name: "opennet"
+buildbot_controller_path: "/var/lib/buildbot/masters/{{ buildbot_controller_name }}"

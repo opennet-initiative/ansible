@@ -14,13 +14,13 @@ c = BuildmasterConfig = {}
 
 # First we declare that the secrets are stored in a directory of the filesystem
 # each file contains one secret identified by the filename
-c['secretsProviders'] = [secrets.SecretInAFile(dirname="{{ opennetdev_buildbot_controller_path }}/_secrets/")]
+c['secretsProviders'] = [secrets.SecretInAFile(dirname="{{ buildbot_controller_path }}/_secrets/")]
 
 # The 'workers' list defines the set of recognized workers. Each element is
 # a Worker object, specifying a unique worker name and password.  The same
 # worker name and password must be configured on the worker.
-c['workers'] = [worker.Worker("{{ opennetdev_buildbot_worker1_name }}", 
-                              util.Secret("{{ opennetdev_buildbot_worker1_name }}"))]  # read password from secret file
+c['workers'] = [worker.Worker("{{ buildbot_worker1_name }}", 
+                              util.Secret("{{ buildbot_worker1_name }}"))]  # read password from secret file
 
 # 'protocols' contains information about protocols which master will use for
 # communicating with workers. You must define at least 'port' option that workers
@@ -127,7 +127,7 @@ factory.addStep(steps.ShellCommand(command=["make", "unpatch"]))
 c['builders'] = []
 c['builders'].append(
     util.BuilderConfig(name="opennet-builder",
-      workernames=["{{ opennetdev_buildbot_worker1_name }}"],
+      workernames=["{{ buildbot_worker1_name }}"],
       factory=factory))
 
 ####### BUILDBOT SERVICES
