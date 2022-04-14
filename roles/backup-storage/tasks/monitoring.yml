@@ -1,7 +1,6 @@
 - name: monitoring - installiere Abhängigkeiten
   apt:
-    name:
-      - moreutils
+    name: moreutils
 
 - name: monitoring - übertrage on-backup-check
   template:

@@ -33,3 +33,5 @@ Aktualisierungsprüfung:
 Aktualisierung durchführen:
   
   # pip3 install --upgrade <package>
+
+Eine regelmäßige Prüfroutine via cron ist in dieser Rolle umgesetzt.

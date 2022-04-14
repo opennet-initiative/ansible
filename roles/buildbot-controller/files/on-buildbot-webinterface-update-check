@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# Report outstanding buildbot webinterface updates via pip.
+
+set -eu
+
+KEYWORD="builbot-"
+OUTDATED=$(pip3 list --outdated | grep $KEYWORD || true)
+
+if [ -z "$OUTDATED" ]; then
+  echo "No outstanding buildbot webinterface updates via pip found."
+  exit 0
+else
+  echo "Found outstanding buildbot webinterface updates via pip:"
+  echo "# pip3 list --outdated | grep $KEYWORD"
+  echo "$OUTDATED"
+  exit 1
+fi
