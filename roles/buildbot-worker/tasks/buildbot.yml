@@ -53,7 +53,7 @@
       - git 
       - flex 
       - gcc-multilib 
-      - subversion 
+      #- subversion 
       - doxygen 
       - file 
       - gawk 
