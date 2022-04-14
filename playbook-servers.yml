@@ -58,9 +58,10 @@
     - mediawiki
     - www-server
 
-- hosts: izumi.on
-  roles:
-    - irc-server
+# IRC Server disabled, Service Discovery + Git TODO
+#- hosts: izumi.on
+#  roles:
+#    - irc-server
 
 # Layer2 User VPN with IPv6 in development
 - hosts: gai.on-i.de
