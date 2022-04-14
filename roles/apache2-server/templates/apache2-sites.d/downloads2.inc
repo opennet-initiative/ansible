@@ -1,5 +1,4 @@
 DocumentRoot /var/www/downloads
-Alias /openwrt/testing /var/lib/buildbot/export
 
 <Directory />
 	Options FollowSymLinks
@@ -29,12 +28,4 @@ Alias /openwrt/testing /var/lib/buildbot/export
 </Directory>
 <Directory /var/www/downloads/ubnt/airos>
   IndexOrderDefault Descending Name
-</Directory>
-<Directory /var/lib/buildbot/export>
-	Options Indexes FollowSymLinks MultiViews
-	Require all granted
-	IndexIgnore *.ico Opennet_logo_quer.gif HEADER.html FOOTER.html
-	HeaderName /HEADER.html
-	ReadmeName /FOOTER.html
-	IndexOrderDefault Descending Date
 </Directory>
