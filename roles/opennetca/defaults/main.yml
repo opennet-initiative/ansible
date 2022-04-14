@@ -1,4 +1,4 @@
-opennetca_src: "https://dev.opennet-initiative.de/git/on_opennetca"
+opennetca_src: "https://github.com/opennet-initiative/ca"
 opennetca_user: "opennetca"
 opennetca_user_shell: "/bin/bash"
 opennetca_user_web: "www-data"
