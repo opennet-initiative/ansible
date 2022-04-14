@@ -9,7 +9,6 @@ In den Host-Variablen sind Einträge folgender Art anzulegen:
 
   letsencrypt_certificates:
   - { domains: [ca.opennet-initiative.de, ca.on-i.de] }
-  - { domains: [dev.opennet-initiative.de, dev.on-i.de, trac.opennet-initiative.de] }
   - { on_tld_base: downloads }
 
 Jedes Element der Liste entspricht einem Zertifikat (eventuell mit mehreren Domain-Namen).
