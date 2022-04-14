@@ -5,14 +5,14 @@
 
 - name: buildbot - Pruefe bestehende Konfiguration (1)
   stat:
-    path: "{{ opennetdev_buildbot_worker_path }}"
+    path: "{{ buildbot_worker_path }}"
   register: worker1_config
 
 - name: buildbot - Pruefe bestehende Konfiguration (2)
   fail: 
     msg: |
       "Du must initial per Hand den buildbot-worker erstellen!"
-      "$ buildbot-worker create-worker {{ opennetdev_buildbot_worker_path }} {{opennetdev_buildbot_controller_host}} {{opennetdev_buildbot_worker1_name}} INSERTWORKERPASSWORD"
+      "$ buildbot-worker create-worker {{ buildbot_worker_path }} {{buildbot_controller_host}} {{buildbot_worker1_name}} INSERTWORKERPASSWORD"
   when: worker1_config.stat.exists == False
 
 - name: buildbot - Worker Dienst freischalten
@@ -28,7 +28,7 @@
     dest: "/etc/default/buildbot-worker"
     backrefs: yes
     regexp: "WORKER_NAME[1]"
-    line: "WORKER_NAME[1]=\"{{ opennetdev_buildbot_worker1_name }}\""
+    line: "WORKER_NAME[1]=\"{{ buildbot_worker1_name }}\""
   notify: restart buildbot
 
 - name: buildbot - Worker basedir setzen
@@ -36,12 +36,12 @@
     dest: "/etc/default/buildbot-worker"
     backrefs: yes
     regexp: "WORKER_BASEDIR[1]"
-    line: "WORKER_BASEDIR[1]=\"{{ opennetdev_buildbot_worker_path }}\""
+    line: "WORKER_BASEDIR[1]=\"{{ buildbot_worker_path }}\""
   notify: restart buildbot
 
 - name: buildbot - Worker Autostart aktivieren
   systemd:
-    name: "buildbot-worker@{{ opennetdev_buildbot_worker1_name }}"
+    name: "buildbot-worker@{{ buildbot_worker1_name }}"
     enabled: yes
 
 # folgendes wird nicht mehr benötigt, sobald wir docker container nutzen

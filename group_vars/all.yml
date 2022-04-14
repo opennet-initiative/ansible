@@ -8,5 +8,5 @@ on_default_top_level_domains:
         - schwerin.freifunk.net
 #        - wismar.freifunk.net
 
-opennetdev_buildbot_worker1_name: "on_worker1"
+buildbot_worker1_name: "on_worker1"
 # Info: wenn mehr Buildbot Worker hinzugefuegt werden sollen, dann muss die master.cfg im Master auch angepasst werden
