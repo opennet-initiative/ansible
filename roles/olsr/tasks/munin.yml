@@ -1,6 +1,6 @@
 - name: munin - OSLR Plugin herunterladen
   get_url:
-    url: "https://dev.opennet-initiative.de/export/HEAD/on_firmware/opennet/packages/on-monitoring/files/usr/share/munin-plugins-available/olsrd"
+    url: "https://raw.githubusercontent.com/opennet-initiative/firmware/main/opennet/packages/on-monitoring/files/usr/share/munin-plugins-available/olsrd"
     dest: "/etc/munin/plugins/olsrd"
     force: yes
     mode: 0755
