@@ -1,4 +1,4 @@
-- name: upload - SSH Schlüssel erzeugen
+- name: upload - Buildbot Worker SSH Schlüssel erzeugen
   user:
     name: buildbot
     create_home: no
@@ -6,13 +6,29 @@
     generate_ssh_key: yes
     ssh_key_bits: 4096
     ssh_key_comment: "buildbot-{{ ansible_hostname }}"
-    ssh_key_file: "{{ buildbot_home }}/.ssh/ssh_host_rsa_key"
-  register: sshkey
+    ssh_key_file: "{{ buildbot_ssh_private_key_path }}" 
 
-- name: upload - copy new ssh key to download server
-  fail:
-    msg: New SSH key was created. This key needs to be added to downloads.on:/home/trac-bitten-slave/.ssh/authorized_keys manually. Rerun ansible after implementing this change.
-  when: sshkey.changed
+- name: upload - Buildbot Worker SSH Schlüssel (Öffentlicher Teil) abholen
+  command: cat {{ buildbot_ssh_public_key_path | quote }}
+  register: buildbot_ssh_public_key
+  changed_when: False
+  check_mode: False
 
-- name: upload - Test rsync connection to check ssh key is working
-  command: "ssh -q -i /{{ buildbot_home }}/.ssh/ssh_host_rsa_key -o PasswordAuthentication=no {{ buildbot_upload_user }}@{{ buildbot_upload_host }} ls"
+- name: upload - Buildbot Worker SSH Schlüssel (Öffentlicher Teil) in authorized_key importieren
+  authorized_key:
+    user: "{{ buildbot_upload_user }}"
+    key: "{{ buildbot_ssh_public_key.stdout }} "
+    key_options: 'command="rrsync -rw {{ buildbot_upload_dir }}"'
+  delegate_to: root@{{ buildbot_upload_server }}
+
+- name: upload - Upload Server SSH Schlüssel (Öffentlicher Teil) abholen
+  command: cat /etc/ssh/ssh_host_rsa_key.pub
+  delegate_to: root@{{ buildbot_upload_server }}
+  changed_when: False
+  check_mode: no
+  register: ssh_server_key_public
+
+- name: upload - Upload Server SSH Schlüssel (Öffentlicher Teil) in known_hosts importieren
+  known_hosts:
+    name: "{{ buildbot_upload_server }}"
+    key: "{{ buildbot_upload_server }} {{ ssh_server_key_public.stdout }}"

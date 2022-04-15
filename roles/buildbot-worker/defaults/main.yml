@@ -2,6 +2,11 @@ buildbot_worker_path: "/var/lib/buildbot/workers/{{ buildbot_worker1_name }}"
 buildbot_controller_host: "goat.on"
 buildbot_home: "/var/lib/buildbot"  # home directory of buildbot user
 
+# ssh-key
+buildbot_ssh_private_key_path: "{{ buildbot_home }}/.ssh/buildbot_rsa_key"
+buildbot_ssh_public_key_path: "{{ buildbot_ssh_private_key_path }}.pub"
+
 # upload
 buildbot_upload_server: "downloads.on"
 buildbot_upload_user: "trac-bitten-slave"
+buildbot_upload_dir: "export"
