@@ -44,7 +44,6 @@
     name: "buildbot-worker@{{ buildbot_worker1_name }}"
     enabled: yes
 
-# folgendes wird nicht mehr benötigt, sobald wir docker container nutzen
 - name: buildbot - Worker dev tools installieren
   apt:
     name: 
