@@ -2,6 +2,10 @@ buildbot_worker_path: "/var/lib/buildbot/workers/{{ buildbot_worker1_name }}"
 buildbot_controller_host: "goat.on"
 buildbot_home: "/var/lib/buildbot"  # home directory of buildbot user
 
+# info
+buildbot_info_admin: "Opennet Development <dev@opennet-initiative.de>"
+buildbot_info_host: "Opennet Buildbot Worker"
+
 # ssh-key
 buildbot_ssh_private_key_path: "{{ buildbot_home }}/.ssh/buildbot_rsa_key"
 buildbot_ssh_public_key_path: "{{ buildbot_ssh_private_key_path }}.pub"

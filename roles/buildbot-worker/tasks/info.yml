@@ -1,0 +1,17 @@
+- name: info - Setze Worker Admin Kontakt
+  copy:
+    content: "{{ buildbot_info_admin }}"
+    dest: "{{ buildbot_worker_path }}/info/admin"
+    owner: buildbot
+    group: root
+    mode: 0644 
+  notify: restart buildbot
+
+- name: info - Setze Worker Host Information
+  copy: 
+    content: "{{ buildbot_info_host }}"
+    dest: "{{ buildbot_worker_path }}/info/host"
+    owner: buildbot
+    group: root
+    mode: 0644
+  notify: restart buildbot
