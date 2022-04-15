@@ -1,10 +1,22 @@
-= Wording =
+= Überblick =
 
-Wir bezeichnen den "buildbot master" bei uns als "buildbot controller".
+Diese Rolle betreibt den Buildbot Controller Dienst (auch bekannt als "Master"). Zu diesem können sich
+dann die Buildbot Worker Nodes verbinden. Folgende Aufgaben werden abgearbeitet:
+* Installation der Software (Buildbot Debian, Webinterface via pip)
+* Anpassung der Dienst-Konfiguration in /etc/default
+* Erstellung einer Buildbot Controller Konfiguration
+* Erzeugung des Buildbot Worker Passwortes
+* Anpassung der Firewall-Konfiguration für die Webschnittstelle
+* Anlage eines Cron-Jobs für die pip-Aktualisierungsüberwachung
 
 = Konfiguration =
 
-* Weboberflaeche ist erreichbar über https://dev2.opennet-initiative.de/ (via Reverse Proxy)
+buildbot_worker_name
+ * hier wird der Servername des beteiligten Worker Nodes hinterlegt
+
+= Betrieb =
+
+* Buildbot Controller: https://dev2.opennet-initiative.de/ (via Reverse Proxy)
 
 = Debugging =
 

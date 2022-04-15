@@ -23,4 +23,6 @@ apache2_mods:
  - { name: proxy_http2 }
  - { name: proxy_wstunnel }
 
+buildbot_worker_name: hoshino
+
 debian_release: bullseye 

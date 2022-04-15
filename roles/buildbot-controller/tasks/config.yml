@@ -1,0 +1,39 @@
+- name: config - Konfiguration erstellen
+  command: "buildbot create-master --relocatable {{ buildbot_controller_path }}"
+  args:
+    creates: "{{ buildbot_controller_path }}/buildbot.tac"
+  notify: restart buildbot
+
+- name: config - Eigentümer der Konfigurationsdateien ändern
+  file:
+    path: "{{ buildbot_controller_path }}"
+    state: directory
+    recurse: yes
+    owner: buildbot
+  notify: restart buildbot
+
+- name: config - Verzeichnis für Passwörter erstellen
+  file:
+    path: "{{ buildbot_controller_path }}/_secrets/"
+    state: directory
+    owner: buildbot
+  notify: restart buildbot
+
+- name: config - Worker Passwort erstellen
+  command: "openssl rand -base64 -out {{ buildbot_controller_path }}/_secrets/{{ buildbot_worker_name }} 32"
+  args:
+    creates: "{{ buildbot_controller_path }}/_secrets/{{ buildbot_worker_name }}"
+  notify: restart buildbot
+
+- name: config - Eigentümer der Worker Passworts ändern
+  file:
+    path: "{{ buildbot_controller_path }}/_secrets/{{ buildbot_worker_name }}"
+    owner: buildbot
+    mode: 0600
+  notify: restart buildbot
+
+- name: config - Worker Konfiguration (master.cfg) erstellen
+  template:
+    src: master.cfg.j2
+    dest: "{{ buildbot_controller_path }}/master.cfg"
+  notify: restart buildbot

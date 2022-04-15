@@ -1,2 +1,6 @@
+# controller
 buildbot_controller_name: "opennet"
 buildbot_controller_path: "/var/lib/buildbot/masters/{{ buildbot_controller_name }}"
+
+# worker
+#buildbot_worker_name: "" # will be set on host_var config

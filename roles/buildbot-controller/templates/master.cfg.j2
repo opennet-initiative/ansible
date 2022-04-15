@@ -19,8 +19,8 @@ c['secretsProviders'] = [secrets.SecretInAFile(dirname="{{ buildbot_controller_p
 # The 'workers' list defines the set of recognized workers. Each element is
 # a Worker object, specifying a unique worker name and password.  The same
 # worker name and password must be configured on the worker.
-c['workers'] = [worker.Worker("{{ buildbot_worker1_name }}", 
-                              util.Secret("{{ buildbot_worker1_name }}"))]  # read password from secret file
+c['workers'] = [worker.Worker("{{ buildbot_worker_name }}", 
+                              util.Secret("{{ buildbot_worker_name }}"))]  # read password from secret file
 
 # 'protocols' contains information about protocols which master will use for
 # communicating with workers. You must define at least 'port' option that workers
@@ -127,7 +127,7 @@ factory.addStep(steps.ShellCommand(command=["make", "unpatch"]))
 c['builders'] = []
 c['builders'].append(
     util.BuilderConfig(name="opennet-builder",
-      workernames=["{{ buildbot_worker1_name }}"],
+      workernames=["{{ buildbot_worker_name }}"],
       factory=factory))
 
 ####### BUILDBOT SERVICES
