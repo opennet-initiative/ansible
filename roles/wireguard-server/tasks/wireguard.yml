@@ -45,11 +45,12 @@
     mode: 0600
   when: wg_conf.stat is not defined or wg_conf.stat.exists == false
 
-- name: Wireguard Netzwerk Schnittstelle aktivieren
-  systemd:
-    name: wg-quick@wg0
-    enabled: yes
-    state: started
+#TODO: Liefert aktuell noch Fehler
+#- name: Wireguard Netzwerk Schnittstelle aktivieren
+#  systemd:
+#    name: wg-quick@wg0
+#    enabled: yes
+#    state: started
 
 - name: Externen Datenverkehr zu Wireguard erlauben
   template:
