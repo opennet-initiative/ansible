@@ -1,25 +1,13 @@
-- name: buildbot - Software installieren
+- name: buildbot - Worker Software installieren
   apt:
     name: buildbot-worker
     install_recommends: no
-
-- name: buildbot - Pruefe bestehende Konfiguration (1)
-  stat:
-    path: "{{ buildbot_worker_path }}"
-  register: worker1_config
-
-- name: buildbot - Pruefe bestehende Konfiguration (2)
-  fail: 
-    msg: |
-      "Du must initial per Hand den buildbot-worker erstellen!"
-      "$ buildbot-worker create-worker {{ buildbot_worker_path }} {{buildbot_controller_host}} {{buildbot_worker1_name}} INSERTWORKERPASSWORD"
-  when: worker1_config.stat.exists == False
 
 - name: buildbot - Worker Dienst freischalten
   lineinfile:
     dest: "/etc/default/buildbot-worker"
     backrefs: yes
-    regexp: "WORKER_ENABLED[1]"
+    regexp: "^WORKER_ENABLED"
     line: "WORKER_ENABLED[1]=1"
   notify: restart buildbot
 
@@ -27,44 +15,20 @@
   lineinfile:
     dest: "/etc/default/buildbot-worker"
     backrefs: yes
-    regexp: "WORKER_NAME[1]"
-    line: "WORKER_NAME[1]=\"{{ buildbot_worker1_name }}\""
+    regexp: "^WORKER_NAME"
+    line: "WORKER_NAME[1]=\"{{ buildbot_worker_name }}\""
   notify: restart buildbot
 
 - name: buildbot - Worker basedir setzen
   lineinfile:
     dest: "/etc/default/buildbot-worker"
     backrefs: yes
-    regexp: "WORKER_BASEDIR[1]"
+    regexp: "^WORKER_BASEDIR"
     line: "WORKER_BASEDIR[1]=\"{{ buildbot_worker_path }}\""
   notify: restart buildbot
 
 - name: buildbot - Worker Autostart aktivieren
   systemd:
-    name: "buildbot-worker@{{ buildbot_worker1_name }}"
+    name: "buildbot-worker@{{ buildbot_worker_name }}"
     enabled: yes
-
-- name: buildbot - Worker dev tools installieren
-  apt:
-    name: 
-      # packages mentioned in https://downloads.opennet-initiative.de/openwrt/testing/latest/doc/md__entwicklung.html#dependencies
-      - build-essential 
-      - git 
-      - flex 
-      - gcc-multilib 
-      #- subversion 
-      - doxygen 
-      - file 
-      - gawk 
-      - unzip 
-      - python 
-      - quilt
-      - libncurses5-dev 
-      - zlib1g-dev 
-      - liblzo2-dev 
-      - libssl-dev
-      - rsync 
-      - qemu-utils 
-      - python3-distutils 
-      - python3-lib2to3
-    state: present
+  notify: restart buildbot

@@ -1,2 +1,2 @@
 - name: restart buildbot
-  service: "name=buildbot-worker@{{ buildbot_worker1_name }} state=restarted"
+  service: "name=buildbot-worker@{{ buildbot_worker_name }} state=restarted"

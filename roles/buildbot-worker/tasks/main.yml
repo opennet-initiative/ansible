@@ -1,3 +1,5 @@
 - include_tasks: buildbot.yml
+- include_tasks: config.yml
 - include_tasks: info.yml
+- include_tasks: firmware.yml
 - include_tasks: upload.yml

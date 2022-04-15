@@ -1,6 +1,14 @@
-buildbot_worker_path: "/var/lib/buildbot/workers/{{ buildbot_worker1_name }}"
-buildbot_controller_host: "goat.on"
-buildbot_home: "/var/lib/buildbot"  # home directory of buildbot user
+# home directory
+buildbot_home: "/var/lib/buildbot" 
+
+# worker
+buildbot_worker_name: "{{ ansible_hostname }}"
+buildbot_worker_path: "{{ buildbot_home }}/workers/{{ buildbot_worker_name }}"
+
+# controller
+#buildbot_controller_host: "" # will be set on host_var config
+buildbot_controller_name: "opennet"
+buildbot_controller_secret_path: "{{ buildbot_home }}/masters/{{ buildbot_controller_name }}/_secrets/{{ buildbot_worker_name }}"
 
 # info
 buildbot_info_admin: "Opennet Development <dev@opennet-initiative.de>"
@@ -11,6 +19,6 @@ buildbot_ssh_private_key_path: "{{ buildbot_home }}/.ssh/buildbot_rsa_key"
 buildbot_ssh_public_key_path: "{{ buildbot_ssh_private_key_path }}.pub"
 
 # upload
-buildbot_upload_server: "downloads.on"
+buildbot_upload_host: "downloads.on"
 buildbot_upload_user: "trac-bitten-slave"
 buildbot_upload_dir: "export"

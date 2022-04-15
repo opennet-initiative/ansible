@@ -1,0 +1,24 @@
+- name: firmware - Worker Softwarepakete für Bauvorgang installieren
+  apt:
+    name:
+      # packages mentioned in https://downloads.opennet-initiative.de/openwrt/testing/latest/doc/md__entwicklung.html#dependencies
+      - build-essential
+      - git
+      - flex
+      - gcc-multilib
+      #- subversion
+      - doxygen
+      - file
+      - gawk
+      - unzip
+      - python
+      - quilt
+      - libncurses5-dev
+      - zlib1g-dev
+      - liblzo2-dev
+      - libssl-dev
+      - rsync
+      - qemu-utils
+      - python3-distutils
+      - python3-lib2to3
+    state: present

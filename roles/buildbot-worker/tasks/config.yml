@@ -1,0 +1,20 @@
+- name: config - Hole Passwort für Worker Konfiguration vom Controller
+  command: cat "{{ buildbot_controller_secret_path | quote }}"
+  delegate_to: root@{{ buildbot_controller_host }}
+  register: buildbot_controller_secret
+  changed_when: False
+  check_mode: False
+
+- name: config - Erstelle neue Worker Konfiguration
+  command: "buildbot-worker create-worker {{ buildbot_worker_path }} {{buildbot_controller_host}} {{buildbot_worker_name}} {{ buildbot_controller_secret.stdout }}"
+  args:
+    creates: "{{ buildbot_worker_path }}/buildbot.tac"
+  notify: restart buildbot
+
+- name: config - Eigentümer der Konfigurationsdateien ändern
+  file:
+    path: "{{ buildbot_worker_path }}"
+    state: directory
+    recurse: yes
+    owner: buildbot
+  notify: restart buildbot

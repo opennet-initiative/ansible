@@ -22,4 +22,6 @@ olsr_interfaces:
 #      - ^/openwrt/stable/0\.[1-4][./]
 #      - ^/openwrt/stable/0\.5\.[0123]
 
+buildbot_controller_host: goat.on
+
 debian_release: buster
