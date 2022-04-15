@@ -1,4 +1,4 @@
-= Überblick =
+# Überblick
 
 Diese Rolle betreibt den Buildbot Controller Dienst (auch bekannt als "Master"). Zu diesem können sich
 dann die Buildbot Worker Nodes verbinden. Folgende Aufgaben werden abgearbeitet:
@@ -9,16 +9,16 @@ dann die Buildbot Worker Nodes verbinden. Folgende Aufgaben werden abgearbeitet:
 * Anpassung der Firewall-Konfiguration für die Webschnittstelle
 * Anlage eines Cron-Jobs für die pip-Aktualisierungsüberwachung
 
-= Konfiguration =
+# Konfiguration
 
 buildbot_worker_name
  * hier wird der Servername des beteiligten Worker Nodes hinterlegt
 
-= Betrieb =
+# Betrieb
 
-* Buildbot Controller: https://dev2.opennet-initiative.de/ (via Reverse Proxy)
+Buildbot Controller: https://dev2.opennet-initiative.de/ (via Reverse Proxy)
 
-= Debugging =
+# Debugging
 
 F: Ist der Controller erfolgreich gestartet?
 A: Prüfe erreichbarkeit von http://goat.on:8010/#/workers
@@ -26,24 +26,27 @@ A: Prüfe erreichbarkeit von http://goat.on:8010/#/workers
    Prüfe, ob Prozess läuft `ps -ef | grep buildbot`.
    Prüfe Log unter /var/lib/buildbot/controllers/opennet/twistd.log
 
-= Wartung = 
+# Wartung
 
 Aktuelle Versionen prüfen:
-
-  # pip3 list | grep buildbot
-  buildbot                2.10.1.post1
-  buildbot-console-view   3.5.0
-  buildbot-grid-view      3.5.0
-  buildbot-waterfall-view 3.5.0
-  buildbot-www            3.5.0
+```
+# pip3 list | grep buildbot
+buildbot                2.10.1.post1
+buildbot-console-view   3.5.0
+buildbot-grid-view      3.5.0
+buildbot-waterfall-view 3.5.0
+buildbot-www            3.5.0
+```
 
 Aktualisierungsprüfung:
-
-  # pip3 list --outdated | grep buildbot
-  buildbot         2.10.1.post1 3.5.0   wheel
+```
+# pip3 list --outdated | grep buildbot
+buildbot         2.10.1.post1 3.5.0   wheel
+```
 
 Aktualisierung durchführen:
-  
-  # pip3 install --upgrade <package>
+```
+# pip3 install --upgrade <package>
+```
 
 Eine regelmäßige Prüfroutine via cron ist in dieser Rolle umgesetzt.
