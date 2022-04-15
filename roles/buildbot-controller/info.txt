@@ -10,7 +10,7 @@ Wir bezeichnen den "buildbot master" bei uns als "buildbot controller".
 
 F: Ist der Controller erfolgreich gestartet?
 A: Prüfe erreichbarkeit von http://goat.on:8010/#/workers
-   Prüfe `systemctl status buildbot-worker@opennet`
+   Prüfe `systemctl status buildbot@opennet.service`
    Prüfe, ob Prozess läuft `ps -ef | grep buildbot`.
    Prüfe Log unter /var/lib/buildbot/controllers/opennet/twistd.log
 
