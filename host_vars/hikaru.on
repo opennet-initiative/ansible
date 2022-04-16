@@ -3,6 +3,8 @@ short_hostname: hikaru
 wan_interface: eth1
 
 olsr_main_ip: 192.168.10.18
+olsr_main_ipv6: fd32:d8d3:87da::10:18
+
 olsr_interfaces:
   - { name: "eth0" }
 
@@ -44,4 +46,4 @@ mediawiki_upload_filetypes:
  - dia
  - odt
 
-debian_release: buster
+debian_release: bullseye
