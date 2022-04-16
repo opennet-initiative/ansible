@@ -7,8 +7,8 @@
     - mediawiki
     - automysqlbackup
     - imagemagick
-#    - python3-pymysql
-    - python-pymysql
+    - python3-pymysql
+#    - python-pymysql
   notify: 
     - restart apache2
     - update mediawiki
