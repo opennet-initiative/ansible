@@ -13,8 +13,13 @@
 
 - name: config - Eigentümer der Konfigurationsdateien ändern
   file:
-    path: "{{ buildbot_worker_path }}"
-    state: directory
-    recurse: yes
+    path: "{{ item }}"
     owner: buildbot
+    group: buildbot
+  with_items:
+    - "{{ buildbot_worker_path }}"
+    - "{{ buildbot_worker_path }}/buildbot.tac"
+    - "{{ buildbot_worker_path }}/info"
+    - "{{ buildbot_worker_path }}/twistd.hostname"
+    - "{{ buildbot_worker_path }}/twistd.log"
   notify: restart buildbot
