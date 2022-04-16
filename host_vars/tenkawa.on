@@ -3,6 +3,7 @@ short_hostname: tenkawa
 wan_interface: eth1
 
 olsr_main_ip: 192.168.10.17
+olsr_main_ipv6: fd32:d8d3:87da::10:17
 
 olsr_interfaces:
   - { name: "eth0" }
@@ -17,4 +18,4 @@ letsencrypt_certificates:
 apache2_sites:
   - { name: media-mirror }
 
-debian_release: buster
+debian_release: bullseye
