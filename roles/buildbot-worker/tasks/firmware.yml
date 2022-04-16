@@ -6,7 +6,6 @@
       - git
       - flex
       - gcc-multilib
-      #- subversion
       - doxygen
       - file
       - gawk
