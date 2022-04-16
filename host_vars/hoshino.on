@@ -24,4 +24,4 @@ olsr_interfaces:
 
 buildbot_controller_host: goat.on
 
-debian_release: buster
+debian_release: bullseye 
