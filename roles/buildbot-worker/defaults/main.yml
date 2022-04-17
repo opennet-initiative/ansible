@@ -17,6 +17,7 @@ buildbot_info_host: "Opennet Buildbot Worker"
 # ssh-key
 buildbot_ssh_private_key_path: "{{ buildbot_home }}/.ssh/buildbot_rsa_key"
 buildbot_ssh_public_key_path: "{{ buildbot_ssh_private_key_path }}.pub"
+buildbot_ssh_known_hosts_path: "{{ buildbot_home }}/.ssh/known_hosts"
 
 # upload
 buildbot_upload_host: "downloads.on"

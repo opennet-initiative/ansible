@@ -32,3 +32,10 @@
   known_hosts:
     name: "{{ buildbot_upload_host }}"
     key: "{{ buildbot_upload_host }} {{ ssh_server_key_public.stdout }}"
+    path: "{{ buildbot_ssh_known_hosts_path }}"
+
+- name: upload - Eigentümer der known_hosts Datei ändern
+  file:
+    path: "{{ buildbot_ssh_known_hosts_path }}"
+    owner: buildbot
+    group: buildbot
