@@ -1,40 +1,22 @@
-- name: Paket-Weiterleitung erlauben
+- name: networking - Paket-Weiterleitung erlauben
   lineinfile:
-        create=yes
-        line="{{ item.key }}={{ item.value }}"
-        regexp="{{ item.key }}="
-        dest=/etc/sysctl.d/opennet.conf
+    create: yes
+    line: "{{ item.key }}={{ item.value }}"
+    regexp: "{{ item.key }}="
+    dest: /etc/sysctl.d/opennet.conf
   with_items:
     - { key: "net.ipv4.ip_forward", value: 1}
-    # Reverse-Path-Filterung kann aufgrund moeglicher asymmetrischer Routen nur im "loose"-Modus (=2) erfolgen
-    # siehe admin-Mailingliste, "rp_filter auf UGW-Servern", Mon, 18 Jan 2016 00:09:15 +0100
+    # Reverse-Path-Filterung kann aufgrund moeglicher asymmetrischer 
+    # Routen nur im "loose"-Modus (=2) erfolgen
+    # siehe admin-Mailingliste, "rp_filter auf UGW-Servern", 
+    # Mon, 18 Jan 2016 00:09:15 +0100
     - { key: "net.ipv4.conf.all.rp_filter", value: 2}
   notify: restart sysctl
 
-# Fuer systemd:
-# Nach der Konfiguration des loopback-Interface wollen wir die primaere UGW-Mesh-IP auf dem
-# Interface konfigurieren.
-- name: Main-IP auf loopback-Interface konfigurieren (systemd-networkd)
+# Nach der Konfiguration des loopback-Interface wollen wir die 
+# primaere UGW-Mesh-IP auf dem Interface konfigurieren.
+- name: networking - Main-IP auf loopback-Interface konfigurieren
   template:
-          src=on-loopback.network
-          dest=/etc/systemd/network/on-loopback.network
+    src: on-loopback.network
+    dest: /etc/systemd/network/on-loopback.network
   notify: restart systemd-networkd
-  when: ansible_service_mgr == "systemd"
-
-# Nur fuer sysvinit:
-# Die Konfiguration der Main-IP via /etc/network/interfaces funktioniert nicht zuverlässig, da
-# beispielsweise strato auf seinen vServern diese Datei beim Booten überschreibt.
-# Die Ausführung des "ip addr add"-Kommandos darf fehlschlagen ("|| true"), falls die Adresse
-# bereits konfiguriert ist - andernfalls könnte eine Ausführung des "run rc.local"-Handlers
-# unerwünschterweise zum Abbruch führen.
-- name: Main-IP auf loopback-Interface konfigurieren (sysv)
-  lineinfile:
-          path=/etc/rc.local
-          regexp="^ip addr add [0-9.]+/32 dev lo.*"
-          line="ip addr add {{ olsr_main_ip }}/32 dev lo || true"
-          insertbefore="exit 0"
-  notify:
-    - run rc.local
-    # olsrd ignoriert nameservice-Eintraege ohne aktive olsr_main_ip - also nochmal neustarten
-    - restart olsrd
-  when: ansible_service_mgr == "sysvinit"
