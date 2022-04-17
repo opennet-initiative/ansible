@@ -1,18 +1,7 @@
-- name: network - prüfe interface.d Einbindung
-  lineinfile:
-    path: /etc/network/interfaces
-    line: source /etc/network/interfaces.d/*
-    insertbefore: BOF
-    create: no
-    backup: yes
-
 - name: network - setze IPv6 ULA Adresse auf Loopback Interface
   template:
-    src: "loopback-oni-ula"
-    dest: "/etc/network/interfaces.d/"
-  register: add_loopback_ula
-  notify: restart olsrd2
-
-- name: network - restart loopback Interface
-  command: bash -c "ifdown lo && ifup lo"
-  when: add_loopback_ula.changed == true
+    src: on-loopback-olsr2.network
+    dest: /etc/systemd/network/on-loopback-olsr2.network
+  notify: 
+    - restart systemd-networkd
+    - restart olsrd2

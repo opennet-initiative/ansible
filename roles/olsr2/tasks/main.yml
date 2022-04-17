@@ -1,3 +1,4 @@
+- include_tasks: network-cleanup.yml
 - include_tasks: network.yml
 - include_tasks: olsr2.yml
 - include_tasks: policy-routing.yml

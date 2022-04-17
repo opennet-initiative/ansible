@@ -1,0 +1,23 @@
+- name: network-cleanup - Entferne alte interfaces.d Loopback Konfiguration
+  file:
+    path: /etc/network/interfaces.d/loopback-oni-ula
+    state: absent
+  register: loopback_ula
+
+- name: network-cleanup - Neustart des Loopback Interfaces 
+  command: bash -c "ifdown lo && ifup lo"
+  when: loopback_ula.changed == true
+
+- name: network-cleanup - Prüfe interfaces.d Verzeichnis
+  find:
+    paths: /etc/network/interfaces.d
+  register: interfaced_dir
+
+- name: network-cleanup - Entferne interface.d Einbindung
+  lineinfile:
+    path: /etc/network/interfaces
+    line: source /etc/network/interfaces.d/*
+    state: absent
+    create: no
+    backup: yes
+  when: interfaced_dir.matched == 0
