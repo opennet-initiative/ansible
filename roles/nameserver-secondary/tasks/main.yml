@@ -1,52 +1,6 @@
-- name: Nameserver installieren
-  apt: state=present pkg=bind9
-
-- name: dnskey vom primaeren DNS-Server abholen
-  delegate_to: root@{{ dns_zone_masters_ipv4[0] }}
-  shell: grep -w 'secret' /etc/bind/named.conf.options | cut -f 2 -d '"'
-  register: dnskey_secret_fetch
-  changed_when: False
-  run_once: yes
-  # ignoriere den "--check"-Modus (sonst schlaegt der naechste Schritt beim Testen fehl)
-  check_mode: no
-
-- fail: msg="Kein geheimer dnskey auf dem primaeren DNS-Server gefunden"
-  when: not dnskey_secret_fetch.stdout
-
-- name: Nameserver konfigurieren
-  template:
-    src=named.conf.local
-    dest=/etc/bind/
-  notify: restart bind
-
-- name: originale Nameserver-Konfiguration deaktivieren
-  lineinfile: state=present
-              backrefs=yes
-              dest=/etc/bind/named.conf
-              regexp='^(include.*named\.conf\.options.*)$'
-              line='#\1'
-  notify: restart bind
-
-- name: Zugang zum DNS-Server fuer Zonen-Transfer erlauben
-  template:
-    src=ferm/320_dns-zone-slave.inc
-    dest=/etc/ferm/ferm.d/
-  notify: restart ferm
-
-- name: resolv.conf uebertragen
-  copy: src=resolv.conf
-        dest=/etc/
-        mode=0644
-
-- name: munin-Plugin für Bind aktivieren
-  file:
-          state: link
-          src: /usr/share/munin/plugins/bind9_rndc
-          dest: /etc/munin/plugins/bind9_rndc
-  notify: restart munin-node
-
-- name: munin-Plugin für Bind konfigurieren
-  copy:
-          src: munin-plugin.conf
-          dest: /etc/munin/plugin-conf.d/opennet_dns_slave
-  notify: restart munin-node
+# Anycast DNS seems not to work with OLSR2 currently
+#- include_tasks: network.yml
+- include_tasks: bind.yml
+- include_tasks: ferm.yml        
+- include_tasks: monitoring.yml  
+- include_tasks: resolv.yml

@@ -1,0 +1,7 @@
+- name: network - setze IPv6 ULA Adresse für Anycast DNS auf tap-mesh Interface
+  template:
+    src: on-tap-mesh-nameserver.network
+    dest: /etc/systemd/network/on-tap-mesh-nameserver.network
+  notify: 
+    - restart systemd-networkd
+    - restart olsrd2

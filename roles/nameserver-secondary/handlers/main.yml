@@ -6,3 +6,9 @@
 
 - name: restart munin-node
   service: name=munin-node state=restarted
+
+- name: restart olsrd2
+  service: name=olsrd2 state=restarted
+
+- name: restart systemd-networkd
+  systemd: name=systemd-networkd.service state=restarted

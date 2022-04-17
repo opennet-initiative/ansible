@@ -1,0 +1,4 @@
+- name: resolv - Konfiguration übertragen (resolv.conf)
+  copy: src=resolv.conf
+        dest=/etc/
+        mode=0644

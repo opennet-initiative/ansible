@@ -4,3 +4,5 @@ dns_zone_masters_ipv4:
 
 dns_zone_masters_ipv6:
   - 2001:638:804:2228:5652:ff:fe41:6e19
+
+nameserver_secondary_ipv6: fd32:d8d3:87da::53

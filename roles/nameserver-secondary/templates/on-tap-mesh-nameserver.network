@@ -1,0 +1,5 @@
+[Match]
+Name=tap-mesh
+
+[Address]
+Address={{ nameserver_secondary_ipv6 }}/128
