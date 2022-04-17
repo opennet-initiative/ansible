@@ -1,12 +1,22 @@
+##
+## We moved the playbook inside "playbook-server.yml"
+##
+
 - hosts: ugw_server
-  roles:
-    - basic-server
-    - olsr
-    - olsr2
-    - python-module
-    - ugw-server
-    - nameserver-slave
-    - role: letsencrypt
-      when: letsencrypt_certificates is defined
-    - role: apache2-server
-      when: apache2_sites is defined
+  tasks:
+  - name: ugw servers moved into general servers playbook
+    fail: 
+      msg: "Please use playbook-servers.yml."
+
+#- hosts: ugw_server
+#  roles:
+#    - basic-server
+#    - olsr
+#    - olsr2
+#    - python-module
+#    - ugw-server
+#    - nameserver-secondary
+#    - role: letsencrypt
+#      when: letsencrypt_certificates is defined
+#    - role: apache2-server
+#      when: apache2_sites is defined

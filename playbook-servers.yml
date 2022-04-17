@@ -1,7 +1,21 @@
 - hosts: ae22:frieda23:hetzner
   roles:
-    - role: basic-server
-    - role: olsr
+    - basic-server
+    - olsr
+    - olsr2
+    - role: letsencrypt
+      when: letsencrypt_certificates is defined
+    - role: apache2-server
+      when: apache2_sites is defined
+
+- hosts: ugw_server
+  roles:
+    - basic-server
+    - olsr
+    - olsr2
+    - python-module
+    - ugw-server
+    - nameserver-secondary
     - role: letsencrypt
       when: letsencrypt_certificates is defined
     - role: apache2-server
@@ -19,7 +33,6 @@
 - hosts: inez.on:maki.on
   roles:
     - backup-storage
-    - olsr2
 
 - hosts: amano.on
   roles:
