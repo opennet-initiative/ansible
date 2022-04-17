@@ -1,0 +1,8 @@
+- name: Installiere Cron-Job für regelmäßige RSS-Aktualisierung
+  cron:
+    name: "on-hugo-deploy-prod.sh"
+    job: "cd /home/hugo/static-frontpage && ./on-hugo-deploy-prod.sh"
+    #run at 2:05 each day
+    minute: "5"
+    hour: "2"
+    user: hugo

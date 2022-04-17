@@ -1,0 +1,15 @@
+- name: hugo - Software installieren
+  apt:
+    name:
+      - hugo
+      - python3-pip
+      # Bibliotheken werden in on-rss2md.py benötigt
+      - python3-lxml     # to have a fixed parser for bs4
+      - python3-bs4      # BeautifulSoup for parsing (even malformed) HTML
+      - python3-requests
+    install_recommends: no
+
+# Bibliothek wird in on-ics2md.py benötigt
+- name: hugo - Installiere ICS Bibliothek via pip
+  pip:
+    name: ics
