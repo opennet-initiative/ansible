@@ -1,4 +1,11 @@
-- name: network - setze IPv6 ULA Adresse auf Loopback Interface
+- name: network - Aktiviere systemd-networkd Dienst
+  systemd:
+    name: systemd-networkd.service
+    enabled: yes
+    masked: no
+  notify: restart systemd-networkd
+
+- name: network - Setze IPv6 ULA Adresse auf Loopback Interface
   template:
     src: on-loopback-olsr2.network
     dest: /etc/systemd/network/on-loopback-olsr2.network
