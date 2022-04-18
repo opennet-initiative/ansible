@@ -3,12 +3,10 @@ short_hostname: ruri
 wan_interface: eth1
 
 olsr_main_ip: 192.168.10.12
+olsr_main_ipv6: fd32:d8d3:87da::10:12
 
 olsr_interfaces:
   - { name: "eth0" }
-
-olsr_nameservice_announcements:
-  - { on_tld_base: downloads }
 
 letsencrypt_certificates:
   - { on_tld_base: downloads }
@@ -19,5 +17,9 @@ apache2_sites:
       # die Firmware-Versionen vor 0.5.4 unterstützen kein HTTPS
       - ^/openwrt/stable/0\.[1-4][./]
       - ^/openwrt/stable/0\.5\.[0123]
+
+domain_proxy_redirect:
+  - { on_tld_base: downloads, ip: "{{ olsr_main_ip }}", port: 80, service: http }
+  - { on_tld_base: downloads, ip: "{{ olsr_main_ip }}", port: 443, service: https }
 
 debian_release: buster
