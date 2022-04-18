@@ -26,43 +26,12 @@ olsr_extra_settings: |
 munin_plugins:
   - ondataservice_firmware_versions
 
-olsr_nameservice_announcements:
- # provide "http://api.on/" for firmware up to version 0.5.4 (traceroute and map visualization)
- - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.on"
- # FIXME: move api and map services to other server, non-standard ports and switch to "on_tld_base" (see below)
- - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.opennet-initiative.de"
- - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.on-i.de"
- - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.rostock.freifunk.net"
- - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.schwerin.freifunk.net"
- - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.wismar.freifunk.net"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.opennet-initiative.de"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.on-i.de"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.rostock.freifunk.net"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.schwerin.freifunk.net"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https api.wismar.freifunk.net"
- - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http map.opennet-initiative.de"
- - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http map.on-i.de"
- - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http map.rostock.freifunk.net"
- - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http map.schwerin.freifunk.net"
- - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http map.wismar.freifunk.net"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.opennet-initiative.de"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.on-i.de"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.rostock.freifunk.net"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.schwerin.freifunk.net"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https map.wismar.freifunk.net"
- # die http-Umleitung für domain-proxy.on-i.de ist nicht notwendig, da apache2 diese direkt ausliefert
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https domain-proxy.opennet-initiative.de"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https domain-proxy.on-i.de"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https domain-proxy.rostock.freifunk.net"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https domain-proxy.schwerin.freifunk.net"
- - "https://{{ olsr_main_ip }}:444|tcp|public-domain-https domain-proxy.wismar.freifunk.net"
-#  - { on_tld_base: api }
-#  - { on_tld_base: map }
-
 apache2_sites:
   - { name: domain-proxy }
+
 # slt läuft auf Port 443 - somit müssen unsere eigenen Dienste auf Port 444 laufen
 apache2_port_https: 444
+
 # Geräte und Dienste, die via domain-proxy ausgeliefert werden, können unsaubere
 # Content-Type-Header versenden.  Ein praktisches Beispiel ist die Kamera auf der Petrikirche
 # (http://kamera-petri.opennet-initiative.de/). Ihre Content-Type-Header sind fehlerhaft, auf dass
@@ -74,5 +43,14 @@ letsencrypt_certificates:
   - { on_tld_base: api }
   - { on_tld_base: map }
   - { on_tld_base: domain-proxy }
+
+domain_proxy_redirect:
+  - { on_tld_base: api, ip: "{{ olsr_main_ip }}", port: 81, service: http }
+  - { on_tld_base: api, ip: "{{ olsr_main_ip }}", port: 444, service: https }
+  - { on_tld_base: map, ip: "{{ olsr_main_ip }}", port: 81, service: http }
+  - { on_tld_base: map, ip: "{{ olsr_main_ip }}", port: 444, service: https }
+  # die http-Umleitung für domain-proxy.on-i.de ist nicht notwendig, da apache2 diese direkt ausliefert  - { on_tld_base: domain-proxy, ip: "{{ olsr_main_ip }}", port: 444, service: https }
+  # provide "http://api.on/" for firmware up to version 0.5.4 (traceroute and map visualization)
+  #- { "api.on", ip: "{{ olsr_main_ip }}", port: 81, service: http }
 
 debian_release: buster
