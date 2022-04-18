@@ -3,6 +3,7 @@ short_hostname: izumi
 wan_interface: eth1
 
 olsr_main_ip: 192.168.10.7
+olsr_main_ipv6: fd32:d8d3:87da::10:7
 
 olsr_interfaces:
   - { name: "eth0" }
@@ -22,4 +23,4 @@ apache2_sites:
       key: /etc/ssl/private/service-discovery.opennet-initiative.de.key
       chain: /usr/local/share/ca-certificates/opennet-server.crt
 
-debian_release: buster
+debian_release: bullseye
