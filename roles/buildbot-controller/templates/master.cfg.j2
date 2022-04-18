@@ -119,8 +119,8 @@ factory.addStep(steps.ShellCommand(command=["make", "-j2", "mt7623"], timeout=36
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "ramips"], timeout=3600))
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "ramips7620"], timeout=3600))
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "x86"], timeout=3600))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "doc"], timeout=3600))
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "mikrotik24"], timeout=3600))
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "doc"], timeout=3600))
 factory.addStep(steps.ShellCommand(command=["opennet/tools/buildbot-worker/export-build-buildbot.sh"]))
 factory.addStep(steps.ShellCommand(command=["make", "unpatch"]))
 
