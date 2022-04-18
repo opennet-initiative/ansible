@@ -1,0 +1,10 @@
+- name: fail2ban - Paket installieren
+  apt:
+    name: fail2ban
+    state: present
+
+- name: fail2ban - Apache Konfiguration kopieren
+  copy: 
+    src: etc/fail2ban/
+    dest: /etc/fail2ban/
+  notify: restart fail2ban

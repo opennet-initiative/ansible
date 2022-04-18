@@ -1,0 +1,65 @@
+- name: mitgliederverwaltung - DocumentRoot Verzeichnis anlegen
+  file: state=directory
+        dest=/var/www/mitgliederverwaltung/
+        owner=www-data
+        group=www-data
+        mode=755
+
+- name: mitgliederverwaltung - Logo kopieren
+  copy:
+    src: opennetlogo.png
+    dest: /var/www/mitgliederverwaltung/
+
+- name: Favicon kopieren
+  copy:
+    src: favicon.ico
+    dest: /var/www/mitgliederverwaltung/
+
+- name: mitgliederverwaltung - MoinMoin Haupt-Verzeichnis anlegen
+  file: state=directory
+        dest=/var/lib/mitgliederverwaltung/
+        owner=www-data
+        group=www-data
+        mode=755
+
+- name: mitgliederverwaltung - MoinMoin wiki-farm-Konfiguration kopieren
+  copy: src=moin-farmconfig.py
+        dest=/etc/moin/farmconfig.py
+
+- name: MoinMoin wiki-farm-Konfiguration kopieren
+  template: src=moin-site.py
+            dest=/etc/moin/mitgliederverwaltung.py
+
+- name: mitgliederverwaltung - MoinMoin underlay-Verzeichnis vorhanden?
+  stat: path=/var/lib/mitgliederverwaltung/underlay/
+  check_mode: no
+  register: moinmoin_underlay_installed
+
+- name: mitgliederverwaltung - MoinMoin underlay-Verzeichnis von frischer MoinMoin Installation kopieren
+  command: cp -r /usr/share/moin/underlay /var/lib/mitgliederverwaltung/ && chown -R www-data:www-data /var/lib/mitgliederverwaltung/underlay/
+  when: moinmoin_underlay_installed.stat.isdir is not defined
+#The following is not supported at the moment (remote recursive copy) therefore we have to copy it manually, see above.
+#  copy: src=/usr/share/moin/underlay/
+#        dest=/var/lib/mitgliederverwaltung/underlay/
+#        remote_src=True
+
+#- name: MoinMoin data-Verzeichnis grundauf neu generieren, wenn z.B. leeres MoinMoin getestet werden soll.
+#  copy: src=/usr/share/moin/data
+#        dst=/var/lib/mitgliederverwaltung/data
+#        owner=www-data
+#        group=www-data
+#        mode=700
+
+- name: mitgliederverwaltung - Sind Daten für MoinMoin Installation bereits vorhanden?
+  stat: path=/var/lib/mitgliederverwaltung/data/
+  check_mode: no
+  register: moinmoin_data_installed
+
+- name: mitgliederverwaltung - MoinMoin Macros kopieren
+  copy: src=macro/
+        dest=/var/lib/mitgliederverwaltung/data/plugin/macro/
+
+- name: mitgliederverwaltung - Backup der alten MoinMoin Installation zur neuen Installation kopieren
+  fail:
+    msg: TODO - Du musst das Backup des data/ Verzeichnisses per Hand selbst einspielen. Siehe auch roles/mitgliederverwaltung-server/info.txt
+  when: moinmoin_data_installed.stat.isdir is not defined
