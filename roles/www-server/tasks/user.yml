@@ -1,19 +1,20 @@
 - name: user - Benutzer anlegen
   user:
-    name: hugo
-    shell: /bin/bash
+    name: "{{ hugo_user }}"
+    shell: "{{ hugo_shell }}"
+    home: "{{ hugo_home }}"
 
 - name: user - Verzeichnis für statische Webseiten anlegen
   file:
     state: directory
     path: /var/www/www.opennet-initiative.de
-    owner: hugo
-    group: hugo
+    owner: "{{ hugo_user }}"
+    group: "{{ hugo_user }}"
 
 - name: user - Opennet Hugo Git Verzeichnis abholen
   git:
-    repo: 'https://github.com/opennet-initiative/hugo.git'
-    dest: /home/hugo/static-frontpage
+    repo: "https://github.com/opennet-initiative/hugo.git"
+    dest: "{{ hugo_home }}/static-frontpage"
   become: yes
-  become_user: hugo
+  become_user: "{{ hugo_user }}"
   become_method: su

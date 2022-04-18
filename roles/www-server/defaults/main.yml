@@ -1,0 +1,3 @@
+hugo_user: "hugo"
+hugo_home: "/home/{{ hugo_user }}"
+hugo_shell: "/bin/bash"

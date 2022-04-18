@@ -1,0 +1,16 @@
+- name: monitoring - installiere Abhängigkeiten
+  apt:
+    name: moreutils
+
+- name: monitoring - übertrage on-hugo-lib-update-check
+  copy:
+    src: on-hugo-lib-update-check
+    dest: /usr/local/sbin/on-hugo-lib-update-check
+    mode: 0755
+
+- name: monitoring - cron-Job für on-hugo-lib-update-check
+  cron:
+    name: on-hugo-lib-update-check
+    hour: 14
+    minute: 30
+    job: chronic /usr/local/sbin/on-hugo-lib-update-check

@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# Report outstanding hugo lib updates via pip.
+
+set -eu
+
+KEYWORD="ics"
+OUTDATED=$(pip3 list --outdated | grep $KEYWORD || true)
+
+if [ -z "$OUTDATED" ]; then
+  echo "No outstanding hugo lib updates via pip found."
+  exit 0
+else
+  echo "Found outstanding hugo lib updates via pip:"
+  echo "# pip3 list --outdated | grep $KEYWORD"
+  echo "$OUTDATED"
+  exit 1
+fi
