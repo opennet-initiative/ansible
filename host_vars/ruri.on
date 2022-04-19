@@ -22,4 +22,4 @@ domain_proxy_redirect:
   - { on_tld_base: downloads, ip: "{{ olsr_main_ip }}", port: 80, service: http }
   - { on_tld_base: downloads, ip: "{{ olsr_main_ip }}", port: 443, service: https }
 
-debian_release: buster
+debian_release: bullseye
