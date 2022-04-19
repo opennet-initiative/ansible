@@ -1,0 +1,19 @@
+- name: Installiere Python3
+  apt: 
+    name: python3
+
+- name: Kopiere Aktualisierungsskript
+  template:
+    src: on-update-domain-proxy
+    dest: /usr/local/sbin/
+    mode: 0755
+
+- name: Erstelle Ordner für statische Nameservice Datei
+  file:
+    path: "{{ domain_proxy_static_path }}"
+    state: directory
+
+- name: Erstelle statische Nameservice Datei für Opennet Server
+  template:
+    src: services_static.j2
+    dest: "{{ domain_proxy_static_path }}/{{ domain_proxy_static_config_name }}"

@@ -179,7 +179,7 @@ def get_parsed_arguments():
     parser.add_argument("--olsr-nameservices", dest="olsr_nameservice_filename",
                         default="/var/run/services_olsr", help="Pfad der OLSR-nameservice-Datei")
     parser.add_argument("--static-nameservices", dest="static_nameservice_filename",
-                        default="/var/run/services_static", help="Pfad der statischen nameservice-Datei")
+                        default="{{ domain_proxy_static_path }}/{{ domain_proxy_static_config_name }}", help="Pfad der statischen nameservice-Datei")
     parser.add_argument("--target-config", dest="target_config",
                         default="/etc/apache2/sites-available/{{ domain_proxy_apache2_config_name }}.conf",
                         help="Pfad der zu überschreibenden Webserver-Konfigurationsdatei")

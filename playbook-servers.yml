@@ -29,6 +29,8 @@
 - hosts: jun.on
   roles:
     - domain-proxy
+  tags: 
+    - domain-proxy
 
 - hosts: inez.on:maki.on
   roles:

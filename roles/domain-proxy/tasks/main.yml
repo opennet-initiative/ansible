@@ -1,4 +1,6 @@
-- include_tasks: core.yml
+- include_tasks: domain-proxy.yml
 - include_tasks: apache2.yml
 - include_tasks: slt.yml
 - include_tasks: www-status.yml
+- include_tasks: ferm.yml
+- include_tasks: cron.yml
