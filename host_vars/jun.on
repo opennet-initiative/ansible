@@ -12,6 +12,12 @@ olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
   - 139.30.241.201
 
+# we need at least one announcement to generate /var/run/services_olsr
+# this file is currently needed on jun for the domain-proxy service
+olsr_nameservice_announcements:
+ # provide "http://api.on/" for firmware up to version 0.5.4 (traceroute and map visualization)
+ - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.on"
+
 # die web-API auf yurika benoetigt Zugang zu einer aktuellen ondataservice-Datenbank
 olsr_extra_settings: |
   LoadPlugin "olsrd_ondataservice.so.0.1"
