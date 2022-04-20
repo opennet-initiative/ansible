@@ -12,11 +12,7 @@ olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
   - 139.30.241.205
 
-letsencrypt_certificates:
-  - { on_tld_base: irc }
-
 apache2_sites:
-  - { name: irc }
   - name: service-discovery
     certificate:
       cert: /etc/ssl/service-discovery.opennet-initiative.de.crt
