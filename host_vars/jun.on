@@ -55,7 +55,8 @@ domain_proxy_redirect:
   - { on_tld_base: api, ip: "{{ olsr_main_ip }}", port: 444, service: https }
   - { on_tld_base: map, ip: "{{ olsr_main_ip }}", port: 81, service: http }
   - { on_tld_base: map, ip: "{{ olsr_main_ip }}", port: 444, service: https }
-  # die http-Umleitung für domain-proxy.on-i.de ist nicht notwendig, da apache2 diese direkt ausliefert  - { on_tld_base: domain-proxy, ip: "{{ olsr_main_ip }}", port: 444, service: https }
+  # die http-Umleitung für domain-proxy.on-i.de ist nicht notwendig, da apache2 diese direkt ausliefert
+  - { on_tld_base: domain-proxy, ip: "{{ olsr_main_ip }}", port: 444, service: https }
   # provide "http://api.on/" for firmware up to version 0.5.4 (traceroute and map visualization)
   #- { "api.on", ip: "{{ olsr_main_ip }}", port: 81, service: http }
 
