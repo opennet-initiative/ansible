@@ -37,5 +37,6 @@ homematic_allowed_users:
   - tobiasmeyer.client.on
   - friedrichmeincke.client.on
   - thomasschmidt.client.on
+  - reinhardlange.client.on
 
 debian_release: bullseye 
