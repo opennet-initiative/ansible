@@ -19,18 +19,18 @@ olsr_nameservice_announcements:
  - "http://{{ olsr_main_ip }}:81|tcp|public-domain-http api.on"
 
 # die web-API auf yurika benoetigt Zugang zu einer aktuellen ondataservice-Datenbank
-olsr_extra_settings: |
-  LoadPlugin "olsrd_ondataservice.so.0.1"
-  {
-      PlParam "interval" "120"
-      PlParam "receive" "true"
-      PlParam "database" "/var/run/olsrd/ondataservice.db"
-      PlParam "dbcreatescript" "/usr/sbin/ondataservice-create-database"
-  }
+#olsr_extra_settings: |
+#  LoadPlugin "olsrd_ondataservice.so.0.1"
+#  {
+#      PlParam "interval" "120"
+#      PlParam "receive" "true"
+#      PlParam "database" "/var/run/olsrd/ondataservice.db"
+#      PlParam "dbcreatescript" "/usr/sbin/ondataservice-create-database"
+#  }
 
 # Auswertung von ondataservice-Daten
-munin_plugins:
-  - ondataservice_firmware_versions
+#munin_plugins:
+#  - ondataservice_firmware_versions
 
 apache2_sites:
   - { name: domain-proxy }
