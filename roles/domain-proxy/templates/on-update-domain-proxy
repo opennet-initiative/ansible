@@ -4,10 +4,10 @@
 {{ ansible_managed }}
 
 Aktualisiere http- und https-Proxy-Konfigurationen anhand von announcierten
-Domains einzelner APs.
+Domains einzelner Server oder APs.
 Details siehe https://opennet-initiative.de/wiki/Opennet_Domain_Proxy
 Dieses Skript sollte regelmäßig als root aufgerufen werden. Es löst bei Bedarf
-einen reload von nginx oder einen restart von slt aus.
+einen reload von apache2 oder einen restart von slt aus.
 """
 
 import argparse

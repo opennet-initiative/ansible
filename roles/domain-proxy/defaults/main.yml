@@ -1,4 +1,4 @@
-domain_proxy_www_path: /var/www/domain-proxy.opennet-initiative.de
+domain_proxy_web_path: /var/www/domain-proxy.opennet-initiative.de
 domain_proxy_apache2_config_name: on-domain-proxy-redirect
 
 # static services file

@@ -1,0 +1,29 @@
+- name: web - Erzeuge Status-Verzeichnis für Konfigurationen und Logs
+  file: 
+    dest: "{{ domain_proxy_web_path }}/status"
+    state: directory
+
+# forcieren des Symlinks, da bei der Erstinstallation die slt.conf fehlt
+- name: web - Verlinke Konfigurationsdateien im Status-Verzeichnis
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ domain_proxy_web_path }}/status/{{ item.dest }}"
+    state: link
+    force: yes
+  with_items:
+    - { dest: apache2.conf, src: "/etc/apache2/sites-enabled/{{ domain_proxy_apache2_config_name }}.conf" }
+    - { dest: slt.conf, src: /etc/slt.conf }
+    - { dest: services_olsr, src: /var/run/services_olsr }
+    - { dest: "{{ domain_proxy_static_config_name }}", src: "{{ domain_proxy_static_path }}/{{ domain_proxy_static_config_name }}" }
+
+- name: web - Kopiere Daten für Webseite
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ domain_proxy_web_path }}/{{ item.dest }}"
+  with_items:
+    - { src: web/favicon.ico, dest: favicon.ico }
+    - { src: web/FOOTER.html, dest: FOOTER.html}
+    - { src: web/HEADER.html, dest: HEADER.html}
+    - { src: web/.htaccess, dest: .htaccess }
+    - { src: web/Opennet_logo_quer.gif, dest: Opennet_logo_quer.gif}
+  notify: restart apache2

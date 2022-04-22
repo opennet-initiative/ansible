@@ -1,5 +1,5 @@
-- name: Aktiviere cron-Job für regelmäßige Aktualisierung
+- name: cron - Aktiviere Aufgabe für regelmäßige Aktualisierung
   cron: 
     name: on-update-domain-proxy
-    job: "/usr/local/sbin/on-update-domain-proxy --log-level info --log-file {{ domain_proxy_www_path }}/{{ short_hostname }}/update.log"
+    job: "/usr/local/sbin/on-update-domain-proxy --log-level info --log-file {{ domain_proxy_web_path }}/status/update.log"
     minute: "*/15"

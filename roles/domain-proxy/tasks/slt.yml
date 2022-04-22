@@ -1,15 +1,21 @@
-- name: Installiere slt
-  apt: pkg=slt state=present
+- name: slt - Installiere Software
+  apt: 
+    name: slt
+    state: present
 
 # TODO: die folgenden beiden Aktionen können entfernt werden, sobald https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=828188 in stable ist
-- name: init-Skript für slt kopieren
-  copy: src=slt/init
-        dest=/etc/init.d/slt
-        mode=755
+- name: slt - Init-Skript für slt kopieren
+  copy: 
+    src: slt/init
+    dest: /etc/init.d/slt
+    mode: 755
 
-- name: default-Datei für slt kopieren
-  copy: src=slt/default
-        dest=/etc/default/slt
+- name: slt - Default-Datei kopieren
+  copy: 
+    src: slt/default
+    dest: /etc/default/slt
 
-- name: slt aktivieren
-  service: name=slt enabled=yes
+- name: slt - Dienst aktivieren
+  service: 
+    name: slt 
+    enabled: yes
