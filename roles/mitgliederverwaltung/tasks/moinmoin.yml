@@ -1,5 +1,4 @@
-#TODO: Nicht mehr in Debian Bullseye enthalten
-#- name: moinmoin - Paket installieren
-#  apt:
-#          pkg: python-moinmoin
-#          state: present
+- name: moinmoin - Paket installieren
+  apt:
+    name: python-moinmoin
+    state: present
