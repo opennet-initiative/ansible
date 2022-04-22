@@ -38,7 +38,7 @@
 
 - hosts: amano.on
   roles:
-    - mitgliederverwaltung
+#    - mitgliederverwaltung
     - mitgliedsantrag
     - opennetca
 
@@ -86,3 +86,8 @@
 - hosts: itsuki.on-i.de
   roles:
     - basic-server
+
+# Mitgliederverwaltung Debian 10
+#- hosts: nagare
+#  roles:
+#    - mitgliederverwaltung

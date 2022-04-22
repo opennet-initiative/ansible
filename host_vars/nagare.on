@@ -1,0 +1,34 @@
+short_hostname: nagare
+
+wan_interface: eth1
+
+olsr_main_ip: 192.168.10.23
+olsr_main_ipv6: fd32:d8d3:87da::10:23
+
+olsr_interfaces:
+  - { name: "eth0" }
+
+domain_proxy_redirect:
+  - { on_tld_base: mitgliederverwaltung, ip: "{{ olsr_main_ip }}", port: 80, service: http }
+  - { on_tld_base: mitgliederverwaltung, ip: "{{ olsr_main_ip }}", port: 443, service: https }
+
+letsencrypt_certificates:
+  - { on_tld_base: mitgliederverwaltung }
+
+apache2_sites:
+  - { name: mitgliederverwaltung }
+apache2_mods:
+ - { name: cgid }
+
+# allowed users may read and write
+# These users need to be defined on the host level, since they are used by multiple roles
+# ("apache-sites" and "mitgliederverwaltung").
+mitgliederverwaltung_allowed_users:
+  - larskruse.client.on
+  - martingarbe.client.on
+  - mathiasmahnke.client.on
+  - tobiasmeyer.client.on
+  - friedrichmeincke.client.on
+  - reneborrmann.client.on
+
+debian_release: buster 

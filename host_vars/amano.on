@@ -13,30 +13,15 @@ olsr_hna_announcements_ipv4:
   - 139.30.241.207
 
 letsencrypt_certificates:
-  - { on_tld_base: mitgliederverwaltung }
   - { on_tld_base: mitgliedsantrag }
   - { on_tld_base: ca }
   - { on_tld_base: ca-internal }
 
 apache2_sites:
-  - { name: mitgliederverwaltung }
   - { name: mitgliedsantrag }
   - { name: ca }
   - { name: ca-internal }
-apache2_mods:
- - { name: cgid }
 apache2_php: true
-
-# allowed users may read and write
-# These users need to be defined on the host level, since they are used by multiple roles
-# ("apache-sites" and "mitgliederverwaltung").
-mitgliederverwaltung_allowed_users:
-  - larskruse.client.on
-  - martingarbe.client.on
-  - mathiasmahnke.client.on
-  - tobiasmeyer.client.on
-  - friedrichmeincke.client.on
-  - reneborrmann.client.on
 
 opennetca_allowed_users:
   - christianwedell.client.on
