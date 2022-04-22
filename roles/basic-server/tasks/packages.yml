@@ -23,6 +23,7 @@
       - apt-dater-host
       - acpi-support-base
       - debian-security-support
+      - wget
 
 - name: packages -- Server-relevante Pakete installieren (ab Jessie)
   apt:
