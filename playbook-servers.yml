@@ -38,7 +38,6 @@
 
 - hosts: amano.on
   roles:
-#    - mitgliederverwaltung
     - mitgliedsantrag
     - opennetca
 
@@ -88,6 +87,6 @@
     - basic-server
 
 # Mitgliederverwaltung Debian 10
-#- hosts: nagare
-#  roles:
-#    - mitgliederverwaltung
+- hosts: nagare.on
+  roles:
+    - mitgliederverwaltung
