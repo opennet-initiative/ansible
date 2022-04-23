@@ -3,6 +3,7 @@ short_hostname: akito
 wan_interface: br-wan
 
 olsr_main_ip: 192.168.10.11
+olsr_main_ipv6: fd32:d8d3:87da::10:11
 
 olsr_interfaces:
   - { name: "br-mesh" }
@@ -16,5 +17,5 @@ olsr_hna_announcements_ipv4:
 
 virtualization_wan_bridge_interface: "br-virt-wan"
 
-debian_release: buster
+debian_release: bullseye
 debian_additional_components: contrib non-free
