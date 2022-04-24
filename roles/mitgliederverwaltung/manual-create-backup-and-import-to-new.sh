@@ -18,5 +18,5 @@ scp root@$SERVER_OLD:/tmp/data.tar.bz2 $SERVER_NEW:/tmp/
 ssh root@$SERVER_OLD rm /tmp/data.tar.bz2
 
 #Entpacke Backup und lösche Datei anschließend 
-ssh root@$SERVER_NEW tar -xvjfC /var/lib/mitgliederverwaltung/data /tmp/data.tar.bz2
+ssh root@$SERVER_NEW tar -xvjC /var/lib/mitgliederverwaltung/ -f /tmp/data.tar.bz2
 ssh root@$SERVER_NEW rm /tmp/data.tar.bz2
