@@ -11,8 +11,8 @@ class Config(FarmConfig):
     language_default = 'de'
     charset = 'utf-8'
     page_front_page = u"StartSeite"
-    data_dir = '/var/lib/mitgliederverwaltung/data/'
-    data_underlay_dir = '/var/lib/mitgliederverwaltung/underlay'
+    data_dir = '{{ mitgliederverwaltung_app_path }}/data/'
+    data_underlay_dir = '{{ mitgliederverwaltung_app_path }}/underlay'
     navi_bar = [u'Mitglieder', u'AktuelleÄnderungen', u'SeiteFinden', u'HilfeInhalt']
     # enable temporarily for administrative actions
     #superuser = [u'foo.client.on']

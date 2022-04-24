@@ -1,4 +1,8 @@
 - name: moinmoin - Paket installieren
   apt:
     name: python-moinmoin
-    state: present
+
+- name: moinmoin - Konfiguration (farmconfig) übertragen
+  copy: 
+    src: moin-farmconfig.py
+    dest: /etc/moin/farmconfig.py

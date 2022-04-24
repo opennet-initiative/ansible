@@ -1,0 +1,3 @@
+mitgliederverwaltung_user: "www-data"
+mitgliederverwaltung_web_path: "/var/www/mitgliederverwaltung/"
+mitgliederverwaltung_app_path: "/var/lib/mitgliederverwaltung"
