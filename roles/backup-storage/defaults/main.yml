@@ -20,6 +20,7 @@ backup_storage_source_hosts:
   - name: kinjo.on
   - name: goat.on
   - name: hoshino.on
+  - name: nagare.on
   # Gateways
   - name: erina.on
   - name: megumi.on
