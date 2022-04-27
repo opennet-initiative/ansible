@@ -13,14 +13,14 @@ olsr_hna_announcements_ipv4:
   - 139.30.241.205
 
 apache2_sites:
+  - { name: services }
   - name: service-discovery
     certificate:
       cert: /etc/ssl/service-discovery.opennet-initiative.de.crt
       key: /etc/ssl/private/service-discovery.opennet-initiative.de.key
       chain: /usr/local/share/ca-certificates/opennet-server.crt
 
-# TODO: Workaround, apache2 role needs a LE certs
 letsencrypt_certificates:
-  - { on_tld_base: "{{ short_hostname }}" }
+  - { on_tld_base: services }
 
 debian_release: bullseye
