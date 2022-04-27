@@ -1,10 +1,6 @@
 olsr2_routing_table_id: 121
 olsr2_routing_table_name: olsrd2
 
-olsr2_interfaces:
-  - { name: 'tap-mesh' }
-  - { name: 'loopback' }
-
 # Dieser Wert (typischerweise ein Vielfaches von 2) wird zur Markierung von
 # Paketen verwendet, die vorranging _nicht_ via olsr geroutet werden sollen.
 non_olsr2_policy_routing_mark: 32

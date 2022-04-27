@@ -6,13 +6,13 @@
 @def $IF_OLSR = ({{ olsr_interfaces|map(attribute='name')|join(' ') }});
 
 
-domain (ip ip6) table filter {
+domain ip table filter {
 	chain service-input interface $IF_OLSR {
-		# olsrd: Routing (v1/v2)
-		proto udp dport (269 698) ACCEPT;
-		# olsrd: http-info
+		# OLSR1 IPv4 Routing
+		proto udp dport 698 ACCEPT;
+		# OLSR1 IPv4 http-info
 		proto tcp dport 8080 ACCEPT;
-		# munin
+		# munin IPv4
 		proto tcp dport munin ACCEPT;
 	}
 
