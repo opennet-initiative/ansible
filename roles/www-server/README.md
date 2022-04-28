@@ -9,6 +9,3 @@ https://wiki.opennet-initiative.de/wiki/Server_Installation/hugo
 2. Anlegen des Hugo Benutzers
 3. Erstellen der Verzeichnisse
 4. Anlegen des Hugo Cronjobs
-
-# TODO
-Inhalte vom /download Verzeichnis müssen manuell vom alten Server kompiert werden.
