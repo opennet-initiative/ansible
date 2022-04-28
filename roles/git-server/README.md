@@ -1,10 +1,10 @@
 # Überblick
-Diese Rolle installiert die Opennet DEV Umgebung.
+Diese Rolle installiert einen Opennet Git Server.
 
 Enthalten sind:
 * Anlegen eines Git Benutzers
 * Vorbereitung der Gitolite Installation
-* Bereitstellung der Git Repositories via HTTPS
+* ggf. Bereitstellung der Git Repositories via HTTPS
 
 ## Konfiguration
 

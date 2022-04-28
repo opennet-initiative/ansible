@@ -1,0 +1,31 @@
+- name: git-web - Benutzerrechte anpassen
+  user:
+    name: "{{ gitserver_git_user_web }}"
+    groups: "{{ gitserver_git_user }}"
+    append: yes
+  notify: restart apache2
+
+- name: git-web - Verzeichnis anlegen
+  file:
+    path: "{{ gitserver_git_path_web }}"
+    state: directory
+    owner: "{{ gitserver_git_user_web }}"
+    group: "{{ gitserver_git_user_web }}"
+
+- name: git-web - Dateien kopieren
+  copy:
+    src: "git/web/{{ item }}"
+    dest: "{{ gitserver_git_path_web }}/"
+    owner: "{{ gitserver_git_user_web }}"
+    group: "{{ gitserver_git_user_web }}"
+  with_items:
+    - HEADER.html
+    - FOOTER.html
+    - Opennet_logo_quer.gif
+
+- name: git-web - Verweise zu Repositories erzeugen
+  file:
+    src: "{{ gitserver_git_path }}/repositories/{{ item }}.git"
+    dest: "{{ gitserver_git_path_web }}/{{ item }}"
+    state: link
+  with_items: "{{ gitserver_repositories }}"
