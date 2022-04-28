@@ -39,4 +39,13 @@ backup_storage_crypto_mount_points:
   - /media/backup
 ```
 
-Beim ssh-Login (als root) auf dem Backup-Server wird ein Hinweis angezeigt, falls der verschlüsselte Datenträger nicht gemountet ist.
+Beim ssh-Login (als root) auf dem Backup-Server wird ein Hinweis angezeigt, falls der verschlüsselte Datenträger nicht gemountet ist.#
+
+# Betrieb
+
+Kontrolle des rrsync-Vorgangs von einem Backup Server gegenüber dem Source-Host:
+```
+/usr/bin/rsync -a --delete --numeric-ids --relative --delete-excluded --exclude=/dev/ --exclude=/media/ --exclude=/mnt/ --exclude=/proc/ --exclude=/sys/ --exclude=/run/ --exclude=/tmp/ --exclude=/var/cache/ --exclude=/var/tmp/ --exclude=/var/lib/icinga/spool/ --exclude=/var/lib/mlocate/ --exclude=/var/lib/munin/*.tmp* --exclude=/var/log/munin/munin-cgi-graph.log* --exclude=/var/log/munin/munin-graph.log* --exclude=/var/log/munin/munin-html.log* --exclude=/var/log/munin/munin-limits.log* --exclude=/var/log/munin/munin-update.log* --exclude=/home/trac-bitten-slave/ --exclude=/var/lib/buildbot/ --exclude=/var/www/media-mirror/ --exclude=/var/log/btmp* --exclude=/var/lib/fail2ban/ --exclude=/var/lib/mysql/wiki_*/objectcache*.MYD --exclude=/etc/.git/ --rsh="/usr/bin/ssh -i /root/.ssh/backup-storage_rsa" --progress root@<HOSTNAME>:/ /media/backup/rsnapshot/.sync/<HOSTNAME>/
+````
+
+The command can be run as root on the backup host. You need to replace the <HOSTNAME>. The exclude statements can be adopted and are showing an example as of an current exclude list as time of writing the documention.
