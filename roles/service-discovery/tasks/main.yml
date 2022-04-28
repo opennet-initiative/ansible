@@ -1,0 +1,2 @@
+- include_tasks: web.yml
+- include_tasks: service-discovery.yml

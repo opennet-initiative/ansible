@@ -1,0 +1,8 @@
+- name: service-discovery - Kopiere Daten für Service-Discovery
+  copy:
+    src: "{{ item }}"
+    dest: "{{ service_discovery_path }}/{{ item }}"
+  with_items:
+    - ugw-services.csv
+    - user-services.csv
+    - README

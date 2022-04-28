@@ -1,0 +1,6 @@
+mesh		openvpn	erina.opennet-initiative.de	1602	udp	5
+mesh		openvpn	subaru.opennet-initiative.de	1602	udp	5
+mesh		openvpn	megumi.opennet-initiative.de	1602	udp	5
+proxy-gw	openvpn	erina.opennet-initiative.de	1600	udp	5	location:Duesseldorf/Deutschland
+proxy-gw	openvpn	subaru.opennet-initiative.de	1600	udp	5	location:Falkenstein/Deutschland
+proxy-gw	openvpn	megumi.opennet-initiative.de	1600	udp	5	location:Muenchen/Deutschland

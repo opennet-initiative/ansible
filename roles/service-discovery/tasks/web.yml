@@ -1,0 +1,15 @@
+- name: web - Erzeuge Verzeichnis
+  file: 
+    dest: "{{ service_discovery_path }}"
+    state: directory
+
+- name: web - Kopiere Daten für Webseite
+  copy:
+    src: "{{ item }}"
+    dest: "{{ service_discovery_path }}/{{ item }}"
+  with_items:
+    - favicon.ico
+    - FOOTER.html
+    - HEADER.html
+    - Opennet_logo_quer.gif
+    - .htaccess

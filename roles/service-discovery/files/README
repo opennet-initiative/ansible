@@ -1,0 +1,14 @@
+ ____                         __ 
+ / __ \___  ___ ___  ___  ___ / /_
+/ /_/ / _ \/ -_) _ \/ _ \/ -_) __/
+\____/ .__/\__/_//_/_//_/\__/\__/ 
+    /_/                           
+
+Service Discovery for Opennet Firmware
+https://wiki.opennet-initiative.de/wiki/Opennet_Firmware
+
+user-services.csv - https://downloads.opennet-initiative.de/openwrt/stable/latest/doc/md__funktionsdetails.html#user-services-list
+
+ugw-services.csv - https://downloads.opennet-initiative.de/openwrt/stable/latest/doc/md__funktionsdetails.html#ugw-services-list
+
+Operated via Opennet Ansible "service-discovery" role.

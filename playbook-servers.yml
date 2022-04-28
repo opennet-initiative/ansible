@@ -73,8 +73,9 @@
     - www-server
 
 # Service Discovery + Git Server TODO
-#- hosts: izumi.on
-#  roles:
+- hosts: izumi.on
+  roles:
+    - service-discovery
 
 # Layer2 User VPN with IPv6 in development
 - hosts: gai.on-i.de
