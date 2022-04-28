@@ -18,12 +18,12 @@
 
 - name: web - Kopiere Daten für Webseite
   copy:
-    src: "{{ item.src }}"
-    dest: "{{ domain_proxy_web_path }}/{{ item.dest }}"
+    src: "web/{{ item }}"
+    dest: "{{ domain_proxy_web_path }}/{{ item }}"
   with_items:
-    - { src: web/favicon.ico, dest: favicon.ico }
-    - { src: web/FOOTER.html, dest: FOOTER.html}
-    - { src: web/HEADER.html, dest: HEADER.html}
-    - { src: web/.htaccess, dest: .htaccess }
-    - { src: web/Opennet_logo_quer.gif, dest: Opennet_logo_quer.gif}
+    - favicon.ico
+    - FOOTER.html
+    - HEADER.html
+    - .htaccess
+    - Opennet_logo_quer.gif
   notify: restart apache2
