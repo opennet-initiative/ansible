@@ -8,13 +8,13 @@
     - role: apache2-server
       when: apache2_sites is defined
 
-- hosts: ugw_server
+- hosts: gateway_server
   roles:
     - basic-server
     - olsr
     - olsr2
     - python-module
-    - ugw-server
+    - gateway-server
     - nameserver-secondary
     - role: letsencrypt
       when: letsencrypt_certificates is defined
