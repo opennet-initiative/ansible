@@ -8,9 +8,9 @@ olsr_main_ipv6: fd32:d8d3:87da::10:23
 olsr_interfaces:
   - { name: "eth0" }
 
-domain_proxy_redirect:
-  - { on_tld_base: mitgliederverwaltung, ip: "{{ olsr_main_ip }}", port: 80, service: http }
-  - { on_tld_base: mitgliederverwaltung, ip: "{{ olsr_main_ip }}", port: 443, service: https }
+olsr_hna_announcements_ipv4:
+  # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
+  - 139.30.241.210
 
 letsencrypt_certificates:
   - { on_tld_base: mitgliederverwaltung }
