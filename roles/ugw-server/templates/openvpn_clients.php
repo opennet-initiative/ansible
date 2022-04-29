@@ -1,5 +1,5 @@
 <?php
-// ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Server_Installation/Ansible
+// {{ ansible_managed }}
 // OpenVPN (php-based) web status script
 // 
 // This script has been released to the public domain by Pablo Hoffman 
@@ -9,15 +9,16 @@
 // http://pablohoffman.com/software/vpnstatus/vpnstatus.txt
 
 // Configuration values --------
-//$vpn_name = "megumi.on UGW VPN";
 $vpn_host = "localhost";
-//$vpn_port = 7505;
+//$vpn_name = "{{ short_hostname }}.on UGW VPN"; //will be set outside
+//$vpn_port = 7505; //will be set outside
 // -----------------------------
 
 $fp = fsockopen($vpn_host, $vpn_port, $errno, $errstr, 30);
 if (!$fp) {
-    echo "$errstr ($errno)<br />\n";
-    exit;
+//    echo "$errstr ($errno)<br />\n";
+//    exit;
+  return;
 }
 
 fwrite($fp, "status\n\n\n");
@@ -62,67 +63,9 @@ print "</pre>";
 */
 fclose($fp);
 
-
-
 ?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
 
-<title><?php echo $vpn_name ?> status</title>
-
-<meta http-equiv='refresh' content='300' />
-
-<style type="text/css">
-body {
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 12px;
-#    background-color: #E5EAF0;
-}
-h1 {
-    color: #aaaaaa;
-    font-size: 20px;
-    text-align: center;
-    padding-bottom: 1;
-    margin-bottom: 1;
-}
-p.info {
-    text-align: center;
-#    font-size: 12px;
-}
-#.status0 {
-#    background: #73b5e5;
-#    background: #ebb;
-#}
-#.status1 {
-#    background: #73b5e5;
-#}
-table {
-    #border: medium solid maroon;
-    margin: 0 auto;
-    border-collapse: collapse;
-}
-th {
-    background: #73b5e5;
-    color: white;
-}
-tr {
-    border-bottom: 1px solid silver;
-}
-td {
-    padding: 0px 10px 0px 10px;
-}
-a {
-    text-decoration: none;
-}
-</style>
-
-</head>
-
-<body>
-
-<h1><?php echo $vpn_name?></h1>
+<h3><?php echo $vpn_name; ?> (<?php echo count($clients); ?>)</h3>
 
 <table>
 <tr>
@@ -149,7 +92,7 @@ a {
     $client[2] = str_replace('::', '', $client[2]);
     $client[2] = str_replace('ffff:', '', $client[2]); 
     $client[2] = substr($client[2], 0, strlen($client[2])*0.6) . '***';
-    $client[1] = '<a href=http://' . $client[1] . '>' . $client[1] . '</a>';
+    $client[1] = '<a href="https://' . $client[1] . '">' . $client[1] . '</a>';
 $i = 0;
 ?>
 <tr>
@@ -160,8 +103,3 @@ $i = 0;
 <?php } ?>
 
 </table>
-<p class='info'>Currently <?php echo count($clients); ?> Connections. All traffic data in KB or KB/s.<br />This page gets reloaded every 5 min. Last update: <b><?php echo date ("Y-m-d H:i:s") ?></b></p>
-</body>
-
-</html>
-

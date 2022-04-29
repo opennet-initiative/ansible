@@ -38,3 +38,5 @@ ugw_external_forward_allow_ipv4:
 
 openvpn_ugw_interface: tap-mesh
 openvpn_users_interface: tun-users
+
+openvpn_status_path: /var/www/vpnstatus

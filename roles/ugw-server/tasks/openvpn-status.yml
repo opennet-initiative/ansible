@@ -1,24 +1,32 @@
-# Wir verwenden ein altes "openvpn_status"-PHP-Skript zur Visualisierung der aktuellen
-# OpenVPN-Client-Verbindungen. Da wir nginx für die "domain-proxy"-Funktion verwenden,
-# und nginx nicht direkt php-Code ausführen mag, erstellen wir via cron-Job regelmäßig
-# den Output des PHP-Skripts und stellen es via nginx statisch zur Verfügung.
-
 - name: php installieren 
-  apt: name=php-cli state=present
+  apt: 
+    name: php-cli
 
 - name: vpnstatus - Verzeichnis anlegen
-  file: state=directory
-        dest=/var/www/vpnstatus
+  file: 
+    dest: "{{ openvpn_status_path }}"
+    state: directory
 
-- name: vpnstatus - PHP-Skript uebertragen
-  copy: src=openvpn/openvpn_clients.php
-        dest=/var/www/vpnstatus/
+- name: vpnstatus - Opennet Logo übertragen
+  copy:
+    src: Opennet_logo_quer.gif
+    dest: "{{ openvpn_status_path }}"
 
-- name: vpnstatus - PHP-Konfiguration uebertragen
-  template: src=vpnstatus.php
-            dest=/var/www/vpnstatus/index.php
+- name: vpnstatus - PHP-Skript übertragen
+  template: 
+    src: "{{ item }}"
+    dest: "{{ openvpn_status_path }}/{{ item }}"
+  with_items:
+    - vpnstatus.php
+    - openvpn_clients.php
+
+- name: vpnstatus - Altes PHP-Skript entfernen
+  file:
+    dest: "{{ openvpn_status_path }}/index.php"
+    state: absent
 
 - name: vpnstatus - regelmäßig neu erstellen
-  cron: name="vpnstatus aktualisieren"
-        job="php /var/www/vpnstatus/index.php >/var/www/vpnstatus/index.html"
-        minute="*/3"
+  cron:
+    name: "vpnstatus aktualisieren"
+    job: "php {{openvpn_status_path }}/vpnstatus.php >{{ openvpn_status_path }}/index.html"
+    minute: "*/3"
