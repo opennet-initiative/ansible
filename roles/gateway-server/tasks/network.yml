@@ -1,0 +1,43 @@
+- name: network - Paket-Weiterleitung erlauben
+  lineinfile:
+    create: yes
+    line: "{{ item.key }}={{ item.value }}"
+    regexp: "{{ item.key }}="
+    dest: /etc/sysctl.d/opennet.conf
+  with_items:
+    - { key: "net.ipv4.ip_forward", value: 1}
+    # Reverse-Path-Filterung kann aufgrund moeglicher asymmetrischer 
+    # Routen nur im "loose"-Modus (=2) erfolgen
+    # siehe admin-Mailingliste, "rp_filter auf UGW-Servern", 
+    # Mon, 18 Jan 2016 00:09:15 +0100
+    - { key: "net.ipv4.conf.all.rp_filter", value: 2}
+  notify: restart sysctl
+
+- name: network - Aktiviere systemd-networkd Dienst
+  systemd:
+    name: systemd-networkd.service
+    enabled: yes
+    masked: no
+  notify: restart systemd-networkd
+
+- name: network - Prüfe systemd-networkd Loopback Konfiguration
+  stat:
+    path: /etc/systemd/network/on-loopback.network
+  register: network_systemd_loopback
+
+- name: network - systemd-networkd Loopback Konfiguration anlegen
+  template:
+    src: on-loopback.network
+    dest: /etc/systemd/network/on-loopback.network
+  when: not network_systemd_loopback.stat.exists
+  notify: 
+    - restart systemd-networkd
+    - restart olsrd
+
+# Nach der Konfiguration des loopback-Interface wollen wir die 
+# primaere UGW-Mesh-IP auf dem Interface konfigurieren.
+- name: network - Main-IP auf loopback-Interface konfigurieren
+  lineinfile:
+    path: /etc/systemd/network/on-loopback.network
+    line: "Address={{ olsr_main_ip }}/32"
+  notify: restart systemd-networkd
