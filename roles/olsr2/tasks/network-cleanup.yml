@@ -1,7 +1,10 @@
 - name: network-cleanup - Entferne alte interfaces.d Loopback Konfiguration
   file:
-    path: /etc/network/interfaces.d/loopback-oni-ula
+    path: "/etc/network/interfaces.d/{{ item }}"
     state: absent
+  with_items:
+    - loopback-oni-ula
+    - on-loopback-olsr2.network
   register: loopback_ula
 
 - name: network-cleanup - Neustart des Loopback Interfaces 

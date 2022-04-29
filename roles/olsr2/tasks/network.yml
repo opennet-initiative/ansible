@@ -5,10 +5,24 @@
     masked: no
   notify: restart systemd-networkd
 
-- name: network - Setze IPv6 ULA Adresse auf Loopback Interface
+- name: network - Prüfe systemd-networkd Loopback Konfiguration
+  stat:
+    path: /etc/systemd/network/on-loopback.network
+  register: network_systemd_loopback
+
+- name: network - systemd-networkd Loopback Konfiguration anlegen
   template:
-    src: on-loopback-olsr2.network
-    dest: /etc/systemd/network/on-loopback-olsr2.network
+    src: on-loopback.network
+    dest: /etc/systemd/network/on-loopback.network
+  when: not network_systemd_loopback.stat.exists
   notify: 
     - restart systemd-networkd
     - restart olsrd2
+
+# Nach der Konfiguration des loopback-Interface wollen wir die
+# IPv6 ULA IP auf dem Interface konfigurieren.
+- name: network - IPv6 ULA auf loopback-Interface konfigurieren
+  lineinfile:
+    path: /etc/systemd/network/on-loopback.network
+    line: "Address={{ olsr_main_ipv6 }}/64"
+  notify: restart systemd-networkd
