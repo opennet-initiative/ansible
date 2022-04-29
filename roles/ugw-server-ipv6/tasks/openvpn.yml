@@ -1,4 +1,4 @@
-#Hier wird die Rolle ugw-server vorausgesetzt und somit auch der Inhalt der dortigen openvpn.yml
+#Hier wird die Rolle gateway-server vorausgesetzt und somit auch der Inhalt der dortigen openvpn.yml
 
 - name: UGW-VPN-Konfiguration uebertragen
   template: src={{item.src}}

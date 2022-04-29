@@ -2,7 +2,7 @@
 # Diese Rollen ist noch in Entwicklung und soll gewollt einfach gehalten werden.
 # So können auch einfach Änderungen (z.B anderer VPN Server) vorgenommen werden.
 #
-# Es wird angenommen, dass die Rolle "ugw-server" bereits installiert ist.
+# Es wird angenommen, dass die Rolle "gateway-server" bereits installiert ist.
 # Ansonsten müssten große Teile davon übernommen werden.
 #
 - include_tasks: networking.yml

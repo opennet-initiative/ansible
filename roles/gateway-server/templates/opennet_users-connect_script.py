@@ -18,7 +18,7 @@ SERVER_VERSION = "{{ openvpn_server_version.stdout }}".split(".")[:2]
 #sys.stderr = file("/tmp/vpn-connect.log", "w")
 
 
-# siehe Code-Kopie in roles/ugw-server/templates/openvpn/opennet_users/connect_script.py
+# siehe Code-Kopie in roles/gateway-server/templates/openvpn/opennet_users/connect_script.py
 def get_compression_config_lines():
     # parse die ersten beiden Versions-Zahlen
     client_version = os.getenv("IV_VER", "2.3").split(".")[:2]
