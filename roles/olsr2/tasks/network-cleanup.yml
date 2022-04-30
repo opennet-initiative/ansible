@@ -1,10 +1,7 @@
 - name: network-cleanup - Entferne alte interfaces.d Loopback Konfiguration
   file:
-    path: "/etc/network/interfaces.d/{{ item }}"
+    path: /etc/network/interfaces.d/loopback-oni-ula
     state: absent
-  with_items:
-    - loopback-oni-ula
-    - on-loopback-olsr2.network
   register: loopback_ula
 
 - name: network-cleanup - Neustart des Loopback Interfaces 
@@ -24,3 +21,9 @@
     create: no
     backup: yes
   when: interfaced_dir.matched == 0
+
+- name: network-cleanup - Entferne alte systemd-networkd Konfiguration
+  file:
+    path: /etc/systemd/network/on-loopback-olsr2.network
+    state: absent
+  notify: restart systemd-networkd
