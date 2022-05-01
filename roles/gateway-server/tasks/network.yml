@@ -5,12 +5,14 @@
     regexp: "{{ item.key }}="
     dest: /etc/sysctl.d/opennet.conf
   with_items:
-    - { key: "net.ipv4.ip_forward", value: 1}
+    - { key: "net.ipv4.ip_forward", value: 1 }
+    # IPv6 Forwarding ist scheinbar bereits aktiviert
+    #- { key: "net.ipv6.conf.all.forwarding", value: 1 }
     # Reverse-Path-Filterung kann aufgrund moeglicher asymmetrischer 
     # Routen nur im "loose"-Modus (=2) erfolgen
     # siehe admin-Mailingliste, "rp_filter auf UGW-Servern", 
     # Mon, 18 Jan 2016 00:09:15 +0100
-    - { key: "net.ipv4.conf.all.rp_filter", value: 2}
+    - { key: "net.ipv4.conf.all.rp_filter", value: 2 }
   notify: restart sysctl
 
 - name: network - Aktiviere systemd-networkd Dienst

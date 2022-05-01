@@ -4,9 +4,6 @@
 - name: restart openvpn
   service: name=openvpn state=restarted
 
-- name: reload nginx
-  service: name=nginx state=reloaded
-
 - name: restart sysctl
   service: name=procps state=restarted
 
@@ -24,3 +21,9 @@
 
 - name: restart systemd-networkd
   systemd: name=systemd-networkd.service state=restarted
+
+- name: restart isc-dhcp-server
+  service: name=isc-dhcp-server state=restarted
+
+- name: restart radvd
+  service: name=radvd state=restarted

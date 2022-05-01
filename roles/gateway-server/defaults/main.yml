@@ -3,7 +3,6 @@ openvpn_users_ipv4_netmask: 255.255.0.0
 openvpn_users_ipv4_server: 10.1.0.1
 
 # manche Server moechten zusaetzliche IPs announcieren - alle anderen brauchen keine extra-Einstellungen
-# Sobald wir IPv6 unterstuetzen, brauchen wir diese Einstellungen.
 ugw_openvpn_users_extra_settings: ""
 
 openvpn_users_cert_file: /etc/ssl/private/opennet-initiative.de/{{ short_hostname }}.opennet-initiative.de.crt
@@ -40,3 +39,18 @@ openvpn_ugw_interface: tap-mesh
 openvpn_users_interface: tun-users
 
 openvpn_status_path: /var/www/vpnstatus
+
+# IPv6 settings
+
+openvpn_user6_interface: tap-users6
+
+# Oeffentliche IP-Adressen von Hosts, die auch im Mesh erreichbar sein sollen
+ugw_external_forward_allow_ipv6:
+  # downloads.openwrt.org: Paketinstallation fuer APs
+  - 2a01:4f8:150:6449::2
+  # archive.openwrt.org: Paketinstallation fuer aeltere Releases
+  - 2001:470:2030:2::3
+  # www.geodaten-mv.de: Luftbilder als Hintergrund der alten Karte (opennet-initiative.de/map)
+  #- hat noch keine V6 IP
+  # a.tile.openstreetmap.org: Hintergrund-Tiles fuer OSM-Layer der alten Karte (opennet-initiative.de/map)
+  #- hat noch keine v6 IPs

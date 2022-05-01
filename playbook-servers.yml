@@ -77,11 +77,6 @@
   roles:
     - service-discovery
 
-# Layer2 User VPN with IPv6 in development
-- hosts: gai.on-i.de
-  roles:
-    - ugw-server-ipv6
-
 # Gluon+Babel Tests
 - hosts: itsuki.on-i.de
   roles:
