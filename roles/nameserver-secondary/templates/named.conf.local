@@ -31,6 +31,7 @@ options {
 	# fuer das munin-Plugin "bind9_rndc"
 	# TODO: Deactivated due to file size issue, 2019/03/29 mathias mahnke
 	#statistics-file "/run/named/stats";
+	zone-statistics no;
 };
 
 
