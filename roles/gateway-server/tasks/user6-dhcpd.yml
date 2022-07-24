@@ -1,0 +1,28 @@
+- name: user6-dhcpd - ISC DHCPd Server installieren
+  apt: 
+    name: isc-dhcp-server
+
+- name: user6-dhcpd - ISC DHCPd Server Defaults IPv6 setzen
+  lineinfile:
+    create: yes
+    line: "{{ item.key }}={{ item.value }}"
+    regexp: "{{ item.key }}="
+    dest: /etc/default/isc-dhcp-server
+  with_items:
+    - { key: "INTERFACESv6", value: "{{ openvpn_user6_interface }}" }
+    - { key: "OPTIONS", value: "-6" }
+  notify: restart isc-dhcp-server
+
+- name: user6-dhcpd - ISC DHCPd Server Konfiguration IPv6 übertragen
+  template:
+    src: dhcpd6.conf
+    dest: /etc/dhcp/dhcpd6.conf
+  notify: restart isc-dhcp-server
+
+- name: user6-dhcpd - Skript für Routenerstellung von DHCPv6 PD Netzen kopieren
+  copy:
+    src: "dhcpd/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+  with_items:
+    - on-routes4pd.py
+    - on-routes4pd-wrapper.sh

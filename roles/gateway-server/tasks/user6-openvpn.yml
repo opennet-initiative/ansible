@@ -1,0 +1,20 @@
+- name: user6-openvpn - User6 VPN Konfiguration und Skripte übertragen
+  template: 
+    src: "openvpn/{{ item }}"
+    dest: "/etc/openvpn/{{ item }}"
+  with_items:
+    - opennet_user6.conf
+    - opennet_user6-ifup.sh
+    - opennet_user6-ifdown.sh
+  notify: restart openvpn
+
+- name: user6-openvpn - Dateirechte für User6 VPN Skripte anpassen
+  file:
+    path: "/etc/openvpn/{{ item }}"
+    owner: root
+    group: openvpn
+    mode: '0774'
+  with_items:
+    - opennet_user6-ifup.sh
+    - opennet_user6-ifdown.sh
+  notify: restart openvpn

@@ -19,4 +19,11 @@ apache2_sites:
       - ^/\.megabyte$
       - ^/\.10megabyte$
 
+# User6 Layer2 VPN gateway service
+gateway_user6_enable: true
+gateway_dhcp6_pd_subnet: 2a0a:4580:1010:2::
+gateway_dhcp6_prefix_start: 2a0a:4580:1010:1000::
+gateway_dhcp6_prefix_end: 2a0a:4580:1010:1ff0::
+gateway_dhcp6_prefix_len: /60
+
 debian_release: buster

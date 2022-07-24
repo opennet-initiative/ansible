@@ -15,7 +15,14 @@ Ablauf:
 
 # Konfiguration
 
-# Besonderheiten IPv6 Tunnel
+Optionaler User6 Layer2 VPN Tunnel:
+* gateway_user6_enable - Aktiviere User6 Layer 2 VPN Tunnel Lösung (true/false)
+* gateway_dhcp6_pd_subnet - ISC DHCPd Prefix Delegation Subnetz (2a0a:4580:1010:2::)
+* gateway_dhcp6_prefix_start - ISC DHCPd Beginn der Präfixe für VPN Clients (2a0a:4580:1010:1000::)
+* gateway_dhcp6_prefix_end - ISC DHCPd Ende der Präfixe für VPN Clients (2a0a:4580:1010:1ff0::)
+* gateway_dhcp6_prefix_len - ISC DHCPd Gesamte Präfix-Länge (/60)
+
+# Besonderheiten User6 Layer2 IPv6 Tunnel
 
 Benutzern soll per VPN IPv6 Konnektivität zur Verfügung gestellt werden.
 

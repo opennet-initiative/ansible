@@ -39,12 +39,12 @@ td {
 $vpn_name = "{{ short_hostname }}.on User Connections";
 $vpn_port = 7506;
 include 'openvpn_clients.php';
+{% if gateway_user6_enable == true %}
 // User VPN IPv6 Tunnel
-error_reporting(E_ALL & ~E_WARNING);
 $vpn_name = "{{ short_hostname }} User6 Connections";
 $vpn_port = 7507;
 include 'openvpn_clients.php';
-error_reporting(E_ALL);
+{% endif %}
 // UGW VPN IPv4 Tunnel
 $vpn_name = "{{ short_hostname }}.on UGW Connections";
 $vpn_port = 7505;

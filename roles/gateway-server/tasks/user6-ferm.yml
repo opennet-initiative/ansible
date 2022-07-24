@@ -1,0 +1,8 @@
+- name: user6-ferm - User6 VPN Regeln und Verkehrsverbote kopieren
+  template:
+    src: "ferm/{{ item }}"
+    dest: "/etc/ferm/ferm.d/{{ item }}"
+  with_items:
+    - 310_on-block-access-user6.inc
+    - 340_ugw-user6.inc
+  notify: restart ferm
