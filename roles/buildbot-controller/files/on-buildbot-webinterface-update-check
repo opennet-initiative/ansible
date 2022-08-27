@@ -4,7 +4,7 @@
 
 set -eu
 
-KEYWORD="builbot-"
+KEYWORD="buildbot-"
 OUTDATED=$(pip3 list --outdated | grep $KEYWORD || true)
 
 if [ -z "$OUTDATED" ]; then
