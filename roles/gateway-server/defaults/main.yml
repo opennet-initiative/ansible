@@ -21,13 +21,6 @@ ugw_external_forward_allow_ipv4:
   - 168.119.138.211
   # archive.openwrt.org: Paketinstallation fuer aeltere Releases
   - 81.0.124.218
-  # www.geodaten-mv.de: Luftbilder als Hintergrund der alten Karte (opennet-initiative.de/map)
-  - 195.145.109.67
-  # a.tile.openstreetmap.org: Hintergrund-Tiles fuer OSM-Layer der alten Karte (opennet-initiative.de/map)
-  - 81.7.11.83
-  - 144.76.70.77
-  - 185.66.195.245
-  - 195.201.226.63
   # router.eu.thethings.network: LoRaWan
   - 52.169.76.203
   # opennet.uisp.com : Ubiquiti UISP Verwaltung
