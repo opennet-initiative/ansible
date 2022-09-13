@@ -1,0 +1,28 @@
+---
+- name: Install munin
+  apt:
+    name: "{{ item }}"
+  loop:
+    - munin
+    - munin-node
+    - munin-plugins-extra
+
+- name: Gather package facts
+  package_facts:
+    manager: auto
+
+- name: Get munin version
+  set_fact:
+    munin_version: "{{ ansible_facts.packages.munin[0].version }}"
+
+# Workaround to reduce logging when many nodes are not available
+- name: Copy patched munin-update executable to reduce log output
+  copy:
+    src: munin-update.patched
+    dest: /usr/share/munin/munin-update
+    owner: root
+    group: root
+    mode: '0755'
+    backup: yes
+  when: "'2.0.67' in munin_version"  # we have a patched file for this version
+  notify: restart munin

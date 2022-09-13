@@ -86,3 +86,7 @@
 - hosts: nagare.on
   roles:
     - mitgliederverwaltung
+
+- hosts: howmei.on
+  roles:
+    - munin
