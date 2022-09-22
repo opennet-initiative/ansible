@@ -2,10 +2,17 @@
 # Alle Netzbereiche werden in die Zulassungsliste aufgenommen.
 # Doppelte Nennungen (verschiedene IPs eines Servers) sind also zulaessig.
 # Aktuell verwenden wir folgende munin-Sammler:
-#   * howmei (192.168.10.13) - virtualisiert auf aqua (139.30.241.206)
+#   * howmei (192.168.10.13, fd32:d8d3:87da::10:13/128) - virtualisiert auf aqua (139.30.241.206)
 munin_servers:
   - 139.30.241.206/32
   - 192.168.10.13/32
+  - fd32:d8d3:87da::10:13/128
+
+# Workaround#001: Debian Buster hat einen Bug in munin, welches den mix von IPv4/IPv6 verhindert, https://github.com/munin-monitoring/munin/issues/1177
+# Daher müssen wir IPv6 hier gesondert behandeln.
+# Sobald keine Debian Buster Server mehr vorhanden sind, kann Workaround hier gelöscht werden.
+munin_servers_ipv6_buster:
+  - fd32:d8d3:87da::10:13/128
 
 munin_plugins: []
 

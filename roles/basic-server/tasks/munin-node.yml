@@ -11,6 +11,18 @@
               line="cidr_allow {{ item }}"
               insertafter="^# cidr_deny"
   with_items: "{{munin_servers}}"
+  when: workaround_munin_debian_buster_allow_ipv6_only is undefined  # Workaround#001 for Debian Buster
+  notify: restart munin-node
+
+# Workaround#001: Folgendes ist Workaround für Debian buster.
+- name: munin-Abfrage IP-basiert zulassen (only IPv6)
+  lineinfile: dest=/etc/munin/munin-node.conf
+              state=present
+              regexp="^cidr_allow {{ item }}$"
+              line="cidr_allow {{ item }}"
+              insertafter="^# cidr_deny"
+  with_items: "{{munin_servers_ipv6_buster}}"
+  when: workaround_munin_debian_buster_allow_ipv6_only is defined
   notify: restart munin-node
 
 - name: host-spezifische munin-Plugins installieren
