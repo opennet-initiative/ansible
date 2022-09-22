@@ -39,7 +39,7 @@ td {
 $vpn_name = "{{ short_hostname }}.on User Connections";
 $vpn_port = 7506;
 include 'openvpn_clients.php';
-{% if gateway_user6_enable == true %}
+{% if gateway_user6_enable is defined and gateway_user6_enable is sameas true %}
 // User VPN IPv6 Tunnel
 $vpn_name = "{{ short_hostname }} User6 Connections";
 $vpn_port = 7507;
