@@ -14,7 +14,7 @@
 
 - name: vpnstatus - PHP-Skript übertragen
   template: 
-    src: "{{ item }}"
+    src: "openvpn-status/{{ item }}"
     dest: "{{ openvpn_status_path }}/{{ item }}"
   with_items:
     - vpnstatus.php

@@ -51,14 +51,14 @@
 
 - name: Nutzer-VPN-Skripte uebertragen
   template:
-          src=opennet_users-connect_script.py
+          src=openvpn/opennet_users-connect_script.py
           dest=/etc/openvpn/opennet_users/connect_script.py
           mode=755
   check_mode: no
 
 - name: UGW-VPN-Skripte uebertragen
   template:
-          src=opennet_ugw-connect_script.py
+          src=openvpn/opennet_ugw-connect_script.py
           dest=/etc/openvpn/opennet_ugw/connect_script.py
           mode=755
   check_mode: no
@@ -107,12 +107,12 @@
   when: not openvpn_ugw_key.stat.exists
 
 - name: Nutzer-VPN-Konfiguration uebertragen
-  template: src=opennet_users.conf
+  template: src=openvpn/opennet_users.conf
             dest=/etc/openvpn/
   notify: restart openvpn
 
 - name: UGW-VPN-Konfiguration uebertragen
-  template: src=opennet_ugw.conf
+  template: src=openvpn/opennet_ugw.conf
             dest=/etc/openvpn/
   notify: restart openvpn
 
