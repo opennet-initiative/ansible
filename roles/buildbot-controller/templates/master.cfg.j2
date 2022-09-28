@@ -81,7 +81,8 @@ c['schedulers'].append(schedulers.ForceScheduler(
                                     label="Build Options",
                                     layout="vertical", 
                                     fields=[
-                                        util.BooleanParameter(name="force_make_distclean", label="force a make distclean", default=False)
+                                        util.BooleanParameter(name="force_make_distclean", label="force a make distclean", default=False),
+                                        util.BooleanParameter(name="force_make_arch_all", label="force make all architectures (default: ath79, mikrotik)", default=False)
                                     ]
                                 )
                             ]
@@ -93,6 +94,10 @@ def enforcedMakeDistclean(step):
         return True
     return False
 
+def enforcedMakeArchAll(step):
+    if step.getProperty('force_make_arch_all'):
+        return True
+    return False
 
 ####### BUILDERS
 
@@ -111,15 +116,15 @@ factory.addStep(steps.ShellCommand(command=["make", "init"]))
 #  - set timeout to 1 hour (3600sec) because last build step (make[4] -C target/linux install) needs much time
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "ath79"], timeout=3600))  
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "mikrotik"], timeout=3600))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2708"], timeout=3600))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2709"], timeout=3600))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2710"], timeout=3600))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "ipq40xx"], timeout=3600))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "mt7623"], timeout=3600))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "ramips"], timeout=3600))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "ramips7620"], timeout=3600))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "x86"], timeout=3600))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "mikrotik24"], timeout=3600))
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2708"], timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2709"], timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2710"], timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "ipq40xx"], timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "mt7623"], timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "ramips"], timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "ramips7620"], timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "x86"], timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(command=["make", "-j2", "mikrotik24"], timeout=3600, doStepIf=enforcedMakeArchAll))
 factory.addStep(steps.ShellCommand(command=["make", "-j2", "doc"], timeout=3600))
 factory.addStep(steps.ShellCommand(command=["opennet/tools/buildbot-worker/export-build-buildbot.sh"]))
 factory.addStep(steps.ShellCommand(command=["make", "unpatch"]))
