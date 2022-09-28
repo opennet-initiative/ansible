@@ -11,6 +11,6 @@
 - name: monitoring - cron-Job für on-buildbot-webinterface-update-check
   cron:
     name: on-buildbot-webinterface-update-check
-    hour: 14
-    minute: 30
+    hour: '14'
+    minute: '30'
     job: chronic /usr/local/sbin/on-buildbot-webinterface-update-check

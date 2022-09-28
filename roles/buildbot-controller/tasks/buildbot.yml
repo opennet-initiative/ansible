@@ -7,12 +7,11 @@
 
 - name: buildbot - Installiere Webinterface via pip
   pip:
-    name: "{{ item }}"
-  with_items: 
-    - buildbot-www
-    - buildbot-waterfall-view
-    - buildbot-console_view
-    - buildbot-grid-view
+    name:
+      - buildbot-www
+      - buildbot-waterfall-view
+      - buildbot-console_view
+      - buildbot-grid-view
   notify: restart buildbot
 
 - name: buildbot - Controller Dienst freischalten
