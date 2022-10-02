@@ -90,12 +90,14 @@ c['schedulers'].append(schedulers.ForceScheduler(
 
 # helper function for checking the parameter in builder
 def enforcedMakeDistclean(step):
-    if step.getProperty('force_make_distclean'):
+    options = step.getProperty('options')
+    if options.get("force_make_distclean") == True:
         return True
     return False
 
 def enforcedMakeArchAll(step):
-    if step.getProperty('force_make_arch_all'):
+    options = step.getProperty('options')
+    if options.get('force_make_arch_all') == True:
         return True
     return False
 
