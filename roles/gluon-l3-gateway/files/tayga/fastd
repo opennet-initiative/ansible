@@ -1,0 +1,9 @@
+# Fastd Interface
+iface babel-vpn inet manual
+	up ip link set up $IFACE
+	down ip link set down $IFACE
+	#static route for public IPv6 in table 12 (babeld) for redistribution
+	#we do not need a default route. This 2000::/3 include all public IPv6.
+	up ip -6 route add 2000::/3 via fe80::1 dev eth0 proto static table 12
+	#NAT64 route
+	up ip -6 route add 64:ff9b::/96 dev nat64 proto static table 12

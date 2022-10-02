@@ -1,0 +1,16 @@
+Ausgeführte Kommandos:
+  286  2021-02-22 21:59:44 cd l3roamd/
+  287  2021-02-22 21:59:58 git clone https://github.com/freifunk-gluon/l3roamd.git
+  289  2021-02-22 22:00:09 cd l3roamd/
+  291  2021-02-22 22:00:15 less README.md 
+  298  2021-02-22 22:02:24 apt install libnl-genl-3-dev
+  301  2021-02-22 22:02:54 apt install libjson-c-dev
+  306  2021-02-22 22:03:27 mkdir build
+  307  2021-02-22 22:03:29 cd build/
+  309  2021-02-22 22:03:35 apt install cmake
+  310  2021-02-22 22:03:43 cmake ..
+  311  2021-02-22 22:03:54 apt install pkg-config
+  312  2021-02-22 22:04:12 cmake ..
+  314  2021-02-22 22:04:29 make
+  315  2021-02-22 22:04:38 make install
+

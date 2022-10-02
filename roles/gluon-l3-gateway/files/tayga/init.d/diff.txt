@@ -1,0 +1,3 @@
+107a108,109
+> 		#insert 64:ff9b::/96 route into babel routing table
+> 		ip -6 route add "$IPV6_PREFIX" dev "$TUN_DEVICE" proto static table 12

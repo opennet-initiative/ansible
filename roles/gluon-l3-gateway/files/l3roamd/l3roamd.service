@@ -1,0 +1,31 @@
+[Unit]
+Description=l3roamd
+Wants=basic.target
+After=basic.target network.target fastd.service babeld.service
+
+[Service]
+Type=simple
+# parameters for l3roamd:
+#  -p fd32:d8d3:87da:bab2::/64	-- client-prefix (node_client_prefix6)
+#  -m babel-vpn  		-- mesh-interface
+#  -t 11 			-- export routes to this routing table (see rt_tables* ))
+#  -a 2a0a:4580:1010:8101::244	-- address of node (IP from node_prefix6)
+#  -4 0:0:0:0:0:ffff::/96 	-- IPv4 translation prefix
+#
+# L3roamd must be running on every node where clients can attach and on all exit-nodes. 
+# Use -a -p and -m to provide the address of the node, at least one client-prefix and at least one mesh-interface for the service to be useful.
+#
+ExecStart=/usr/local/bin/l3roamd -p fd32:d8d3:87da:bab2::/64 -m babel-vpn -t 11 -a 2a0a:4580:1010:8101::244 -4 0:0:0:0:0:ffff::/96 
+KillMode=process
+ExecStartPost=/sbin/ip link set dev l3roam0 up
+#Route Client Network per l3roamd interface. l3roamd weiss, wo welche Clients zu finden sind.
+# parameters explained:
+#  fd32:d8d3:87da:bab2::/64	-- client-prefix (node_client_prefix6)
+#  dev l3roam0 			-- l3roamd interface
+#  table 10			-- mesh interface (see rt_table.d/*)
+ExecStartPost=/sbin/ip -6 r add fd32:d8d3:87da:bab2::/64 dev l3roam0 table 10
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

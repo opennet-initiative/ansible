@@ -1,0 +1,28 @@
+iface lo inet6 static
+	#2a0a:4580:1010:8101::/64 is babel node ip range
+	address 2a0a:4580:1010:8101::244
+	netmask 64
+	#define general routes for babel, see also https://wiki.ffm.freifunk.net/infrastruktur:gateway:babel-gateway#Routing
+	up 	ip -6 rule add from fd32:d8d3:87da:bab2::/64 lookup babeld 
+	up 	ip -6 rule add from 2a0a:4580:1010:8101::/64 lookup babeld 
+	up 	ip -6 rule add from all to fd32:d8d3:87da:bab2::/64 lookup babeld 
+	up 	ip -6 rule add from all to 2a0a:4580:1010:8101::/64 lookup babeld 
+	up 	ip -6 rule add from fd32:d8d3:87da:bab2::/64 lookup mesh 
+	up 	ip -6 rule add from 2a0a:4580:1010:8101::/64 lookup mesh
+	up 	ip -6 rule add from 2a0a:4580:1010:8100::/64 lookup mesh
+	up 	ip -6 rule add from all to fd32:d8d3:87da:bab2::/64 lookup mesh 
+	up 	ip -6 rule add from all to 2a0a:4580:1010:8101::/64 lookup mesh 
+	up 	ip -6 rule add from all to 2a0a:4580:1010:8100::/64 lookup mesh 
+	#wenn wir das ens2 Interface neustarten, dann sollten die Eintraege wieder geloescht werden. Ansonsten werden sie beim up-Event als zusaetzliche Eintraege nochmals hinzugefuegt.
+	down 	ip -6 rule del from fd32:d8d3:87da:bab2::/64 lookup babeld 
+	down 	ip -6 rule del from 2a0a:4580:1010:8101::/64 lookup babeld 
+	down 	ip -6 rule del from all to fd32:d8d3:87da:bab2::/64 lookup babeld 
+	down 	ip -6 rule del from all to fd32:d8d3:87da:bab2::/64 lookup babeld 
+	down 	ip -6 rule del from all to 2a0a:4580:1010:8101::/64 lookup babeld 
+	down 	ip -6 rule del from fd32:d8d3:87da:bab2::/64 lookup mesh 
+	down 	ip -6 rule del from fd32:d8d3:87da:bab2::/64 lookup mesh 
+	down 	ip -6 rule del from 2a0a:4580:1010:8101::/64 lookup mesh
+	down 	ip -6 rule del from 2a0a:4580:1010:8100::/64 lookup mesh
+	down 	ip -6 rule del from all to fd32:d8d3:87da:bab2::/64 lookup mesh 
+	down 	ip -6 rule del from all to 2a0a:4580:1010:8101::/64 lookup mesh 
+	down 	ip -6 rule del from all to 2a0a:4580:1010:8100::/64 lookup mesh 

@@ -1,0 +1,9 @@
+ausgeführte Kommandos:
+ 326  2021-02-22 22:07:45 git clone https://github.com/freifunk-gluon/mmfd.git
+  327  2021-02-22 22:07:48 cd mmfd/
+  329  2021-02-22 22:07:54 less README.md 
+  330  2021-02-22 22:08:14 mkdir build
+  331  2021-02-22 22:08:16 cd build/
+  333  2021-02-22 22:08:23 cmake ..
+  336  2021-02-22 22:08:35 make
+  338  2021-02-22 22:08:49 cp src/mmfd /usr/local/bin/mmfd

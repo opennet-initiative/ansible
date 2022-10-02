@@ -1,0 +1,55 @@
+runtergeladen von https://www.irif.fr/~jch/software/files/
+dann folgendes ausgeführt:
+
+root@itsuki:~/babel/babeld-1.9.2# make
+cc -Os -g -Wall     -c -o babeld.o babeld.c
+cc -Os -g -Wall     -c -o net.o net.c
+cc -Os -g -Wall     -c -o kernel.o kernel.c
+cc -Os -g -Wall     -c -o util.o util.c
+cc -Os -g -Wall     -c -o interface.o interface.c
+cc -Os -g -Wall     -c -o source.o source.c
+cc -Os -g -Wall     -c -o neighbour.o neighbour.c
+cc -Os -g -Wall     -c -o route.o route.c
+cc -Os -g -Wall     -c -o xroute.o xroute.c
+cc -Os -g -Wall     -c -o message.o message.c
+cc -Os -g -Wall     -c -o resend.o resend.c
+cc -Os -g -Wall     -c -o configuration.o configuration.c
+cc -Os -g -Wall     -c -o local.o local.c
+cc -Os -g -Wall     -c -o disambiguation.o disambiguation.c
+cc -Os -g -Wall     -c -o rule.o rule.c
+cc -Os -g -Wall    -o babeld babeld.o net.o kernel.o util.o interface.o source.o neighbour.o route.o xroute.o message.o resend.o configuration.o local.o disambiguation.o rule.o -lrt
+
+root@itsuki:~/babel/babeld-1.9.2# make install
+rm -f /usr/local/bin/babeld
+mkdir -p /usr/local/bin
+cp -f babeld /usr/local/bin
+mkdir -p /usr/local/share/man/man8
+cp -f babeld.man /usr/local/share/man/man8/babeld.8
+
+#Config Doku: https://wiki.ffm.freifunk.net/infrastruktur:gateway:babel-gateway#l3roamd
+
+root@itsuki:~# cat /etc/iproute2/rt_tables.d/babel.conf
+# Tabelle 10 beinhaltet allgemeine Routen im Mesh Netz
+10    mesh
+# Tabelle 11 wird von l3roamd befuellt
+11    l3roamd
+# Tabelle 12 beinhaltet alle Routen, welche explizit von babel redistributiert werden sollen
+12    babeld
+
+#Nutze Tabelle 10 für das allgemeine Routing und Tabelle 12 für Babel redistribution
+#Netze sind auch in der site.conf zu finden
+#fd32:d8d3:87da:bab1::/64 - node_prefix6 - Node Netz
+#fd32:d8d3:87da:bab2::/64 - node_client_prefix6 - Client Netz
+#Folgendes wurde in /etc/network/interface eingetragen:
+ip -6 rule add from all to fd32:d8d3:87da:bab1::/64 lookup mesh 
+ip -6 rule add from all to fd32:d8d3:87da:bab2::/64 lookup mesh 
+ip -6 rule add from fd32:d8d3:87da:bab1::/64 lookup mesh
+ip -6 rule add from fd32:d8d3:87da:bab2::/64 lookup mesh 
+ip -6 rule add from all to fd32:d8d3:87da:bab1::/64 lookup babeld 
+ip -6 rule add from all to fd32:d8d3:87da:bab2::/64 lookup babeld 
+ip -6 rule add from fd32:d8d3:87da:bab1::/64 lookup babeld 
+ip -6 rule add from fd32:d8d3:87da:bab2::/64 lookup babeld 
+
+systemd service file: see babeld.service 
+
+firewall rules: see /etc/ferm/ferm.d/*
