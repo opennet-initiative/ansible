@@ -1,14 +1,2 @@
-- name: Ermittle alle installierten Pakete
-  package_facts:
-    manager: "auto"
-
-# Wenn das Paket noch nicht installiert ist, muss es per Hand installiert werden.
-# Gründe hierfür sind:
-#   * ermitteln der neuesten Version und diese herunterladen
-#   * installieren der Abhängigkeiten
-# Mit einem ONI Debian Repo könnten wir dies auch automatisch machen.
-- name: Installiere on-mitgliedsantrag Debian Paket
-  debug:
-    # Anhängigkeiten libphp-phpmailer + pdftk sollten automatisch installiert werden.
-    msg: Installiere neueste https://downloads.opennet-initiative.de/debian/on-mitgliedsantrag_*.deb mittels apt Befehl manuell.
-  when: "'on-mitgliedsantrag' not in ansible_facts.packages"
+- include_tasks: mitgliedsantrag.yml
+- include_tasks: fail2ban.yml

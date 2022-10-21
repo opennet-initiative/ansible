@@ -3,12 +3,6 @@
     name: fail2ban
     state: present
 
-- name: fail2ban - Apache Konfiguration kopieren
-  copy: 
-    src: etc/fail2ban/
-    dest: /etc/fail2ban/
-  notify: restart fail2ban
-
 - name: fail2ban - Automatische Bereinigung sqlite-DB
   cron:
     name: on-fail2ban-db-cleanup
