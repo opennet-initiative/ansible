@@ -19,22 +19,29 @@
     owner: "{{ homematic_user }}"
     group: "{{ homematic_user }}"
 
-- name: install - CLI Skript übertragen
+- name: install - CLI Skripte übertragen
   copy:
-    src: "cli/homematic.sh"
+    src: "cli/{{ item }}"
     dest: "{{ homematic_path_user }}"
     owner: "{{ homematic_user }}"
     group: "{{ homematic_user }}"
     mode: preserve
+  with_items:
+   - homematic.sh
+   - lifxctl.py
+   - lifxctl.sh
 
 # only copy if file not exists, do not override
-- name: install - CLI Skript Konfiguration anlegen
+- name: install - CLI Skripte Konfiguration anlegen
   copy:
-    src: "cli/homematic.cfg"
+    src: "cli/{{ item }}"
     dest: "{{ homematic_path_user }}"
     owner: "{{ homematic_user }}"
     group: "{{ homematic_user }}"
     force: no
+  with_items:
+    - homematic.cfg
+    - lifxctl.cfg
 
 - name: install - CLI Skript Logfile prüfen
   stat:

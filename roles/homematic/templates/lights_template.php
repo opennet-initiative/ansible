@@ -4,7 +4,7 @@
 <title>Opennet Initiative e.V.</title> 
 </head>
 <body>
-<h1>Frieda23 - {{ item.de }} Tür / {{ item.en }} Door</h1>
+<h1>Frieda23 - Schalte Licht {{ item.de }}  / Turn lights {{ item.en }}</h1>
 
 <table cellpadding="15" cellspacing="0">
 <tr>
@@ -15,10 +15,7 @@
 <tr bgcolor="#eeeeee">
 <td>
   <pre>
-<?php echo shell_exec('{{ homematic_path_user }}/homematic.sh --{{ item.task }}-door'); ?>
-{% if item.task == "close" %}
-<?php echo shell_exec('{{ homematic_path_user }}/lifxctl.sh --off'); ?>
-{% endif %}
+<?php echo shell_exec('{{ homematic_path_user }}/lifxctl.sh --{{ item.task }}'); ?>
   </pre>
 </td>
 </tr>
