@@ -22,7 +22,7 @@
 - name: opennetca - CRL / Widerufslisten Skript herunterladen
   get_url:
     dest: /usr/local/sbin/opennetca_crldownload.sh
-    mode: 0755
+    mode: 0754
     owner: root
     url: "https://raw.githubusercontent.com/opennet-initiative/ca/main/ca/opennetca_crldownload.sh"
     force: yes
