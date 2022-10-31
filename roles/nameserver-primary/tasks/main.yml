@@ -29,12 +29,6 @@
     dest: /etc/ferm/ferm.d/
   notify: restart ferm
 
-- name: resolv.conf uebertragen
-  copy: 
-    src: resolv.conf
-    dest: /etc/
-    mode: 0644
-
 - name: munin-Plugin für Bind aktivieren
   file:
     state: link

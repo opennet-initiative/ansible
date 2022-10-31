@@ -72,10 +72,11 @@
     - mediawiki
     - www-server
 
-# Service Discovery + Git Server TODO
+# Service Discovery + Nameserver
 - hosts: izumi.on
   roles:
     - service-discovery
+    - nameserver-primary
 
 # Gluon+Babel Tests
 - hosts: itsuki.on-i.de
