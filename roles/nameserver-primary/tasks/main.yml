@@ -1,43 +1,4 @@
-- name: Nameserver installieren
-  apt: 
-    name: bind9
-
-- name: Nameserver konfigurieren
-  template:
-    src: bind/named.conf.local
-    dest: /etc/bind/
-  notify: restart bind
-
-- name: Nameserver Zonen konfigurieren
-  template:
-    src: bind/zones.opennet
-    dest: /etc/bind/
-  notify: restart bind
-
-- name: originale Nameserver-Konfiguration deaktivieren
-  lineinfile: 
-    state: present
-    backrefs: yes
-    dest: /etc/bind/named.conf
-    regexp: '^(include.*named\.conf\.options.*)$'
-    line: '#\1'
-  notify: restart bind
-
-- name: Zugang zum DNS-Server erlauben
-  template:
-    src: ferm/370_nameserver-master.inc
-    dest: /etc/ferm/ferm.d/
-  notify: restart ferm
-
-- name: munin-Plugin für Bind aktivieren
-  file:
-    state: link
-    src: /usr/share/munin/plugins/bind9_rndc
-    dest: /etc/munin/plugins/bind9_rndc
-  notify: restart munin-node
-
-- name: munin-Plugin für Bind konfigurieren
-  copy:
-    src: munin-plugin.conf
-    dest: /etc/munin/plugin-conf.d/opennet_dns_master
-  notify: restart munin-node
+- include_tasks: bind.yml
+- include_tasks: ferm.yml
+- include_tasks: monitoring.yml
+- include_tasks: cron.yml

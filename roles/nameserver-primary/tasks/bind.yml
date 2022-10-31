@@ -1,0 +1,24 @@
+- name: bind - Nameserver installieren
+  apt: 
+    name: bind9
+
+- name: bind - Nameserver konfigurieren
+  template:
+    src: bind/named.conf.local
+    dest: /etc/bind/
+  notify: restart bind
+
+- name: bind - Nameserver Zonen konfigurieren
+  template:
+    src: bind/zones.opennet
+    dest: /etc/bind/
+  notify: restart bind
+
+- name: bind - originale Nameserver-Konfiguration deaktivieren
+  lineinfile: 
+    state: present
+    backrefs: yes
+    dest: /etc/bind/named.conf
+    regexp: '^(include.*named\.conf\.options.*)$'
+    line: '#\1'
+  notify: restart bind

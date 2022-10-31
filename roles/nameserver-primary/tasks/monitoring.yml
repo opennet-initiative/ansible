@@ -1,0 +1,12 @@
+- name: monitoring - munin-Plugin für Bind aktivieren
+  file:
+    state: link
+    src: /usr/share/munin/plugins/bind9_rndc
+    dest: /etc/munin/plugins/bind9_rndc
+  notify: restart munin-node
+
+- name: monitoring - munin-Plugin für Bind konfigurieren
+  copy:
+    src: munin-plugin.conf
+    dest: /etc/munin/plugin-conf.d/opennet_dns_master
+  notify: restart munin-node

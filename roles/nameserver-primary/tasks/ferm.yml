@@ -1,0 +1,5 @@
+- name: ferm - Zugang zum DNS-Server erlauben
+  template:
+    src: ferm/370_nameserver-master.inc
+    dest: /etc/ferm/ferm.d/
+  notify: restart ferm

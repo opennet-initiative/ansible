@@ -1,0 +1,16 @@
+- name: cron - Software installieren (moreutils)
+  apt:
+    name: moreutils
+
+- name: cron - Bind IPv6 DNS Zone Generator-Script übertragen
+  copy:
+    src: opennetdns_generatezone.sh
+    dest: /usr/local/sbin/opennetdns_generatezone.sh
+    mode: 0754
+
+- name: cron - Job für Bind Genertor-Script anlegen
+  cron:
+    name: "Bind Opennet IPv6 DNS Zone Generator"
+    hour: "4"
+    minute: "22"
+    job: "/usr/local/sbin/opennetdns_generatezone.sh auto >/dev/null"
