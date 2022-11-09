@@ -16,7 +16,7 @@ buildbot_worker_name
 
 # Betrieb
 
-Buildbot Controller: https://dev2.opennet-initiative.de/ (via Reverse Proxy)
+Buildbot Controller: https://dev.opennet-initiative.de/ (via Reverse Proxy)
 
 # Debugging
 

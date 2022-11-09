@@ -30,7 +30,7 @@ buildbot_upload_dir
 
 = Betrieb =
 
-* Buildbot Controller: https://dev2.opennet-initiative.de/ (via Reverse Proxy)
+* Buildbot Controller: https://dev.opennet-initiative.de/ (via Reverse Proxy)
 * Lokales Arbeitsveryeichnis: `/var/lib/buildbot/workers/<host>/opennet-builder/build/`
 * Untersuchungen oder Anpassungen an diesem Verzeichnis via: `su - buildbot -s /bin/bash`
 

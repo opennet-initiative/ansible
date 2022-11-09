@@ -13,10 +13,10 @@ olsr_hna_announcements_ipv4:
   - 139.30.241.208
 
 letsencrypt_certificates:
-  - { on_tld_base: dev2 }
+  - { on_tld_base: dev }
 
 apache2_sites:
-  - { name: dev2 }
+  - { name: dev }
 apache2_mods:
  - { name: proxy }
  - { name: proxy_http }
