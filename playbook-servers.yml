@@ -61,6 +61,10 @@
   tags:
     - buildbot
 
+- hosts: ruri.on
+  roles:
+    - downloads-server
+
 # wireguard-server in development
 - hosts: kazama.on
   roles:
@@ -72,7 +76,6 @@
     - mediawiki
     - www-server
 
-# Service Discovery + Nameserver
 - hosts: izumi.on
   roles:
     - service-discovery
@@ -92,3 +95,5 @@
 - hosts: howmei.on
   roles:
     - munin
+
+
