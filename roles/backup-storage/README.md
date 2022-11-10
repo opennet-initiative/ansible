@@ -50,7 +50,7 @@ Kontrolle des rrsync-Vorgangs von einem Backup Server gegenüber dem Source-Host
 --exclude=/var/lib/icinga/spool/ --exclude=/var/lib/mlocate/ --exclude=/var/lib/munin/*.tmp* \
 --exclude=/var/log/munin/munin-cgi-graph.log* --exclude=/var/log/munin/munin-graph.log* \
 --exclude=/var/log/munin/munin-html.log* --exclude=/var/log/munin/munin-limits.log* \
---exclude=/var/log/munin/munin-update.log* --exclude=/home/trac-bitten-slave/ --exclude=/var/lib/buildbot/ \
+--exclude=/var/log/munin/munin-update.log* --exclude=/var/lib/buildbot/ \
 --exclude=/var/www/media-mirror/ --exclude=/var/log/btmp* --exclude=/var/lib/fail2ban/ \
 --exclude=/var/lib/mysql/wiki_*/objectcache*.MYD --exclude=/etc/.git/ --rsh="/usr/bin/ssh \
 -i /root/.ssh/backup-storage_rsa" --progress root@<HOSTNAME>:/ /media/backup/rsnapshot/.sync/<HOSTNAME>/
