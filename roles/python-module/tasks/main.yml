@@ -1,7 +1,5 @@
+#TODO: pip Paket daraus machen, weil dann keine Abhaengigkeit von Python Minor-Version.
 - name: kopiere opennet-Python-Module
   copy:
     src: "opennet/"
-    dest: "/usr/local/lib/python2.7/dist-packages/opennet/"
-
-- name: Abhaengigkeiten der python-Module installieren
-  apt: pkg=python-ipaddr state=present
+    dest: "/usr/local/lib/python3.7/dist-packages/opennet/"
