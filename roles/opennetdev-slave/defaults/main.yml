@@ -1,6 +1,0 @@
-# common variables, may be overridden on host-level
-opennetdev_name: "dev"
-
-# web variables
-opennetdev_slave_web_path: "/var/www/downloads"
-opennetdev_slave_web_user: "www-data"

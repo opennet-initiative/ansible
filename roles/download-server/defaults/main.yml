@@ -1,2 +1,3 @@
 downloads_path: "/var/www/downloads"
+downloads_user: "www-data"
 downloads_buildbot_path: "/var/www/downloads-buildbot"
