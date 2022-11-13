@@ -65,10 +65,9 @@ def dump_iptables_rebuild_user_dnat(nodes):
 
 def rebuild_port_forwards(ipv4_base, ipv6_base, nodes):
     port_forwards = os.linesep.join(dump_iptables_rebuild_user_dnat(nodes))
-    # Debian 10: /sbin/iptables-restore zeigt auf neues nftables (mit neuer Syntax)
-    # Wir nutzen erstmal die alte Syntax (legacy). Mit Debian 11 müssen wir zu nftables, weil alte Syntax dann nicht mehr unterstützt wird.
-    # Vorsicht: Diese Skript funktioniert nicht auf Debian System < 10 (buster)!!!!
-    proc = subprocess.Popen(["/sbin/iptables-legacy-restore", "--noflush", "--counters"],
+    # Ab Debian 10 wird nftables statt iptables genutzt.
+    # Wir nutzen erstmal die alte Syntax (legacy).
+    proc = subprocess.Popen(["/usr/sbin/iptables-legacy-restore", "--noflush", "--counters"],
                             stdin=subprocess.PIPE)
     stdout, stderr = proc.communicate(port_forwards.encode())
     if (proc.returncode != 0) and stderr:
