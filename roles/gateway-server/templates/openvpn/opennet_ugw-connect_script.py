@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Server_Installation/Ansible
 """
 Ermittle anhand des Zertifikats-CN eines OpenVPN-Clients die IP-Adresse, die
@@ -9,21 +9,22 @@ deren Name als erster Parameter an das Skript uebergeben wurde.
 
 import sys
 import os
+from packaging.version import Version
 
 
 NETMASK = '255.255.0.0'
 CLIENT_IP_TEMPLATE = '10.2.{major}.{minor}'
-SERVER_VERSION = "{{ openvpn_server_version.stdout }}".split(".")[:2]
+SERVER_VERSION = "{{ openvpn_server_version.stdout }}"
 
 
 # siehe Code-Kopie in roles/gateway-server/templates/openvpn/opennet_ugw/connect_script.py
 def get_compression_config_lines():
     # parse die ersten beiden Versions-Zahlen
-    client_version = os.getenv("IV_VER", "2.3").split(".")[:2]
+    client_version = os.getenv("IV_VER", "2.3")
     # ermittle die passende Kombination von Server- und Client-Kompression
-    if SERVER_VERSION < (2, 4):
+    if Version(SERVER_VERSION) < Version("2.4"):
         # older server version supporting only lzo
-        if client_version < (2, 4):
+        if Version(client_version) < Version("2.4"):
             compression = ("comp-lzo", "comp-lzo")
         else:
             compression = ("comp-lzo", "compress lzo")
@@ -33,7 +34,7 @@ def get_compression_config_lines():
             compression = ("compress lz4-v2", "compress lz4-v2")
         elif os.getenv("IV_LZ4") == "1":
             compression = ("compress lz4", "compress lz4")
-        elif client_version < (2, 4):
+        elif Version(client_version) < Version("2.4"):
             compression = ("compress lzo", "comp-lzo")
         else:
             compression = ("compress lzo", "compress lzo")
@@ -60,7 +61,7 @@ if __name__ == "__main__":
     client_ip = CLIENT_IP_TEMPLATE.format(major=client_major, minor=client_minor)
 
     target_filename = sys.argv[1]
-    target_file = file(target_filename, 'w')
+    target_file = open(target_filename, 'w')
     config_items = []
     config_items.append('ifconfig-push {ip} {netmask}'.format(ip=client_ip, netmask=NETMASK))
     config_items.extend(get_compression_config_lines())
