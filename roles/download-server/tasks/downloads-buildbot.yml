@@ -1,0 +1,9 @@
+- name: downloads-buildbot - Überprüfe Verzeichnis
+  stat:
+    path: "{{ downloads_buildbot_path }}"
+  register: downloads_buildbot
+
+- name: downloads-buildbot - Status des Verzeichnisses auswerten
+  fail:
+    msq: "TODO - Du musst die Partition und Verzeichnis {{ downloads_buildbot_path }} zunächst per Hand angelegt haben. Siehe auch roles/download-server/README.md"
+  when: downloads_buildbot.stat.isdir is not defined

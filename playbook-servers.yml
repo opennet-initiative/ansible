@@ -63,7 +63,7 @@
 
 - hosts: ruri.on
   roles:
-    - downloads-server
+    - download-server
 
 # wireguard-server in development
 - hosts: kazama.on

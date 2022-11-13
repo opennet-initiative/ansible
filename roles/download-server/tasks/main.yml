@@ -1,0 +1,2 @@
+- include_tasks: downloads.yml
+- include_tasks: downloads-buildbot.yml

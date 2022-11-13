@@ -1,0 +1,9 @@
+- name: downloads - Überprüfe Verzeichnis
+  stat:
+    path: "{{ downloads_path }}"
+  register: downloads
+
+- name: downloads - Status des Verzeichnisses auswerten
+  fail:
+    msq: "TODO - Du musst die Partition und Verzeichnis {{ downloads_path }} zunächst per Hand angelegt haben. Siehe auch roles/download-server/README.md"
+  when: downloads.stat.isdir is not defined

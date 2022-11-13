@@ -1,0 +1,2 @@
+downloads_path: "/var/www/downloads"
+downloads_buildbot_path: "/var/www/downloads-buildbot"
