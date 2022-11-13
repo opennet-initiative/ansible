@@ -4,7 +4,7 @@ Dieses Python-Modul stellt Funktionen zur IP-Ermittlung basierend auf Client-Zer
 """
 
 import re
-from ipaddr import IPv4Address, IPv6Address, IPv4Network, IPv6Network
+from ipaddress import IPv4Address, IPv6Address, IPv4Network, IPv6Network, ip_address
 
 
 # Jedem Client werden zehn Ports zugeteilt.
@@ -48,7 +48,7 @@ class NodeInfo(object):
             raise ValueError('Invalid CN %r.' % client_cn)
         if ipv4_base:
             # wir beginnen mit der zweiten IP des Netzwerks (die erste verwendet der Server)
-            self.ipv4_address = ipv4_base + int(ipv4_offset) + IPV4_FACTOR * (cn_address - 1) + 2
+            self.ipv4_address = ip_address(int(ipv4_base) + int(ipv4_offset) + IPV4_FACTOR * (cn_address - 1) + 2)
         else:
             self.ipv4_address = None
         if ipv6_base:
@@ -64,8 +64,8 @@ class NodeInfo(object):
 
 
 def parse_ipv4_and_net(ip, netmask):
-    return IPv4Network("%s/%s" % (ip, netmask)).masked().ip
+    return IPv4Network("%s/%s" % (ip, netmask), strict=False).network_address
 
 
 def parse_ipv6_and_net(ip):
-    return IPv6Network(ip).masked().ip
+    return IPv6Network(ip, strict=False).network_address
