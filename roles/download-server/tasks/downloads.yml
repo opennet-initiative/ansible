@@ -8,10 +8,10 @@
     msq: "TODO - Du musst die Partition und Verzeichnis {{ downloads_path }} zunächst per Hand angelegt haben. Siehe auch roles/download-server/README.md"
   when: downloads.stat.isdir is not defined
 
-- name: web - Dateien kopieren
+- name: downloads - Dateien kopieren
   copy:
     src: "{{ item }}"
-    dest: "{{ downloads_path }}/"
+    dest: "{{ downloads_path }}"
     owner: "{{ downloads_user }}"
     group: "{{ downloads_user }}"
   with_items:
