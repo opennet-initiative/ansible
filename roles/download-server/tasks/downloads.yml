@@ -8,6 +8,13 @@
     msq: "TODO - Du musst die Partition und Verzeichnis {{ downloads_path }} zunächst per Hand angelegt haben. Siehe auch roles/download-server/README.md"
   when: downloads.stat.isdir is not defined
 
+- name: downloads - Verzeichnis Eigner setzen
+  file:
+    path: "{{ downloads_path }}"
+    state: directory
+    owner: "{{ downloads_user }}"
+    group: "{{ downloads_user }}"
+
 - name: downloads - Dateien kopieren
   copy:
     src: "{{ item }}"

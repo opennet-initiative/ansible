@@ -8,9 +8,24 @@
     msq: "TODO - Du musst die Partition und Verzeichnis {{ downloads_buildbot_path }} zunächst per Hand angelegt haben. Siehe auch roles/download-server/README.md"
   when: downloads_buildbot.stat.isdir is not defined
 
+- name: downloads-buildbot - Verzeichnis Eigner setzen
+  file:
+    path: "{{ downloads_buildbot_path }}"
+    state: directory
+    owner: "{{ downloads_buildbot_user }}"
+    group: "{{ downloads_buildbot_user }}"
+
 - name: downloads-buildbot - Benutzer anlegen
   user:
     name: buildbot
     comment: "Buildbot Worker Upload"
     create_home: no
-    home: "{{ downloads_buildbot_path }}" 
+    home: "{{ downloads_buildbot_path }}"
+    system: yes
+
+- name: downloads-buildbot - Export-Verzeichnis anlegen
+  file:
+    path: "{{ downloads_buildbot_path }}/export"
+    state: directory
+    owner: "{{ downloads_buildbot_user }}"
+    group: "{{ downloads_buildbot_user }}"

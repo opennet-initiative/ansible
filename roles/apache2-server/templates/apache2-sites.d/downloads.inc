@@ -1,6 +1,6 @@
 DocumentRoot /var/www/downloads
 
-Alias /openwrt/testing /var/www/downloads-buildbot
+Alias /openwrt/testing /var/www/downloads-buildbot/export
 
 <Directory />
 	AllowOverride Indexes 
@@ -38,7 +38,7 @@ Alias /openwrt/testing /var/www/downloads-buildbot
   Options +FollowSymLinks
 </Directory>
 
-<Directory /var/www/downloads-buildbot>
+<Directory /var/www/downloads-buildbot/export>
   Require all granted
   IndexIgnore *.ico Opennet_logo_quer.gif HEADER.html FOOTER.html
   HeaderName /HEADER.html
