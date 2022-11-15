@@ -26,12 +26,16 @@ Alias /openwrt/testing /var/www/downloads-buildbot
 </Directory>
 <Directory /var/www/downloads/openwrt/stable>
   IndexOrderDefault Descending Name
+  Options +FollowSymLinks
 </Directory>
 <Directory /var/www/downloads/openwrt/attic>
   IndexOrderDefault Descending Name
 </Directory>
 <Directory /var/www/downloads/ubnt/airos>
   IndexOrderDefault Descending Name
+</Directory>
+<Directory /var/www/downloads/verein/dokumente>
+  Options +FollowSymLinks
 </Directory>
 
 <Directory /var/www/downloads-buildbot>
