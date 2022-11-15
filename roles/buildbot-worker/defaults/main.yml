@@ -21,5 +21,5 @@ buildbot_ssh_known_hosts_path: "{{ buildbot_home }}/.ssh/known_hosts"
 
 # upload
 buildbot_upload_host: "downloads.on"
-buildbot_upload_user: "trac-bitten-slave"
-buildbot_upload_dir: "/home/{{ buildbot_upload_user }}"
+buildbot_upload_user: "buildbot"
+buildbot_upload_dir: "/var/www/downloads-buildbot"
