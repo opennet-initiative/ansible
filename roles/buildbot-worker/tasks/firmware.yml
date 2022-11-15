@@ -10,7 +10,7 @@
       - file
       - gawk
       - unzip
-      - python
+      - python3
       - quilt
       - libncurses5-dev
       - zlib1g-dev
