@@ -7,3 +7,10 @@
   fail:
     msq: "TODO - Du musst die Partition und Verzeichnis {{ downloads_buildbot_path }} zunächst per Hand angelegt haben. Siehe auch roles/download-server/README.md"
   when: downloads_buildbot.stat.isdir is not defined
+
+- name: downloads-buildbot - Benutzer anlegen
+  user:
+    name: buildbot
+    comment: "Buildbot Worker Upload"
+    create_home: no
+    home: "{{ downloads_buildbot_path }}" 
