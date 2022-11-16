@@ -21,11 +21,28 @@
     comment: "Buildbot Worker Upload"
     create_home: no
     home: "{{ downloads_buildbot_path }}"
+    shell: "/bin/bash"
     system: yes
 
 - name: downloads-buildbot - Export-Verzeichnis anlegen
   file:
-    path: "{{ downloads_buildbot_path }}/export"
+    path: "{{ downloads_buildbot_path }}/{{ downloads_buildbot_export }}"
     state: directory
     owner: "{{ downloads_buildbot_user }}"
     group: "{{ downloads_buildbot_user }}"
+
+- name: downloads-buildbot - Export-Bereinigung übertragen
+  template:
+    src: "on-buildbot-export-cleanup.sh"
+    dest: "{{ downloads_buildbot_path }}"
+    owner: "{{ downloads_buildbot_user }}"
+    group: "{{ downloads_buildbot_user }}"
+    mode: 0755
+
+- name: downloads-buildbot - Cronjob für Export-Bereinigung anlegen
+  cron:
+    name: "on-buildbot-export-cleanup"
+    hour: "*/2"
+    minute: "17"
+    user: "{{ downloads_buildbot_user }}"
+    job: "chronic on-buildbot-export-cleanup.sh"
