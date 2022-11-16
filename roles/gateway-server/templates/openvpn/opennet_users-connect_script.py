@@ -10,7 +10,7 @@ import os
 from packaging.version import Version
 from opennet.addresses import NodeInfo, parse_ipv4_and_net, parse_ipv6_and_net
 
-SERVER_VERSION = "{{ openvpn_server_version.stdout }}".split(".")[:2]
+SERVER_VERSION = "{{ openvpn_server_version.stdout }}"
 
 
 # optionale Log-Ausgabe fuer Debugging
