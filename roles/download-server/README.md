@@ -34,5 +34,7 @@ Es werden einige wenige Variablen für die Verzeichnisstruktur und Cron-Job verw
   * Anzahl der Unterverzeichnisse im Export-Verzeichnisse die bei einer Bereinigung bestehen bleiben
 
 Vorhandenes Downloads Verzeichnis kopieren:
+```
 <client># ssh -A <new-host>
 <new-host># cd /var/www/downloads; rsync -avuz --progress root@<old-host>.on:/var/www/<old-path>/ .
+```
