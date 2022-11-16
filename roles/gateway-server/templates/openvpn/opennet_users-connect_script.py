@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # ACHTUNG: verwaltet via ansible - siehe https://wiki.opennet-initiative.de/wiki/Server_Installation/Ansible
 """
 Dieses Skript wird beim Aufbau und bei der Trennung einer Nutzer-Tunnel-OpenVPN-Verbindung ausgefuehrt.
@@ -7,6 +7,7 @@ Es ermittelt die zu vergebende IP des OpenVPN-Clients anhand des CN seines Zerti
 
 import sys
 import os
+from packaging.version import Version
 from opennet.addresses import NodeInfo, parse_ipv4_and_net, parse_ipv6_and_net
 
 SERVER_VERSION = "{{ openvpn_server_version.stdout }}".split(".")[:2]
@@ -21,11 +22,11 @@ SERVER_VERSION = "{{ openvpn_server_version.stdout }}".split(".")[:2]
 # siehe Code-Kopie in roles/gateway-server/templates/openvpn/opennet_users/connect_script.py
 def get_compression_config_lines():
     # parse die ersten beiden Versions-Zahlen
-    client_version = os.getenv("IV_VER", "2.3").split(".")[:2]
+    client_version = os.getenv("IV_VER", "2.3")
     # ermittle die passende Kombination von Server- und Client-Kompression
-    if SERVER_VERSION < (2, 4):
+    if Version(SERVER_VERSION) < Version("2.4"):
         # older server version supporting only lzo
-        if client_version < (2, 4):
+        if Version(client_version) < Version("2.4"):
             compression = ("comp-lzo", "comp-lzo")
         else:
             compression = ("comp-lzo", "compress lzo")
@@ -35,7 +36,7 @@ def get_compression_config_lines():
             compression = ("compress lz4-v2", "compress lz4-v2")
         elif os.getenv("IV_LZ4") == "1":
             compression = ("compress lz4", "compress lz4")
-        elif client_version < (2, 4):
+        elif Version(client_version) < Version("2.4"):
             compression = ("compress lzo", "comp-lzo")
         else:
             compression = ("compress lzo", "compress lzo")
@@ -57,7 +58,7 @@ def process_openvpn_connection_event(client_cn):
         # wir wurden als "client-connect"-Skript aufgerufen
         # push config to ovpn client
         target_filename = sys.argv[1]
-        with file(target_filename, 'w') as target_file:
+        with open(target_filename, 'w') as target_file:
             config_items = []
             if node.ipv4_address:
                 config_items.append('ifconfig-push {} {}'

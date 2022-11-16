@@ -1,6 +1,9 @@
 - name: openvpn installieren
   apt: pkg=openvpn state=present
 
+- name: Abhaengigkeiten fuer Python connect_script installieren
+  apt: pkg=python3-packaging state=present
+
 - name: VPN-Gruppe anlegen
   user: state=present
         name=openvpn

@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-
-from __future__ import print_function
+#!/usr/bin/env python3
 
 import os
 import re
@@ -67,18 +65,21 @@ def dump_iptables_rebuild_user_dnat(nodes):
 
 def rebuild_port_forwards(ipv4_base, ipv6_base, nodes):
     port_forwards = os.linesep.join(dump_iptables_rebuild_user_dnat(nodes))
-    proc = subprocess.Popen(["/sbin/iptables-restore", "--noflush", "--counters"],
+    # Debian 10: /sbin/iptables-restore zeigt auf neues nftables (mit neuer Syntax)
+    # Wir nutzen erstmal die alte Syntax (legacy). Mit Debian 11 müssen wir zu nftables, weil alte Syntax dann nicht mehr unterstützt wird.
+    # Vorsicht: Diese Skript funktioniert nicht auf Debian System < 10 (buster)!!!!
+    proc = subprocess.Popen(["/sbin/iptables-legacy-restore", "--noflush", "--counters"],
                             stdin=subprocess.PIPE)
-    stdout, stderr = proc.communicate(port_forwards)
+    stdout, stderr = proc.communicate(port_forwards.encode())
     if (proc.returncode != 0) and stderr:
-        sys.write(stderr + os.linesep)
+        print(stderr + os.linesep)
     return proc.returncode
 
 
 if __name__ == "__main__":
     network_start = sys.argv[1]
     network_netmask = sys.argv[2]
-    ipv4_base = parse_ipv4_and_net(network_start, network_netmask)
+    ipv4_base = parse_ipv4_and_net(network_start, network_netmask)  # bspw: erina -> 10.1.0.0 255.255.0.0
     ipv6_base = None
     try:
         connections = get_current_user_vpn_connections()
