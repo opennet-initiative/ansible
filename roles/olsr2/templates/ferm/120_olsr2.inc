@@ -10,8 +10,8 @@ domain ip6 table filter {
 	chain service-input interface $IF_OLSR2 {
 		# OLSR2 IPv6 Routing
 		proto udp dport 269 ACCEPT;
-    # munin IPv6
-    proto tcp dport munin ACCEPT;
+		# munin IPv6
+		proto tcp dport munin ACCEPT;
 	}
 
 	# Verkehr zwischen Opennet-Knoten erlauben
