@@ -1,0 +1,41 @@
+- name: gitolite - Software installieren
+  apt: 
+    name: gitolite3
+
+- name: gitolite - Verzeichnis konfigurieren via debconf
+  debconf: 
+    name: gitolite3
+    question: gitolite3/gitdir
+    vtype: string
+    value: "{{ gitserver_git_path }}"
+  register: debconf_gitdir
+
+- name: gitolite - Benutzer konfigurieren via debconf
+  debconf:
+    name: gitolite3
+    question: gitolite3/gituser
+    vtype: string
+    value: "{{ gitserver_git_user }}"
+  register: debconf_gituser
+
+- name: gitolite - Adminkey konfigurieren via debconf
+  debconf:
+    name: gitolite3
+    question: gitolite3/adminkey
+    vtype: string
+    value: "{{ gitserver_git_path }}/keys/{{ gitserver_allowed_users | first }}" 
+  register: debconf_adminkey
+
+- name: reconfigure gitolite
+  command:
+    cmd: "dpkg-reconfigure gitolite3"
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: debconf_gitdir.changed or debconf_gituser.changed or debconf_adminkey.changed
+
+- name: git-install - Gitolite Dateirechte (UMASK) setzen
+  replace:
+    path: "{{ gitserver_git_path }}/.gitolite.rc"
+    regexp: 'UMASK.*=>.*'
+    replace: "UMASK                           =>  {{ gitserver_git_umask }},"
+    backup: yes

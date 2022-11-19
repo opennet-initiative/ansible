@@ -1,2 +1,8 @@
-- name: restart apache2
-  service: name=apache2 state=restarted
+- name: restart ferm
+  service: name=ferm state=restarted
+
+- name: reconfigure gitolite
+  command:
+    cmd: "dpkg-reconfigure gitolite3"
+  environment:
+    DEBIAN_FRONTEND: noninteractive

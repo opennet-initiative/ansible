@@ -31,4 +31,9 @@ opennetca_allowed_users:
   - mathiasmahnke.client.on
   - philippmarkwardt.client.on
 
+gitserver_allowed_users:
+  - mathiasmahnke.pub
+  - larskruse.pub
+  - martingarbe.pub
+
 debian_release: bullseye

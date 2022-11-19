@@ -1,2 +1,2 @@
-- include_tasks: git-install.yml
-- include_tasks: git-web.yml
+- include_tasks: user.yml
+- include_tasks: install.yml

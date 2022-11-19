@@ -1,13 +1,8 @@
 # common variables, may be overridden on host-level
-gitserver_name: "git"
 gitserver_allowed_users: []
-gitserver_repositories: []
 
 # git variables
 gitserver_git_user: "git"
-gitserver_git_shell: "/bin/bash"
 gitserver_git_path: "/home/{{ gitserver_git_user }}"
-gitserver_git_path_web: "/var/www/git"
-gitserver_git_user_web: "www-data"
 gitserver_git_mode: "0750"
 gitserver_git_umask: "0027"

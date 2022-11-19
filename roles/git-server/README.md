@@ -3,27 +3,19 @@ Diese Rolle installiert einen Opennet Git Server.
 
 Enthalten sind:
 * Anlegen eines Git Benutzers
-* Vorbereitung der Gitolite Installation
-* ggf. Bereitstellung der Git Repositories via HTTPS
+* Vorbereitung der Git Verzeichnisse
+* Gitolite Installation
+* Gitolite Erst-Konfiguration
 
 ## Konfiguration
 
 Manuelle Arbeitsschritte:
-* bestehende Git Repositories müssen manuell übertragen werden
-* Gitolite Installation muss via dpkg bereit gestellt werden
+* bestehende Git Repositories müssen übertragen werden
 * anschließend Gitolite Konfiguration (via push) übernehmen
-* abschließend "gitolite setup" ausführen
-* Übernahme der Datenbank und Anhängen aus vorhandenem Trac
+* Bei Bedarf abschließend "gitolite setup" ausführen
 
-TODO -- Anleitung verbessern....
 Vorhandenes Git Verzeichnis kopieren:
-<new-host># cd /home/git; rsync -avuz --progress root@<old-host>.on:/var/git/ .
-
-Gitolite Initialisierung:
-<new-host># dpkg-reconfigure gitolite3
-  System username for gitolite: git
-  Repository path: /home/git/repositories
-  Admin User: <keys/vornamenachname.pub>
+<new-host># cd /home/git/repositories; rsync -avuz --progress root@<old-host>.on:/var/git/repositories .
 
 Gitolite Konfiguration übernehmen:
 <client># git clone git@<old-host>:gitolite-admin; cd gitolite-admin
@@ -31,8 +23,6 @@ Gitolite Konfiguration übernehmen:
 <client># git remote add origin git@<new-host>:gitolite-admin
 <client># git push -f origin master
 
-Gitolote Hooks aktualisieren:
+Ggf. Gitolote Hooks aktualisieren:
 <new-host># su - git
 <new-host># gitolite setup
-
-# TODO
