@@ -9,6 +9,22 @@ Enthalten sind:
 
 ## Konfiguration
 
+Es werden einige Variablen zur Konfiguration des Git/Gitolite-Servers verwendet.
+
+* gitserver_allowed_users
+  * Legt die administrativen Nutzer der Git-Verwaltung (Repo 'gitolite-admin') fest
+  * Der erste Nutzer wird der initiale Berechtigte im Git via SSH
+* gitserver_git_user
+  * Benutzername unter dem der Git-Server laufen wird
+  * typischer Weise "git" (Debian Standard derzeit gitolite3)
+* gitserver_git_path
+  * Heimatverzeichnis des Git-Servers/Git-Benutzers
+  * typischer Weise "/home/<gitserver_git_user>" (Debian Standard derzeit /var/lib/gitolite3)
+* gitserver_git_mode / gitserver_git_umask
+  * Dateirechte für den Git-Server
+
+## Erstinstallation / Migration
+
 Manuelle Arbeitsschritte:
 * bestehende Git Repositories müssen übertragen werden
 * anschließend Gitolite Konfiguration (via push) übernehmen
@@ -26,3 +42,7 @@ Gitolite Konfiguration übernehmen:
 Ggf. Gitolote Hooks aktualisieren:
 <new-host># su - git
 <new-host># gitolite setup
+
+## Hinweis
+
+Derzeit wird nur der erste Benutzer der 'gitserver_allowed_users' Konfiguration als initialer Bearbeiter des 'gitolite-admin' Repositories gesetzt. Alle weiteren müssen innerhalb des Repos hinzugefügt werden. Dies liegt an den Beschränkungen des 'gitolite setup' Kommandos.
