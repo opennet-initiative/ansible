@@ -24,6 +24,7 @@
       - acpi-support-base
       - debian-security-support
       - wget
+      - whiptail
 
 - name: packages -- Server-relevante Pakete installieren (ab Jessie)
   apt:
