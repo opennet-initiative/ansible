@@ -25,10 +25,7 @@ apache2_sites:
       - ^/\.megabyte$
       - ^/\.10megabyte$
 
-debian_release: buster
-# Workaround#001: Debian Buster hat einen Bug in munin, welches den mix von IPv4/IPv6 verhindert, https://github.com/munin-monitoring/munin/issues/1177
-# Use below workaround if system is old Debian buster and IPv6 via mesh is available. 
-workaround_munin_debian_buster_allow_ipv6_only: true
+debian_release: bullseye
 
 # needed since hoster will override files
 hostfiles_immutable: true
