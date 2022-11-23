@@ -206,11 +206,33 @@ case "$ACTION" in
     # exec_eventoff
     exec_logout
     ;;
+  eco|eco-temp|--eco|--eco-temp)
+    echo "Action ECO TEMP"
+    exec_login
+    # exec_eventon
+    exec_findprogram $HOMEMATIC_PRG_TEMP_ECO
+    exec_runprogram
+    # exec_eventpoll
+    # exec_eventoff
+    exec_logout
+    ;;
+  comfort|comfort-temp|--comfort|--comfort-temp)
+    echo "Action COMFORT TEMP"
+    exec_login
+    # exec_eventon
+    exec_findprogram $HOMEMATIC_PRG_TEMP_COMFORT
+    exec_runprogram
+    # exec_eventpoll
+    # exec_eventoff
+    exec_logout
+    ;;
   help|--help)
     echo "Usage: $(basename "$0")"
-    echo "  --test       - perform connecion test, no action"
-    echo "  --open-door  - run homematic programm to open doorlock"
-    echo "  --close-door - run homematic programm to close doorlock"
+    echo "  --test          - perform connecion test, no action"
+    echo "  --open-door     - run homematic program to open doorlock"
+    echo "  --close-door    - run homematic program to close doorlock"
+    echo "  --eco-temp      - run hometatic program for eco temperature"
+    echo "  --comfort-temp  - run homematic program for comfort temperature"
     ;;
   *)
     debug=false

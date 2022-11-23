@@ -18,11 +18,13 @@
     - Opennet_logo_quer.gif
     - favicon.ico
     - index.html
+    - sl-logo_0.jpg
     - open.png
     - close.png
-    - sl-logo_0.jpg
     - on.png
     - off.png
+    - eco.png
+    - comfort.png
 
 - name: Dateien Türsteuerung für Webseite (Internal) übertragen
   template:
@@ -34,7 +36,7 @@
     - { task: "open", de: "Öffne", en: "Open" } 
     - { task: "close", de: "Schließe", en: "Close" }
 
-- name: Dateien Lightsteuerung für Webseite (Internal) übertragen
+- name: Dateien Lichtsteuerung für Webseite (Internal) übertragen
   template:
     src: "lights_template.php"
     dest: "{{ homematic_path_web }}/internal/lights_{{ item.task }}.php"
@@ -43,3 +45,13 @@
   with_items:
     - { task: "on", de: "an", en: "on" }
     - { task: "off", de: "aus", en: "off" }
+
+- name: Dateien Temperatursteuerung für Webseite (Internal) übertragen
+  template:
+    src: "temp_template.php"
+    dest: "{{ homematic_path_web }}/internal/temp_{{ item.task }}.php"
+    owner: "{{ homematic_user_web }}"
+    group: "{{ homematic_user_web }}"
+  with_items:
+    - { task: "eco", de: "Eco", en: "Eco" }
+    - { task: "comfort", de: "Comfort", en: "Comfort" }
