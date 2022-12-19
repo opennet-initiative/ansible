@@ -36,6 +36,16 @@
     - restart systemd-networkd
     - restart olsrd
 
+# Sonderfall: Gateway-Server hat bereits ein physikalisches
+# Opennet Mesh Interface konfiguriert (2022: subaru)
+- name: network - Prüfe vorhandenes Mesh-Interface
+  lineinfile:
+    path: /etc/network/interfaces
+    line: "	address {{ olsr_main_ip }}"
+    state: absent
+  check_mode: yes
+  register: network_mesh_interface
+
 - name: network - Prüfe Gateway Mesh-IP Konfiguration
   lineinfile:
     path: /etc/systemd/network/on-loopback.network
@@ -43,6 +53,7 @@
     state: present
   check_mode: yes
   register: network_systemd_loopback_mesh
+  when: not network_mesh_interface.changed
 
 - name: network - IPv4 Mesh-IP auf loopback-Interface konfigurieren
   lineinfile:
@@ -51,5 +62,5 @@
 
       [Address]
       Address={{ olsr_main_ip }}/32
-  when: network_systemd_loopback_mesh.changed
+  when: (network_systemd_loopback_mesh is defined) and network_systemd_loopback_mesh.changed
   notify: restart systemd-networkd
