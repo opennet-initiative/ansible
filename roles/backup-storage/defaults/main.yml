@@ -44,4 +44,4 @@ backup_storage_age_check: /var/log/munin/munin-node.log
 
 # Debian Packages
 rsnapshot_debian_url: "https://downloads.opennet-initiative.de/debian"
-rsnapshot_debian11_file: "rsnapshot_1.4.4-1_all.deb"
+rsnapshot_debian11_file: "rsnapshot_1.4.5-1_all.deb"
