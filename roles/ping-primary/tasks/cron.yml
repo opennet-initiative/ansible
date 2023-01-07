@@ -5,7 +5,7 @@
 - name: cron - Übertrage oni-smokeping-generate-targets
   template:
     src: oni-smokeping-generate-targets.sh
-    dest: /usr/local/sbin/oni-smokeping-generate-targets
+    dest: /usr/local/sbin/oni-smokeping-generate-targets.sh
     mode: '0755'
 
 - name: cron - Job für oni-smokeping-generate-targets
