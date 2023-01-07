@@ -12,4 +12,13 @@ olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
   - 139.30.241.204
 
+letsencrypt_certificates:
+  - { on_tld_base: ping }
+
+apache2_sites:
+  - { name: ping }
+apache2_mods:
+ - { name: fcgid }
+ - { name: suexec }
+
 debian_release: bullseye 

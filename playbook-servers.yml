@@ -96,3 +96,7 @@
 - hosts: howmei.on
   roles:
     - munin
+
+- hosts: yurika.on
+  roles:
+    - ping-primary
