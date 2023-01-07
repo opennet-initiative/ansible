@@ -16,6 +16,8 @@ Voraussetzungen:
 Typische Ansible Host-Konfiguration:
 
 ```
+letsencrypt_certificates:
+  - { on_tld_base: ping }
 apache2_sites:
   - { name: ping }
 apache2_mods:
