@@ -1,0 +1,23 @@
+- name: config - Eigner setzen
+  lineinfile:
+    path: "{{ smokeping_path_config }}/General"
+    regexp: '^owner    ='
+    line: "owner    = {{ smokeping_owner }}"
+
+- name: config - Kontakt setzen
+  lineinfile:
+    path: "{{ smokeping_path_config }}/General"
+    regexp: '^contact  ='
+    line: "contact  = {{ smokeping_contact }}"
+
+- name: config - CGI-URL setzen
+  lineinfile:
+    path: "{{ smokeping_path_config }}/General"
+    regexp: '^cgiurl   ='
+    line: "cgiurl   = {{ smokeping_cgiurl }}"
+
+- name: config - CGI-URL setzen
+  lineinfile:
+    path: "{{ smokeping_path_config }}/pathnames"
+    regexp: '^imgurl   ='
+    line: "imgurl   = {{ smokeping_imgurl }}"

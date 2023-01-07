@@ -1,0 +1,7 @@
+- name: install - SmokePing / Apache FCGI installieren
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - smokeping
+    - libapache2-mod-fcgid

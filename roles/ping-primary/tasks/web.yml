@@ -1,0 +1,18 @@
+- name: web - Erzeuge Verzeichnis
+  file: 
+    dest: "{{ smokeping_path_web }}"
+    state: directory
+
+- name: web - Kopiere Daten für Webseite
+  copy:
+    src: "{{ item }}"
+    dest: "{{ smokeping_path_web }}/{{ item }}"
+  with_items:
+    - favicon.ico
+    - Opennet_logo.png
+
+- name: web - SmokePing Webseite anpassen
+  lineinfile:
+    path: "/etc/smokeping/basepage.html"
+    regexp: 'navbar-user'
+    line: '<div class="navbar-user"><img src="/Opennet_logo.png" height="45" /></div>'

@@ -1,0 +1,40 @@
+smokeping_path_config: "/etc/smokeping/config.d"
+smokeping_path_web: "/var/www/ping"
+smokeping_owner: "Opennet Admin Group"
+smokeping_contact: "admin@opennet-initiative.de"
+smokeping_cgiurl: "https://ping.opennet-initiative.de/smokeping.cgi"
+smokeping_imgurl: "/images"
+smokeping_apiurl: "https://api.opennet-initiative.de/api/v1"
+smokeping_targets_server_gateway:
+- gai.on
+- itsuki.on-i.de
+- megumi.on
+- subaru.on
+smokeping_targets_server_service:
+- amano.on
+- crimson.on
+- goat.on
+- heartofgold.on
+- hikaru.on
+- hoshino.on
+- howmei.on
+- inez.on
+- izumi.on
+- jun.on
+- kazama.on
+- kinjo.on
+- maki.on
+- nagare.on
+- ruri.on
+- tenkawa.on
+- yurika.on
+smokeping_targets_server_virtualization:
+- akito.on
+- aqua.on
+- ryoko.on
+- tamago.on
+smokeping_targets_server_other:
+- titan.on
+- server-mathias.on
+- server-matthias.on
+- server-christoph.on

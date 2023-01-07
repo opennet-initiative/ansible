@@ -1,0 +1,15 @@
+- name: cron - Installiere moreutils (chronic)
+  apt:
+    name: moreutils
+
+- name: cron - Übertrage oni-smokeping-generate-targets
+  template:
+    src: oni-smokeping-generate-targets.sh
+    dest: /usr/local/sbin/oni-smokeping-generate-targets
+    mode: '0755'
+
+- name: cron - Job für oni-smokeping-generate-targets
+  cron:
+    name: oni-smokeping-generate-targets
+    minute: 15
+    job: chronic /usr/local/sbin/oni-smokeping-generate-targets.sh --cron
