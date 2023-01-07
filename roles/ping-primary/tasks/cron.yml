@@ -8,8 +8,9 @@
     dest: /usr/local/sbin/oni-smokeping-generate-targets.sh
     mode: '0755'
 
+# since we are depending on bash we runing chronic with bash (otherwise sh)
 - name: cron - Job für oni-smokeping-generate-targets
   cron:
     name: oni-smokeping-generate-targets
     minute: 15
-    job: chronic /usr/local/sbin/oni-smokeping-generate-targets.sh --cron
+    job: chronic bash /usr/local/sbin/oni-smokeping-generate-targets.sh --cron
