@@ -226,6 +226,26 @@ case "$ACTION" in
     # exec_eventoff
     exec_logout
     ;;
+  power-on|on|--on|--power-on)
+    echo "Action POWER ON"
+    exec_login
+    # exec_eventon
+    exec_findprogram $HOMEMATIC_PRG_POWER_ON
+    exec_runprogram
+    # exec_eventpoll
+    # exec_eventoff
+    exec_logout
+    ;;
+  power-off|off|--off|--power-off)
+    echo "Action POWER OFF"
+    exec_login
+    # exec_eventon
+    exec_findprogram $HOMEMATIC_PRG_POWER_OFF
+    exec_runprogram
+    # exec_eventpoll
+    # exec_eventoff
+    exec_logout
+    ;;
   help|--help)
     echo "Usage: $(basename "$0")"
     echo "  --test          - perform connecion test, no action"
@@ -233,6 +253,8 @@ case "$ACTION" in
     echo "  --close-door    - run homematic program to close doorlock"
     echo "  --eco-temp      - run hometatic program for eco temperature"
     echo "  --comfort-temp  - run homematic program for comfort temperature"
+    echo "  --power-on      - run homematic program for power on"
+    echo "  --power-off     - run homematic program for power off"
     ;;
   *)
     debug=false
