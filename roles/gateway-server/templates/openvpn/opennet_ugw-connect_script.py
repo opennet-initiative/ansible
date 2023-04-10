@@ -17,31 +17,6 @@ CLIENT_IP_TEMPLATE = '10.2.{major}.{minor}'
 SERVER_VERSION = "{{ openvpn_server_version.stdout }}"
 
 
-# siehe Code-Kopie in roles/gateway-server/templates/openvpn/opennet_ugw/connect_script.py
-def get_compression_config_lines():
-    # parse die ersten beiden Versions-Zahlen
-    client_version = os.getenv("IV_VER", "2.3")
-    # ermittle die passende Kombination von Server- und Client-Kompression
-    if Version(SERVER_VERSION) < Version("2.4"):
-        # older server version supporting only lzo
-        if Version(client_version) < Version("2.4"):
-            compression = ("comp-lzo", "comp-lzo")
-        else:
-            compression = ("comp-lzo", "compress lzo")
-    else:
-        # modern server version supporting all compression algorithms
-        if os.getenv("IV_LZ4v2") == "1":
-            compression = ("compress lz4-v2", "compress lz4-v2")
-        elif os.getenv("IV_LZ4") == "1":
-            compression = ("compress lz4", "compress lz4")
-        elif Version(client_version) < Version("2.4"):
-            compression = ("compress lzo", "comp-lzo")
-        else:
-            compression = ("compress lzo", "compress lzo")
-    yield compression[0]
-    yield 'push "{}"'.format(compression[1])
-
-
 if __name__ == "__main__":
     client_cn = os.getenv('common_name')
 
@@ -64,6 +39,5 @@ if __name__ == "__main__":
     target_file = open(target_filename, 'w')
     config_items = []
     config_items.append('ifconfig-push {ip} {netmask}'.format(ip=client_ip, netmask=NETMASK))
-    config_items.extend(get_compression_config_lines())
     target_file.write(os.linesep.join(config_items))
     target_file.close()
