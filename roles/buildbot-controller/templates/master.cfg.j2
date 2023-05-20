@@ -82,7 +82,7 @@ c['schedulers'].append(schedulers.ForceScheduler(
                                     layout="vertical", 
                                     fields=[
                                         util.BooleanParameter(name="force_make_distclean", label="force a make distclean", default=False),
-                                        util.BooleanParameter(name="force_make_arch_all", label="force make all architectures (default: ath79, mikrotik)", default=False)
+                                        util.BooleanParameter(name="force_make_arch_all", label="force make all architectures (default: ath79, mikrotik)", default=True)
                                     ]
                                 )
                             ]
