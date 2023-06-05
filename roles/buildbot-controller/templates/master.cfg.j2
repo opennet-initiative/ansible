@@ -96,10 +96,13 @@ def enforcedMakeDistclean(step):
     return False
 
 def enforcedMakeArchAll(step):
-    options = step.getProperty('options')
-    if options and options.get('force_make_arch_all') == True:
-        return True
-    return False
+    return True  # always build all archs
+    #
+    # uncomment below when you want to test building images fast
+    #options = step.getProperty('options')
+    #if options and options.get('force_make_arch_all') == True:
+    #    return True
+    #return False
 
 ####### BUILDERS
 
