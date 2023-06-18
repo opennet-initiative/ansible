@@ -33,6 +33,6 @@ opennetca_weblinks:
 - { src: "opennet-client_certchain.crt", dest: "vpn-client_certchain.crt" }
 - { src: "opennet-server_certchain.crt", dest: "vpn-server_certchain.crt" }
 - { src: "opennet-vpn-user.crt", dest: "vpnuser.crt" }
-- { src: "opennet-vpn-user.crl", dest: "vpnugw.crl" }
+- { src: "opennet-vpn-user.crl", dest: "vpnuser.crl" }
 - { src: "opennet-vpn-ugw.crt", dest: "vpnugw.crt" }
 - { src: "opennet-vpn-ugw.crl", dest: "vpnugw.crl" }
