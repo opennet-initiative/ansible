@@ -21,10 +21,12 @@
     - sl-logo_0.jpg
     - open.png
     - close.png
-    - on.png
-    - off.png
+    - lights_on.png
+    - lights_off.png
     - eco.png
     - comfort.png
+    - power_on.png
+    - power_off.png
 
 - name: Dateien Türsteuerung für Webseite (Internal) übertragen
   template:
@@ -55,3 +57,13 @@
   with_items:
     - { task: "eco", de: "Eco", en: "Eco" }
     - { task: "comfort", de: "Comfort", en: "Comfort" }
+
+- name: Dateien Steckdosensteuerung für Webseite (Internal) übertragen
+  template:
+    src: "power_template.php"
+    dest: "{{ homematic_path_web }}/internal/power_{{ item.task }}.php"
+    owner: "{{ homematic_user_web }}"
+    group: "{{ homematic_user_web }}"
+  with_items:
+    - { task: "on", de: "an", en: "on" }
+    - { task: "off", de: "aus", en: "off" }

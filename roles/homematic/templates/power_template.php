@@ -4,18 +4,18 @@
 <title>Opennet Initiative e.V.</title> 
 </head>
 <body>
-<h1>Frieda23 - Schalte Licht {{ item.de }}  / Turn lights {{ item.en }}</h1>
+<h1>Frieda23 - Schalte Steckdose {{ item.de }} / Switch Power Socket {{ item.en }}</h1>
 
 <table cellpadding="15" cellspacing="0">
 <tr>
 <td align="center">
-  <img src="/lights_{{ item.task }}.png">
+  <img src="/power_{{ item.task }}.png">
 </td>
 </tr>
 <tr bgcolor="#eeeeee">
 <td>
   <pre>
-<?php echo shell_exec('{{ homematic_path_user }}/lifxctl.sh --{{ item.task }}'); ?>
+<?php echo shell_exec('{{ homematic_path_user }}/homematic.sh --power-{{ item.task }}'); ?>
   </pre>
 </td>
 </tr>
