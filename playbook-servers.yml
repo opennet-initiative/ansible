@@ -41,6 +41,8 @@
     - mitgliedsantrag
     - opennetca
     - git-server
+  tags:
+    - opennetca
 
 - hosts: tenkawa.on
   roles:
