@@ -83,3 +83,12 @@
     dest: "{{ opennetca_path_user }}/ca/{{ ca }}/opennet-{{ ca }}.ca.on_{{ opennetca_year }}.conf"
     owner: "{{ opennetca_user }}"
     group: "{{ opennetca_user }}"
+
+- name: ca - Zertifikat für CA kopieren
+  copy:
+    src: "{{ opennetca_path_user }}/src/cert/opennet-{{ ca }}.ca.on_{{ opennetca_year }}.crt"
+    dest: "{{ opennetca_path_user }}/ca/{{ ca }}/"
+    owner: "{{ opennetca_user }}"
+    group: "{{ opennetca_user }}" 
+    mode: preserve
+    remote_src: yes
