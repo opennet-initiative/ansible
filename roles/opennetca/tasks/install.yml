@@ -3,6 +3,7 @@
     name: "{{ packages }}"
   vars:
     packages:
+    - git
     - openssl
     - jq
     - bsd-mailx
