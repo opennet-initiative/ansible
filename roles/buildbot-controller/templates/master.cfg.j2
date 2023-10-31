@@ -107,25 +107,25 @@ def enforcedMakeArchAll(step):
 factory = util.BuildFactory()
 # check out the source
 factory.addStep(steps.Git(repourl='https://github.com/opennet-initiative/firmware.git', mode='incremental'))
-factory.addStep(steps.ShellCommand(command=["make", "distclean"], description="make distclean", doStepIf=enforcedMakeDistclean))
-factory.addStep(steps.ShellCommand(command=["make", "autobuilder-clean"], description="make autobuild-clean"))
-factory.addStep(steps.ShellCommand(command=["make", "init"], description="make init"))
+factory.addStep(steps.ShellCommand(name="distclean", command=["make", "distclean"], description="make distclean", doStepIf=enforcedMakeDistclean))
+factory.addStep(steps.ShellCommand(name="autobuilder-clean", command=["make", "autobuilder-clean"], description="make autobuild-clean"))
+factory.addStep(steps.ShellCommand(name="init", command=["make", "init"], description="make init"))
 # build architecture with following parameters:
 #  - use 2 CPUs. This is specific for hoshino at the moment.
 #  - set timeout to 1 hour (3600sec) because last build step (make[4] -C target/linux install) needs much time
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "ath79"], description="make ath79", timeout=3600))  
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "mikrotik"], description="make mikrotik", timeout=3600))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2708"], description="make bcm2708", timeout=3600, doStepIf=enforcedMakeArchAll))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2709"], description="make bcm2709", timeout=3600, doStepIf=enforcedMakeArchAll))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "bcm2710"], description="make bcm2710", timeout=3600, doStepIf=enforcedMakeArchAll))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "ipq40xx"], description="make ipq40xx", timeout=3600, doStepIf=enforcedMakeArchAll))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "ramips"], description="make ramips", timeout=3600, doStepIf=enforcedMakeArchAll))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "ramips7620"], description="make ramips7620", timeout=3600, doStepIf=enforcedMakeArchAll))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "x86"], description="make x86", timeout=3600, doStepIf=enforcedMakeArchAll))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "mikrotik24"], description="make mikrotik24", timeout=3600, doStepIf=enforcedMakeArchAll))
-factory.addStep(steps.ShellCommand(command=["make", "-j2", "doc"], description="make doc", timeout=3600))
-factory.addStep(steps.ShellCommand(command=["opennet/tools/buildbot-worker/export-build-buildbot.sh"], description="export-build-buildot.sh"))
-factory.addStep(steps.ShellCommand(command=["make", "unpatch"]))
+factory.addStep(steps.ShellCommand(name="ath79", command=["make", "-j2", "ath79"], description="make ath79", timeout=3600))  
+factory.addStep(steps.ShellCommand(name="mikrotik", command=["make", "-j2", "mikrotik"], description="make mikrotik", timeout=3600))
+factory.addStep(steps.ShellCommand(name="bcm2708", command=["make", "-j2", "bcm2708"], description="make bcm2708", timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(name="bcm2709", command=["make", "-j2", "bcm2709"], description="make bcm2709", timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(name="bcm2710", command=["make", "-j2", "bcm2710"], description="make bcm2710", timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(name="ipq40xx", command=["make", "-j2", "ipq40xx"], description="make ipq40xx", timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(name="ramips", command=["make", "-j2", "ramips"], description="make ramips", timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(name="ramips7620", command=["make", "-j2", "ramips7620"], description="make ramips7620", timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(name="x86", command=["make", "-j2", "x86"], description="make x86", timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(name="mikrotik24", command=["make", "-j2", "mikrotik24"], description="make mikrotik24", timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(name="doc", command=["make", "-j2", "doc"], description="make doc", timeout=3600))
+factory.addStep(steps.ShellCommand(name="export", command=["opennet/tools/buildbot-worker/export-build-buildbot.sh"], description="export-build-buildot.sh"))
+factory.addStep(steps.ShellCommand(name="unpatch", command=["make", "unpatch"]))
 
 c['builders'] = []
 c['builders'].append(
