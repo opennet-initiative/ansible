@@ -82,7 +82,6 @@ c['schedulers'].append(schedulers.ForceScheduler(
                                     layout="vertical", 
                                     fields=[
                                         util.BooleanParameter(name="force_make_distclean", label="force a make distclean", default=False),
-                                        util.BooleanParameter(name="force_make_arch_all", label="force make all architectures (default: ath79, mikrotik)", default=True)
                                     ]
                                 )
                             ]
@@ -96,13 +95,8 @@ def enforcedMakeDistclean(step):
     return False
 
 def enforcedMakeArchAll(step):
-    return True  # always build all archs
-    #
-    # uncomment below when you want to test building images fast
-    #options = step.getProperty('options')
-    #if options and options.get('force_make_arch_all') == True:
-    #    return True
-    #return False
+    build_all_arch = True  # change this to False if you need to have fast builds (only ath79 + mikrotik)
+    return build_all_arch
 
 ####### BUILDERS
 
