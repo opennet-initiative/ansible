@@ -30,6 +30,7 @@ opennetca_allowed_users:
   - larskruse.client.on
   - mathiasmahnke.client.on
   - philippmarkwardt.client.on
+  - martingarbe.client.on
 
 gitserver_allowed_users:
   - mathiasmahnke.pub
