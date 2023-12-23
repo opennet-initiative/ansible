@@ -2,14 +2,21 @@ short_hostname: itsuki
 
 wan_interface: ens2
 
-# Folgende Werte sind inhaltlich nicht ganz korrekt, werden aber fuer die
-# Installation des Servers benoetigt.
-# Auf dem Server ist bisher kein OLSR geplant, daher ist es inhaltlich nicht ganz korrekt.
-# Für die erstmalige Installation sind die Eintraege wichtig, da sonst die Postfix
-# Installation Fehler bringt, weil in /etc/resolv.conf die Such-Domaene mit
-# einem Punkt endet (search in-berlin.de.) und dies zu einem Fehler bei
-# der Uebernahme nach main.cnf fuehrt. Siehe hierzu auch https://serverfault.com/questions/996297/postfix-myhostname-suggestion-has-trailing-where-is-the-bug-in-dhclient-po
-olsr_main_ip: 217.197.83.209
-olsr_main_ipv6: 2a0a:4580:1010:8000::1
+olsr_main_ip: 192.168.0.244
+olsr_main_ipv6: fd32:d8d3:87da::244
+ugw_ip: 10.2.0.244
 
-debian_release: buster
+olsr_interfaces:
+  - { name: "{{ openvpn_ugw_interface }}", quality: 0.15 }
+
+letsencrypt_certificates:
+  - { on_tld_base: "{{ short_hostname }}" }
+
+apache2_sites:
+  - name: "{{ short_hostname }}"
+    redirect_http_to_https_exclude_paths:
+      - ^/\.big$
+      - ^/\.megabyte$
+      - ^/\.10megabyte$
+
+debian_release: bookworm
