@@ -22,6 +22,4 @@
 
 - name: sites - Apache Default Verzeichnis entfernen
   shell: "rmdir {{ apache2_default_dir }} --ignore-fail-on-non-empty"
-  args: 
-           warn: false
   when: default_page.changed and default_page.stdout == "true"
