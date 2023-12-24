@@ -1,6 +1,6 @@
 short_hostname: itsuki
 
-wan_interface: ens2
+wan_interface: eth0
 
 olsr_main_ip: 192.168.0.244
 olsr_main_ipv6: fd32:d8d3:87da::244
