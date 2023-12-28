@@ -20,7 +20,6 @@ domain_proxy_redirect:
   - { on_tld_base: frieda23, ip: "{{ olsr_main_ip }}", port: 443, service: https }
 
 homematic_allowed_users:
-  - christianwedell.client.on
   - henningrieger.client.on
   - joergpeeck.client.on
   - larskruse.client.on

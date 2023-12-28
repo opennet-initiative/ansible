@@ -24,7 +24,6 @@ apache2_sites:
 apache2_php: true
 
 opennetca_allowed_users:
-  - christianwedell.client.on
   - henningrieger.client.on
   - joergpeeck.client.on
   - larskruse.client.on
