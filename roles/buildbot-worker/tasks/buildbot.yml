@@ -11,7 +11,7 @@
     line: "WORKER_ENABLED[1]=1"
   notify: restart buildbot
 
-- name: buildbot - Worker name setzen
+- name: buildbot - Worker Namen setzen
   lineinfile:
     dest: "/etc/default/buildbot-worker"
     backrefs: yes
@@ -19,7 +19,7 @@
     line: "WORKER_NAME[1]=\"{{ buildbot_worker_name }}\""
   notify: restart buildbot
 
-- name: buildbot - Worker basedir setzen
+- name: buildbot - Worker Verzeichnis setzen
   lineinfile:
     dest: "/etc/default/buildbot-worker"
     backrefs: yes

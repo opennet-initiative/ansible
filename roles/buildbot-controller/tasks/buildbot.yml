@@ -5,6 +5,7 @@
       - python3-pip
     install_recommends: no
 
+# TODO: since Debian Bookworm we need an extra_arg / should be moved to venv
 - name: buildbot - Installiere Webinterface via pip
   pip:
     name:
@@ -12,6 +13,7 @@
       - buildbot-waterfall-view
       - buildbot-console_view
       - buildbot-grid-view
+    extra_args: "--break-system-packages"
   notify: restart buildbot
 
 - name: buildbot - Controller Dienst freischalten
