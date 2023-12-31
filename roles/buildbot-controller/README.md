@@ -46,7 +46,7 @@ buildbot         2.10.1.post1 3.5.0   wheel
 
 Aktualisierung durchführen:
 ```
-# pip3 install --upgrade <package>
+# pip3 install --upgrade <package> (--break-system-packages)
 ```
 
 Eine regelmäßige Prüfroutine via cron ist in dieser Rolle umgesetzt.
