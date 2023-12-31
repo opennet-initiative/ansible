@@ -8,10 +8,7 @@
       - locales
       - mc
       - molly-guard
-      - ntp
       - psmisc
-      # Derzeit (2019) benötigt ansible nur "python-apt" auf der 
-      # Client-Seite. Dies wird sich irgendwann ändern.
       - python3-apt
       - screen
       - tree
@@ -19,7 +16,6 @@
       - zip
       - cron
       - dialog
-      - aptitude
       - apt-dater-host
       - acpi-support-base
       - debian-security-support
@@ -69,6 +65,18 @@
     purge: yes
   when: ansible_distribution_major_version|int >=11 
 
+- name: packages -- NTP sync - ntp installieren (bis Bullseye)
+  apt: 
+    name: ntp
+    install_recommends: no
+  when: ansible_distribution_major_version|int <= 11
+
+- name: packages -- NTP sync - systemd-timesyncd installieren (ab Bookworm)
+  apt:
+    name: systemd-timesyncd
+    install_recommends: no
+  when: ansible_distribution_major_version|int >=12
+
 - name: packages -- Lese installierte Debian Pakete (ab Bullseye)
   package_facts:
     manager: auto
@@ -87,3 +95,10 @@
 # kann eventuell wieder entfernt werden, wenn die Abhängigkeit upstream gelöst ist
 - name: packages -- busybox installieren (initramfs Abhängigkeit)
   apt: name=busybox state=present
+
+- name: packages -- aptitude deinstallieren (ab Bullseye)
+  apt:
+    name: aptitude
+    state: absent
+    purge: yes
+  when: ansible_distribution_major_version|int >=12
