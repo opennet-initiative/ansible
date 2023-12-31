@@ -11,7 +11,7 @@ VIRT_BASE_CONFIG=/etc/libvirt/qemu/new-vm.template
 USE_LVM='{% if virtualization_storage == "lvm" %}true{% else %}false{% endif %}'
 MOUNTPOINT=$(mktemp -d)
 SUB_MOUNTS="dev proc sys"
-DISTRIBUTION=${DISTRIBUTION:-buster}
+DISTRIBUTION=${DISTRIBUTION:-bookworm}
 APT_URL="http://deb.debian.org/debian"
 DEBOOTSTRAP_BIN=${DEBOOTSTRAP_BIN:-debootstrap}
 # Zu installierende oder wegzulassende Pakete (komma-separiert)
