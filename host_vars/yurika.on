@@ -21,4 +21,4 @@ apache2_mods:
  - { name: fcgid }
  - { name: suexec }
 
-debian_release: bullseye 
+debian_release: bookworm 

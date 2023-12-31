@@ -25,4 +25,4 @@ apache2_mods:
 
 buildbot_worker_name: hoshino
 
-debian_release: bullseye 
+debian_release: bookworm
