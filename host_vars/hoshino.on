@@ -10,4 +10,4 @@ olsr_interfaces:
 
 buildbot_controller_host: goat.on
 
-debian_release: bullseye 
+debian_release: bookworm 
