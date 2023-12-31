@@ -28,7 +28,7 @@
   when: le_bin.stat.exists
 
 #
-# TODO: Mit Debian Buster erneut prüfen
+# TODO: Remove Later, used mainly at Debian Buster
 # https://lists.debian.org/debian-devel-announce/2017/08/msg00004.html
 # 
 - name: https - Apache SSL Modul unsichere Protokolle deaktivieren
@@ -38,6 +38,7 @@
          line="	SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1"
   notify: restart apache2
   when: le_bin.stat.exists
+#  when: ansible_distribution_major_version|int <= 11
 
 - name: https - Apache SSL Modul sichere Cipher Reichenfolge aktivieren
   lineinfile:
