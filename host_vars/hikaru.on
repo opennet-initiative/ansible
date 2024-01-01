@@ -46,4 +46,4 @@ mediawiki_upload_filetypes:
  - dia
  - odt
 
-debian_release: bullseye
+debian_release: bookworm
