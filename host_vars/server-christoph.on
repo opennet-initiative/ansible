@@ -8,4 +8,4 @@ olsr_main_ipv6: fd32:d8d3:87da::5:10
 olsr_interfaces:
   - { name: "eth0" }
 
-debian_release: bullseye 
+debian_release: bookworm 
