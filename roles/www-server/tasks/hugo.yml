@@ -13,3 +13,4 @@
 - name: hugo - Installiere ICS Bibliothek via pip
   pip:
     name: ics
+    extra_args: "--break-system-packages"
