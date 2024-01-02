@@ -11,5 +11,5 @@ olsr_interfaces:
 
 virtualization_wan_bridge_interface: "br-virt-wan"
 
-debian_release: bullseye 
-debian_additional_components: contrib non-free
+debian_release: bookworm 
+debian_additional_components: contrib non-free-firmware
