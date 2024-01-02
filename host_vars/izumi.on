@@ -23,4 +23,4 @@ apache2_sites:
 letsencrypt_certificates:
   - { on_tld_base: services }
 
-debian_release: bullseye
+debian_release: bookworm
