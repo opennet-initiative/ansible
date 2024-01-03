@@ -13,4 +13,4 @@ olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
   - 46.4.100.213
 
-debian_release: bullseye
+debian_release: bookworm
