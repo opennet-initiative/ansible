@@ -1,3 +1,2 @@
 - include_tasks: moinmoin.yml
 - include_tasks: mitgliederverwaltung.yml
-- include_tasks: fail2ban.yml
