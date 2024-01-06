@@ -36,4 +36,4 @@ gitserver_allowed_users:
   - larskruse.pub
   - martingarbe.pub
 
-debian_release: bullseye
+debian_release: bookworm

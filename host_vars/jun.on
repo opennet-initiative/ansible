@@ -46,4 +46,4 @@ domain_proxy_redirect:
   # provide "http://api.on/" for firmware up to version 0.5.4 (traceroute and map visualization)
   #- { "api.on", ip: "{{ olsr_main_ip }}", port: 81, service: http }
 
-debian_release: bullseye 
+debian_release: bookworm 

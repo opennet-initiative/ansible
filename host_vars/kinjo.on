@@ -38,4 +38,4 @@ homematic_allowed_users:
   - thomasschmidt.client.on
   - reinhardlange.client.on
 
-debian_release: bullseye 
+debian_release: bookworm 
