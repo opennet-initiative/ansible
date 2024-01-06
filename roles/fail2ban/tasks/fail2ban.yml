@@ -3,7 +3,7 @@
     name: fail2ban
     state: present
 
-- name: fail2ban - Apache Konfiguration kopieren
+- name: fail2ban - Opennet spezifische Konfigurationen kopieren
   copy: 
     src: etc/fail2ban/
     dest: /etc/fail2ban/
