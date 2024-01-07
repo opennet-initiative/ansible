@@ -20,4 +20,4 @@ apache2_sites:
       - ^/\.megabyte$
       - ^/\.10megabyte$
 
-debian_release: bullseye
+debian_release: bookworm
