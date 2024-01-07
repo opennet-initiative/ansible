@@ -180,7 +180,7 @@ EOF
 EOF
 	# debootstrap erzeugt keine security-Eintraege
 	grep -q security "$MOUNTPOINT/etc/apt/sources.list" \
-		|| echo "deb http://security.debian.org/ $DISTRIBUTION/updates main" >>"$MOUNTPOINT/etc/apt/sources.list"
+		|| echo "deb http://deb.debian.org/debian-security $DISTRIBUTION-security main" >>"$MOUNTPOINT/etc/apt/sources.list"
 	umount_system
 }
 
