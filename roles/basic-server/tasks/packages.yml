@@ -65,17 +65,17 @@
     purge: yes
   when: ansible_distribution_major_version|int >=11 
 
-- name: packages -- NTP sync - ntp installieren (bis Bullseye)
+- name: packages -- NTP sync - ntp installieren (bis Bullseye oder Gateway)
   apt: 
     name: ntp
     install_recommends: no
-  when: ansible_distribution_major_version|int <= 11
+  when: ( (ansible_distribution_major_version|int <= 11) or ('gateway_server' in group_names) )
 
-- name: packages -- NTP sync - systemd-timesyncd installieren (ab Bookworm)
+- name: packages -- NTP sync - systemd-timesyncd installieren (ab Bookworm / nicht Gateway)
   apt:
     name: systemd-timesyncd
     install_recommends: no
-  when: ansible_distribution_major_version|int >=12
+  when: ( (ansible_distribution_major_version|int >=12) and ('gateway_server' not in group_names) )
 
 - name: packages -- Lese installierte Debian Pakete (ab Bullseye)
   package_facts:
