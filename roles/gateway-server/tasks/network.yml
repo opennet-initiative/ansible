@@ -45,6 +45,7 @@
     state: absent
   check_mode: yes
   register: network_mesh_interface
+  changed_when: false
 
 - name: network - Prüfe Gateway Mesh-IP Konfiguration
   lineinfile:
@@ -54,6 +55,7 @@
   check_mode: yes
   register: network_systemd_loopback_mesh
   when: not network_mesh_interface.changed
+  #changed_when: false
 
 - name: network - IPv4 Mesh-IP auf loopback-Interface konfigurieren
   lineinfile:
