@@ -52,8 +52,13 @@ include 'openvpn_clients.php';
 ?>
 
 <p>
-All traffic data in KB or KB/s. This page gets reloaded every 3 min. Last update: <b><?php echo date ("
-Y-m-d H:i:s") ?></b>
+All traffic data in KB or KB/s. This page gets reloaded every 3 min. Last update: 
+<b>
+<?php 
+date_default_timezone_set("Europe/Berlin");
+echo date("Y-m-d H:i:s T");
+?>
+</b>
 </p>
 <p>
 Further information: <a href="https://www.opennet-initiative.de">https://www.opennet-initiative.de</a>
