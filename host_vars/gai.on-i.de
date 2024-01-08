@@ -26,4 +26,4 @@ gateway_dhcp6_prefix_start: "2a0a:4580:1010:1000::"
 gateway_dhcp6_prefix_end: "2a0a:4580:1010:1ff0::"
 gateway_dhcp6_prefix_len: /60
 
-debian_release: bullseye
+debian_release: bookworm
