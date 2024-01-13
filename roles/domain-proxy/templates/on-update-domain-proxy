@@ -212,7 +212,7 @@ if __name__ == "__main__":
         else:
             subprocess.call(["/usr/sbin/service", "apache2", "restart"])
     else:
-        logger.info("Neustart von nginx (http-Proxy) ist nicht erforderlich")
+        logger.info("Neustart von %s (http-Proxy) ist nicht erforderlich", args.webserver)
     slt_config = get_slt_config(https_map)
     if update_config_file(args.slt_filename, slt_config):
         logger.warning("Neustart von slt (https-Proxy) wird ausgeloest")
