@@ -26,3 +26,10 @@
   with_items:
     - on-routes4pd.py
     - on-routes4pd-wrapper.sh
+
+- name: user6-dhcpd - Configure apparmor for DHCPd
+  copy:
+    src: dhcpd/apparmor-config
+    dest: /etc/apparmor.d/local/usr.sbin.dhcpd
+    mode: '0644'
+  notify: reload apparmor

@@ -3,11 +3,14 @@
 PIDFILE=/var/run/on-routes4pd-wrapper.pid
 
 #
-#make sure that there is only one of this processes running.
-# this is needed because when using "on commit" hooks in ISC DHCPd6 then
+# Make sure that there is only one of this processes running.
+# This is needed because when using "on commit" hooks in ISC DHCPd6 then
 # this script is started quickly one after another and the python script then 
 # is raising errors.
 #
+# Note: If you rename this file then you need to fix the appamor config of dhcpd.
+#
+
 if [ -f "$PIDFILE" ] ; then
   PID=$(cat $PIDFILE)
   RUNCMD=$(ps -q $PID -o comm | grep -v COMMAND)

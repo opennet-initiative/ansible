@@ -27,3 +27,6 @@
 
 - name: restart radvd
   service: name=radvd state=restarted
+
+- name: reload apparmor
+  service: name=apparmor state=reloaded
