@@ -123,6 +123,7 @@ factory.addStep(steps.ShellCommand(name="ramips", command=["make", "-j2", "ramip
 factory.addStep(steps.ShellCommand(name="ramips7620", command=["make", "-j2", "ramips7620"], description="make ramips7620", timeout=3600, doStepIf=enforcedMakeArchAll))
 factory.addStep(steps.ShellCommand(name="x86", command=["make", "-j2", "x86"], description="make x86", timeout=3600, doStepIf=enforcedMakeArchAll))
 factory.addStep(steps.ShellCommand(name="mikrotik24", command=["make", "-j2", "mikrotik24"], description="make mikrotik24", timeout=3600, doStepIf=enforcedMakeArchAll))
+factory.addStep(steps.ShellCommand(name="rockchip", command=["make", "-j2", "rockchip"], description="make rockchip", timeout=3600, doStepIf=enforcedMakeArchAll))
 factory.addStep(steps.ShellCommand(name="doc", command=["make", "-j2", "doc"], description="make doc", timeout=3600))
 factory.addStep(steps.ShellCommand(name="export", command=["opennet/tools/buildbot-worker/export-build-buildbot.sh"], description="export-build-buildot.sh"))
 factory.addStep(steps.ShellCommand(name="unpatch", command=["make", "unpatch"]))
