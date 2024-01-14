@@ -1,0 +1,10 @@
+/var/log/babeld.log {
+    weekly
+    rotate 8
+    compress
+    missingok
+    notifempty
+    postrotate
+        [ -r /var/run/babeld.pid ] && kill -USR2 $(cat /var/run/babeld.pid)
+    endscript
+}
