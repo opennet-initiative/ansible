@@ -30,6 +30,7 @@
   authorized_key: user=root state=absent key="{{ lookup('file', item) }}"
   with_fileglob:
     - public_keys/obsolete/*.pub
+  when: ansible_distribution_major_version|int >= 9
 
 - name: ssh - Schluessel-Fingerprint bei login-Vorgaengen via syslog speichern
   replace:
