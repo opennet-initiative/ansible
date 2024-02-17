@@ -1,0 +1,7 @@
+// {{ ansible_managed }}
+
+also-notify {
+  83.169.55.5;       // b.ns14.net (InternetX, Hosteurope)
+  217.160.113.32;    // b.ns14.net (InternetX, Schlundtech)
+  2001:7f0:1000::70; // pns.avxn.de (Schaffhausen, Ralph Oesker)
+};

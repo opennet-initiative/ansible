@@ -2,6 +2,16 @@
   apt: 
     name: bind9
 
+- name: bind - Nameserver Verzeichnisse anlegen
+  file:
+    path: bind/{{ item }}
+    state: directory
+    owner: bind
+    group: bind
+  with_items:
+    - zones
+    - notifiers
+
 - name: bind - Nameserver konfigurieren
   template:
     src: bind/named.conf.local
@@ -12,6 +22,15 @@
   template:
     src: bind/zones.opennet
     dest: /etc/bind/
+  notify: restart bind
+
+- name: bind - Nameserver Notifier konfigurieren
+  template:
+    src: bind/notifiers/{{ item }}
+    dest: /etc/bin/notifiers/
+  with_items:
+    - opennet-extern.notifiers
+    - opennet-intern.notifiers
   notify: restart bind
 
 - name: bind - originale Nameserver-Konfiguration deaktivieren
