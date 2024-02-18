@@ -72,10 +72,10 @@ case "$ACTION" in
         reverse=$("$0" reverse)
         [ -z "$forward" ] && echo >&2 "Invalid/empty forward zone content" && exit 1
         [ -z "$reverse" ] && echo >&2 "Invalid/empty reverse zone content" && exit 1
-        update_zone_file_if_changed "/etc/bind/zone/on.zone.ipv6-by-api" "$forward" \
-            && update_zone_file_serial_timestamp "/etc/bind/zone/on.zone"
-        update_zone_file_if_changed "/etc/bind/zone/fd32_d8d3_87da.zone.by-api" "$reverse" \
-            && update_zone_file_serial_timestamp "/etc/bind/zone/fd32_d8d3_87da.zone"
+        update_zone_file_if_changed "/etc/bind/zones/on.zone.ipv6-by-api" "$forward" \
+            && update_zone_file_serial_timestamp "/etc/bind/zones/on.zone"
+        update_zone_file_if_changed "/etc/bind/zones/fd32_d8d3_87da.zone.by-api" "$reverse" \
+            && update_zone_file_serial_timestamp "/etc/bind/zones/fd32_d8d3_87da.zone"
         /usr/sbin/rndc reload
         ;;
     help|--help)
