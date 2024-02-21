@@ -3,8 +3,8 @@
 
 - block:
   - name: bind - dnskey vom primaeren DNS-Server abholen
-    delegate_to: root@{{ dns_zone_master_with_dnskey }}
-    shell: grep -w 'secret' /etc/bind/named.conf.options | cut -f 2 -d '"'
+    delegate_to: root@{{ dns_zone_primary_with_dnskey }}
+    shell: grep -w 'secret' /etc/bind/keys/opennet-transfer.key | cut -f 2 -d '"'
     register: dnskey_secret_fetch
     changed_when: False
     run_once: yes
