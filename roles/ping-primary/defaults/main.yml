@@ -6,15 +6,15 @@ smokeping_cgiurl: "https://ping.opennet-initiative.de/smokeping.cgi"
 smokeping_imgurl: "/images"
 smokeping_apiurl: "https://api.opennet-initiative.de/api/v1"
 smokeping_targets_server_gateway:
+- erina.on
 - gai.on
-- itsuki.on-i.de
+- itsuki.on
 - megumi.on
 - subaru.on
 smokeping_targets_server_service:
 - amano.on
 - crimson.on
 - goat.on
-- heartofgold.on
 - hikaru.on
 - hoshino.on
 - howmei.on
