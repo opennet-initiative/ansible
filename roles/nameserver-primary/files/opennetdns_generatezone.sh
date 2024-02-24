@@ -25,8 +25,6 @@ convert_to_forward_zone() {
 
 
 convert_ipv6_addresses_to_reverse_pointers() {
-    # workaround for outdated python3 version on heartofgold (lacking the ipaddress module)
-    PYTHONPATH="$(dirname "$0"):${PYTHONPATH:-}"
     python3 -c "import ipaddress, os, sys; print(os.linesep.join(ipaddress.IPv6Address(line.strip()).reverse_pointer for line in sys.stdin))"
 }
 
