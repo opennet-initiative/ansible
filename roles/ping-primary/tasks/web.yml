@@ -2,6 +2,9 @@
   file: 
     dest: "{{ smokeping_path_web }}"
     state: directory
+  notify: 
+    - restart smokeping
+    - restart apache2
 
 - name: web - Kopiere Daten für Webseite
   copy:
@@ -10,9 +13,15 @@
   with_items:
     - favicon.ico
     - Opennet_logo.png
+  notify: 
+    - restart smokeping
+    - restart apache2
 
 - name: web - SmokePing Webseite anpassen
   lineinfile:
     path: "/etc/smokeping/basepage.html"
     regexp: 'navbar-user'
     line: '<div class="navbar-user"><img src="/Opennet_logo.png" height="45" /></div>'
+  notify: 
+    - restart smokeping
+    - restart apache2

@@ -5,3 +5,6 @@
     packages:
     - smokeping
     - libapache2-mod-fcgid
+  notify: 
+    - restart smokeping
+    - restart apache2

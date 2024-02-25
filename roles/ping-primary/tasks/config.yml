@@ -3,21 +3,44 @@
     path: "{{ smokeping_path_config }}/General"
     regexp: '^owner    ='
     line: "owner    = {{ smokeping_owner }}"
+  notify: 
+    - restart smokeping
+    - restart apache2
 
 - name: config - Kontakt setzen
   lineinfile:
     path: "{{ smokeping_path_config }}/General"
     regexp: '^contact  ='
     line: "contact  = {{ smokeping_contact }}"
+  notify: 
+    - restart smokeping
+    - restart apache2
 
 - name: config - CGI-URL setzen
   lineinfile:
     path: "{{ smokeping_path_config }}/General"
     regexp: '^cgiurl   ='
     line: "cgiurl   = {{ smokeping_cgiurl }}"
+  notify: 
+    - restart smokeping
+    - restart apache2
 
 - name: config - CGI-URL setzen
   lineinfile:
     path: "{{ smokeping_path_config }}/pathnames"
     regexp: '^imgurl   ='
     line: "imgurl   = {{ smokeping_imgurl }}"
+  notify: 
+    - restart smokeping
+    - restart apache2
+
+- name: cron - Übertrage Konfigurationsdateien
+  template:
+    src: "{{ item }}"
+    dest: "{{ smokeping_path_config }}"
+  with_items:
+    - oni-server
+    - Targets
+  notify: 
+    - restart smokeping
+    - restart apache2

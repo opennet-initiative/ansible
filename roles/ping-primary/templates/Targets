@@ -1,54 +1,24 @@
 # {{ ansible_managed }}
 
+*** Targets ***
+
+probe = FPing
+
 menu = Top
-title = Opennet Monitoring - SmokePing
+title = Opennet Monitoring - SmokePing 
 remark = Welcome to the SmokePing website of the Opennet Initiative. \
          Here you will learn all about the latency of our network.
 
-+ Server-Gateways
-menu = Opennet Server Gateways
-title = Opennet Mesh Network - Server - Gateway
+@include /etc/smokeping/config.d/oni-server
 
-{% for host in smokeping_targets_server_gateway %}
-++ {{ host | replace(".", "-") }}
-host = {{ host }}
-{% endfor %}
-
-+ Server-Services
-menu = Opennet Server Services
-title = Opennet Mesh Network - Server - Service
-
-{% for host in smokeping_targets_server_service %}
-++ {{ host | replace(".", "-") }}
-host = {{ host }}
-{% endfor %}
-
-+ Server-Virtualization
-menu = Opennet Server Virtualization
-title = Opennet Mesh Network - Server - Virtualization
-
-{% for host in smokeping_targets_server_virtualization %}
-++ {{ host | replace(".", "-") }}
-host = {{ host }}
-{% endfor %}
-
-+ Server-Other
-menu = Opennet Server Other
-title = Opennet Mesh Network - Server - Other
-
-{% for host in smokeping_targets_server_other %}
-++ {{ host | replace(".", "-") }}
-host = {{ host }}
-{% endfor %}
-
-+ Access-Point-Online
++ Opennet-Access-Points-Online
 menu = Opennet Access Point (Online)
-title = Opennet Mesh Network - Access Point - Online
+title = Opennet Mesh Network - Access Points Online
 
-@include {{ smokeping_path_config }}/oni-accesspoints-online
+@include /etc/smokeping/config.d/oni-accesspoints-online
 
-+ Access-Point-Flapping
++ Opennet-Access-Points-Flapping
 menu = Opennet Access Point (Flapping)
-title = Opennet Mesh Network - Access Point - Flapping
+title = Opennet Mesh Network - Access Points Flapping
 
-@include {{ smokeping_path_config }}/oni-accesspoints-flapping
+@include /etc/smokeping/config.d/oni-accesspoints-flapping

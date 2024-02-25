@@ -1,0 +1,37 @@
+# {{ ansible_managed }}
+
++ Opennet-Server-Gateways
+menu = Opennet Server Gateways
+title = Opennet Mesh Network - Server - Gateways
+
+{% for host in smokeping_targets_server_gateway %}
+++ {{ host | replace(".", "-") }}
+host = {{ host }}
+{% endfor %}
+
++ Opennet-Server-Services
+menu = Opennet Server Services
+title = Opennet Mesh Network - Server - Services
+
+{% for host in smokeping_targets_server_service %}
+++ {{ host | replace(".", "-") }}
+host = {{ host }}
+{% endfor %}
+
++ Opennet-Server-Virtualization
+menu = Opennet Server Virtualization
+title = Opennet Mesh Network - Server - Virtualization
+
+{% for host in smokeping_targets_server_virtualization %}
+++ {{ host | replace(".", "-") }}
+host = {{ host }}
+{% endfor %}
+
++ Opennet-Server-Other
+menu = Opennet Server Other
+title = Opennet Mesh Network - Server - Other
+
+{% for host in smokeping_targets_server_other %}
+++ {{ host | replace(".", "-") }}
+host = {{ host }}
+{% endfor %}
