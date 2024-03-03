@@ -1,0 +1,27 @@
+- name: config-web - Default Domain setzen
+  lineinfile:
+    path: "{{ mailinglist_config_web }}"
+    regexp: '^EMAILNAME ='
+    line: "EMAILNAME = '{{ mailinglist_domain }}'"
+  notify: restart mailman3-web
+
+- name: config-web - Base URL setzen
+  lineinfile:
+    path: "{{ mailinglist_config_web }}"
+    regexp: '^POSTORIUS_TEMPLATE_BASE_URL ='
+    line: "POSTORIUS_TEMPLATE_BASE_URL = 'https://{{ mailinglist_domain }}/'"
+  notify: restart mailman3-web
+
+- name: config-web - Socialaccount Fedora App deaktivieren
+  lineinfile:
+    path: "{{ mailinglist_config_web }}"
+    regexp: "^    'django_mailman3.lib.auth.fedora'"
+    line: "    #'django_mailman3.lib.auth.fedora'"
+  notify: restart mailman3-web
+
+- name: config-web - Sprache setzen
+  lineinfile:
+    path: "{{ mailinglist_config_web }}"
+    regexp: '^LANGUAGE_CODE ='
+    line: "LANGUAGE_CODE = '{{ mailinglist_lang }}-{{ mailinglist_lang }}'"
+  notify: restart mailman3-web

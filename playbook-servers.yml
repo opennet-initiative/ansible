@@ -72,6 +72,7 @@
 - hosts: kazama.on
   roles:
     - wireguard-server
+    - mailinglist-server
 
 # mediawiki in development
 - hosts: hikaru.on

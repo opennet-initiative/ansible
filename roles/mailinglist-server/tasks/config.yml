@@ -1,0 +1,17 @@
+- name: config - Site Owner setzen
+  lineinfile:
+    path: "{{ mailinglist_config }}"
+    regexp: '^site_owner:'
+    line: "site_owner: {{ mailinglist_owner }}"
+  notify: 
+    - restart mailman3
+    - restart mailman3-web
+
+- name: config - Standard-Sprache setzen
+  lineinfile:
+    path: "{{ mailinglist_config }}"
+    regexp: '^default_language:'
+    line: "default_language: {{ mailinglist_lang }}"
+  notify:
+    - restart mailman3
+    - restart mailman3-web

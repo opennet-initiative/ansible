@@ -13,4 +13,15 @@ olsr_hna_announcements_ipv4:
   # Erreichbarkeit der oeffentlichen IP im olsr-Mesh
   - 46.4.100.213
 
+letsencrypt_certificates:
+  - { on_tld_base: lists }
+
+apache2_sites:
+  - { name: lists }
+apache2_mods:
+ - { name: proxy }
+ - { name: proxy_http }
+ - { name: proxy_http2 }
+ - { name: proxy_uwsgi }
+
 debian_release: bookworm

@@ -1,0 +1,6 @@
+mailinglist_config_path: "/etc/mailman3"
+mailinglist_config: "{{ mailinglist_config_path }}/mailman.cfg"
+mailinglist_config_web: "{{ mailinglist_config_path }}/mailman-web.py"
+mailinglist_domain: "lists.opennet-initiative.de"
+mailinglist_owner: "admin@{{ mailinglist_domain }}"
+mailinglist_lang: "de"

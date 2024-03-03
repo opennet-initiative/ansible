@@ -1,0 +1,4 @@
+- name: install - Mailman installieren
+  apt: 
+    name: mailman3-full
+    install_recommends: no 

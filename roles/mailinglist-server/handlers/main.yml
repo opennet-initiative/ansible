@@ -1,0 +1,5 @@
+- name: restart mailman3
+  service: name=mailman3 state=restarted
+
+- name: restart mailman3-web
+  service: name=mailman3-web state=restarted
