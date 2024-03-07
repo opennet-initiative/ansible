@@ -4,6 +4,7 @@ Diese Rolle installiert die Opennet Mailinglisten Rolle.
 Enthalten sind:
 * Paketinstallation
 * Grundkonfiguration
+* Rolle "fail2ban"
 
 Voraussetzungen:
 * Hostname od. Sub-Domain für Mailinglisten-Betrieb im DNS pflegen
