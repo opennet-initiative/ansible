@@ -1,0 +1,19 @@
+- name: cron - Installiere moreutils (chronic)
+  apt:
+    name: moreutils
+
+- name: cron - Export-Bereinigung übertragen
+  template:
+    src: "on-buildbot-export-cleanup.sh"
+    dest: "{{ downloads_buildbot_path }}"
+    owner: "{{ downloads_buildbot_user }}"
+    group: "{{ downloads_buildbot_user }}"
+    mode: 0755
+
+- name: cron - Cronjob für Export-Bereinigung anlegen
+  cron:
+    name: "on-buildbot-export-cleanup"
+    hour: "*/2"
+    minute: "17"
+    user: "{{ downloads_buildbot_user }}"
+    job: "chronic {{ downloads_buildbot_path }}/on-buildbot-export-cleanup.sh"
