@@ -23,6 +23,7 @@ Alias /openwrt/testing /var/www/downloads-buildbot/export
   AddDescription "Opennet Firmware 2006-2010" attic
   AddDescription "Opennet Firmware (Current Releases)" stable
   AddDescription "Opennet Firmware (Development Builds)" testing
+  AddDescription "Opennet Firmware (Other Builds)" misc
 </Directory>
 <Directory /var/www/downloads/openwrt/stable>
   IndexOrderDefault Descending Name
