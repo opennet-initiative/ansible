@@ -19,31 +19,6 @@ SERVER_VERSION = "{{ openvpn_server_version.stdout }}"
 #sys.stderr = file("/tmp/vpn-connect.log", "w")
 
 
-# siehe Code-Kopie in roles/gateway-server/templates/openvpn/opennet_users/connect_script.py
-def get_compression_config_lines():
-    # parse die ersten beiden Versions-Zahlen
-    client_version = os.getenv("IV_VER", "2.3")
-    # ermittle die passende Kombination von Server- und Client-Kompression
-    if Version(SERVER_VERSION) < Version("2.4"):
-        # older server version supporting only lzo
-        if Version(client_version) < Version("2.4"):
-            compression = ("comp-lzo", "comp-lzo")
-        else:
-            compression = ("comp-lzo", "compress lzo")
-    else:
-        # modern server version supporting all compression algorithms
-        if os.getenv("IV_LZ4v2") == "1":
-            compression = ("compress lz4-v2", "compress lz4-v2")
-        elif os.getenv("IV_LZ4") == "1":
-            compression = ("compress lz4", "compress lz4")
-        elif Version(client_version) < Version("2.4"):
-            compression = ("compress lzo", "comp-lzo")
-        else:
-            compression = ("compress lzo", "compress lzo")
-    yield compression[0]
-    yield 'push "{}"'.format(compression[1])
-
-
 def process_openvpn_connection_event(client_cn):
     ipv4_base = None
     ipv6_base = None
@@ -72,7 +47,6 @@ def process_openvpn_connection_event(client_cn):
                 #    target_file.write('iroute-ipv6 2a01:a700:4629:fe02::/64')
                 #if client_cn == '2.50.aps.on':
                 #    target_file.write('iroute-ipv6 2a01:a700:4629:fe03::/64')
-            config_items.extend(get_compression_config_lines())
             target_file.write(os.linesep.join(config_items))
     else:
         # wir wurden als "client-disconnect"-Skript aufgerufen
