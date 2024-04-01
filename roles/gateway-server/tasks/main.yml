@@ -7,7 +7,7 @@
 - include_tasks: web.yml
 - include_tasks: speed-tests.yml
 - include_tasks: user6-ferm.yml
+- include_tasks: user6-openvpn.yml
 #TODO
-#- include_tasks: openvpn-user6.yml
 #- include_tasks: radvd.yml
 #- include_tasks: dhcpd6.yml
