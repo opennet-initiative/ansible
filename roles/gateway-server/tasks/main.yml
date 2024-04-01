@@ -6,8 +6,8 @@
 - include_tasks: munin-openvpn.yml
 - include_tasks: web.yml
 - include_tasks: speed-tests.yml
-# user6
-#- include_tasks: ferm-user6.yml
+- include_tasks: user6-ferm.yml
+#TODO
 #- include_tasks: openvpn-user6.yml
 #- include_tasks: radvd.yml
 #- include_tasks: dhcpd6.yml

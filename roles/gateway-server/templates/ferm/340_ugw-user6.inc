@@ -5,7 +5,7 @@
 
 
 @def $LOCAL_HNA_IPv6 = {{ olsr_main_ipv6 }};
-@def $IF_ON_USERS_V6 = {{ openvpn_users_l2_v6_interface }};
+@def $IF_ON_USERS_V6 = {{ openvpn_user6_interface }};
 
 domain ip6 table filter {
 	chain service-input {

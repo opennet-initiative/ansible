@@ -37,7 +37,7 @@ openvpn_status_path: /var/www/vpnstatus
 
 # IPv6 settings
 
-openvpn_user6_interface: tap-users6
+openvpn_user6_interface: tap-users-v6
 
 # Oeffentliche IP-Adressen von Hosts, die auch im Mesh erreichbar sein sollen
 ugw_external_forward_allow_ipv6:
