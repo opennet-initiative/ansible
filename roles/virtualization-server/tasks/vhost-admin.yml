@@ -39,8 +39,6 @@
     removes: /etc/libvirt/qemu/_template.xml
 
 - name: libvirt-Template übertragen
-  # force=no: nur einmalig übertragen, um Netzwerk- und Emulatoranpassungen zu ermöglichen
   template:
     src: libvirt_host_template.xml
     dest: /etc/libvirt/qemu/new-vm.template
-    force: no
