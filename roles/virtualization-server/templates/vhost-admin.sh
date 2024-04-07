@@ -251,7 +251,7 @@ configure_access_point_networking() {
 			uci commit
 			/etc/init.d/network restart
 			sleep 3
-			uci set network.@device[0].ports=none	
+			uci set network.@device[0].ports=none
 			# eth0 mit der selbstgewaehlten mesh-IP konfigurieren
 			uci set network.on_eth_0.ifname=eth0
 			uci set network.on_eth_0.ipaddr="$ip"
