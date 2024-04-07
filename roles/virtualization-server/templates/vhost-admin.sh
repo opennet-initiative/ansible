@@ -108,7 +108,7 @@ create_host_volumes() {
 
 create_access_point_volume() {
 	local host="$1"
-	create_volume "$host" "root" "64M" >/dev/null
+	create_volume "$host" "root" "265M" >/dev/null
 }
 
 
