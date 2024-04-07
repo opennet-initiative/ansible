@@ -195,7 +195,7 @@ create_access_point_image() {
 	blockdev=$(get_volume_path "$host" "root")
 	tmpfile=$(mktemp)
 	# Abbruch, falls curl fehlschlaegt
-	if ! curl --silent --show-error --fail --out "$tmpfile" "$image_url"; then
+	if ! curl --silent --show-error --fail --output "$tmpfile" "$image_url"; then
 		echo >&2 "Failed to download '$image_url'"
 		exitcode=1
 	elif ! gunzip --stdout --force <"$tmpfile" | dd "of=$blockdev" status=none conv=notrunc; then
