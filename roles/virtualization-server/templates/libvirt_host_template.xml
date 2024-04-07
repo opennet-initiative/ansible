@@ -6,7 +6,7 @@
   <currentMemory unit='KiB'>__MEMORY__</currentMemory>
   <vcpu placement='static'>1</vcpu>
   <os>
-    <type arch='x86_64' machine='pc-1.1'>hvm</type>
+    <type arch='x86_64' machine='pc-i440fx-7.2'>hvm</type>
     <boot dev='hd'/>
   </os>
   <features>
