@@ -34,7 +34,8 @@ AP_FIRMWARE_MAP="\
 	0.5.6 https://downloads.opennet-initiative.de/openwrt/stable/0.5.6/targets/x86/generic/openwrt-0.5.6-2885-x86-generic-combined-squashfs.img.gz
 	0.5.7 https://downloads.opennet-initiative.de/openwrt/stable/0.5.7/targets/x86/generic/openwrt-0.5.7-2995-x86-generic-generic-squashfs-combined.img.gz
 	0.5.8 https://downloads.opennet-initiative.de/openwrt/stable/0.5.8/targets/x86/generic/openwrt-0.5.8-3013-x86-generic-generic-squashfs-combined.img.gz
-	latest https://downloads.opennet-initiative.de/openwrt/stable/0.5.8/targets/x86/generic/openwrt-0.5.8-3013-x86-generic-generic-squashfs-combined.img.gz
+	0.5.9 https://downloads.opennet-initiative.de/openwrt/stable/0.5.9/targets/x86/generic/openwrt-0.5.9-3065-x86-generic-generic-squashfs-combined.img.gz
+	latest https://downloads.opennet-initiative.de/openwrt/stable/0.5.9/targets/x86/generic/openwrt-0.5.9-3065-x86-generic-generic-squashfs-combined.img.gz 
 "
 
 
