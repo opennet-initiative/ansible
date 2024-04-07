@@ -246,15 +246,14 @@ configure_access_point_networking() {
 			#!/bin/sh
 			true
 			# eth0 aus dem LAN-Netzwerk entfernen
-			uci set network.lan.ifname=none
+			uci set network.@device[0].ports=none
 			# fruezeitig Erstinitialisierungen triggern
 			uci commit
 			/etc/init.d/network restart
 			sleep 3
-			uci set network.lan.ifname=none
+			uci set network.@device[0].ports=none	
 			# eth0 mit der selbstgewaehlten mesh-IP konfigurieren
 			uci set network.on_eth_0.ifname=eth0
-			uci set network.on_eth_0.proto=static
 			uci set network.on_eth_0.ipaddr="$ip"
 			uci commit
 			reload_config
