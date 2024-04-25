@@ -378,7 +378,10 @@ interface GigabitEthernet1/1/1
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/1/2
- shutdown
+ description uniro-justusvonliebig
+ switchport mode access
+ macro description uniro-mesh
+ spanning-tree portfast edge
 !
 interface GigabitEthernet1/1/3
  shutdown
