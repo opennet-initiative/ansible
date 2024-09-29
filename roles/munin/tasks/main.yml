@@ -26,3 +26,11 @@
     backup: yes
   when: "'2.0.67' in munin_version"  # we have a patched file for this version
   notify: restart munin
+
+- name: Deny all web crawlers because they slow down the monitoring website
+  copy:
+    src: robots.txt
+    dest: /var/www/html/robots.txt
+    owner: root
+    group: root
+    mode: '0755'

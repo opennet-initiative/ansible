@@ -28,3 +28,12 @@
 
 - name: install - Debian alten mediawiki-extensions Pfad bereinigen
   file: path="/etc/mediawiki-extensions" state=absent
+
+- name: Blocke Web Crawler, welche unsere Webseite negativ beeinflussen weil sie viel herunterladen
+  copy:
+    src: robots.txt
+    # Der dest Pfad ist der derzeit reale Pfad (29.09.2024) TODO: Verbessern.
+    dest: /var/www/mediawiki-1.20.6/robots.txt
+    owner: root
+    group: root
+    mode: '0755'
