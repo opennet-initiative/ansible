@@ -68,10 +68,8 @@
   roles:
     - download-server
 
-# wireguard-server in development
 - hosts: kazama.on
   roles:
-    - wireguard-server
     - mailinglist-server
 
 - hosts: gai.on-i.de
