@@ -68,11 +68,15 @@
   roles:
     - download-server
 
-# wireguard-server in development
 - hosts: kazama.on
   roles:
-    - wireguard-server
     - mailinglist-server
+
+- hosts: gai.on-i.de
+  roles:
+    - wireguard-server
+  tags:
+    - wireguard-server
 
 # mediawiki in development
 - hosts: hikaru.on
