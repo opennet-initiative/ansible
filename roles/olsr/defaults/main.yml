@@ -16,5 +16,7 @@ non_olsr_interfaces:
 
 # Debian Packages
 olsr_debian_url: "https://downloads.opennet-initiative.de/debian"
-olsr_debian11_file: "olsrd_0.9.8-3_amd64+deb11.deb"
-olsr_plugins_debian11_file: "olsrd-plugins_0.9.8-3_amd64+deb11.deb"
+olsr_debian11_amd: "olsrd_0.9.8-3_amd64+deb11.deb"
+olsr_plugins_debian11_amd: "olsrd-plugins_0.9.8-3_amd64+deb11.deb"
+olsr_debian12_file_arm: "olsrd_0.9.8-4_arm64+deb12.deb"
+olsr_plugins_debian12_arm: "olsrd-plugins_0.9.8-4_amd64+deb12.deb"
