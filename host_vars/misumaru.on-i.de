@@ -1,0 +1,11 @@
+short_hostname: misumaru
+
+wan_interface: eth0
+
+olsr_main_ip: 192.168.10.24
+olsr_main_ipv6: fd32:d8d3:87da::10:24 
+
+olsr_interfaces:
+  - { name: "enp7s0" }
+
+debian_release: bookworm
