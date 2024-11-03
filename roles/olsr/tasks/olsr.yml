@@ -21,7 +21,7 @@
 - name: olsr - Software installieren (arm64, ab Bookworm)
   apt:
     deb: "{{ olsr_debian_url }}/{{ olsr_debian12_arm }}"
-  when: ansible_distribution_major_version|int >= 12 and ansible_architecture == 'arm64'
+  when: ansible_distribution_major_version|int >= 12 and ansible_architecture == 'aarch64'
 
 - name: olsr - Plugins installieren (amd64, ab Bullseye)
   apt:
@@ -31,7 +31,7 @@
 - name: olsr - Plugins installieren (amd64, ab Bookworm)
   apt:
     deb: "{{ olsr_debian_url }}/{{ olsr_plugins_debian12_arm }}"
-  when: ansible_distribution_major_version|int >= 12 and ansible_architecture == 'arm64'
+  when: ansible_distribution_major_version|int >= 12 and ansible_architecture == 'aarch64'
 
 # TODO: Das selbst kompilierte olsrd sucht in /usr/lib
 # Vorübergehend daher ein Symlink erstellen.
@@ -54,7 +54,7 @@
 - name: olsr - Software installieren (arm64, ab Bookworm)
   apt:
     deb: "{{ olsr_debian_url }}/{{ olsr_debian12_arm }}"
-  when: ansible_distribution_major_version|int >= 12 and ansible_architecture == 'arm64'
+  when: ansible_distribution_major_version|int >= 12 and ansible_architecture == 'aarch64'
 
 - name: olsr - Konfiguration erstellen
   template:
