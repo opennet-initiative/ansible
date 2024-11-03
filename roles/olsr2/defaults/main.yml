@@ -7,5 +7,6 @@ non_olsr2_policy_routing_mark: 32
 
 # Debian Packages
 olsr2_debian_url: "https://downloads.opennet-initiative.de/debian"
-olsr2_debian9_file: "olsrd2_0.15.1-96_amd64+deb9.deb"
-olsr2_debian10_file: "olsrd2_0.15.1-96_amd64+deb10.deb"
+olsr2_debian9_amd: "olsrd2_0.15.1-96_amd64+deb9.deb"
+olsr2_debian10_amd: "olsrd2_0.15.1-96_amd64+deb10.deb"
+olsr2_debian12_arm: "olsrd2_0.15.1-118_arm64+deb12.deb"

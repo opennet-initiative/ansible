@@ -1,17 +1,23 @@
 #Wir benötigen ein Repo mit olsrd2 .deb file. Leider gibt es das derzeit nicht.
 #Ein selbst kompiliertes Installationspaket liegt unter:
 #  https://downloads.opennet-initiative.de/debian/
-- name: olsr2 - Software installieren
+
+- name: olsr2 - Software installieren (amd64, ab Buster)
   apt: 
-    deb: "{{ olsr2_debian_url }}/{{ olsr2_debian10_file }}" 
-  when: ansible_distribution_major_version|int >= 10
+    deb: "{{ olsr2_debian_url }}/{{ olsr2_debian10_amd }}" 
+  when: ansible_distribution_major_version|int >= 10 and ansible_architecture == 'amd64'
 
-- name: olsr2 - Software installieren (buster)
+- name: olsr2 - Software installieren (amd64, Stretch)
   apt:
-    deb: "{{ olsr2_debian_url }}/{{ olsr2_debian9_file }}"
-  when: ansible_distribution_major_version|int == 9
+    deb: "{{ olsr2_debian_url }}/{{ olsr2_debian9_amd }}"
+  when: ansible_distribution_major_version|int == 9 and ansible_architecture == 'amd64'
 
-- name: olsr - Konfiguration erstellen
+- name: olsr2 - Software installieren (arm64, ab Bookworm)
+  apt:
+    deb: "{{ olsr2_debian_url }}/{{ olsr2_debian12_arm }}"
+  when: ansible_distribution_major_version|int >= 12 and ansible_architecture == 'aarch64'
+
+- name: olsr2 - Konfiguration erstellen
   template:
     src: "olsrd2.conf"
     dest: "/etc/olsrd2/"
