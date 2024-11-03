@@ -21,6 +21,7 @@
       - debian-security-support
       - wget
       - whiptail
+    update_cache: yes
 
 - name: packages -- Server-relevante Pakete installieren (ab Jessie)
   apt:
@@ -65,17 +66,23 @@
     purge: yes
   when: ansible_distribution_major_version|int >=11 
 
-- name: packages -- NTP sync - ntp installieren (bis Bullseye oder Gateway)
+- name: packages -- NTP sync - ntp installieren (bis Bullseye / nicht Gateway)
   apt: 
     name: ntp
     install_recommends: no
-  when: ( (ansible_distribution_major_version|int <= 11) or ('gateway_server' in group_names) )
+  when: ( (ansible_distribution_major_version|int <= 11) and ('gateway_server' not in group_names) )
 
 - name: packages -- NTP sync - systemd-timesyncd installieren (ab Bookworm / nicht Gateway)
   apt:
     name: systemd-timesyncd
     install_recommends: no
   when: ( (ansible_distribution_major_version|int >=12) and ('gateway_server' not in group_names) )
+
+- name: packages -- NTP sync - ntpsec installieren (Gateway)
+  apt:
+    name: ntpsec
+    install_recommends: no
+  when: ('gateway_server' in group_names)
 
 - name: packages -- Lese installierte Debian Pakete (ab Bullseye)
   package_facts:
