@@ -110,3 +110,7 @@
 - hosts: yurika.on
   roles:
     - ping-primary
+
+- hosts: misumaru.on-i.de
+  roles:
+    - mail-server
