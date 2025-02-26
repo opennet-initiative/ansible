@@ -1,0 +1,13 @@
+- name: install - Software installieren
+  apt: 
+    name:
+      - postfix
+      - postfix-mysql
+      - mariadb-server
+      - dovecot-core
+      - dovecot-imapd
+      - dovecot-sieve
+      - dovecot-managesieved
+      - dovecot-lmtpd
+      - dovecot-mysql
+    install_recommends: no 
