@@ -8,6 +8,12 @@ olsr_main_ipv6: fd32:d8d3:87da::10:24
 olsr_interfaces:
   - { name: "enp7s0" }
 
+letsencrypt_certificates:
+  - { on_tld_base: mail2 }
+
+apache2_sites:
+  - { name: mail2 }
+
 mail-server: true
 
 debian_release: bookworm
