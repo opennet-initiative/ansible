@@ -7,6 +7,8 @@
       when: letsencrypt_certificates is defined
     - role: apache2-server
       when: apache2_sites is defined
+    - role: mail-delivery
+      when: mail-server is not defined
 
 - hosts: gateway_server
   roles:
@@ -20,6 +22,7 @@
       when: letsencrypt_certificates is defined
     - role: apache2-server
       when: apache2_sites is defined
+    - role: mail-delivery
 
 - hosts: ryoko.on:aqua.on:tamago.on:akito.on-i.de
   roles:

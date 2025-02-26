@@ -22,11 +22,6 @@ opennetca_crl_list:
   - { name: "server-CA", minute: "46", crl: "opennet-server.crl", ca_cert: "{{ opennetca_path }}/opennet-server.crt" }
   - { name: "client-CA", minute: "47", crl: "opennet-client.crl", ca_cert: "{{ opennetca_path }}/opennet-client.crt" }
 
-# Mail-Zustellung
-mail_domain: "opennet-initiative.de"
-mail_hostname: "{{ short_hostname }}.{{ mail_domain }}"
-mail_relay_host: relayhost.opennet-initiative.de
-
 # Lokalisierung
 opennet_timezone: Europe/Berlin
 opennet_locale_lang: de_DE.UTF-8

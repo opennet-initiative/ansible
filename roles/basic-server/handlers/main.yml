@@ -11,14 +11,5 @@
   # ugw-Dinge, ...) - daher dürfen wir annehmen, dass ferm nur wenig später ohnehin aktiviert wird.
   when: not ferm_first_setup.changed
 
-- name: restart postfix
-  service: name=postfix state=restarted
-
-- name: postmap passwd
-  command: postmap /etc/postfix/sasl/passwd
-
-- name: newaliases
-  command: newaliases
-
 - name: reconfigure tzdata
   command: dpkg-reconfigure --frontend noninteractive tzdata

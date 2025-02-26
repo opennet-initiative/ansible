@@ -8,4 +8,6 @@ olsr_main_ipv6: fd32:d8d3:87da::10:24
 olsr_interfaces:
   - { name: "enp7s0" }
 
+mail-server: true
+
 debian_release: bookworm
