@@ -4,6 +4,8 @@ short_hostname: crimson
 # (alle anderen lenken den Verkehr lediglich an ihn weiter)
 mail_relay_host: ""
 
+mail_server: true
+
 wan_interface: eth0
 
 olsr_main_ip: 192.168.10.15
