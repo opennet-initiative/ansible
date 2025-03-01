@@ -1,12 +1,6 @@
 - name: postfix installieren
   apt: pkg=postfix state=present
 
-- name: postfix-Konfiguration uebertragen
-  template:
-    src=main.cf
-    dest=/etc/postfix/main.cf
-  notify: restart postfix
-
 - name: smtp-auth-Abhaengigkeiten installieren
   apt: pkg=libsasl2-modules state=present
 
