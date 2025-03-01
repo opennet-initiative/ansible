@@ -1,4 +1,4 @@
-= Überblick =
+# Überblick
 Diese Rolle installiert die Opennet Mailinglisten Rolle.
 
 Enthalten sind:
@@ -11,7 +11,7 @@ Voraussetzungen:
 * bei Sub-Domain entsprechende MX Records setzen
 * Apache2 mit Modulen proxy / proxy_uwsgi
 
-= Konfiguration =
+# Konfiguration 
 
 Typische Ansible Host-Konfiguration:
 
@@ -28,7 +28,7 @@ apache2_mods:
 ```
 
 Benötigte Apache Site Konfiguration:
-(Vorlage in /etc/mailman3/apache.conf)
+(Vorlage in `/etc/mailman3/apache.conf`)
 
 ```
 Alias /mailman3/favicon.ico /var/lib/mailman3/web/static/postorius/img/favicon.ico
@@ -45,13 +45,13 @@ Alias /mailman3/static      /var/lib/mailman3/web/static
 
 Manuelle Konfigurationsschritte:
 * initialen Benutzer (admin) + erreichbare E-Mail-Adresse anlegen via
-```
-dpkg-reconfigure mailman3-web
-```
-* Domain-Namen via Django-Webinterface setzen: https://<hostname>/admin/sites/site/
-```
-opennet-initiative.de, Opennet Initiative
-```
+  ```
+  dpkg-reconfigure mailman3-web
+  ```
+* Domain-Namen via Django-Webinterface setzen: `https://<hostname>/  admin/sites/site/`
+  ```
+  opennet-initiative.de, Opennet Initiative
+  ```
 
 = TODO =
 
