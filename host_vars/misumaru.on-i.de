@@ -14,6 +14,6 @@ letsencrypt_certificates:
 apache2_sites:
   - { name: mail2 }
 
-mail-server: true
+mail_server: true
 
 debian_release: bookworm

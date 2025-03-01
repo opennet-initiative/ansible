@@ -8,7 +8,7 @@
     - role: apache2-server
       when: apache2_sites is defined
     - role: mail-delivery
-      when: mail-server is not defined
+      when: mail_server is undefined
 
 - hosts: gateway_server
   roles:
