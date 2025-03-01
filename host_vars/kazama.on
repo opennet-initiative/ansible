@@ -24,4 +24,6 @@ apache2_mods:
  - { name: proxy_http2 }
  - { name: proxy_uwsgi }
 
+mail-server: true
+
 debian_release: bookworm

@@ -2,7 +2,17 @@
   lineinfile:
     path: "{{ mailinglist_config_web }}"
     regexp: '^base_url:'
-    line: "base_url: https://{{ mailinglist_domain }}/hyperkitty'"
+    line: "base_url: 'https://{{ mailinglist_domain }}/hyperkitty'"
   notify:
     - restart mailman3 
     - restart mailman3-web
+
+- name: config-archive - Archiv aktivieren
+  blockinfile:
+    path: "{{ mailinglist_config }}"
+    prepend_newline: true
+    block: |
+      [archiver.hyperkitty]
+      class: mailman_hyperkitty.Archiver
+      enable: yes
+      configuration: {{ mailinglist_config_archive }}
