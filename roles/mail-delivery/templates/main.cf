@@ -15,11 +15,11 @@ inet_interfaces = loopback-only
 # alle Mails sollen über unseren Relayhost gesendet werden
 relayhost = [{{ mail_relay_host }}]
 
-# SMTP-Authentication
+# SMTP-Authentication ausgehend
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
 smtp_sasl_security_options = 
 smtp_tls_security_level = encrypt
 
 # Kompatibilität (andernfalls erfolgen Warnmeldungen)
-compatibility_level = 2
+compatibility_level = 3.7
