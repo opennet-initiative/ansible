@@ -1,0 +1,5 @@
+- name: postfix-Konfiguration uebertragen
+  template:
+    src=main.cf
+    dest=/etc/postfix/main.cf
+  notify: restart postfix

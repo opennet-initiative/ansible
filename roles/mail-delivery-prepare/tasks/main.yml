@@ -1,1 +1,1 @@
-- include_tasks: mail-delivery.yml
+- include_tasks: mail-delivery-prepare.yml
