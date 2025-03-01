@@ -1,4 +1,3 @@
 # Mail-Zustellung
 mail_domain: "opennet-initiative.de"
 mail_hostname: "{{ short_hostname }}.{{ mail_domain }}"
-mail_relay_host: relayhost.opennet-initiative.de
