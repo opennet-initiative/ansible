@@ -10,4 +10,13 @@
       - dovecot-managesieved
       - dovecot-lmtpd
       - dovecot-mysql
+      - rspamd
+      - clamav
+      - clamsmtp
+      - redis-server
+      - roundcube
+      - roundcube-mysql
+      - roundcube-plugins
+      - composer
+      - memcached
     install_recommends: no 
