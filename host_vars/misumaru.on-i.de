@@ -13,6 +13,7 @@ letsencrypt_certificates:
 
 apache2_sites:
   - { name: mail2 }
+apache2_php: true
 
 mail_server: true
 
