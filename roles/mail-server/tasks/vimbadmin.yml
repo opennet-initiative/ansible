@@ -43,7 +43,7 @@
     path: "{{ vimbadmin_config }}"
     section: "user"
     option: "{{ item }}"
-    value: "{{ vimbadmin_salt.stdout }}"
+    value: "'{{ vimbadmin_salt.stdout }}'"
   loop:
     - "securitysalt"
     - "resources.auth.oss.rememberme.salt"
@@ -63,7 +63,7 @@
     - { opt: "resources.doctrine2cache.type", val: "MemcacheCache" }
     - { opt: "resources.doctrine2cache.memcache.servers.0.host", val: "127.0.0.1" }
     - { opt: "skipInstallPingback", val: 1 }
-    - { opt: "defaults.mailbox.maildir", val: "maildir:{{ vimbadmin_config_vmailpath }}/%d/%u/mail:LAYOUT=fs" }
+    - { opt: "defaults.mailbox.maildir", val: "'maildir:{{ vimbadmin_config_vmailpath }}/%d/%u/mail:LAYOUT=fs'" }
     - { opt: "defaults.mailbox.homedir", val: "{{ vimbadmin_config_vmailpath }}/%d/%u" }
     - { opt: "server.pop3.enabled", val: 0 }
     - { opt: "server.imap.host", val: "mail.%d" }
