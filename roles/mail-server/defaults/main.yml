@@ -1,4 +1,3 @@
-vimbadmin_path: "/var/www/vimbadmin"
 vimbadmin_config: "{{ vimbadmin_path }}/application/configs/application.ini"
 vimbadmin_config_showerrors: "0"
 vimbadmin_config_vmailpath: "/var/mail"
