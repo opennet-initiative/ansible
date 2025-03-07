@@ -19,4 +19,5 @@
       - roundcube-plugins
       - composer
       - memcached
+      - python3-pymysql
     install_recommends: no 
