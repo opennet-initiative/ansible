@@ -1,8 +1,8 @@
 # {{ ansible_managed }}
 
-Alias /vimbadmin /var/www/vimbadmin/public
+Alias /vimbadmin {{ vimbadmin_path }}/public
 
-<Directory /var/www/vimbadmin/public>
+<Directory {{ vimbadmin_path }}/public>
     Options FollowSymLinks
     AllowOverride FileInfo
     
@@ -23,7 +23,7 @@ SSLVerifyDepth 3
 # allow access to certificate details
 SSLOptions +StdEnvVars
 
-<Location /internal>
+<Location /vimbadmin>
         # allow specific cert CN
         SSLRequire %{SSL_CLIENT_S_DN_CN} in { "{{ vimbadmin_allowed_users|join('", "') }}" }
 </Location>
