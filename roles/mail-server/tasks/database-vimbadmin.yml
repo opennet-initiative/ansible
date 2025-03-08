@@ -1,0 +1,40 @@
+- name: vimbadmin - Datenbank anlegen
+  mysql_db:
+    name: vimbadmin
+    login_unix_socket: "{{ mailserver_mysql_socket }}"
+    state: present
+  register: create_vimbadmin_db
+
+- name: vimbadmin - Datenbank Passwort vorbereiten
+  command: "openssl rand -base64 12"
+  register: vimbadmin_db_pass
+  when: create_vimbadmin_db.changed
+
+- name: vimbadmin - Datenbank Benutzer anlegen
+  mysql_user:
+    name: vimbadmin
+    password: "{{ vimbadmin_db_pass.stdout }}"
+    priv: "vimbadmin.*:ALL"
+    update_password: on_create
+    column_case_sensitive: true
+    login_unix_socket: "{{ mailserver_mysql_socket }}"
+  register: create_vimbadmin_user
+  when: create_vimbadmin_db.changed
+
+- name: vimbadmin - Konfiguration Datenbank anpassen
+  ini_file:
+    path: "{{ vimbadmin_config }}"
+    section: "user"
+    option: "{{ item.opt }}"
+    value: "{{ item.val }}"
+  loop:
+    - { opt: "resources.doctrine2.connection.options.dbname", val: "\"vimbadmin\"" }
+    - { opt: "resources.doctrine2.connection.options.user", val: "\"vimbadmin\"" }
+    - { opt: "resources.doctrine2.connection.options.password", val: "\"{{ vimbadmin_db_pass.stdout }}\"" }
+  when: create_vimbadmin_user.changed
+
+- name: vimbadmin - Datenbank Schema anlegen
+  shell:
+    cmd: "php bin/doctrine2-cli.php orm:schema-tool:create"
+    chdir: "{{ vimbadmin_path }}"
+  when: create_vimbadmin_user.changed

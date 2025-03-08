@@ -4,6 +4,7 @@
       - postfix
       - postfix-mysql
       - mariadb-server
+      - automysqlbackup
       - dovecot-core
       - dovecot-imapd
       - dovecot-sieve

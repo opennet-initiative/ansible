@@ -1,0 +1,52 @@
+- name: vimbadmin - Verzeichnis anlegen
+  file:
+    path: "{{ vimbadmin_path }}"
+    state: directory
+  register: create_vimbadmin
+
+- name: vimbadmin - Software installieren (via composer)
+  shell: "composer create-project --prefer-dist --no-dev opensolutions/vimbadmin {{ vimbadmin_path }} --no-scripts --no-interaction"
+  args:
+    creates: "{{ vimbadmin_path }}/CHANGELOG"
+  when: create_vimbadmin.changed
+
+- name: vimbadmin - Rechte Var-Verzeichnis anpassen
+  file: 
+    path: "{{ vimbadmin_path }}/var"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: "0770"
+    recurse: yes
+  when: create_vimbadmin.changed
+
+- name: vimbadmin - htaccess aktivieren
+  copy:
+    src: "{{ vimbadmin_path }}/public/.htaccess.dist"
+    dest: "{{ vimbadmin_path }}/public/.htaccess"
+    remote_src: yes
+  when: create_vimbadmin.changed
+
+- name: vimbadmin - Konfiguration aktivieren
+  copy:
+    src: "{{ vimbadmin_config }}.dist"
+    dest: "{{ vimbadmin_config }}"
+    remote_src: yes
+  when: create_vimbadmin.changed
+
+- name: vimbadmin - Konfiguration Salt vorbereiten
+  command: "openssl rand -base64 32"
+  register: vimbadmin_salt
+  when: create_vimbadmin.changed
+
+- name: vimbadmin - Konfiguration Salt setzen
+  ini_file:
+    path: "{{ vimbadmin_config }}"
+    section: "user"
+    option: "{{ item }}"
+    value: "'{{ vimbadmin_salt.stdout }}'"
+  loop:
+    - "securitysalt"
+    - "resources.auth.oss.rememberme.salt"
+    - "defaults.mailbox.password_salt"
+  when: create_vimbadmin.changed
