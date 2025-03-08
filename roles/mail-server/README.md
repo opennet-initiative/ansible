@@ -69,3 +69,12 @@ Manuelle Konfigurationsschritte:
 * vimbadmin
   * Anlegen des Superusers (admin@) via Webinterface (mit Anpassung Konfigurationsdatei)
   * Anlegen der Domain via Webinterface
+
+# Sonstiges
+
+Bereinigung einer vimbadmin-Installation:
+```
+mysql -e 'drop database vimbadmin;'
+mysql -e 'drop user 'vimbadmin'@'localhost';'
+rm -rf /var/www/vimbadmin
+```
