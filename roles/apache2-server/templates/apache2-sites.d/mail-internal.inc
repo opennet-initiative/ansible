@@ -22,7 +22,7 @@ SSLVerifyDepth 3
 # allow access to certificate details
 SSLOptions +StdEnvVars
 
-<Location /vimbadmin>
+<Location />
   # allow specific cert CN
   SSLRequire %{SSL_CLIENT_S_DN_CN} in { "{{ vimbadmin_allowed_users|join('", "') }}" }
 </Location>
