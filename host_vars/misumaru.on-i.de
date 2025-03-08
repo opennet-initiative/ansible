@@ -10,22 +10,17 @@ olsr_interfaces:
 
 letsencrypt_certificates:
   - { on_tld_base: mail2 }
+  - { on_tld_base: mail-internal }
 
 apache2_sites:
   - { name: mail2 }
+  - { name: mail-internal }
 apache2_php: true
 
 mail_server: true
 
 debian_release: bookworm
 
-vimbadmin_path: "/var/www/vimbadmin"
-
 vimbadmin_allowed_users:
-  - larskruse.client.on
   - mathiasmahnke.client.on
-  - philippmarkwardt.client.on
   - martingarbe.client.on
-  - reneborrmann.client.on
-  - tobiasmeyer.client.on
-  - friedrichmeincke.client.on
