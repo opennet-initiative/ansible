@@ -27,6 +27,12 @@
     remote_src: yes
   when: create_vimbadmin.changed
 
+- name: vimbadmin - htaccess anpassen
+  replace:
+    path: "{{ vimbadmin_path }}/public/.htaccess"
+    regexp: "^RewriteRule ^.*$ /vimbadmin/.*"
+    replace: "RewriteRule ^.*$ /index.php [NC,L]"
+
 - name: vimbadmin - Konfiguration aktivieren
   copy:
     src: "{{ vimbadmin_config }}.dist"
