@@ -115,4 +115,8 @@
     - { opt: "resources.doctrine2.connection.options.password", val: "\"{{ vimbadmin_db_pass.stdout }}\"" }
   when: create_vimbadmin_user.changed
 
+- name: vimbadmin - Datenbank Schema anlegen
+  shell:
+    cmd: "php bin/doctrine2-cli.php orm:schema-tool:create"
+    chdir: "{{ vimbadmin_path }}"
   when: create_vimbadmin_user.changed
