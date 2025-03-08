@@ -60,24 +60,24 @@
     - { opt: "phpSettings.display_startup_errors", val: "{{ vimbadmin_config_showerrors }}" }
     - { opt: "phpSettings.display_errors", val: "{{ vimbadmin_config_showerrors }}" }
     - { opt: "resources.frontController.params.displayExceptions", val: "{{ vimbadmin_config_showerrors }}" }
-    - { opt: "resources.doctrine2cache.type", val: "MemcacheCache" }
-    - { opt: "resources.doctrine2cache.memcache.servers.0.host", val: "127.0.0.1" }
+    - { opt: "resources.doctrine2cache.type", val: "\"MemcacheCache\"" }
+    - { opt: "resources.doctrine2cache.memcache.servers.0.host", val: "\"127.0.0.1\"" }
     - { opt: "skipInstallPingback", val: 1 }
-    - { opt: "defaults.mailbox.maildir", val: "'maildir:{{ vimbadmin_config_vmailpath }}/%d/%u/mail:LAYOUT=fs'" }
-    - { opt: "defaults.mailbox.homedir", val: "{{ vimbadmin_config_vmailpath }}/%d/%u" }
+    - { opt: "defaults.mailbox.maildir", val: "\"maildir:{{ vimbadmin_config_vmailpath }}/%d/%u/mail:LAYOUT=fs\"" }
+    - { opt: "defaults.mailbox.homedir", val: "\"{{ vimbadmin_config_vmailpath }}/%d/%u\"" }
     - { opt: "server.pop3.enabled", val: 0 }
-    - { opt: "server.imap.host", val: "mail.%d" }
-    - { opt: "identity.orgname", val: "{{ vimbadmin_config_org }}" }
-    - { opt: "identity.name", val: "{{ vimbadmin_config_name }}" }
-    - { opt: "identity.email", val: "{{ vimbadmin_config_mail }}" }
-    - { opt: "identity.autobot.name", val: "{{ vimbadmin_config_name }}" }
-    - { opt: "identity.autobot.email", val: "{{ vimbadmin_config_mail }}" }
-    - { opt: "identity.mailer.name", val: "{{ vimbadmin_config_name }}" }
-    - { opt: "identity.mailer.email", val: "{{ vimbadmin_config_mail }}" }
-    - { opt: "identity.email.name", val: "{{ vimbadmin_config_name }}" }
-    - { opt: "identity.email.address", val: "{{ vimbadmin_config_mail }}" }
-    - { opt: "identity.sitename", val: "{{ vimbadmin_config_name }} - ViMbAdmin" }
-    - { opt: "identity.siteurl", val: "{{ vimbadmin_config_url }}" }
+    - { opt: "server.imap.host", val: "\"mail.%d\"" }
+    - { opt: "server.email.name", val: "\"{{ vimbadmin_config_name }}\"" }
+    - { opt: "server.email.address", val: "\"{{ vimbadmin_config_mail }}\"" }
+    - { opt: "identity.orgname", val: "\"{{ vimbadmin_config_org }}\"" }
+    - { opt: "identity.name", val: "\"{{ vimbadmin_config_name }}\"" }
+    - { opt: "identity.email", val: "\"{{ vimbadmin_config_mail }}\"" }
+    - { opt: "identity.autobot.name", val: "\"{{ vimbadmin_config_name }}\"" }
+    - { opt: "identity.autobot.email", val: "\"{{ vimbadmin_config_mail }}\"" }
+    - { opt: "identity.mailer.name", val: "\"{{ vimbadmin_config_name }}\"" }
+    - { opt: "identity.mailer.email", val: "\"{{ vimbadmin_config_mail }}\"" }
+    - { opt: "identity.sitename", val: "\"{{ vimbadmin_config_name }} - ViMbAdmin\"" }
+    - { opt: "identity.siteurl", val: "\"{{ vimbadmin_config_url }}\"" }
     - { opt: "ondemand_resources.logger.enabled", val: "{{ vimbadmin_config_enablelog }}" }
 
 - name: vimbadmin - Datenbank anlegen
@@ -110,7 +110,9 @@
     option: "{{ item.opt }}"
     value: "{{ item.val }}"
   loop:
-    - { opt: "resources.doctrine2.connection.options.dbname", val: "vimbadmin" }
-    - { opt: "resources.doctrine2.connection.options.user", val: "vimbadmin" }
-    - { opt: "resources.doctrine2.connection.options.password", val: "{{ vimbadmin_db_pass.stdout }}" }
+    - { opt: "resources.doctrine2.connection.options.dbname", val: "\"vimbadmin\"" }
+    - { opt: "resources.doctrine2.connection.options.user", val: "\"vimbadmin\"" }
+    - { opt: "resources.doctrine2.connection.options.password", val: "\"{{ vimbadmin_db_pass.stdout }}\"" }
+  when: create_vimbadmin_user.changed
+
   when: create_vimbadmin_user.changed
