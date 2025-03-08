@@ -3,12 +3,12 @@ Diese Rolle installiert die Opennet Mail-Server Rolle.
 
 Enthalten sind:
 * Paketinstallation
-  * postfix, postfix-mysql
-  * mariadb-server, automysqlbackup
-  * dovecot-core, dovecot-imapd, dovecot-sieve, dovecot-managesieved, dovecot-lmtpd, dovecot-mysql
-  * rspamd, clamav, clamsmtp, redis-server
-  * roundcube, roundcube-mysql, roundcube-plugins,
-  * vimbadmin, composer, memcached, php-memcache
+  * MTA: postfix, postfix-mysql
+  * DB: mariadb-server, automysqlbackup
+  * LDA/IMPA: dovecot-core, dovecot-imapd, dovecot-sieve, dovecot-managesieved, dovecot-lmtpd, dovecot-mysql
+  * Anti-Spam: rspamd, clamav, clamsmtp, redis-server
+  * Webmail: roundcube, roundcube-mysql, roundcube-plugins,
+  * Admin: vimbadmin, composer, memcached, php-memcache
 * Grundkonfiguration
   * vimbadmin - Anpassung der Konfigurationsdateien und Anlage der Datenbank
 * Rolle "fail2ban"
