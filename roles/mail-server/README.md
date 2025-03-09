@@ -22,16 +22,15 @@ Voraussetzungen:
 Typische Ansible Host-Konfiguration:
 ```
 letsencrypt_certificates:
-  - { on_tld_base: mail2 }
+  - { on_tld_base: mail }
   - { on_tld_base: mail-internal }
 apache2_sites:
-  - { name: mail2 }
+  - { name: mail }
   - { name: mail-internal }
 apache2_php: true
 mail_server: true
 vimbadmin_allowed_users:
-  - mathiasmahnke.client.on
-  - martingarbe.client.on
+  - <mailadmin>.client.on
 ```
 
 Benötigte Apache Site Konfiguration für "mail-internal":

@@ -10,12 +10,12 @@
     creates: "{{ vimbadmin_path }}/CHANGELOG"
   when: create_vimbadmin.changed
 
-- name: vimbadmin - Rechte Var-Verzeichnis anpassen
+- name: vimbadmin - Verzeichnis Rechte anpassen
   file: 
     path: "{{ vimbadmin_path }}/var"
     state: directory
-    owner: www-data
-    group: www-data
+    owner: "{{ vimbadmin_web_user }}"
+    group: "{{ vimbadmin_web_user }}"
     mode: "0770"
     recurse: yes
   when: create_vimbadmin.changed
@@ -25,34 +25,41 @@
     src: "{{ vimbadmin_path }}/public/.htaccess.dist"
     dest: "{{ vimbadmin_path }}/public/.htaccess"
     remote_src: yes
-  when: create_vimbadmin.changed
+    force: false
 
 - name: vimbadmin - htaccess anpassen
   replace:
     path: "{{ vimbadmin_path }}/public/.htaccess"
-    regexp: "^RewriteRule ^.*$ /vimbadmin/.*"
+    regexp: ".*/vimbadmin/index.php.*"
     replace: "RewriteRule ^.*$ /index.php [NC,L]"
+
+- name: vimbadmin - Favicon übertragen
+  copy: 
+    src: "favicon.ico"
+    dest: "{{ vimbadmin_path }}/public/"
+    owner: "{{ vimbadmin_web_user }}"
+    group: "{{ vimbadmin_web_user }}"
 
 - name: vimbadmin - Konfiguration aktivieren
   copy:
     src: "{{ vimbadmin_config }}.dist"
     dest: "{{ vimbadmin_config }}"
     remote_src: yes
-  when: create_vimbadmin.changed
+    force: false
 
-- name: vimbadmin - Konfiguration Salt vorbereiten
-  command: "openssl rand -base64 32"
-  register: vimbadmin_salt
-  when: create_vimbadmin.changed
+#- name: vimbadmin - Konfiguration Salt vorbereiten
+#  command: "openssl rand -base64 32"
+#  register: vimbadmin_salt
+#  when: create_vimbadmin.changed
 
-- name: vimbadmin - Konfiguration Salt setzen
-  ini_file:
-    path: "{{ vimbadmin_config }}"
-    section: "user"
-    option: "{{ item }}"
-    value: "'{{ vimbadmin_salt.stdout }}'"
-  loop:
-    - "securitysalt"
-    - "resources.auth.oss.rememberme.salt"
-    - "defaults.mailbox.password_salt"
-  when: create_vimbadmin.changed
+#- name: vimbadmin - Konfiguration Salt setzen
+#  ini_file:
+#    path: "{{ vimbadmin_config }}"
+#    section: "user"
+#    option: "{{ item }}"
+#    value: "'{{ vimbadmin_salt.stdout }}'"
+#  loop:
+#    - "securitysalt"
+#    - "resources.auth.oss.rememberme.salt"
+#    - "defaults.mailbox.password_salt"
+#  when: create_vimbadmin.changed
