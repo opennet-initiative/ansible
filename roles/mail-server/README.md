@@ -6,7 +6,7 @@ Enthalten sind:
   * MTA: postfix, postfix-mysql
   * DB: mariadb-server, automysqlbackup
   * LDA/IMPA: dovecot-core, dovecot-imapd, dovecot-sieve, dovecot-managesieved, dovecot-lmtpd, dovecot-mysql
-  * Anti-Spam: rspamd, clamav, clamsmtp, redis-server
+  * Anti-Spam: rspamd, clamav, clamsmtp, redis-server, bind9
   * Webmail: roundcube, roundcube-mysql, roundcube-plugins,
   * Admin: vimbadmin, composer, memcached, php-memcache
 * Grundkonfiguration
@@ -77,3 +77,5 @@ mysql -e 'drop database vimbadmin;'
 mysql -e 'drop user 'vimbadmin'@'localhost';'
 rm -rf /var/www/vimbadmin
 ```
+
+Recursive (Caching) Resolver ist notwendig für die rspamd Anfragen. Es wird daher ein Bind9 mit installiert.

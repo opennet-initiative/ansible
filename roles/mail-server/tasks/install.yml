@@ -15,6 +15,7 @@
       - clamav
       - clamsmtp
       - redis-server
+      - bind9
       - roundcube
       - roundcube-mysql
       - roundcube-plugins
