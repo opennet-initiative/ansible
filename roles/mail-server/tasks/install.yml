@@ -3,6 +3,7 @@
     name:
       - postfix
       - postfix-mysql
+      - libsasl2-modules
       - mariadb-server
       - automysqlbackup
       - dovecot-core
@@ -24,4 +25,5 @@
       - php-memcache
       - php-gd
       - python3-pymysql
+      - redis-server
     install_recommends: no 

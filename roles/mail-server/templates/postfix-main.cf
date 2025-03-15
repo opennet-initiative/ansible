@@ -1,0 +1,89 @@
+
+# TODO: für Test-Inbetriebnahme setzen wir temporäre Domain
+mydomain = mail2.opennet-initiative.de
+# TODO: aktiviere folgende Zeile wenn misumaru produktiv wird
+#mydomain = {{ mail_domain }}
+
+# myorigin wird an lokal generierte Mails angehaengt. Es sollte daher eine
+# Domain sein, die Mails empfangen kann und in der es Postfaecher fuer root,
+# cron usw. gibt.
+myorigin = $mydomain
+
+# TODO: für Test-Inbetriebnahme sollen Emails an root@mail2... angenommen werden.
+#       Hierfür muss mail_hostname=mail2... sein
+myhostname = $mydomain
+#myhostname = {{ mail_hostname }}
+
+# some Debian default settings (from /usr/share/postfix/main.cf.debian)
+smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
+# Keine System-Benachrichtigung für Benutzer bei neuer E-Mail
+biff = no
+# Nutzer müssen immer volle E-Mail Adresse angeben - nicht nur Hostname
+append_dot_mydomain = no
+readme_directory = no
+# See http://www.postfix.org/COMPATIBILITY_README.html
+compatibility_level = 3.6
+
+# Keine Rückschlüsse auf benutzte Mailadressen zulassen
+disable_vrfy_command = yes
+
+alias_maps = hash:/etc/aliases
+
+# Von folgenden Geräten nehmen wir Emails für Forwarding entgegen.
+# Geräte authentifizieren sich hier per SASL.
+# Temporär wird Server crimson erlaubt, weil dies derzeit noch der
+# produktive Mailserver ist.
+# TODO: Wenn misumaru primärer Mailserver wird/ist, dann kann crimson
+# aus der 'mynetworks' Liste entfernt werden.
+# crimson.on = fd32:d8d3:87da:0:216:3eff:fe95:1f9a/64
+#              192.168.10.15/16
+#              2a01:4f8:140:9250:250:56ff:fe00:7916/64
+#              46.4.100.244/27
+mynetworks = 127.0.0.0/8 192.168.10.15/32 [::1]/128 [fd32:d8d3:87da:0:216:3eff:fe95:1f9a]/128 46.4.100.244/32 [2a01:4f8:140:9250:250:56ff:fe00:7916]/128
+inet_interfaces = all
+inet_protocols = all 
+
+# SMTP-Authentication ausgehend
+# TODO: Das ist noch nötig während der Inbetriebnahme. Hier sendet misumaru
+# Emails an crimson und diese Strecke wird per SASL authentifiziert.
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
+smtp_sasl_security_options = 
+smtp_tls_security_level = encrypt
+
+# SMTP-Authentication eingehend (wird teilweise in master.cf überschrieben)
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_tls_security_options = $smtpd_sasl_security_options
+
+# TLS Config für eingehende SMTP Verbindungen
+smtpd_tls_security_level = may
+smtpd_tls_auth_only = yes
+smtpd_tls_key_file = /var/lib/dehydrated/certs/mail2.opennet-initiative.de/privkey.pem
+smtpd_tls_cert_file = /var/lib/dehydrated/certs/mail2.opennet-initiative.de/fullchain.pem
+smtpd_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+#smtpd_tls_... = ...  # wir verlassen uns auf die sicheren Debian/Postfix defaults
+
+# Maximale Größe der gesamten Mailbox (soll von Dovecot festgelegt werden, 0 = unbegrenzt)
+mailbox_size_limit = 0
+# Erlaube Plus Addressing
+recipient_delimiter = +
+# Maximale Größe eingehender E-Mails in Bytes (50 MB)
+message_size_limit = 52428800
+
+# Wenn fremde Server eine Verbindung herstellen, müssen sie einen gültigen Hostnamen im HELO haben.
+smtpd_helo_required = yes
+smtpd_helo_restrictions =   
+        permit_mynetworks
+        reject_invalid_helo_hostname
+        reject_non_fqdn_helo_hostname
+        reject_unknown_helo_hostname
+strict_rfc821_envelopes = yes
+
+# Clients blockieren, wenn sie versuchen zu früh zu senden
+smtpd_data_restrictions = reject_unauth_pipelining
+
+# Restrictions für MUAs (Mail user agents). Wird in master.cf referenziert.
+mua_relay_restrictions = reject_non_fqdn_recipient,reject_unknown_recipient_domain,permit_mynetworks,permit_sasl_authenticated,reject
+mua_sender_restrictions = permit_mynetworks,reject_non_fqdn_sender,reject_sender_login_mismatch,permit_sasl_authenticated,reject
+mua_client_restrictions = permit_mynetworks,permit_sasl_authenticated,reject

@@ -1,0 +1,80 @@
+- name: Ist SASL Passwortdatei bereits vorhanden?
+  stat:
+    path: /etc/postfix/sasl/passwd.db
+  register: stat_sasl_passwd_db
+
+# Wir wollen to initialisieren des SASL Credentials nur 1x am Anfang machen.
+- name: Initialize SASL secret
+  when: not stat_sasl_passwd_db.stat.exists
+  block:
+    - name: smtp-auth-Passwort-Verzeichnis erstellen
+      file:
+        state=directory
+        path=/etc/postfix/sasl
+
+    - name: smtp-Auth-Kennwort abholen
+      delegate_to: root@izumi.opennet-initiative.de
+      shell: awk '{ if ($1 == "{{ mail_relay_host }}") print $2 }' /etc/postfix/sasl/passwd
+      register: smtp_auth_password
+      changed_when: False
+      run_once: yes
+      # ignoriere den "--check"-Modus (sonst schlaegt der naechste Schritt beim Testen fehl)
+      check_mode: no
+
+    - fail: msg="Kein smtp-auth-Password gefunden"
+      when: not smtp_auth_password.stdout
+
+    - name: smtp-auth-Passwort setzten
+      lineinfile:
+        dest=/etc/postfix/sasl/passwd
+        state=present
+        create=yes
+        mode=0600
+        regexp="^{{ mail_relay_host }}"
+        line="{{ mail_relay_host }} {{ smtp_auth_password.stdout }}"
+      notify: postmap passwd
+
+    # Die Datenbank wird zwar durch den Handler erzeugt, sicherheitshalber tun wir
+    # dies aber gleich.
+    # Ansonsten koennte es passieren, dass bei einem zwischenzeitlichen Abbruch
+    # des ansible-Laufs (z.B. bei einem Fehler im initialen Durchlauf) die
+    # Datenbank nicht erzeugt wird.
+    - name: smtp-auth-Datenbank erzeugen
+      command:
+        postmap /etc/postfix/sasl/passwd
+        creates=/etc/postfix/sasl/passwd.db
+      notify: restart postfix
+
+- name: mailname festlegen
+  copy:
+    content={{ mail_hostname }}
+    dest=/etc/mailname
+
+# TODO: Aktiviere folgenden Task nachdem alle Test der Installation erfolgreich waren und 
+# - name: System-Emails an Admin-Sammleradresse versenden
+#   # das Quoting ist erforderlich, um die Doppelpunkte zu schuetzen
+#   lineinfile: 'dest=/etc/aliases state=present regexp="^root:" line="root: {{ admin_email }}"'
+#   notify: newaliases
+
+- name: Kopiere postfix master.cf
+  copy:
+    src: postfix/master.cf
+    dest: /etc/postfix/master.cf
+    mode: 0644
+  notify: restart postfix
+
+- name: Kopiere postfix main.cf
+  template:
+    src: postfix-main.cf
+    dest: /etc/postfix/main.cf
+    mode: 0644
+  notify: restart postfix
+
+- name: Kopiere postfix submission_header_cleanup.cf
+  copy:
+    src: postfix/submission_header_cleanup.cf
+    dest: /etc/postfix/submission_header_cleanup.cf
+    mode: 0644
+  notify: restart postfix
+
+
