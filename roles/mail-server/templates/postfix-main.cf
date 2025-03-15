@@ -87,3 +87,10 @@ smtpd_data_restrictions = reject_unauth_pipelining
 mua_relay_restrictions = reject_non_fqdn_recipient,reject_unknown_recipient_domain,permit_mynetworks,permit_sasl_authenticated,reject
 mua_sender_restrictions = permit_mynetworks,reject_non_fqdn_sender,reject_sender_login_mismatch,permit_sasl_authenticated,reject
 mua_client_restrictions = permit_mynetworks,permit_sasl_authenticated,reject
+
+# Spamfilter und DKIM-Signaturen via Rspamd
+smtpd_milters = inet:localhost:11332
+non_smtpd_milters = inet:localhost:11332
+milter_mail_macros =  i {mail_addr} {client_addr} {client_name} {auth_authen}
+# wenn es technische Probleme mit Milter gibt, dann akzeptiere die Email
+milter_default_action = accept
