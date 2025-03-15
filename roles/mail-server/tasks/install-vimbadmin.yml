@@ -27,15 +27,9 @@
     remote_src: yes
     force: false
 
-- name: vimbadmin - htaccess anpassen
-  replace:
-    path: "{{ vimbadmin_path }}/public/.htaccess"
-    regexp: ".*/vimbadmin/index.php.*"
-    replace: "RewriteRule ^.*$ /index.php [NC,L]"
-
 - name: vimbadmin - Favicon übertragen
   copy: 
-    src: "favicon.ico"
+    src: "web/favicon.ico"
     dest: "{{ vimbadmin_path }}/public/"
     owner: "{{ mailserver_web_user }}"
     group: "{{ mailserver_web_user }}"

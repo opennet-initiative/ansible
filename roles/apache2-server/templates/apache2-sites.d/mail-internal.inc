@@ -1,12 +1,21 @@
 # {{ ansible_managed }}
 
-DocumentRoot /var/www/vimbadmin/public
+DocumentRoot /var/www/mail
 
+Alias /vimbadmin /var/www/vimbadmin/public
 <Directory /var/www/vimbadmin/public>
   Options FollowSymLinks
   AllowOverride FileInfo
   Require all granted    
 </Directory>
+
+RewriteEngine On
+RewriteRule ^/rspamd/(.*) http://127.0.0.1:11334/$1 [P,L]
+Redirect /rspamd /rspamd/
+<Location /rspamd>
+  Options FollowSymLinks
+  Require all granted
+</Location>
 
 # client certificate authentication
 SSLCACertificateFile {{ apache2_opennetca_dir }}/opennet-root.crt

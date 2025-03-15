@@ -27,6 +27,10 @@ letsencrypt_certificates:
 apache2_sites:
   - { name: mail }
   - { name: mail-internal }
+apache2_mods:
+ - { name: proxy }
+ - { name: proxy_http }
+ - { name: proxy_http2 }
 apache2_php: true
 mail_server: true
 vimbadmin_allowed_users:

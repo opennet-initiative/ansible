@@ -7,10 +7,11 @@
 
 - name: web - Opennet Logo / Favicon kopieren
   copy: 
-    src: "{{ item }}" 
+    src: "web/{{ item }}" 
     dest: "{{ mailserver_web_path }}/"
     owner: "{{ mailserver_web_user }}"
     group: "{{ mailserver_web_user }}"
   with_items:
     - "Opennet_logo_quer.gif"
     - "favicon.ico"
+    - "index.html"
