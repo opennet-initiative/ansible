@@ -1,10 +1,10 @@
-- name: Ist SASL Passwortdatei bereits vorhanden?
+- name: postfix - Ist SASL Passwortdatei bereits vorhanden?
   stat:
     path: /etc/postfix/sasl/passwd.db
   register: stat_sasl_passwd_db
 
 # Wir wollen to initialisieren des SASL Credentials nur 1x am Anfang machen.
-- name: Initialize SASL secret
+- name: postfix - Initialize SASL secret
   when: not stat_sasl_passwd_db.stat.exists
   block:
     - name: smtp-auth-Passwort-Verzeichnis erstellen
@@ -45,9 +45,9 @@
         creates=/etc/postfix/sasl/passwd.db
       notify: restart postfix
 
-- name: mailname festlegen
+- name: postfix - mailname festlegen
   copy:
-    content={{ mail_hostname }}
+    content={{ mailserver_hostname }}
     dest=/etc/mailname
 
 # TODO: Aktiviere folgenden Task nachdem alle Test der Installation erfolgreich waren und 

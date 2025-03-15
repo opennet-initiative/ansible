@@ -1,0 +1,16 @@
+- name: web - Verzeichnis anlegen
+  file:
+    path: "{{ mailserver_web_path }}"
+    state: directory
+    owner: "{{ mailserver_web_user }}"
+    group: "{{ mailserver_web_user }}"
+
+- name: web - Opennet Logo / Favicon kopieren
+  copy: 
+    src: "{{ item }}" 
+    dest: "{{ mailserver_web_path }}/"
+    owner: "{{ mailserver_web_user }}"
+    group: "{{ mailserver_web_user }}"
+  with_items:
+    - "Opennet_logo_quer.gif"
+    - "favicon.ico"

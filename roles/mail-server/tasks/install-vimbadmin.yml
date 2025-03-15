@@ -14,8 +14,8 @@
   file: 
     path: "{{ vimbadmin_path }}/var"
     state: directory
-    owner: "{{ vimbadmin_web_user }}"
-    group: "{{ vimbadmin_web_user }}"
+    owner: "{{ mailserver_web_user }}"
+    group: "{{ mailserver_web_user }}"
     mode: "0770"
     recurse: yes
   when: create_vimbadmin.changed
@@ -37,8 +37,8 @@
   copy: 
     src: "favicon.ico"
     dest: "{{ vimbadmin_path }}/public/"
-    owner: "{{ vimbadmin_web_user }}"
-    group: "{{ vimbadmin_web_user }}"
+    owner: "{{ mailserver_web_user }}"
+    group: "{{ mailserver_web_user }}"
 
 - name: vimbadmin - Konfiguration aktivieren
   copy:
