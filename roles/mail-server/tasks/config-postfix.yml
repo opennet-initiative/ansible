@@ -56,25 +56,13 @@
 #   lineinfile: 'dest=/etc/aliases state=present regexp="^root:" line="root: {{ admin_email }}"'
 #   notify: newaliases
 
-- name: Kopiere postfix master.cf
-  copy:
-    src: postfix/master.cf
-    dest: /etc/postfix/master.cf
-    mode: 0644
-  notify: restart postfix
-
-- name: Kopiere postfix main.cf
+- name: postfix - Übertrage Konfigurationsdateien
   template:
-    src: postfix-main.cf
-    dest: /etc/postfix/main.cf
+    src: "postfix/{{ item }}"
+    dest: "/etc/postfix/"
     mode: 0644
+  with_items:
+    - "master.cf"
+    - "main.cf"
+    - "submission_header_cleanup.cf"
   notify: restart postfix
-
-- name: Kopiere postfix submission_header_cleanup.cf
-  copy:
-    src: postfix/submission_header_cleanup.cf
-    dest: /etc/postfix/submission_header_cleanup.cf
-    mode: 0644
-  notify: restart postfix
-
-

@@ -11,9 +11,9 @@ vimbadmin_config_mail: "opennetmail@opennet-initiative.de"
 vimbadmin_config_url: "https://mail-internal.opennet-initiative.de/"
 vimbadmin_config_enablelog: "0"
 mailserver_mysql_socket: "/var/run/mysqld/mysqld.sock"
-
 sieve_global_script_dir: "/var/vmail/sieve/global"
 sieve_dir: "/var/vmail/sieve"
-
 mail_domain: "opennet-initiative.de"
 mail_hostname: "{{ short_hostname }}.{{ mail_domain }}"
+#rspam_loglevel: "warn"
+rspam_loglevel: "info"

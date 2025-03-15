@@ -1,3 +1,4 @@
+# {{ ansible_managed }}
 
 # TODO: für Test-Inbetriebnahme setzen wir temporäre Domain
 mydomain = mail2.opennet-initiative.de

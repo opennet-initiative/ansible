@@ -1,7 +1,8 @@
-- name: Kopiere rspamd/local.d Konfigurationdateien
-  copy:
-    src: rspamd/local.d/{{ item }}
-    dest: /etc/rspamd/local.d/
+- name: rspamd - Übertrage Konfigurationsdateien
+  template:
+    src: "rspamd/{{ item }}"
+    dest: "/etc/rspamd/local.d/"
   with_items:
-    - options.inc
-    - logging.inc
+    - "options.inc"
+    - "logging.inc"
+  notify: restart rspamd
