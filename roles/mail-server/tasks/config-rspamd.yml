@@ -1,0 +1,7 @@
+- name: Kopiere rspamd/local.d Konfigurationdateien
+  copy:
+    src: rspamd/local.d/{{ item }}
+    dest: /etc/rspamd/local.d/
+  with_items:
+    - options.inc
+    - logging.inc

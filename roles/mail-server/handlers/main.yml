@@ -6,3 +6,6 @@
 
 - name: newaliases
   command: newaliases
+
+- name: restart rspamd
+  service: name=rspamd state=restarted
