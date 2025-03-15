@@ -47,19 +47,13 @@
     remote_src: yes
     force: false
 
-#- name: vimbadmin - Konfiguration Salt vorbereiten
-#  command: "openssl rand -base64 32"
-#  register: vimbadmin_salt
-#  when: create_vimbadmin.changed
+- name: vimbadmin - Skin Verzeichnis anlegen
+  file:
+    path: "{{ vimbadmin_skin_path }}"
+    state: directory
+    recurse: true
 
-#- name: vimbadmin - Konfiguration Salt setzen
-#  ini_file:
-#    path: "{{ vimbadmin_config }}"
-#    section: "user"
-#    option: "{{ item }}"
-#    value: "'{{ vimbadmin_salt.stdout }}'"
-#  loop:
-#    - "securitysalt"
-#    - "resources.auth.oss.rememberme.salt"
-#    - "defaults.mailbox.password_salt"
-#  when: create_vimbadmin.changed
+- name: vimbadmin - Skin Dateien kopieren
+  copy:
+    src: "vimbadmin/"
+    dest: "{{ vimbadmin_skin_path }}"

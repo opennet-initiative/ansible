@@ -27,3 +27,4 @@
     - { opt: "identity.sitename", val: "\"{{ vimbadmin_config_name }} - ViMbAdmin\"" }
     - { opt: "identity.siteurl", val: "\"{{ vimbadmin_config_url }}\"" }
     - { opt: "ondemand_resources.logger.enabled", val: "{{ vimbadmin_config_enablelog }}" }
+    - { opt: "resources.smarty.skin", val: "{{ vimbadmin_skin_name }}" }

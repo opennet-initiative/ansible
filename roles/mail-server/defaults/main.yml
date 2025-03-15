@@ -1,4 +1,6 @@
 vimbadmin_path: "/var/www/vimbadmin"
+vimbadmin_skin_name: "opennet"
+vimbadmin_skin_path: "{{ vimbadmin_path }}/application/views/_skins/{{ vimbadmin_skin_name }}"
 vimbadmin_web_user: "www-data"
 vimbadmin_config: "{{ vimbadmin_path }}/application/configs/application.ini"
 vimbadmin_config_showerrors: "0"
