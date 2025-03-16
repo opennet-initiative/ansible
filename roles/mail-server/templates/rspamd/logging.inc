@@ -1,4 +1,4 @@
 # {{ ansible_managed }}
 
 type = "syslog";
-level = "{{ rspam_loglevel }}";
+level = "{{ rspamd_config_loglevel }}";
