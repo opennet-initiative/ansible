@@ -5,4 +5,8 @@
   with_items:
     - "options.inc"
     - "logging.inc"
+    - "classifier-bayes.conf"
+    - "history_redis.conf"
+    - "milter_headers.conf"
+    - "redis.conf"
   notify: restart rspamd

@@ -9,9 +9,10 @@ Alias /vimbadmin /var/www/vimbadmin/public
   Require all granted    
 </Directory>
 
-RewriteEngine On
-RewriteRule ^/rspamd/(.*) http://127.0.0.1:11334/$1 [P,L]
 Redirect /rspamd /rspamd/
+RewriteEngine On
+RewriteRule ^/rspamd/favicon.ico$ /favicon.ico [PT]
+RewriteRule ^/rspamd/(.*) http://127.0.0.1:11334/$1 [P,L]
 <Location /rspamd>
   Options FollowSymLinks
   Require all granted
