@@ -14,4 +14,10 @@
   with_items:
     - "Opennet_logo_quer.gif"
     - "favicon.ico"
-    - "index.html"
+
+- name: web - Index Datei übertragen
+  template:
+    src: "web/index.html"
+    dest: "{{ mailserver_web_path }}/"
+    owner: "{{ mailserver_web_user }}"
+    group: "{{ mailserver_web_user }}"
