@@ -1,9 +1,6 @@
 # {{ ansible_managed }}
 
-# TODO: für Test-Inbetriebnahme setzen wir temporäre Domain
-mydomain = mail2.opennet-initiative.de
-# TODO: aktiviere folgende Zeile wenn misumaru produktiv wird
-#mydomain = {{ mailserver_domain }}
+mydomain = {{ mailserver_domain }}
 
 # myorigin wird an lokal generierte Mails angehaengt. Es sollte daher eine
 # Domain sein, die Mails empfangen kann und in der es Postfaecher fuer root,

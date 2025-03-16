@@ -1,4 +1,5 @@
-mailserver_domain: "opennet-initiative.de"
+#mailserver_domain: "opennet-initiative.de"
+mailserver_domain: "mail2.opennet-initiative.de"
 mailserver_hostname: "{{ short_hostname }}.{{ mailserver_domain }}"
 mailserver_mysql_socket: "/var/run/mysqld/mysqld.sock"
 mailserver_web_path: "/var/www/mail"
