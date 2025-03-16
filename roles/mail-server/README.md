@@ -37,14 +37,28 @@ vimbadmin_allowed_users:
   - <mailadmin>.client.on
 ```
 
+Benötigte Apache Site Konfiguration für "mail":
+```
+DocumentRoot /var/www/mail
+```
+
 Benötigte Apache Site Konfiguration für "mail-internal":
 ```
-DocumentRoot /var/www/vimbadmin/public
+DocumentRoot /var/www/mail
+Alias /vimbadmin /var/www/vimbadmin/public
 <Directory /var/www/vimbadmin/public>
   Options FollowSymLinks
   AllowOverride FileInfo
   Require all granted    
 </Directory>
+Redirect /rspamd /rspamd/
+RewriteEngine On
+RewriteRule ^/rspamd/favicon.ico$ /favicon.ico [PT]
+RewriteRule ^/rspamd/(.*) http://127.0.0.1:11334/$1 [P,L]
+<Location /rspamd>
+  Options FollowSymLinks
+  Require all granted
+</Location>
 # client certificate authentication
 SSLCACertificateFile {{ apache2_opennetca_dir }}/opennet-root.crt
 SSLCACertificatePath {{ apache2_opennetca_dir }}/
