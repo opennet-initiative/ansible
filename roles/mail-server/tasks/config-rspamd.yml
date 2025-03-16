@@ -1,7 +1,7 @@
-- name: rspamd - Übertrage Konfigurationsdateien
+- name: rspamd - Konfigurationsdateien übertragen
   template:
     src: "rspamd/{{ item }}"
-    dest: "/etc/rspamd/local.d/"
+    dest: "{{ rspamd_config_path }}"
   with_items:
     - "options.inc"
     - "logging.inc"
@@ -9,4 +9,31 @@
     - "history_redis.conf"
     - "milter_headers.conf"
     - "redis.conf"
+    - "dkim_signing.conf"
   notify: restart rspamd
+
+- name: rspamd - ARC Konfigurationsdatei aktivieren
+  file:
+    src: "{{ rspamd_config_path }}/dkim_signing.conf"
+    dest: "{{ rspamd_config_path }}/arc.conf"
+    state: link
+  notify: restart rspamd
+
+- name: rspamd - DKIM Verzeichnis erstellen
+  file: 
+    path: "{{ rspamd_config_dkim_path }}"
+    state: directory
+    owner: "{{ rspamd_config_dkim_user }}"
+    group: "{{ rspamd_config_dkim_user }}"
+
+- name: rspamd - DKIM Schlüssel erstellen
+  shell: "/usr/bin/rspamadm dkim_keygen -b {{ rspamd_config_dkim_keylength }} -s {{ rspamd_config_dkim_selector }} -k {{ rspamd_config_dkim_path }}/{{ mailserver_domain }}.key >> {{ rspamd_config_dkim_path }}/{{ mailserver_domain }}.txt"
+  args:
+    creates: /var/lib/rspamd/dkim/{{ mailserver_domain }}.key
+
+- name: rspamd - Dateirechte DKIM Key setzen 
+  file:
+    path: "{{ rspamd_config_dkim_path }}/{{ mailserver_domain }}.key"
+    owner: "{{ rspamd_config_dkim_user }}"
+    group: "{{ rspamd_config_dkim_user }}"
+    mode: "0640"

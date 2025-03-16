@@ -19,7 +19,14 @@ vimbadmin_config_url: "{{ mailserver_url_internal }}/vimbadmin/"
 vimbadmin_config_enablelog: "0"
 sieve_global_script_dir: "/var/vmail/sieve/global"
 sieve_dir: "/var/vmail/sieve"
+rspamd_config_path: "/etc/rspamd/local.d"
 #rspamd_config_loglevel: "warn"
 rspamd_config_loglevel: "info"
 rspamd_config_url: "{{ mailserver_url_internal }}/rspamd/"
 rpsmad_config_history: 500
+rspamd_config_dkim_path: "/var/lib/rspamd/dkim"
+rspamd_config_dkim_user: "_rspamd"
+rspamd_config_dkim_selector: "opennetmail2025"
+rspamd_config_dkim_keylength: 2048
+#rspamd_config_dkim_esld: true
+rspamd_config_dkim_esld: false

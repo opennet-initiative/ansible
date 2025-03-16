@@ -7,15 +7,16 @@ Enthalten sind:
   * DB: mariadb-server, automysqlbackup
   * LDA/IMPA: dovecot-core, dovecot-imapd, dovecot-sieve, dovecot-managesieved, dovecot-lmtpd, dovecot-mysql
   * Anti-Spam: rspamd, clamav, clamsmtp, redis-server, bind9
-  * Webmail: roundcube, roundcube-mysql, roundcube-plugins,
+  * Webmail: roundcube, roundcube-mysql, roundcube-plugins
   * Admin: vimbadmin, composer, memcached, php-memcache
 * Grundkonfiguration
   * vimbadmin - Anpassung der Konfigurationsdateien und Anlage der Datenbank
+  * rpsamd - Anpassung der Konfigurationsdateien und Erstellung des DKIM Keys
 * Rolle "fail2ban"
 
 Voraussetzungen:
-* DNS-Server Konfiguration (MX Records, DMARC)
-* Apache2 mit PHP-Unterstützung
+* DNS-Server Konfiguration (MX Records, DMARC, DKIM)
+* Apache2 mit PHP-Unterstützung und Proxy-Modulen
 
 # Konfiguration 
 
@@ -86,6 +87,9 @@ Manuelle Konfigurationsschritte:
 * vimbadmin
   * Anlegen des Superusers (admin@) via Webinterface (mit Anpassung Konfigurationsdatei)
   * Anlegen der Domain via Webinterface
+* rspamd
+  * DKIM Selektor (als aktuelle Jahreszahl) ist in der Rolle via rspamd_config_dkim_selector definiertbar
+  * den erzeugten DKIM Public Key im DNS eintragen, Vorlage: TXT in /var/lib/rspamd/dkim
 
 # Sonstiges
 
