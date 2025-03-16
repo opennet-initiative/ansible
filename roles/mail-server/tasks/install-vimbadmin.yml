@@ -41,13 +41,17 @@
     remote_src: yes
     force: false
 
-- name: vimbadmin - Skin Verzeichnis anlegen
+- name: vimbadmin - Skin Verzeichnis für E-Mail Vorlagen anlegen
   file:
-    path: "{{ vimbadmin_skin_path }}"
+    path: "{{ vimbadmin_skin_path }}/admin/email/"
     state: directory
     recurse: true
 
-- name: vimbadmin - Skin Dateien kopieren
-  copy:
-    src: "vimbadmin/"
-    dest: "{{ vimbadmin_skin_path }}"
+- name: vimbadmin - Skin Dateien als E-Mail Vorlage kopieren
+  template:
+    src: "vimbadmin/{{ item }}"
+    dest: "{{ vimbadmin_skin_path }}//admin/email/"
+  with_items:
+    - "change_password.phtml"
+    - "new_admin.phtml"
+    - "setup.phtml"
