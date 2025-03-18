@@ -1,0 +1,8 @@
+- name: clamav - Dienste aktivieren
+  systemd:
+    name: "{{ item }}"
+    enabled: true
+  with_items:
+    - "clamav-daemon"
+    - "clamav-freshclam"
+  notify: restart clamav

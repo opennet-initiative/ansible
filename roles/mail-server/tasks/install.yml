@@ -13,10 +13,10 @@
       - dovecot-lmtpd
       - dovecot-mysql
       - rspamd
-      - clamav
-      - clamsmtp
       - redis-server
       - bind9
+      - clamav-daemon
+      - clamav-freshclam
       - roundcube
       - roundcube-mysql
       - roundcube-plugins

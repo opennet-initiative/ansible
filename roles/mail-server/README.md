@@ -6,12 +6,14 @@ Enthalten sind:
   * MTA: postfix, postfix-mysql
   * DB: mariadb-server, automysqlbackup
   * LDA/IMPA: dovecot-core, dovecot-imapd, dovecot-sieve, dovecot-managesieved, dovecot-lmtpd, dovecot-mysql
-  * Anti-Spam: rspamd, clamav, clamsmtp, redis-server, bind9
+  * Anti-Spam: rspamd, redis-server, bind9
+  * Anti-Virus: clamav-daemon, clamav-freshclam
   * Webmail: roundcube, roundcube-mysql, roundcube-plugins
   * Admin: vimbadmin, composer, memcached, php-memcache
 * Grundkonfiguration
   * vimbadmin - Anpassung der Konfigurationsdateien und Anlage der Datenbank
   * rpsamd - Anpassung der Konfigurationsdateien und Erstellung des DKIM Keys
+  * clamav - Aktivierung des Dienstes und der automatischen Signatur-Aktualisierung
 * Rolle "fail2ban"
 
 Voraussetzungen:

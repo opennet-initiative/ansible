@@ -1,5 +1,7 @@
 - name: restart postfix
-  service: name=postfix state=restarted
+  service:
+    name: postfix
+    state: restarted
 
 - name: postmap passwd
   command: postmap /etc/postfix/sasl/passwd
@@ -8,4 +10,14 @@
   command: newaliases
 
 - name: restart rspamd
-  service: name=rspamd state=restarted
+  service: 
+    name: rspamd
+    state: restarted
+
+- name: restart clamav
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items:
+    - "clamav-daemon"
+    - "clamav-freshclam"

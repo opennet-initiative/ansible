@@ -5,3 +5,4 @@
 - include_tasks: config-postfix.yml
 - include_tasks: config-rspamd.yml
 - include_tasks: config-vimbadmin.yml
+- include_tasks: config-clamav.yml
