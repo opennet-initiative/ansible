@@ -10,6 +10,7 @@
     - "milter_headers.conf"
     - "redis.conf"
     - "dkim_signing.conf"
+    - "antivirus.conf"
   notify: restart rspamd
 
 - name: rspamd - ARC Konfigurationsdatei aktivieren

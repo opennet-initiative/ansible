@@ -1,3 +1,19 @@
+- name: clamav - Dienst Socket-Konfiguration vorbereiten
+  file: 
+    path: "{{ clamav_socketconf_path }}"
+    state: directory
+  notify:
+    - restart clamav-socket
+    - restart clamav
+
+- name: clamav - Dienst Socket-Konfiguration kopieren
+  copy:
+    src: "clamav/tcp-socket.conf"
+    dest: "{{ clamav_socketconf_path }}/"
+  notify:
+    - restart clamav-socket
+    - restart clamav
+
 - name: clamav - Dienste aktivieren
   systemd:
     name: "{{ item }}"

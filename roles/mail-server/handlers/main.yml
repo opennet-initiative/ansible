@@ -14,6 +14,12 @@
     name: rspamd
     state: restarted
 
+- name: restart clamav-socket
+  systemd_service:
+    name: clamav-daemon.socket
+    state: restarted
+    daemon_reload: true
+
 - name: restart clamav
   service:
     name: "{{ item }}"

@@ -13,7 +13,7 @@ Enthalten sind:
 * Grundkonfiguration
   * vimbadmin - Anpassung der Konfigurationsdateien und Anlage der Datenbank
   * rpsamd - Anpassung der Konfigurationsdateien und Erstellung des DKIM Keys
-  * clamav - Aktivierung des Dienstes und der automatischen Signatur-Aktualisierung
+  * clamav - Dienst-Anbindung an rspamd und automatische Signatur-Aktualisierung
   * roundcube - Anpassung der Konfigurationsdateien und Deaktivierung Standard Apache2-Conf
 * Rolle "fail2ban"
 
@@ -125,3 +125,5 @@ rm -rf /var/www/vimbadmin
 ```
 
 Recursive (Caching) Resolver ist notwendig für die rspamd Anfragen. Es wird daher ein Bind9 mit installiert.
+
+Clamav wird als Dienst mit Stream-Listener auf TCP-Port 3310 gestartet zur Anbindung an Rspamd.
