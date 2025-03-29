@@ -11,10 +11,12 @@ olsr_interfaces:
 letsencrypt_certificates:
   - { on_tld_base: mail2 }
   - { on_tld_base: mail-internal }
+  - { on_tld_base: autoconfig }
 
 apache2_sites:
   - { name: mail2 }
   - { name: mail-internal }
+  - { name: autoconfig }
 apache2_mods:
  - { name: proxy }
  - { name: proxy_http }

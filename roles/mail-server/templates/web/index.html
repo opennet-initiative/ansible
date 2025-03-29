@@ -16,15 +16,15 @@
     <p>
     Alternatively use / Alternativ benutze:
     <ul>
-    <li> IPAM - mail.opennet-initiative.de, TLS, Port tcp/993, Username/Password
-    <li> SMTP - mail.opennet-initiative.de, TLS, Port tcp/465, Username/Password
+    <li> IPAM - {{ mailserver_domain }}, TLS, Port tcp/993, Username/Password
+    <li> SMTP - {{ mailserver_domain }}, TLS, Port tcp/465, Username/Password
     </ul>
     </p>
     <h3>Verwaltung</h3>
     <i>Login Required / Anmeldung erforderlich</i>
     <ul>
-    <li> <a href="{{ vimbadmin_config_url }}">Mail Log</a>
-    <li> <a href="{{ rspamd_config_url }}">Mail Admin</a>
+    <li> <a href="{{ vimbadmin_config_url }}">Mail Admin</a>
+    <li> <a href="{{ rspamd_config_url }}">Mail Log</a>
     </ul>
     <p>
     Mehr Informationen / More information: 

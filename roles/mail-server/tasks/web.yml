@@ -1,11 +1,14 @@
-- name: web - Verzeichnis anlegen
+- name: web - Verzeichnisse anlegen
   file:
-    path: "{{ mailserver_web_path }}"
+    path: "{{ item }}"
     state: directory
     owner: "{{ mailserver_web_user }}"
     group: "{{ mailserver_web_user }}"
+  with_items:
+    - "{{ mailserver_web_path }}"
+    - "{{ mailserver_autoconfig_path }}"
 
-- name: web - Opennet Logo / Favicon kopieren
+- name: web - Portal Opennet Logo / Favicon kopieren
   copy: 
     src: "web/{{ item }}" 
     dest: "{{ mailserver_web_path }}/"
@@ -15,9 +18,16 @@
     - "Opennet_logo_quer.gif"
     - "favicon.ico"
 
-- name: web - Index Datei übertragen
+- name: web - Portal Index Datei übertragen
   template:
     src: "web/index.html"
     dest: "{{ mailserver_web_path }}/"
+    owner: "{{ mailserver_web_user }}"
+    group: "{{ mailserver_web_user }}"
+
+- name: web - Autoconfig Favicon kopieren
+  copy:
+    src: "web/favicon.ico"
+    dest: "{{ mailserver_autoconfig_path }}/"
     owner: "{{ mailserver_web_user }}"
     group: "{{ mailserver_web_user }}"
