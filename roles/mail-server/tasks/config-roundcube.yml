@@ -1,0 +1,17 @@
+- name: roundcube - Apache Standard Site Konfiguration deaktivieren
+  file:
+    path: "{{ roundcube_config_apache }}"
+    state: absent
+  notify: restart apache2
+
+- name: roundcube - Konfiguration Support-Adresse setzen
+  lineinfile:
+    path: "{{ roundcube_config_file }}"
+    regexp: "^$config['support_url']"
+    line: "$config['support_url'] = '{{ mailserver_url }}';"
+
+- name: roundcube - Konfiguration Dienst-Name setzen
+  lineinfile:
+    path: "{{ roundcube_config_file }}"
+    regexp: "^$config['product_name']"
+    line: "$config['product_name'] = '{{ roundcube_config_name }}';"  

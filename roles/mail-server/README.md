@@ -14,6 +14,7 @@ Enthalten sind:
   * vimbadmin - Anpassung der Konfigurationsdateien und Anlage der Datenbank
   * rpsamd - Anpassung der Konfigurationsdateien und Erstellung des DKIM Keys
   * clamav - Aktivierung des Dienstes und der automatischen Signatur-Aktualisierung
+  * roundcube - Anpassung der Konfigurationsdateien und Deaktivierung Standard Apache2-Conf
 * Rolle "fail2ban"
 
 Voraussetzungen:
@@ -43,6 +44,27 @@ vimbadmin_allowed_users:
 Benötigte Apache Site Konfiguration für "mail":
 ```
 DocumentRoot /var/www/mail
+Alias /roundcube /var/lib/roundcube/public_html
+<Directory /var/lib/roundcube/public_html/>
+  Options +FollowSymLinks
+  # This is needed to parse /var/lib/roundcube/.htaccess. 
+  AllowOverride All
+  Require all granted
+</Directory>
+<Directory /var/lib/roundcube/config>
+  Options -FollowSymLinks
+  AllowOverride None
+</Directory>
+<Directory /var/lib/roundcube/temp>
+  Options -FollowSymLinks
+  AllowOverride None
+  Require all denied
+</Directory>
+<Directory /var/lib/roundcube/logs>
+  Options -FollowSymLinks
+  AllowOverride None
+  Require all denied
+</Directory>
 ```
 
 Benötigte Apache Site Konfiguration für "mail-internal":

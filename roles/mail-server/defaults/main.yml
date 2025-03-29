@@ -30,3 +30,7 @@ rspamd_config_dkim_selector: "opennetmail2025"
 rspamd_config_dkim_keylength: 2048
 #rspamd_config_dkim_esld: true
 rspamd_config_dkim_esld: false
+roundcube_config_url: "{{ mailserver_url }}/roundcube"
+roundcube_config_apache: "/etc/apache2/conf-enabled/roundcube.conf"
+roundcube_config_file: "/etc/roundcube/config.inc.php"
+roundcube_config_name: "Opennet Mail"
