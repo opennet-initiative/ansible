@@ -59,10 +59,18 @@
 - name: postfix - Übertrage Konfigurationsdateien
   template:
     src: "postfix/{{ item }}"
-    dest: "/etc/postfix/"
+    dest: /etc/postfix/
     mode: 0644
   with_items:
-    - "master.cf"
-    - "main.cf"
-    - "submission_header_cleanup.cf"
+    - master.cf
+    - main.cf
+    - submission_header_cleanup.cf
   notify: restart postfix
+
+- name: postfix - Erstelle sql Ordner
+  file:
+    path: /etc/postfix/sql
+    state: directory
+    owner: postfix
+    group: root
+    mode: 0770

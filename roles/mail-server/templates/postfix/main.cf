@@ -86,9 +86,29 @@ mua_relay_restrictions = reject_non_fqdn_recipient,reject_unknown_recipient_doma
 mua_sender_restrictions = permit_mynetworks,reject_non_fqdn_sender,reject_sender_login_mismatch,permit_sasl_authenticated,reject
 mua_client_restrictions = permit_mynetworks,permit_sasl_authenticated,reject
 
+# Bedingungen, damit Postfix ankommende E-Mails als Empfängerserver entgegennimmt (zusätzlich zu relay-Bedingungen)
+smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
+
 # Spamfilter und DKIM-Signaturen via Rspamd
 smtpd_milters = inet:localhost:11332
 non_smtpd_milters = inet:localhost:11332
 milter_mail_macros =  i {mail_addr} {client_addr} {client_name} {auth_authen}
 # wenn es technische Probleme mit Milter gibt, dann akzeptiere die Email
 milter_default_action = accept
+
+# Lokale Mailzustellung an Dovecot
+#MG: TODO-  überlappt mit Eintrag unten
+#virtual_transport = lmtp:unix:private/dovecot-lmtp
+
+#  The lookup tables that the proxymap server is allowed to access for the read-only service. 
+proxy_read_maps =       proxy:mysql:/etc/postfix/sql/aliases.cf
+                        proxy:mysql:/etc/postfix/sql/domains.cf
+                        proxy:mysql:/etc/postfix/sql/mailboxes.cf
+                        proxy:mysql:/etc/postfix/sql/transports.cf
+
+virtual_alias_maps = proxy:mysql:/etc/postfix/sql/aliases.cf
+virtual_mailbox_maps = proxy:mysql:/etc/postfix/sql/mailboxes.cf
+virtual_mailbox_domains = proxy:mysql:/etc/postfix/sql/domains.cf
+virtual_transport = proxy:mysql:/etc/postfix/sql/transports.cf
+
+local_recipient_maps = $virtual_mailbox_maps

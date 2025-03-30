@@ -1,3 +1,11 @@
+- name: vimbadmin - get UID of 'vmail' user
+  command: 'id -u vmail'
+  register: vmail_uid
+
+- name: vimbadmin - get GID of 'vmail' group
+  command: 'id -g vmail'
+  register: vmail_gid
+
 - name: vimbadmin - Konfiguration anpassen
   ini_file:
     path: "{{ vimbadmin_config }}"
@@ -11,8 +19,8 @@
     - { opt: "resources.doctrine2cache.type", val: "\"MemcacheCache\"" }
     - { opt: "resources.doctrine2cache.memcache.servers.0.host", val: "\"127.0.0.1\"" }
     - { opt: "skipInstallPingback", val: 1 }
-    - { opt: "defaults.mailbox.maildir", val: "\"maildir:{{ vimbadmin_config_vmailpath }}/%d/%u/mail:LAYOUT=fs\"" }
-    - { opt: "defaults.mailbox.homedir", val: "\"{{ vimbadmin_config_vmailpath }}/%d/%u\"" }
+    - { opt: "defaults.mailbox.maildir", val: "\"{{ mailserver_vmail_maillocation }}\"" }
+    - { opt: "defaults.mailbox.homedir", val: "\"{{ mailserver_vmail_mailhome_path }}\"" }
     - { opt: "server.pop3.enabled", val: 0 }
     - { opt: "server.imap.host", val: "\"mail.%d\"" }
     - { opt: "server.email.name", val: "\"{{ vimbadmin_config_name }}\"" }
@@ -28,3 +36,5 @@
     - { opt: "identity.siteurl", val: "\"{{ vimbadmin_config_url }}\"" }
     - { opt: "ondemand_resources.logger.enabled", val: "{{ vimbadmin_config_enablelog }}" }
     - { opt: "resources.smarty.skin", val: "{{ vimbadmin_skin_name }}" }
+    - { opt: "defaults.mailbox.uid", val: "{{ vmail_uid.stdout }}"}
+    - { opt: "defaults.mailbox.gid", val: "{{ vmail_gid.stdout}}"}

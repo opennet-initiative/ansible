@@ -1,0 +1,33 @@
+- name: dovecot - Erstelle User 'vmail' für virtuelle Mailboxen
+  user:
+    name: vmail
+    home: "{{ mailserver_vmail_path }}"
+    shell: /usr/sbin/nologin
+
+- name: dovecot - Erstelle sieve Ordner
+  file:
+    path: "{{ sieve_global_script_dir }}"
+    state: directory
+    owner: vmail
+    group: vmail
+    mode: 0770
+
+# TODO
+#- debug: msg="ONLY INITIAL SETUP; systemctl stop dovecot; rm -r /etc/dovecot/*; cd /etc/dovecot"
+
+- name: dovecot - Kopiere Konfigurationsdatei dovecot.conf
+  template:
+    src: templates/dovecot/dovecot.conf
+    dest: /etc/dovecot/dovecot.conf
+    mode: "0644"
+  notify: restart dovecot
+
+- name: dovecot - Kopiere sieve Dateien
+  copy:
+    src: "sieve/{{ item }}"
+    dest: "{{ sieve_global_script_dir }}/"
+  with_items:
+    - spam-global.sieve
+    - learn-ham.sieve
+    - learn-spam.sieve
+  notify: restart dovecot

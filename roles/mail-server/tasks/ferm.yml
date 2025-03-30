@@ -1,0 +1,5 @@
+- name: ferm - SMTP eingehend erlauben
+  template:
+    src=ferm/370_mua-access.inc
+    dest=/etc/ferm/ferm.d/
+  notify: restart ferm
