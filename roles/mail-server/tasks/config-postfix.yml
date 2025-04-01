@@ -64,7 +64,7 @@
   with_items:
     - master.cf
     - main.cf
-    - submission_header_cleanup.cf
+    - submission_header_cleanup
   notify: restart postfix
 
 - name: postfix - Erstelle sql Ordner
