@@ -94,18 +94,17 @@ milter_mail_macros =  i {mail_addr} {client_addr} {client_name} {auth_authen}
 milter_default_action = accept
 
 # Lokale Mailzustellung an Dovecot
-#MG: TODO-  überlappt mit Eintrag unten
-#virtual_transport = lmtp:unix:private/dovecot-lmtp
+virtual_transport = lmtp:unix:private/dovecot-lmtp
 
 #  The lookup tables that the proxymap server is allowed to access for the read-only service. 
 proxy_read_maps =       proxy:mysql:/etc/postfix/sql/aliases.cf
                         proxy:mysql:/etc/postfix/sql/domains.cf
                         proxy:mysql:/etc/postfix/sql/mailboxes.cf
-                        proxy:mysql:/etc/postfix/sql/transports.cf
 
 virtual_alias_maps = proxy:mysql:/etc/postfix/sql/aliases.cf
 virtual_mailbox_maps = proxy:mysql:/etc/postfix/sql/mailboxes.cf
+# comply with warning: "do not list domain ... in BOTH mydestination and virtual_mailbox_domains"
+mydestination =
 virtual_mailbox_domains = proxy:mysql:/etc/postfix/sql/domains.cf
-virtual_transport = proxy:mysql:/etc/postfix/sql/transports.cf
 
 local_recipient_maps = $virtual_mailbox_maps
