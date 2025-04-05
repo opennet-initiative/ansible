@@ -1,0 +1,11 @@
+- name: DB Kennwort abholen
+  delegate_to: root@misumaru.opennet-initiative.de
+  shell: awk '{ if ($1 == "resources.doctrine2.connection.options.password") {gsub(/"/, "", $3); print $3} }' /var/www/vimbadmin/application/configs/application.ini
+  register: db_pwd
+  changed_when: False
+  run_once: yes
+  # ignoriere den "--check"-Modus (sonst schlaegt der naechste Schritt beim Testen fehl)
+  check_mode: no
+
+- set_fact:
+    dovecot_vmail_db_password: "{{ db_pwd.stdout }}"

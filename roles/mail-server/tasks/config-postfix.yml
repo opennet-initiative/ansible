@@ -74,3 +74,16 @@
     owner: postfix
     group: root
     mode: 0770
+
+- name: postfix - Erstelle sql map Dateien
+  template:
+    src: "postfix/sql/{{ item }}"
+    dest: /etc/postfix/sql
+    owner: postfix
+    group: root
+    mode: 0600
+  with_items:
+    - aliases.cf
+    - domains.cf
+    - mailboxes.cf
+  notify: restart postfix

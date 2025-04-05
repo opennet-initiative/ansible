@@ -31,3 +31,30 @@
     - learn-ham.sieve
     - learn-spam.sieve
   notify: restart dovecot
+
+- name: dovecot - Kopiere dovecot-sql.conf
+  template:
+    src: dovecot/dovecot-sql.conf
+    dest: /etc/dovecot/dovecot-sql.conf
+    mode: "0440"
+    owner: root
+    group: dovecot
+  notify: restart dovecot
+
+# Dies wird initial benötigt. Dovecot selbst kann dies nicht anlegen, weil /var/mail (root,mail) gehört.
+- name: dovecot - Erstelle mailbox Ordner für Domain opennet-initiative.de
+  file:
+    path: "{{ mailserver_vmail_path }}/opennet-initiative.de"
+    state: directory
+    owner: vmail
+    group: vmail
+    mode: 0770
+
+# TODO: Task löschen wenn Testbetrieb beendet ist und der Mailserver produktiv ist
+- name: dovecot - Erstelle mailbox Ordner für Domain mail2.opennet-initiative.de (nur temporär benötigt für Testbetrieb!!!!)
+  file:
+    path: "{{ mailserver_vmail_path }}/mail2.opennet-initiative.de"
+    state: directory
+    owner: vmail
+    group: vmail
+    mode: 0770

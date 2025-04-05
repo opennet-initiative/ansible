@@ -1,5 +1,6 @@
 - include_tasks: install.yml
 - include_tasks: install-vimbadmin.yml
+- include_tasks: fetch-db-pwd.yml
 - include_tasks: database-vimbadmin.yml
 - include_tasks: web.yml
 - include_tasks: config-postfix.yml
@@ -9,4 +10,3 @@
 - include_tasks: config-dovecot.yml
 - include_tasks: ferm.yml
 - include_tasks: config-roundcube.yml
-#- include_tasks: dovecot-todo.yml
