@@ -1,0 +1,10 @@
+- name: "mail-server: dehydrated - renew-Hook konfigurieren"
+  copy:
+          src=dehydrated/mail-dehydrated.conf
+          dest=/etc/dehydrated/conf.d/local-hook-mail.sh
+
+- name: "mail-server: dehydrated - renew-Hook kopieren"
+  copy:
+          src=dehydrated/mail-dehydrated-hook
+          dest=/etc/dehydrated/hook-mail.sh
+          mode=755
