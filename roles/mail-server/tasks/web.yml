@@ -31,3 +31,18 @@
     dest: "{{ mailserver_autoconfig_path }}/"
     owner: "{{ mailserver_web_user }}"
     group: "{{ mailserver_web_user }}"
+
+- name: web - Erstelle Autoconfig Unterverzeichnis
+  file:
+    path: "{{ mailserver_autoconfig_path }}/mail"
+    state: directory
+    owner: "{{ mailserver_web_user }}"
+    group: "{{ mailserver_web_user }}"
+
+# TODO von mail2 auf mail umstellen wenn Mailserver im Produktivbetrieb
+- name: web - Kopiere Autoconfig XML
+  copy:
+    src: "web/config-v1.1.xml"
+    dest: "{{ mailserver_autoconfig_path }}/mail/"
+    owner: "{{ mailserver_web_user }}"
+    group: "{{ mailserver_web_user }}"
