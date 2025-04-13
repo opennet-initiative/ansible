@@ -21,7 +21,7 @@
     - { opt: "resources.doctrine2cache.type", val: "\"MemcacheCache\"" }
     - { opt: "resources.doctrine2cache.memcache.servers.0.host", val: "\"127.0.0.1\"" }
     - { opt: "skipInstallPingback", val: 1 }
-    - { opt: "defaults.mailbox.maildir", val: "\"{{ mailserver_vmail_maillocation }}\"" }
+    - { opt: "defaults.mailbox.maildir", val: "\"{{ vimbadmin_config_maildir }}\"" }
     - { opt: "defaults.mailbox.homedir", val: "\"{{ mailserver_vmail_mailhome_path }}\"" }
     - { opt: "server.pop3.enabled", val: 0 }
     - { opt: "server.imap.host", val: "\"mail.%d\"" }
