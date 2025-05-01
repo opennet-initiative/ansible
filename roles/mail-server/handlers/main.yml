@@ -6,6 +6,10 @@
 - name: postmap passwd
   command: postmap /etc/postfix/sasl/passwd
 
+- name: postmap transport
+  command: postmap /etc/postfix/tables/transport
+  notify: restart postfix
+
 - name: newaliases
   command: newaliases
 

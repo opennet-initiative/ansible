@@ -93,6 +93,9 @@ milter_mail_macros =  i {mail_addr} {client_addr} {client_name} {auth_authen}
 # wenn es technische Probleme mit Milter gibt, dann akzeptiere die Email
 milter_default_action = accept
 
+# Weiterleitung an z.B. lists.opennet-initiative.de
+transport_maps = hash:/etc/postfix/tables/transport
+
 # Lokale Mailzustellung an Dovecot
 virtual_transport = lmtp:unix:private/dovecot-lmtp
 

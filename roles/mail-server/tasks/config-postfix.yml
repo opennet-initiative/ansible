@@ -87,3 +87,22 @@
     - domains.cf
     - mailboxes.cf
   notify: restart postfix
+
+# Damit postmap auf eine Datei angewandt werden darf, muss der postfix user in diesem Ordner eine Datei erstellen können.
+# Wir erstellen einen extra Ordner (mit postfix als Owner) damit wir die Rechte von /etc/postfix/ nicht ändern müssen.
+- name: postfix - Erstelle tables Ordner
+  file:
+    path: /etc/postfix/tables
+    state: directory
+    owner: postfix
+    group: root
+    mode: 0770
+
+- name: postfix - Kopiere transport map
+  copy:
+    src: "postfix/transport"
+    dest: /etc/postfix/tables/transport
+    owner: postfix
+    group: root
+    mode: 0664
+  notify: postmap transport
