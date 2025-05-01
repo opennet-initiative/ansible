@@ -32,3 +32,10 @@ smtp_tls_security_level = encrypt
 
 # Kompatibilität (andernfalls erfolgen Warnmeldungen)
 compatibility_level = 3.6
+
+transport_maps =
+    hash:/var/lib/mailman3/data/postfix_lmtp
+local_recipient_maps =
+    hash:/var/lib/mailman3/data/postfix_lmtp
+relay_domains =
+    hash:/var/lib/mailman3/data/postfix_domains
