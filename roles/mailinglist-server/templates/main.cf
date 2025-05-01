@@ -18,7 +18,7 @@ alias_maps = hash:/etc/aliases
 # misumaru.on-i.de = 49.13.139.187/32
 #                    2a01:4f8:c17:a3b::1/64
 #                    #misumari ist hier nicht per olsr erreichbar. Daher stehen oben nur public IPs.
-mynetworks = 127.0.0.0/8 192.168.10.15/32 [::1]/128 [fd32:d8d3:87da:0:216:3eff:fe95:1f9a]/128 46.4.100.244/32 [2a01:4f8:140:9250:250:56ff:fe00:7916]/64 49.13.139.187/32 [2a01:4f8:c17:a3b::1]/64
+mynetworks = 127.0.0.0/8 192.168.10.15/32 [::1]/128 [fd32:d8d3:87da:0:216:3eff:fe95:1f9a]/128 46.4.100.244/32 [2a01:4f8:140:9250:250:56ff:fe00:7916]/128 49.13.139.187/32 [2a01:4f8:c17:a3b::1]/128
 inet_interfaces = all
 
 # alle Mails sollen über unseren Relayhost gesendet werden
