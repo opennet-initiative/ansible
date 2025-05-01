@@ -1,5 +1,6 @@
 # Ausgehender E-Mail Server bei Opennet
 mail_relay_host: relayhost.opennet-initiative.de
+mail2_relay_host: mail2.opennet-initiative.de
 
 # Ziel-Adresse fuer administrative Emails
 admin_email: noc@opennet-initiative.de
