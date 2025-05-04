@@ -1,0 +1,4 @@
+- name: web - Favicon kopieren
+  copy: 
+    src: "web/favicon.ico" 
+    dest: "/var/www/"

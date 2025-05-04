@@ -4,3 +4,4 @@
 - include_tasks: config-archive.yml
 - include_tasks: ferm.yml
 - include_tasks: mail-delivery-authenticated.yml
+- include_tasks: web.yml
