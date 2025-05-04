@@ -1,5 +1,5 @@
 media_mirror_dir: "/var/www/media-mirror"
 media_mirror_log: "/var/log/rsyncd.log"
-media_mirror_acl: "cdnmaster.media.freifunk.net"
+media_mirror_acl: "cdnmaster.media.freifunk.net cdn-m1.media.freifunk.net"
 media_mirror_user: "media-mirror"
 media_mirror_ferm: "400_rsync.inc"
