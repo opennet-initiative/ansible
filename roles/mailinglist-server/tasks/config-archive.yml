@@ -1,8 +1,8 @@
 - name: config-archive - Base URL setzen
   lineinfile:
-    path: "{{ mailinglist_config_web }}"
+    path: "{{ mailinglist_config_archive }}"
     regexp: '^base_url:'
-    line: "base_url: 'https://{{ mailinglist_domain }}/hyperkitty'"
+    line: "base_url: https://{{ mailinglist_domain }}/hyperkitty"
   notify:
     - restart mailman3 
     - restart mailman3-web
