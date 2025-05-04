@@ -38,7 +38,9 @@
     state: restarted
 
 - name: restart ferm
-  service: name=ferm state=restarted
+  service:
+    name: ferm
+    state: restarted
 
 - name: restart dovecot
   service:
