@@ -97,8 +97,16 @@ milter_mail_macros =  i {mail_addr} {client_addr} {client_name} {auth_authen}
 # wenn es technische Probleme mit Milter gibt, dann akzeptiere die Email
 milter_default_action = accept
 
-# Weiterleitung an z.B. lists.opennet-initiative.de
+# Mail Routing für bestimmte Domains konfigurieren, z.B. lists.opennet-initiative.de
 transport_maps = hash:/etc/postfix/tables/transport
+# Postfix soll als Relay für einige Domain fungieren, z.B. lists.opennet-initiative.de
+relay_domains = hash:/etc/postfix/tables/relay_domains
+# Nur berechtigte Emails weiterleiten. Wird benötigt, um Emails für lists.opennet-initiative.de anzunehmen.
+smtpd_recipient_restrictions =
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_unauth_destination,
+    check_recipient_access hash:/etc/postfix/tables/relay_domains
 
 # Lokale Mailzustellung an Dovecot
 virtual_transport = lmtp:unix:private/dovecot-lmtp

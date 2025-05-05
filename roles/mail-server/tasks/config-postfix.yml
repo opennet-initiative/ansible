@@ -106,3 +106,12 @@
     group: root
     mode: 0664
   notify: postmap transport
+
+- name: postfix - Kopiere relay_domains map
+  copy:
+    src: "postfix/relay_domains"
+    dest: /etc/postfix/tables/relay_domains
+    owner: postfix
+    group: root
+    mode: 0664
+  notify: postmap transport

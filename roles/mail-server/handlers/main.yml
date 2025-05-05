@@ -10,6 +10,10 @@
   command: postmap /etc/postfix/tables/transport
   notify: restart postfix
 
+- name: postmap relay_domains
+  command: postmap /etc/postfix/tables/relay_domains
+  notify: restart postfix
+
 - name: newaliases
   command: newaliases
 
