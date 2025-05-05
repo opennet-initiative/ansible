@@ -30,6 +30,12 @@ smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
 smtp_sasl_security_options = 
 smtp_tls_security_level = encrypt
 
+smtpd_tls_security_level = may
+smtpd_tls_auth_only = yes
+smtpd_tls_key_file = /var/lib/dehydrated/certs/lists.opennet-initiative.de/privkey.pem
+smtpd_tls_cert_file = /var/lib/dehydrated/certs/lists.opennet-initiative.de/fullchain.pem
+smtpd_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
 # Kompatibilität (andernfalls erfolgen Warnmeldungen)
 compatibility_level = 3.6
 
