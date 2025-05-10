@@ -1,0 +1,10 @@
+- name: dehydrated - E-Mail Konfiguration übertragen
+  template:
+    src: "dehydrated/mail-dehydrated.conf"
+    dest: "{{ dehydrated_config }}"
+
+- name: dehydrated - E-Mail Script übertragen
+  template:
+    src: "dehydrated/mail-dehydrated-hook"
+    dest: "{{ dehydrated_script }}"
+    mode: 755

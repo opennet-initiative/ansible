@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# {{ ansible_managed }}
+#
+# Dienste neu laden, falls ein "deploy_cert"-Ereignis auftrat
+
+set -eu
+
+if [ "$1" = "deploy_cert" ]; then
+  [ -x /usr/sbin/postfix ] && /usr/bin/systemctl reload postfix
+  [ -x /usr/sbin/dovecot ] && /usr/bin/systemctl reload dovecot
+  true
+fi

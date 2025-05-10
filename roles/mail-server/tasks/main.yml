@@ -10,4 +10,4 @@
 - include_tasks: config-dovecot.yml
 - include_tasks: ferm.yml
 - include_tasks: config-roundcube.yml
-- include_tasks: config-dehydrated.yml
+- include_tasks: dehydrated.yml
