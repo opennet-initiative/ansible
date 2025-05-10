@@ -28,13 +28,19 @@
     group: "{{ rspamd_config_dkim_user }}"
 
 - name: rspamd - DKIM Schlüssel erstellen
-  shell: "/usr/bin/rspamadm dkim_keygen -b {{ rspamd_config_dkim_keylength }} -s {{ rspamd_config_dkim_selector }} -k {{ rspamd_config_dkim_path }}/{{ mailserver_domain }}.key >> {{ rspamd_config_dkim_path }}/{{ mailserver_domain }}.txt"
+  shell: "/usr/bin/rspamadm dkim_keygen -b {{ rspamd_config_dkim_keylength }} -s {{ rspamd_config_dkim_selector }} -k {{ rspamd_config_dkim_path }}/{{ item }}.key >> {{ rspamd_config_dkim_path }}/{{ item }}.txt"
   args:
-    creates: /var/lib/rspamd/dkim/{{ mailserver_domain }}.key
+    creates: /var/lib/rspamd/dkim/{{ item }}.key
+  with_items:
+    - "{{ mailserver_domain }}"
+    - "{{ mailinglist_domain }}"
 
 - name: rspamd - Dateirechte DKIM Key setzen 
   file:
-    path: "{{ rspamd_config_dkim_path }}/{{ mailserver_domain }}.key"
+    path: "{{ rspamd_config_dkim_path }}/{{ item }}.key"
     owner: "{{ rspamd_config_dkim_user }}"
     group: "{{ rspamd_config_dkim_user }}"
     mode: "0640"
+  with_items:
+    - "{{ mailserver_domain }}"
+    - "{{ mailinglist_domain }}"
