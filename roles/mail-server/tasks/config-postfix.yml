@@ -47,8 +47,8 @@
 
 - name: postfix - mailname festlegen
   copy:
-    content={{ mailserver_hostname }}
-    dest=/etc/mailname
+    content: "{{ mailserver_hostname }}"
+    dest: "/etc/mailname"
 
 # TODO: Aktiviere folgenden Task nachdem alle Test der Installation erfolgreich waren und 
 # - name: System-Emails an Admin-Sammleradresse versenden
@@ -99,18 +99,18 @@
     mode: 0770
 
 - name: postfix - Kopiere transport map
-  copy:
+  template:
     src: "postfix/transport"
-    dest: /etc/postfix/tables/transport
+    dest: "/etc/postfix/tables/transport"
     owner: postfix
     group: root
     mode: 0664
   notify: postmap transport
 
 - name: postfix - Kopiere relay_domains map
-  copy:
+  template:
     src: "postfix/relay_domains"
-    dest: /etc/postfix/tables/relay_domains
+    dest: "/etc/postfix/tables/relay_domains"
     owner: postfix
     group: root
     mode: 0664

@@ -61,8 +61,8 @@ smtpd_sasl_tls_security_options = $smtpd_sasl_security_options
 # TLS Config für eingehende SMTP Verbindungen
 smtpd_tls_security_level = may
 smtpd_tls_auth_only = yes
-smtpd_tls_key_file = /var/lib/dehydrated/certs/mail2.opennet-initiative.de/privkey.pem
-smtpd_tls_cert_file = /var/lib/dehydrated/certs/mail2.opennet-initiative.de/fullchain.pem
+smtpd_tls_key_file = /var/lib/dehydrated/certs/{{ mailserver_domain }}/privkey.pem
+smtpd_tls_cert_file = /var/lib/dehydrated/certs/{{ mailserver_domain }}/fullchain.pem
 smtpd_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
 #smtpd_tls_... = ...  # wir verlassen uns auf die sicheren Debian/Postfix defaults
 
