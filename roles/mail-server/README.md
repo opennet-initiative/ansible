@@ -15,6 +15,8 @@ Enthalten sind:
   * rpsamd - Anpassung der Konfigurationsdateien und Erstellung des DKIM Keys
   * clamav - Dienst-Anbindung an rspamd und automatische Signatur-Aktualisierung
   * roundcube - Anpassung der Konfigurationsdateien und Deaktivierung Standard Apache2-Conf
+  * dehydrated - Zusätzliche Hook-Funktion für die Maildienste nach Zertifikatserneuerung
+  * web - Bereitstellung einer Opennet Mail Portalseite sowie Mail Autokonfiguration via XML
 * Rolle "fail2ban"
 
 Voraussetzungen:
@@ -113,7 +115,7 @@ Manuelle Konfigurationsschritte:
   * Anlegen der Domain via Webinterface
 * rspamd
   * DKIM Selektor (als aktuelle Jahreszahl) ist in der Rolle via rspamd_config_dkim_selector definiertbar
-  * den erzeugten DKIM Public Key im DNS eintragen, Vorlage: TXT in /var/lib/rspamd/dkim
+  * die erzeugten DKIM Public Keys im DNS eintragen, Vorlage: TXT in /var/lib/rspamd/dkim
 
 # Sonstiges
 
