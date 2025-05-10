@@ -59,17 +59,17 @@
 - name: postfix - Übertrage Konfigurationsdateien
   template:
     src: "postfix/{{ item }}"
-    dest: /etc/postfix/
+    dest: "/etc/postfix/"
     mode: 0644
   with_items:
-    - master.cf
-    - main.cf
-    - submission_header_cleanup
+    - "master.cf"
+    - "main.cf"
+    - "submission_header_cleanup"
   notify: restart postfix
 
 - name: postfix - Erstelle sql Ordner
   file:
-    path: /etc/postfix/sql
+    path: "/etc/postfix/sql2"
     state: directory
     owner: postfix
     group: root
@@ -78,21 +78,21 @@
 - name: postfix - Erstelle sql map Dateien
   template:
     src: "postfix/sql/{{ item }}"
-    dest: /etc/postfix/sql
+    dest: "/etc/postfix/sql"
     owner: postfix
     group: root
     mode: 0600
   with_items:
-    - aliases.cf
-    - domains.cf
-    - mailboxes.cf
+    - "aliases.cf"
+    - "domains.cf"
+    - "mailboxes.cf"
   notify: restart postfix
 
 # Damit postmap auf eine Datei angewandt werden darf, muss der postfix user in diesem Ordner eine Datei erstellen können.
 # Wir erstellen einen extra Ordner (mit postfix als Owner) damit wir die Rechte von /etc/postfix/ nicht ändern müssen.
 - name: postfix - Erstelle tables Ordner
   file:
-    path: /etc/postfix/tables
+    path: "/etc/postfix/tables"
     state: directory
     owner: postfix
     group: root

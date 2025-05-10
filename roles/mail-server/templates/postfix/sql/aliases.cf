@@ -1,5 +1,5 @@
-user = {{ dovecot_vmail_db_user }}
+user = {{ mailserver_vmail_db_user }}
 password = {{ dovecot_vmail_db_password }}
 hosts = localhost
-dbname = {{ dovecot_vmail_db }}
+dbname = {{ mailserver_vmail_db }}
 query = SELECT goto FROM alias WHERE address = '%s' AND active = '1'

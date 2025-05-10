@@ -1,48 +1,47 @@
-- name: dovecot - Erstelle User 'vmail' für virtuelle Mailboxen
+- name: dovecot - Mailbenutzer erstellen
   user:
-    name: vmail
+    name: "{{ mailserver_vmail_user }}"
     home: "{{ mailserver_vmail_path }}"
     shell: /usr/sbin/nologin
 
-- name: dovecot - Kopiere Konfigurationsdatei dovecot.conf
+- name: dovecot - Konfigurationsdatei kopieren
   template:
-    src: templates/dovecot/dovecot.conf
-    dest: /etc/dovecot/dovecot.conf
+    src: "templates/dovecot/dovecot.conf"
+    dest: "/etc/dovecot/dovecot.conf"
     mode: "0644"
   notify: restart dovecot
 
-- name: dovecot - Erstelle sieve Ordner
+- name: dovecot - Sieve-Ordner erstellen
   file:
-    path: "{{ sieve_global_script_dir }}"
+    path: "{{ mailserver_vmail_sieve_path }}"
     state: directory
-    owner: vmail
-    group: vmail
+    owner: "{{ mailserver_vmail_user }}"
+    group: "{{ mailserver_vmail_user }}"
     mode: 0770
 
-- name: dovecot - Kopiere sieve Dateien
+- name: dovecot - Sieve-Dateien kopieren
   copy:
     src: "sieve/{{ item }}"
-    dest: "{{ sieve_global_script_dir }}/"
+    dest: "{{ mailserver_vmail_sieve_path }}"
   with_items:
-    - spam-global.sieve
-    - learn-ham.sieve
-    - learn-spam.sieve
+    - "spam-global.sieve"
+    - "learn-ham.sieve"
+    - "learn-spam.sieve"
   notify: restart dovecot
 
-- name: dovecot - Kopiere dovecot-sql.conf
+- name: dovecot - SQL-Konfiguration kopieren
   template:
-    src: dovecot/dovecot-sql.conf
-    dest: /etc/dovecot/dovecot-sql.conf
+    src: "dovecot/dovecot-sql.conf"
+    dest: "/etc/dovecot/dovecot-sql.conf"
     mode: "0440"
     owner: root
     group: dovecot
   notify: restart dovecot
 
-# Dies wird initial benötigt. Dovecot selbst kann dies nicht anlegen, weil /var/mail (root,mail) gehört.
-- name: dovecot - Erstelle mailbox Ordner für Domain opennet-initiative.de
+- name: dovecot - Mailordner für Domain erstellen
   file:
     path: "{{ mailserver_vmail_path }}/{{ mailserver_domain }}"
     state: directory
-    owner: vmail
-    group: vmail
+    owner: "{{ mailserver_vmail_user }}"
+    group: "{{ mailserver_vmail_user }}"
     mode: 0770

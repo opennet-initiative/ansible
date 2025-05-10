@@ -1,12 +1,12 @@
-- name: vimbadmin - Ermittle UID des 'vmail' Nutzers
-  command: 'id -u vmail'
+- name: vimbadmin - User-ID des Mailnutzers ermitteln
+  command: 'id -u {{ mailserver_vmail_user }}'
   register: vmail_uid
-  changed_when: 1 == 0  # nicht invasive Operation soll nie als changed detektiert werden
+  changed_when: False 
 
-- name: vimbadmin - Ermittle GID der 'vmail' Gruppe
-  command: 'id -g vmail'
+- name: vimbadmin - Gruppen-ID des Mailnutzers ermitteln
+  command: 'id -g {{ mailserver_vmail_user }}'
   register: vmail_gid
-  changed_when: 1 == 0  # nicht invasive Operation soll nie als changed detektiert werden
+  changed_when: False
 
 - name: vimbadmin - Konfiguration anpassen
   ini_file:
