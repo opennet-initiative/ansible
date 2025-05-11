@@ -25,16 +25,16 @@
     - { opt: "defaults.mailbox.homedir", val: "\"{{ mailserver_vmail_mailhome_path }}\"" }
     - { opt: "server.pop3.enabled", val: 0 }
     - { opt: "server.imap.host", val: "\"mail.%d\"" }
-    - { opt: "server.email.name", val: "\"{{ vimbadmin_config_name }}\"" }
+    - { opt: "server.email.name", val: "\"{{ mailserver_name }}\"" }
     - { opt: "server.email.address", val: "\"{{ vimbadmin_config_mail }}\"" }
-    - { opt: "identity.orgname", val: "\"{{ vimbadmin_config_org }}\"" }
-    - { opt: "identity.name", val: "\"{{ vimbadmin_config_name }}\"" }
+    - { opt: "identity.orgname", val: "\"{{ mailserver_org }}\"" }
+    - { opt: "identity.name", val: "\"{{ mailserver_name }}\"" }
     - { opt: "identity.email", val: "\"{{ vimbadmin_config_mail }}\"" }
-    - { opt: "identity.autobot.name", val: "\"{{ vimbadmin_config_name }}\"" }
+    - { opt: "identity.autobot.name", val: "\"{{ mailserver_name }}\"" }
     - { opt: "identity.autobot.email", val: "\"{{ vimbadmin_config_mail }}\"" }
     - { opt: "identity.mailer.name", val: "\"{{ vimbadmin_config_name }}\"" }
     - { opt: "identity.mailer.email", val: "\"{{ vimbadmin_config_mail }}\"" }
-    - { opt: "identity.sitename", val: "\"{{ vimbadmin_config_name }} - ViMbAdmin\"" }
+    - { opt: "identity.sitename", val: "\"{{ mailserver_name }} - ViMbAdmin\"" }
     - { opt: "identity.siteurl", val: "\"{{ vimbadmin_config_url }}\"" }
     - { opt: "ondemand_resources.logger.enabled", val: "{{ vimbadmin_config_enablelog }}" }
     - { opt: "resources.smarty.skin", val: "{{ vimbadmin_skin_name }}" }

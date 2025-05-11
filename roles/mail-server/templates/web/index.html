@@ -3,12 +3,12 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Opennet Mail - Opennet Initiative e.V.</title> 
+    <title>{{ mailserver_name }} - {{ mailserver_org }}</title> 
   </head>
   <body>
     <h2>Opennet Mail</h2>
-    Welcome. This is the Opennet Mail Service. / 
-    Willkommen. Dies ist der Opennet Mail Dienst.
+    Welcome. This is the {{ mailserver_name }} Service. / 
+    Willkommen. Dies ist der {{ mailserver_name }} Dienst.
     <h3>E-Mail</h3>
     <span style="background-color:#eeeeee;padding:5px">
     Please go to the / Bitte benutze unser <a href="{{ roundcube_config_url }}">Webmail</a> Service.
@@ -16,8 +16,8 @@
     <p>
     Alternatively use / Alternativ benutze:
     <ul>
-    <li> IPAM - {{ mailserver_domain }}, TLS, Port tcp/993, Username/Password
-    <li> SMTP - {{ mailserver_domain }}, TLS, Port tcp/465, Username/Password
+    <li> IPAM - {{ mailserver_domain }}, TLS, Port tcp/{{ mailserver_port_imap }}, Username/Password
+    <li> SMTP - {{ mailserver_domain }}, TLS, Port tcp/{{ mailserver_port_smtp }}, Username/Password
     </ul>
     </p>
     <h3>Verwaltung</h3>
@@ -28,7 +28,7 @@
     </ul>
     <p>
     Mehr Informationen / More information: 
-    <a href="https://wiki.opennet-initiative.de/wiki/Opennet_Mail">Opennet Mail Dokumentation</a>
+    <a href="https://wiki.opennet-initiative.de/wiki/Opennet_Mail">{{ mailserver_name }} Dokumentation</a>
     </p>
     <p>
     <img src="Opennet_logo_quer.gif" alt="Opennet Logo">
