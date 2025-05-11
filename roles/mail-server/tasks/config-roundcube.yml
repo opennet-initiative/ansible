@@ -4,14 +4,23 @@
     state: absent
   notify: restart apache2
 
-- name: roundcube - Konfiguration Support-Adresse setzen
+- name: roundcube - Konfiguration anpassen
   lineinfile:
     path: "{{ roundcube_config_file }}"
-    regexp: "^$config['support_url']"
-    line: "$config['support_url'] = '{{ mailserver_url }}';"
+    regexp: "^$config['{{ item.opt }}']"
+    line: "$config['{{ item.opt }}'] = '{{ item.val }}';"
+  loop:
+    - { opt: "imap_host", val: "ssl://{{ mailserver_domain }}:{{ mailserver_port_imap }}" }
+    - { opt: "smtp_host", val: "ssl://{{ mailserver_domain }}:{{ mailserver_port_smtp }}" }
+    - { opt: "username_domain", val: "{{ mailserver_domain }}" }
+    - { opt: "support_url", val: "{{ mailserver_url }}" }
+    - { opt: "product_name", val: "{{ mailserver_name }}" }
 
-- name: roundcube - Konfiguration Dienst-Name setzen
+- name: roundcube - Logging anpassen
   lineinfile:
     path: "{{ roundcube_config_file }}"
-    regexp: "^$config['product_name']"
-    line: "$config['product_name'] = '{{ roundcube_config_name }}';"  
+    regexp: "^$config['{{ item.opt }}']"
+    line: "$config['{{ item.opt }}'] = {{ item.val }};"
+  loop:
+    - { opt: "smtp_log", val: "{{ roundcube_config_logging }}" }
+    - { opt: "smtp_debug", val: "{{ roundcube_config_logging }}" }

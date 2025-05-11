@@ -47,6 +47,7 @@ clamav_socketconf_path: "/etc/systemd/system/clamav-daemon.socket.d/"
 roundcube_config_url: "{{ mailserver_url }}/roundcube"
 roundcube_config_apache: "/etc/apache2/conf-enabled/roundcube.conf"
 roundcube_config_file: "/etc/roundcube/config.inc.php"
-roundcube_config_name: "Opennet Mail"
+#roundcube_config_logging: false
+roundcube_config_logging: true
 dehydrated_config: "/etc/dehydrated/conf.d/local-hook-mail.sh"
 dehydrated_script: "/etc/dehydrated/hook-mail.sh"
