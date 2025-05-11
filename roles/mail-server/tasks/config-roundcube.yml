@@ -24,3 +24,9 @@
   loop:
     - { opt: "smtp_log", val: "{{ roundcube_config_logging }}" }
     - { opt: "smtp_debug", val: "{{ roundcube_config_logging }}" }
+
+- name: roundcube - Plugins aktivieren
+  lineinfile:
+    path: "{{ roundcube_config_file }}"
+    regexp: "^$config['plugins']"
+    line: "$config['plugins'] = [ {{ roundcube_config_plugins }}"
