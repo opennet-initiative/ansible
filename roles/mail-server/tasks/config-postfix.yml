@@ -69,7 +69,7 @@
 
 - name: postfix - Erstelle sql Ordner
   file:
-    path: "/etc/postfix/sql2"
+    path: "/etc/postfix/sql"
     state: directory
     owner: postfix
     group: root
