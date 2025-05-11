@@ -114,4 +114,4 @@
     owner: postfix
     group: root
     mode: 0664
-  notify: postmap transport
+  notify: postmap relay_domains
