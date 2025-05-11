@@ -32,7 +32,7 @@
     - { opt: "identity.email", val: "\"{{ vimbadmin_config_mail }}\"" }
     - { opt: "identity.autobot.name", val: "\"{{ mailserver_name }}\"" }
     - { opt: "identity.autobot.email", val: "\"{{ vimbadmin_config_mail }}\"" }
-    - { opt: "identity.mailer.name", val: "\"{{ vimbadmin_config_name }}\"" }
+    - { opt: "identity.mailer.name", val: "\"{{ mailserver_name }}\"" }
     - { opt: "identity.mailer.email", val: "\"{{ vimbadmin_config_mail }}\"" }
     - { opt: "identity.sitename", val: "\"{{ mailserver_name }} - ViMbAdmin\"" }
     - { opt: "identity.siteurl", val: "\"{{ vimbadmin_config_url }}\"" }
