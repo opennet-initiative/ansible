@@ -1,7 +1,7 @@
 - include_tasks: install.yml
 - include_tasks: install-vimbadmin.yml
-- include_tasks: fetch-db-pwd.yml
 - include_tasks: database-vimbadmin.yml
+- include_tasks: database-password.yml
 - include_tasks: config-postfix.yml
 - include_tasks: config-rspamd.yml
 - include_tasks: config-vimbadmin.yml

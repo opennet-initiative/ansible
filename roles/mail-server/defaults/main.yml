@@ -24,6 +24,7 @@ mailserver_vmail_sieve_path: "{{ mailserver_vmail_path }}/sieve/global"
 mailserver_port_imap: 993
 mailserver_port_smtp: 465
 vimbadmin_path: "/var/www/vimbadmin"
+vimbadmin_db_pass_file: "{{ vimbadmin_path }}/db_pass.txt"
 vimbadmin_skin_name: "opennet"
 vimbadmin_skin_path: "{{ vimbadmin_path }}/application/views/_skins/{{ vimbadmin_skin_name }}"
 vimbadmin_config: "{{ vimbadmin_path }}/application/configs/application.ini"

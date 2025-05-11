@@ -1,5 +1,5 @@
 user = {{ mailserver_vmail_db_user }}
-password = {{ dovecot_vmail_db_password }}
+password = {{ mailserver_vmail_db_pass }}
 hosts = localhost
 dbname = {{ mailserver_vmail_db }}
 table = mailbox

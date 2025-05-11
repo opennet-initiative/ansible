@@ -10,6 +10,12 @@
   register: vimbadmin_db_pass
   when: create_vimbadmin_db.changed
 
+- name: vimbadmin - Datenbank Passwort sichern
+  copy:
+    content: "{{ vimbadmin_db_pass.stdout }}"
+    dest: "{{ vimbadmin_db_pass_file }}"
+  when: create_vimbadmin_db.changed
+
 - name: vimbadmin - Datenbank Benutzer anlegen
   mysql_user:
     name: vimbadmin
