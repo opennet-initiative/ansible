@@ -1,6 +1,7 @@
 #mailserver_domain: "opennet-initiative.de"
 mailserver_domain: "mail2.opennet-initiative.de"
 mailserver_mailinglist_domain: "lists.opennet-initiative.de"
+mailserver_mailinglist_host: "kazama.opennet-initiative.de"
 #mailserver_hostname: "{{ short_hostname }}.{{ mailserver_domain }}"
 mailserver_hostname: "{{ short_hostname }}.opennet-initiative.de"
 mailserver_postmaster: "postmaster@opennet-initiative.de"

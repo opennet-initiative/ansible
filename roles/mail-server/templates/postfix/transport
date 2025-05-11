@@ -1,1 +1,1 @@
-{{ mailserver_mailinglist_domain }}    smtp:{{ mailserver_hostname }}
+{{ mailserver_mailinglist_domain }}    smtp:{{ mailserver_mailinglist_host }}
