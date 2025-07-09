@@ -78,6 +78,7 @@
 - hosts: gai.on-i.de
   roles:
     - wireguard-server
+    # - gluon-l3-olsrv2-gateway  # Rolle beinhaltet derzeit nur Doku
   tags:
     - wireguard-server
 
