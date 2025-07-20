@@ -6,7 +6,7 @@
 @def $IF_GLUON_MESH_OLSRV2 = (fastd-mesh);
 
 
-domain ip6 table filter {
+domain (ip ip6) table filter {
 	chain service-input {
 		# fastd VPN
 		proto udp dport (1705) ACCEPT;
