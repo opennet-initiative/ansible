@@ -39,6 +39,10 @@ smtpd_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
 # Kompatibilität (andernfalls erfolgen Warnmeldungen)
 compatibility_level = 3.6
 
+# Support the default VERP delimiter.
+recipient_delimiter = +
+owner_request_special = no
+
 transport_maps =
     hash:/var/lib/mailman3/data/postfix_lmtp
 local_recipient_maps =
