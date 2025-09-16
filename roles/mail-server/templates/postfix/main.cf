@@ -27,31 +27,9 @@ disable_vrfy_command = yes
 
 alias_maps = hash:/etc/aliases
 
-# Von folgenden Geräten nehmen wir Emails für Forwarding entgegen.
-# Geräte authentifizieren sich hier per SASL.
-# Temporär wird Server crimson erlaubt, weil dies derzeit noch der
-# produktive Mailserver ist.
-# TODO: Wenn misumaru primärer Mailserver wird/ist, dann kann crimson
-# aus der 'mynetworks' Liste entfernt werden.
-# crimson.on = fd32:d8d3:87da:0:216:3eff:fe95:1f9a/64
-#              192.168.10.15/16
-#              2a01:4f8:140:9250:250:56ff:fe00:7916/64
-#              46.4.100.244/27
-# kazama.on = fd32:d8d3:87da::10:19/64
-#             192.168.10.19/16
-#             2a01:4f8:140:9250::213/64
-#             46.4.100.213/32
-mynetworks = 127.0.0.0/8 192.168.10.15/32 [::1]/128 [fd32:d8d3:87da:0:216:3eff:fe95:1f9a]/128 46.4.100.244/32 [2a01:4f8:140:9250:250:56ff:fe00:7916]/128 [fd32:d8d3:87da::10:19]/128 192.168.10.19/32 [2a01:4f8:140:9250::213]/128 46.4.100.213/32
+mynetworks = 127.0.0.0/8 [::1]/128
 inet_interfaces = all
 inet_protocols = all 
-
-# SMTP-Authentication ausgehend
-# TODO: Das ist noch nötig während der Inbetriebnahme. Hier sendet misumaru
-# Emails an crimson und diese Strecke wird per SASL authentifiziert.
-smtp_sasl_auth_enable = yes
-smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
-smtp_sasl_security_options = 
-smtp_tls_security_level = encrypt
 
 # SMTP-Authentication eingehend (wird teilweise in master.cf überschrieben)
 smtpd_sasl_auth_enable = yes
