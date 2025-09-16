@@ -27,3 +27,7 @@ apache2_mods:
 mail_server: true
 
 debian_release: bookworm
+
+# Wir wollen den neuen Relayhost nutzen. Später wird die Nutzung des neuen Relayhosts der Standard.
+# Dann kann diese Einstellung wieder entfernt werden.
+mail_relay_host: "{{ mail2_relay_host }}"

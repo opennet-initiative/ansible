@@ -12,7 +12,7 @@ mynetworks = 127.0.0.0/8 [::1]/128
 inet_interfaces = all
 
 # alle Mails sollen über unseren Relayhost gesendet werden
-relayhost = [{{ mail2_relay_host }}]
+relayhost = [{{ mail2_relay_host }}]:587
 
 # SMTP-Authentication ausgehend
 smtp_sasl_auth_enable = yes

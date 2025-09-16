@@ -1,5 +1,8 @@
-- name: postfix-Konfiguration uebertragen
+- name: postfix - Konfiguration uebertragen
   template:
-    src=main.cf
-    dest=/etc/postfix/main.cf
+    src={{ item }}
+    dest=/etc/postfix/
   notify: restart postfix
+  with_items:
+    - main.cf
+    - master.cf
