@@ -33,7 +33,6 @@
     creates: /var/lib/rspamd/dkim/{{ item }}.key
   with_items:
     - "{{ mailserver_domain }}"
-    - "{{ mailserver_mailinglist_domain }}"
 
 - name: rspamd - Dateirechte DKIM Key setzen 
   file:
@@ -43,4 +42,3 @@
     mode: "0640"
   with_items:
     - "{{ mailserver_domain }}"
-    - "{{ mailserver_mailinglist_domain }}"
