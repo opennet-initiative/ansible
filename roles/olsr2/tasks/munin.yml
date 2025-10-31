@@ -1,0 +1,9 @@
+- name: munin - OSLRv2 Plugin herunterladen
+  get_url:
+    url: "https://raw.githubusercontent.com/opennet-initiative/firmware/main/opennet/packages/on-monitoring/files/usr/share/munin-plugins-available/olsr2"
+    dest: "/etc/munin/plugins/olsr2"
+    force: yes
+    mode: 0755
+  # nicht im "check"-Modus ausfuehren (es gilt sonst immer als Änderung)
+  when: not ansible_check_mode
+  notify: restart munin-node

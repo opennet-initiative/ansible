@@ -3,3 +3,4 @@
 - include_tasks: olsr2.yml
 - include_tasks: policy-routing.yml
 - include_tasks: ferm.yml
+- include_tasks: munin.yml
