@@ -78,6 +78,8 @@
 - hosts: kazama.on
   roles:
     - mailinglist-server
+  tags:
+    - mailinglist-server
 
 - hosts: gai.on-i.de
   roles:
