@@ -3,7 +3,7 @@
     path: /etc/postfix/sasl/passwd.db
   register: stat_sasl_passwd_db
 
-# Wir wollen to initialisieren des SASL Credentials nur 1x am Anfang machen.
+# Wir wollen das Initialisieren der SASL Credentials nur 1x am Anfang machen.
 - name: postfix - Initialize SASL secret
   when: not stat_sasl_passwd_db.stat.exists
   block:
@@ -17,7 +17,7 @@
       shell: awk '{ if ($1 == "{{ mail_relay_host }}") print $2 }' /etc/postfix/sasl/passwd
       register: smtp_auth_password
       changed_when: False
-      run_once: yes
+      run_once: true
       # ignoriere den "--check"-Modus (sonst schlaegt der naechste Schritt beim Testen fehl)
       check_mode: no
 
