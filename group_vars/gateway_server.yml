@@ -16,3 +16,23 @@ non_olsr_interfaces:
 
 # das "olsr_main_ip"-Announcement ist fuer APs mit alter Firmware (z.B. 0.9on5) notwendig
 olsr_hna_announcements_ipv4: "{{ [olsr_main_ip]|union(ugw_external_forward_allow_ipv4) }}"
+
+# Oeffentliche IP-Adressen von Hosts, die auch im Mesh erreichbar sein sollen
+ugw_external_forward_allow_ipv4:
+  # downloads.openwrt.org: Paketinstallation fuer APs
+  # deactivated 2024/01/07, dynamic hosting at Fastly
+  #- 176.9.48.73
+  #- 168.119.138.211
+  # archive.openwrt.org: Paketinstallation fuer aeltere Releases
+  - 81.0.124.218
+  # router.eu.thethings.network: LoRaWan
+  - 52.169.76.203
+  # opennet.uisp.com : Ubiquiti UISP Verwaltung
+  - 167.172.186.250
+  # opennet.unmsapp.com : Ubiquiti UISP Verwaltung
+  # deactivaed 2024/01/07, IPs changed, still needed?
+  #- 167.71.184.246
+
+
+openvpn_ugw_interface: tap-mesh
+openvpn_users_interface: tun-users

@@ -14,25 +14,6 @@ ugw_server_crl_list:
   - { name: "Nutzer-Tunnel", minute: "48", crl: "opennet-vpn-user.crl", ca_cert: "/etc/openvpn/opennet_users/ca.crt" }
   - { name: "UGW-Tunnel", minute: "49", crl: "opennet-vpn-ugw.crl", ca_cert: "/etc/openvpn/opennet_ugw/ca.crt" }
 
-# Oeffentliche IP-Adressen von Hosts, die auch im Mesh erreichbar sein sollen
-ugw_external_forward_allow_ipv4:
-  # downloads.openwrt.org: Paketinstallation fuer APs
-  # deactivated 2024/01/07, dynamic hosting at Fastly
-  #- 176.9.48.73
-  #- 168.119.138.211
-  # archive.openwrt.org: Paketinstallation fuer aeltere Releases
-  - 81.0.124.218
-  # router.eu.thethings.network: LoRaWan
-  - 52.169.76.203
-  # opennet.uisp.com : Ubiquiti UISP Verwaltung
-  - 167.172.186.250
-  # opennet.unmsapp.com : Ubiquiti UISP Verwaltung
-  # deactivaed 2024/01/07, IPs changed, still needed?
-  #- 167.71.184.246
-
-openvpn_ugw_interface: tap-mesh
-openvpn_users_interface: tun-users
-
 openvpn_status_path: /var/www/vpnstatus
 
 # IPv6 settings
