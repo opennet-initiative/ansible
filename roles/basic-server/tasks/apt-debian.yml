@@ -1,8 +1,9 @@
-- name: apt-debian - sources.list aus Opennet Template anlegen
+- name: apt-debian - sources.list aus Opennet Template anlegen (ab Bullseye)
   template:
     src: sources.list
     dest: /etc/apt/sources.list
   register: updated_apt_debian
+  when: ansible_distribution_major_version|int >=11   
 
 - name: apt-debian - Repository Cache aktualisieren
   apt:
