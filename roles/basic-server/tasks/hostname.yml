@@ -3,6 +3,11 @@
 - name: hostname - dbus-Paket installieren
   apt: pkg=dbus state=present
 
+- name: hostname - dbus muss gestartet sein
+  service:
+    name: dbus
+    state: started
+  
 # Bearbeitungsschutz ggf. aufgeben
 - name: hostname - Hostdateien Bearbeitung erlauben
   file:
