@@ -5,12 +5,12 @@
 - name: olsr2 - Software installieren (amd64, ab Buster)
   apt: 
     deb: "{{ olsr2_debian_url }}/{{ olsr2_debian10_amd }}" 
-  when: ansible_distribution_major_version|int >= 10 and ansible_architecture == 'amd64'
+  when: ansible_distribution_major_version|int >= 10 and (ansible_architecture == 'amd64' or ansible_architecture == 'x86_64')
 
 - name: olsr2 - Software installieren (amd64, Stretch)
   apt:
     deb: "{{ olsr2_debian_url }}/{{ olsr2_debian9_amd }}"
-  when: ansible_distribution_major_version|int == 9 and ansible_architecture == 'amd64'
+  when: ansible_distribution_major_version|int == 9 and (ansible_architecture == 'amd64' or ansible_architecture == 'x86_64')
 
 - name: olsr2 - Software installieren (arm64, ab Bookworm)
   apt:

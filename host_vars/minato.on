@@ -1,0 +1,21 @@
+short_hostname: minato
+
+wan_interface: eth1
+
+olsr_main_ip: 192.168.10.25
+olsr_main_ipv6: fd32:d8d3:87da::10:25
+
+olsr_interfaces:
+  - { name: "eth0" }
+
+#letsencrypt_certificates:
+#  - { on_tld_base: monitor }
+
+#apache2_sites:
+#  - { name: monitor }
+
+#domain_proxy_redirect:
+#  - { on_tld_base: monitor, ip: "{{ olsr_main_ip }}", port: 80, service: http }
+#  - { on_tld_base: monitor, ip: "{{ olsr_main_ip }}", port: 443, service: https }
+
+debian_release: bookworm 

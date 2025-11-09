@@ -16,7 +16,7 @@
 - name: olsr - Software installieren (amd64, ab Bullseye)
   apt:
     deb: "{{ olsr_debian_url }}/{{ olsr_debian11_amd }}"
-  when: ansible_distribution_major_version|int >= 11 and ansible_architecture == 'amd64'
+  when: ansible_distribution_major_version|int >= 11 and (ansible_architecture == 'amd64' or ansible_architecture == 'x86_64')
 
 - name: olsr - Software installieren (arm64, ab Bookworm)
   apt:
@@ -26,7 +26,7 @@
 - name: olsr - Plugins installieren (amd64, ab Bullseye)
   apt:
     deb: "{{ olsr_debian_url }}/{{ olsr_plugins_debian11_amd }}"
-  when: ansible_distribution_major_version|int >= 11 and ansible_architecture == 'amd64'
+  when: ansible_distribution_major_version|int >= 11 and (ansible_architecture == 'amd64' or ansible_architecture == 'x86_64')
 
 - name: olsr - Plugins installieren (amd64, ab Bookworm)
   apt:
