@@ -1,0 +1,26 @@
+- name: radvd installieren
+  apt: pkg=radvd state=present
+
+- name: radvd für batman konfigurieren
+  ansible.builtin.blockinfile:
+    path: /etc/radvd.conf
+    marker: "# {mark} ANSIBLE MANAGED BLOCK for IPv4"
+    block: |
+      interface {{ gateway_batman_bridge_interface }}
+      {
+          AdvSendAdvert on;
+          IgnoreIfMissing on;
+          AdvManagedFlag off;
+          AdvOtherConfigFlag on;
+          MaxRtrAdvInterval 200;
+          AdvLinkMTU 1280;
+          prefix 2a0a:4580:1010:2000::/64  {
+              AdvOnLink on;
+              AdvAutonomous on;
+              AdvRouterAddr on;
+          };
+
+          RDNSS 2a0a:4580:1010:0002::1 {
+          };
+      };
+  notify: restart radvd

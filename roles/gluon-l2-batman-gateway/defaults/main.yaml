@@ -1,0 +1,3 @@
+gluon_mesh_interface: "fastd-mesh"
+gateway_batman_bridge_interface: "br-mesh-bat"
+gateway_dhcp4_subnet_prefix: "10.200"  # this needs to be /16 size (see usage of var)

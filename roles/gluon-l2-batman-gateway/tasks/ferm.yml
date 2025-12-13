@@ -1,0 +1,5 @@
+- name: Kopiere ferm Konfiguration
+  template:
+    src: "ferm/ferm.d/450_fastd-batman.inc"
+    dest: "/etc/ferm/ferm.d/"
+  notify: restart ferm

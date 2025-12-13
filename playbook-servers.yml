@@ -83,10 +83,12 @@
 
 - hosts: gai.on-i.de
   roles:
-    - wireguard-server
-    # - gluon-l3-olsrv2-gateway  # Rolle beinhaltet derzeit nur Doku
-  tags:
-    - wireguard-server
+    - role: wireguard-server
+      tags: wireguard-server
+    #- role: gluon-l3-olsrv2-gateway  # Rolle beinhaltet derzeit nur Doku
+    #   tags: gluon-l3-olsrv2-gateway
+    - role: gluon-l2-batman-gateway
+      tags: gluon-l2-batman-gateway
 
 # mediawiki in development
 - hosts: hikaru.on

@@ -1,0 +1,41 @@
+---
+# TODO: The steps below need to be converted to Ansible tasks
+
+# Instructions taken from https://docs.freifunk-suedholstein.de/de/1.5/gateway.html
+#
+# sudo apt install linux-headers-amd64 libnl-3-dev libnl-genl-3-dev libcap-dev pkg-config dkms
+
+# cd /usr/src
+# wget https://downloads.open-mesh.org/batman/releases/batman-adv-2025.4/batman-adv-2025.4.tar.gz
+# tar xzfv batman-adv-2025.4.tar.gz
+
+# wget https://downloads.open-mesh.org/batman/releases/batman-adv-2025.4/batctl-2025.4.tar.gz
+# tar xzvf batctl-2025.4.tar.gz
+
+# cat << EOF > /usr/src/batman-adv-2025.4/dkms.conf
+# PACKAGE_NAME=batman-adv
+# PACKAGE_VERSION=2025.4
+
+# DEST_MODULE_LOCATION=/extra
+# BUILT_MODULE_NAME=batman-adv
+# BUILT_MODULE_LOCATION=net/batman-adv
+
+# MAKE="'make' CONFIG_BATMAN_ADV_BATMAN_V=n"
+# CLEAN="'make' clean"
+
+# AUTOINSTALL="yes"
+# EOF
+
+# sudo dkms add -m batman-adv -v 2025.4
+# sudo dkms build -m batman-adv -v 2025.4
+# sudo dkms install -m batman-adv -v 2025.4
+
+
+# cd /usr/src/batctl-2025.4/
+# make
+# make install
+
+
+# cat << EOF >> /etc/modules
+# batman_adv
+# EOF

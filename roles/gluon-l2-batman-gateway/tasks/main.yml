@@ -1,0 +1,6 @@
+#- include_tasks: batman-adv.yml
+- include_tasks: interface.yml
+- include_tasks: ferm.yml
+#- include_tasks: fastd.yml
+- include_tasks: radvd.yml
+- include_tasks: dhcpd.yml

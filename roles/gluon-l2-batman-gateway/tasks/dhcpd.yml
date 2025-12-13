@@ -1,0 +1,28 @@
+- name: dhcpd - ISC DHCPd Server installieren
+  apt: 
+    name: isc-dhcp-server
+
+- name: dhcpd - ISC DHCPd Server Defaults IPv6 setzen
+  lineinfile:
+    create: yes
+    line: "{{ item.key }}={{ item.value }}"
+    regexp: "{{ item.key }}="
+    dest: /etc/default/isc-dhcp-server
+  with_items:
+    - { key: "INTERFACESv4", value: "{{ gateway_batman_bridge_interface }}" }
+    - { key: "OPTIONS", value: "" }  # TODO This conflicts with user6-dhcpd
+  notify: restart isc-dhcp-server
+
+- name: dhcpd - ISC DHCPd Server Konfiguration IPv4 übertragen
+  template:
+    src: dhcpd.conf
+    dest: /etc/dhcp/dhcpd.conf
+  notify: restart isc-dhcp-server
+
+# The following task is already done user user6-dhcpd role
+# - name: user6-dhcpd - Configure apparmor for DHCPd
+#   copy:
+#     src: dhcpd/apparmor-config
+#     dest: /etc/apparmor.d/local/usr.sbin.dhcpd
+#     mode: '0644'
+#   notify: reload apparmor

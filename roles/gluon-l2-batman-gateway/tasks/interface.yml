@@ -1,0 +1,19 @@
+- name: Installiere bridge-utils
+  apt: 
+    name: bridge-utils
+
+- name: Kopiere Bridge Interface Konfiguration
+  template:
+    src: "network/{{ item }}"
+    dest: /etc/network/interfaces.d/
+  with_items: 
+    - "60-bridge-interface.cfg"
+    - "65-batman-interface.cfg"
+  notify: restart networking
+
+- name: Erstelle Routing Tabelle
+  lineinfile:
+    create: yes
+    line: "42 batman"
+    dest: /etc/iproute2/rt_tables
+  notify: restart networking
