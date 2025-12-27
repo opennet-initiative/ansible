@@ -18,4 +18,4 @@ olsr_interfaces:
 #  - { on_tld_base: monitor, ip: "{{ olsr_main_ip }}", port: 80, service: http }
 #  - { on_tld_base: monitor, ip: "{{ olsr_main_ip }}", port: 443, service: https }
 
-debian_release: bookworm 
+debian_release: trixie 
