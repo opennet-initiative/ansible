@@ -25,7 +25,7 @@ apache2_php: true
 
 mail_server: true
 
-debian_release: bookworm
+debian_release: trixie
 
 vimbadmin_allowed_users:
   - mathiasmahnke.client.on

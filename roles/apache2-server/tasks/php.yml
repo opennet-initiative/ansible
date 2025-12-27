@@ -5,12 +5,19 @@
   notify: restart apache2
   when: ansible_distribution_major_version|int <= 11
 
-- name: php - Apache Modul php deaktivieren (ab Bookworm)
+- name: php - Apache Modul php deaktivieren (für Bookworm)
   apache2_module:
-    name: "{{ apache2_php_version }}"
+    name: "{{ apache2_php_version_bookworm }}"
     state: absent
   notify: restart apache2
-  when: ansible_distribution_major_version|int >= 12
+  when: ansible_distribution_major_version|int == 12
+
+- name: php - Apache Modul php deaktivieren (für Trixie)
+  apache2_module:
+    name: "{{ apache2_php_version_trixie }}"
+    state: absent
+  notify: restart apache2
+  when: ansible_distribution_major_version|int == 13
 
 - name: php - Apache Modul mpm_prefork deaktivieren
   apache2_module:
@@ -34,15 +41,24 @@
       - "{{ apache2_php_version_bullseye }}-fpm"
   when: ( apache2_php and ansible_distribution_major_version|int <= 11 )
 
-- name: php - Apache Module FPM für PHP installieren (ab Bookworm)
+- name: php - Apache Module FPM für PHP installieren (für Bookworm)
   apt:   
     name: "{{ packages }}"
   vars:
     packages:
       - libapache2-mod-fcgid
-      - "{{ apache2_php_version }}-fpm"
-  when: ( apache2_php and ansible_distribution_major_version|int >= 12 )
-  
+      - "{{ apache2_php_version_bookworm }}-fpm"
+  when: ( apache2_php and ansible_distribution_major_version|int == 12 )
+
+- name: php - Apache Module FPM für PHP installieren (für Trixie)
+  apt:   
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - libapache2-mod-fcgid
+      - "{{ apache2_php_version_trixie }}-fpm"
+  when: ( apache2_php and ansible_distribution_major_version|int == 13 )
+
 - name: php - Apache Module für PHP aktivieren
   apache2_module:
     name: "{{ item }}"
@@ -75,13 +91,19 @@
   notify: restart apache2
   when: ( apache2_php and ansible_distribution_major_version|int <= 11 )
 
-# TODO: warte auf Ansible Modul für a2enconf
-- name: php - Apache Konfiguration für PHP aktivieren (ab Bookworm)
-  command: "a2enconf {{ apache2_php_version }}-fpm"
+- name: php - Apache Konfiguration für PHP aktivieren (für Bookworm)
+  command: "a2enconf {{ apache2_php_version_bookworm }}-fpm"
   register: conf_php
   changed_when: "'Enabling conf' in conf_php.stdout" 
   notify: restart apache2
-  when: ( apache2_php and ansible_distribution_major_version|int >= 12 )
+  when: ( apache2_php and ansible_distribution_major_version|int == 12 )
+
+- name: php - Apache Konfiguration für PHP aktivieren (für Trixie)
+  command: "a2enconf {{ apache2_php_version_trixie }}-fpm"
+  register: conf_php
+  changed_when: "'Enabling conf' in conf_php.stdout" 
+  notify: restart apache2
+  when: ( apache2_php and ansible_distribution_major_version|int == 13 )
 
 - name: php - APC Benutzer Puffer-Speicher aktivieren
   apt: name=php-apcu state=present

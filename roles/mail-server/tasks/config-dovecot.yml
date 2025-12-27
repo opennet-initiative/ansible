@@ -29,15 +29,6 @@
     - "learn-spam.sieve"
   notify: restart dovecot
 
-- name: dovecot - SQL-Konfiguration kopieren
-  template:
-    src: "dovecot/dovecot-sql.conf"
-    dest: "/etc/dovecot/dovecot-sql.conf"
-    mode: "0440"
-    owner: root
-    group: dovecot
-  notify: restart dovecot
-
 - name: dovecot - Mailordner für Domain erstellen
   file:
     path: "{{ mailserver_vmail_path }}/{{ mailserver_domain }}"
