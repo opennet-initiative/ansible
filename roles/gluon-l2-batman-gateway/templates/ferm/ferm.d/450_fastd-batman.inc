@@ -21,11 +21,11 @@ domain (ip ip6) table filter {
 domain ip table nat {
 	chain POSTROUTING {
 		# NAT für Internetzugriff
-		outerface $IF_WAN saddr {{ gateway_dhcp4_subnet_prefix }}.0.0/16 MASQUERADE;
+		outerface ($IF_WAN $IF_OLSR $IF_OLSR2) saddr {{ gateway_dhcp4_subnet_prefix }}.0.0/16 MASQUERADE;
 	}
 }
 
-domain (ip ip6) chain FORWARD outerface $IF_WAN {
+domain (ip ip6) chain FORWARD outerface ($IF_WAN $IF_OLSR $IF_OLSR2) {
 	# erlaube Internet ausgehend
 	interface $IF_BRIDGE_MESH_BATMAN ACCEPT;
 }
