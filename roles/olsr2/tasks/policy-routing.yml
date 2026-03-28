@@ -1,7 +1,7 @@
 # TODO: use rt_tables.d file
 - name: policy-routing - OLSR Routing Tabelle anlegen
   lineinfile:
-    dest: "/etc/iproute2/rt_tables"
+    dest: "{{ iproute2_rt_tables }}"
     line: "{{ olsr2_routing_table_id }} {{ olsr2_routing_table_name }}"
     regexp: '^\d+\s+{{ olsr2_routing_table_name }}$'
 

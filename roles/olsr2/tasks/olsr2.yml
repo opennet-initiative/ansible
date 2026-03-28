@@ -2,23 +2,32 @@
 #Ein selbst kompiliertes Installationspaket liegt unter:
 #  https://downloads.opennet-initiative.de/debian/
 
-- name: olsr2 - Software installieren (amd64, ab Buster)
-  apt: 
-    deb: "{{ olsr2_debian_url }}/{{ olsr2_debian10_amd }}" 
-  when: ansible_distribution_major_version|int >= 10 and (ansible_architecture == 'amd64' or ansible_architecture == 'x86_64')
+- name: olsrd2 - Installieren
+  when: ansible_distribution_major_version|int <= 12
+  block:
+    - name: olsr2 - Software installieren (amd64, Stretch)
+      apt:
+        deb: "{{ olsr2_debian_url }}/{{ olsr2_debian9_amd }}"
+      when: ansible_distribution_major_version|int == 9 and (ansible_architecture == 'amd64' or ansible_architecture == 'x86_64')
 
-- name: olsr2 - Software installieren (amd64, Stretch)
-  apt:
-    deb: "{{ olsr2_debian_url }}/{{ olsr2_debian9_amd }}"
-  when: ansible_distribution_major_version|int == 9 and (ansible_architecture == 'amd64' or ansible_architecture == 'x86_64')
+    - name: olsr2 - Software installieren (amd64, ab Buster)
+      apt: 
+        deb: "{{ olsr2_debian_url }}/{{ olsr2_debian10_amd }}" 
+      when: ansible_distribution_major_version|int >= 10 and (ansible_architecture == 'amd64' or ansible_architecture == 'x86_64')
 
-- name: olsr2 - Software installieren (arm64, ab Bookworm)
-  apt:
-    deb: "{{ olsr2_debian_url }}/{{ olsr2_debian12_arm }}"
-  when: ansible_distribution_major_version|int >= 12 and ansible_architecture == 'aarch64'
+    - name: olsr2 - Software installieren (arm64, ab Bookworm)
+      apt:
+        deb: "{{ olsr2_debian_url }}/{{ olsr2_debian12_arm }}"
+      when: ansible_distribution_major_version|int == 12 and ansible_architecture == 'aarch64'
 
-- name: olsr2 - Konfiguration erstellen
-  template:
-    src: "olsrd2.conf"
-    dest: "/etc/olsrd2/"
-  notify: restart olsrd2
+    - name: olsr2 - Konfiguration erstellen
+      template:
+        src: "olsrd2.conf"
+        dest: "/etc/olsrd2/"
+      notify: restart olsrd2
+
+# TODO Paket erstellen für Trixie
+- name: olsr2 - Software installieren (Trixie)
+  debug:
+    msg: "Es gibt derzeit noch kein lauffähiges olsrd2 Paket für Trixie."
+  when: ansible_distribution_major_version|int >= 13

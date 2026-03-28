@@ -3,58 +3,115 @@
     pkg: olsrd-plugins
   when: ansible_distribution_major_version|int <= 10
 
-# Bei Debian Bullseye ist olsrd entfernt worden
-# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=943202
-# Ein selbst kompiliertes Installationspaket liegt unter:
-#  https://downloads.opennet-initiative.de/debian/
+# Bei Debian Bullseye ist olsrd entfernt worden # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=943202
+# Für Bullseye und Bookworm liegt ein selbst kompiliertes Installationspaket unter https://downloads.opennet-initiative.de/debian/
+# Die folgenden Blöcke sind explizit pro Debian Version, sodass es leicht ist alte Releases hier zu entfernen.
+- name: olsr (Bullseye)
+  when: ansible_distribution_major_version|int == 11
+  block:
+    - name: olsr - Abhängigkeit gpslib vorbereiten
+      apt:
+        pkg: libgps28
 
-- name: olsr - Abhängigkeit gpslib vorbereiten (ab Bullseye)
-  apt:
-    pkg: libgps28
-  when: ansible_distribution_major_version|int >= 11
+    - name: olsr - installieren (amd64)
+      when: ansible_architecture == 'amd64' or ansible_architecture == 'x86_64'
+      block:
+        - name: olsr - Software installieren (amd64)
+          apt:
+            deb: "{{ olsr_debian_url }}/{{ olsr_debian11_amd }}"
 
-- name: olsr - Software installieren (amd64, ab Bullseye)
-  apt:
-    deb: "{{ olsr_debian_url }}/{{ olsr_debian11_amd }}"
-  when: ansible_distribution_major_version|int >= 11 and (ansible_architecture == 'amd64' or ansible_architecture == 'x86_64')
+        - name: olsr - Plugins installieren (amd64)
+          apt:
+            deb: "{{ olsr_debian_url }}/{{ olsr_plugins_debian11_amd }}"
 
-- name: olsr - Software installieren (arm64, ab Bookworm)
-  apt:
-    deb: "{{ olsr_debian_url }}/{{ olsr_debian12_arm }}"
-  when: ansible_distribution_major_version|int >= 12 and ansible_architecture == 'aarch64'
+    - name: olsr - installieren (arm64)
+      when: ansible_architecture == 'aarch64'
+      block:
+        - name: olsr - Software installieren (arm64)
+          apt:
+            deb: "{{ olsr_debian_url }}/{{ olsr_debian11_arm }}"  
 
-- name: olsr - Plugins installieren (amd64, ab Bullseye)
-  apt:
-    deb: "{{ olsr_debian_url }}/{{ olsr_plugins_debian11_amd }}"
-  when: ansible_distribution_major_version|int >= 11 and (ansible_architecture == 'amd64' or ansible_architecture == 'x86_64')
+        - name: olsr - Plugins installieren (arm64)
+          apt:
+            deb: "{{ olsr_debian_url }}/{{ olsr_plugins_debian11_arm }}"
 
-- name: olsr - Plugins installieren (amd64, ab Bookworm)
-  apt:
-    deb: "{{ olsr_debian_url }}/{{ olsr_plugins_debian12_arm }}"
-  when: ansible_distribution_major_version|int >= 12 and ansible_architecture == 'aarch64'
+    # Das selbst kompilierte olsrd sucht in /usr/lib
+    # Vorübergehend daher ein Symlink erstellen.
+    - name: olsr - Plugins Symlink txtinfo + httpinfo
+      file:
+        src: "/usr/lib/olsrd/{{ item }}"
+        dest: "/usr/lib/{{ item }}"
+        state: link
+      loop:
+        - olsrd_txtinfo.so.1.1
+        - olsrd_httpinfo.so.0.1
+        - olsrd_nameservice.so.0.4
 
-# TODO: Das selbst kompilierte olsrd sucht in /usr/lib
-# Vorübergehend daher ein Symlink erstellen.
-- name: olsr - Plugins Symlink txtinfo + httpinfo (ab Bullseye)
-  file:
-    src: "/usr/lib/olsrd/{{ item }}"
-    dest: "/usr/lib/{{ item }}"
-    state: link
-  loop:
-    - olsrd_txtinfo.so.1.1
-    - olsrd_httpinfo.so.0.1
-    - olsrd_nameservice.so.0.4
-  when: ansible_distribution_major_version|int >= 11
+- name: olsr (Bookworm)
+  when: ansible_distribution_major_version|int == 12
+  block:
+    - name: olsr - Abhängigkeit gpslib vorbereiten
+      apt:
+        pkg: libgps28
 
-- name: olsr - Software installieren (amd64, ab Bullseye)
-  apt:
-    deb: "{{ olsr_debian_url }}/{{ olsr_debian11_amd }}"
-  when: ansible_distribution_major_version|int >= 11 and ansible_architecture == 'amd64'
+    - name: olsr - installieren (amd64)
+      when: ansible_architecture == 'amd64' or ansible_architecture == 'x86_64'
+      block:
+        - name: olsr - Software installieren (amd64)
+          apt:
+            deb: "{{ olsr_debian_url }}/{{ olsr_debian12_amd }}"
 
-- name: olsr - Software installieren (arm64, ab Bookworm)
-  apt:
-    deb: "{{ olsr_debian_url }}/{{ olsr_debian12_arm }}"
-  when: ansible_distribution_major_version|int >= 12 and ansible_architecture == 'aarch64'
+        - name: olsr - Plugins installieren (amd64)
+          apt:
+            deb: "{{ olsr_debian_url }}/{{ olsr_plugins_debian12_amd }}"
+
+    - name: olsr - installieren (arm64)
+      when: ansible_architecture == 'aarch64'
+      block:
+        - name: olsr - Software installieren (arm64)
+          apt:
+            deb: "{{ olsr_debian_url }}/{{ olsr_debian12_arm }}"  
+
+        - name: olsr - Plugins installieren (arm64)
+          apt:
+            deb: "{{ olsr_debian_url }}/{{ olsr_plugins_debian12_arm }}"
+
+    # Das selbst kompilierte olsrd sucht in /usr/lib
+    # Vorübergehend daher ein Symlink erstellen.
+    - name: olsr - Plugins Symlink txtinfo + httpinfo
+      file:
+        src: "/usr/lib/olsrd/{{ item }}"
+        dest: "/usr/lib/{{ item }}"
+        state: link
+      loop:
+        - olsrd_txtinfo.so.1.1
+        - olsrd_httpinfo.so.0.1
+        - olsrd_nameservice.so.0.4
+
+# Für Trixie nehmen wir kein selbst kompiliertes Paket, sondern das aus dem Archiv, da es dort noch verfügbar ist.
+# Die Prozedur für Bullseye und Bookworm ändern wir jedoch nicht, weil dies gut funktioniert hat bisher.
+- name: olsr (Trixie und später)
+  when: ansible_distribution_major_version|int >= 13
+  block:
+    - name: olsr - installieren (amd64)
+      when: ansible_architecture == 'amd64' or ansible_architecture == 'x86_64'
+      block:
+        - name: olsr - Software installieren (amd64)
+          apt:
+            deb: "http://archive.debian.org/debian/pool/main/o/olsrd/olsrd_0.6.6.2-1_amd64.deb"
+        - name: olsr - Plugins installieren (amd64)
+          apt:
+            deb: "http://archive.debian.org/debian/pool/main/o/olsrd/olsrd-plugins_0.6.6.2-1_amd64.deb"
+    
+    - name: olsr - installieren (arm64)
+      when: ansible_architecture == 'aarch64'
+      block:
+        - name: olsr - Software installieren (arm64)
+          apt:
+            deb: "http://archive.debian.org/debian/pool/main/o/olsrd/olsrd_0.6.6.2-1_arm64.deb"
+        - name: olsr - Plugins installieren (arm64)
+          apt:
+            deb: "http://archive.debian.org/debian/pool/main/o/olsrd/olsrd-plugins_0.6.6.2-1_arm64.deb"
 
 - name: olsr - Konfiguration erstellen
   template:

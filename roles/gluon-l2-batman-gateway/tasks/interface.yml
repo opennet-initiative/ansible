@@ -15,5 +15,5 @@
   lineinfile:
     create: yes
     line: "42 batman"
-    dest: /etc/iproute2/rt_tables
+    dest: "{{ iproute2_rt_tables }}"
   notify: restart networking
