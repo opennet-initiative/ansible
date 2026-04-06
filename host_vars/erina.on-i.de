@@ -1,6 +1,6 @@
 short_hostname: erina
 
-wan_interface: ens3
+wan_interface: eth0
 
 olsr_main_ip: 192.168.0.247
 olsr_main_ipv6: fd32:d8d3:87da::247
