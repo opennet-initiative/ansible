@@ -1,0 +1,14 @@
+# Seit der Umstellung auf Trixie hat sich der Speicherort der rt_tables von /etc/iproute2/rt_tables zu /usr/share/iproute2/rt_tables geändert.
+# Für alle Trixie-Server werden wir /etc/iproute2/rt_tables.d/opennet.conf verwenden, damit die Konfiguration auch bei einem Wechsel der Distribution erhalten bleibt.
+# Siehe hierzu auch die Variable "iproute2_rt_tables" in group_vars/all.yml
+- name: policy-routing - Erstelle Verzeichnis /etc/iproute2/rt_tables.d
+  file:
+    path: /etc/iproute2/rt_tables.d
+    state: directory
+    mode: '0755'
+
+- name: policy-routing - Erstelle OLSR Routing Tabellendatei
+  file:
+    path: "{{ iproute2_rt_tables }}"
+    state: file
+    mode: '0644'

@@ -1,8 +1,8 @@
-- name: Installiere bridge-utils
+- name: gluon-interface - Installiere bridge-utils
   apt: 
     name: bridge-utils
 
-- name: Kopiere Bridge Interface Konfiguration
+- name: gluon-interface - Kopiere Bridge Interface Konfiguration
   template:
     src: "network/{{ item }}"
     dest: /etc/network/interfaces.d/
@@ -11,7 +11,7 @@
     - "65-batman-interface.cfg"
   notify: restart networking
 
-- name: Erstelle Routing Tabelle
+- name: gluon-interface - Erstelle Routing Tabelle
   lineinfile:
     create: yes
     line: "42 batman"

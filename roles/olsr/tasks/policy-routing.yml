@@ -5,7 +5,6 @@
 # werden, da der Verkehr zwaw ins Mesh geroutet, jedoch nicht von der
 # Firewall zugelassen wird.
 
-# TODO: use rt_tables.d file
 - name: policy-routing - OLSR Routing Tabelle anlegen
   lineinfile:
     dest: "{{ iproute2_rt_tables }}"

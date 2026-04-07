@@ -88,30 +88,33 @@
         - olsrd_httpinfo.so.0.1
         - olsrd_nameservice.so.0.4
 
-# Für Trixie nehmen wir kein selbst kompiliertes Paket, sondern das aus dem Archiv, da es dort noch verfügbar ist.
-# Die Prozedur für Bullseye und Bookworm ändern wir jedoch nicht, weil dies gut funktioniert hat bisher.
-- name: olsr (Trixie und später)
-  when: ansible_distribution_major_version|int >= 13
+- name: olsr (Trixie)
+  when: ansible_distribution_major_version|int == 13
   block:
+    - name: olsr - Abhängigkeit gpslib vorbereiten
+      apt:
+        pkg: libgps30t64
+
     - name: olsr - installieren (amd64)
       when: ansible_architecture == 'amd64' or ansible_architecture == 'x86_64'
       block:
         - name: olsr - Software installieren (amd64)
           apt:
-            deb: "http://archive.debian.org/debian/pool/main/o/olsrd/olsrd_0.6.6.2-1_amd64.deb"
+            deb: "{{ olsr_debian_url }}/{{ olsr_debian13_amd }}"
+
         - name: olsr - Plugins installieren (amd64)
           apt:
-            deb: "http://archive.debian.org/debian/pool/main/o/olsrd/olsrd-plugins_0.6.6.2-1_amd64.deb"
-    
+            deb: "{{ olsr_debian_url }}/{{ olsr_plugins_debian13_amd }}"
+
     - name: olsr - installieren (arm64)
       when: ansible_architecture == 'aarch64'
-      block:
-        - name: olsr - Software installieren (arm64)
-          apt:
-            deb: "http://archive.debian.org/debian/pool/main/o/olsrd/olsrd_0.6.6.2-1_arm64.deb"
-        - name: olsr - Plugins installieren (arm64)
-          apt:
-            deb: "http://archive.debian.org/debian/pool/main/o/olsrd/olsrd-plugins_0.6.6.2-1_arm64.deb"
+      fail:
+        msg: "Für arm64 ist noch keine olsrd Pakete verfügbar. Dies muss noch erstellt werden. Hierfür wird ein arm64 Server benötigt."
+
+- name: olsr (Debian14+)
+  when: ansible_distribution_major_version|int >= 14
+  fail:
+    msg: "Für Debian 14 und später ist noch kein olsrd Paket verfügbar."
 
 - name: olsr - Konfiguration erstellen
   template:

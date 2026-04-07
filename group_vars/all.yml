@@ -13,5 +13,6 @@ on_default_top_level_domains:
 #        - wismar.freifunk.net
 
 # Ab Trixie hat sich der Speicherort der rt_tables von /etc/iproute2/rt_tables zu /usr/share/iproute2/rt_tables geändert. 
-# Wir müssen beide Pfade unterstützen, da wir noch einige Server mit Bookworm und Bullseye betreiben.
-iproute2_rt_tables: "{{ '/etc/iproute2/rt_tables' if ansible_distribution_major_version|int <= 12 else '/usr/share/iproute2/rt_tables' }}"
+# Für alle Trixie-Server werden wir /etc/iproute2/rt_tables.d/opennet.conf verwenden, damit die Konfiguration auch bei einem Wechsel der Distribution erhalten bleibt.
+# Siehe hierzu auch basic-server/tasks/prepare-policy-routing.yml
+iproute2_rt_tables: "{{ '/etc/iproute2/rt_tables' if ansible_distribution_major_version|int <= 12 else '/etc/iproute2/rt_tables.d/opennet.conf' }}"
