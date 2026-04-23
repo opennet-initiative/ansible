@@ -273,7 +273,7 @@ interface GigabitEthernet1/0/21
  spanning-tree portfast edge
 !
 interface GigabitEthernet1/0/22
- description uniro-mesh
+ description uniro/AP2.179
  switchport access vlan 100
  switchport mode access
  macro description uniro-mesh
