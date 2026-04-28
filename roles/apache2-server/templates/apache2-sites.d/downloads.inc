@@ -24,6 +24,7 @@ Alias /openwrt/testing /var/www/downloads-buildbot/export
   AddDescription "Opennet Firmware (Current Releases)" stable
   AddDescription "Opennet Firmware (Development Builds)" testing
   AddDescription "Opennet Firmware (Other Builds)" misc
+  AddDescription "Opennet Firmware (on-workarounds)" workarounds
 </Directory>
 <Directory /var/www/downloads/openwrt/stable>
   IndexOrderDefault Descending Name
