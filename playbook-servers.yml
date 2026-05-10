@@ -1,6 +1,7 @@
 - hosts: ae22:frieda23:hetzner
   roles:
-    - basic-server
+    - role: basic-server
+      tags: basic_server
     - role: olsr
       tags: olsr
     - role: olsr2
@@ -35,10 +36,11 @@
 
 - hosts: jun.on
   roles:
-    - domain-proxy
-  tags: 
-    - domain-proxy
-
+    - role: domain-proxy
+      tags: domain-proxy
+    - role: anubis
+      tags: anubis
+  
 - hosts: inez.on:maki.on
   roles:
     - backup-storage

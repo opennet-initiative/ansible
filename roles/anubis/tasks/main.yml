@@ -1,0 +1,26 @@
+- name: Installiere Anubis
+  ansible.builtin.apt:
+    deb: https://github.com/TecharoHQ/anubis/releases/download/v1.25.0/anubis_1.25.0_amd64.deb
+    state: present
+  notify: Restart anubis
+
+- name: Kopiere wiki.env
+  ansible.builtin.copy:
+    src: wiki.env
+    dest: /etc/anubis/wiki.env
+    mode: '644'
+  notify: Restart anubis
+
+- name: Kopiere botPolicies.yaml
+  ansible.builtin.copy:
+    src: /usr/share/doc/anubis/botPolicies.yaml
+    dest: /etc/anubis/wiki.botPolicies.yaml
+    mode: '644'
+    remote_src: true
+  notify: Restart anubis
+
+- name: Aktiviere Anubis Wiki Service
+  ansible.builtin.systemd:
+    name: anubis@wiki.service
+    enabled: true
+    state: started

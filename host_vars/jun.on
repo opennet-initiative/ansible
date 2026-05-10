@@ -20,6 +20,7 @@ olsr_nameservice_announcements:
 
 apache2_sites:
   - { name: domain-proxy }
+  - { name: wiki, redirect_http_to_https: false }
 
 # slt läuft auf Port 443 - somit müssen unsere eigenen Dienste auf Port 444 laufen
 apache2_port_https: 444
@@ -35,6 +36,7 @@ letsencrypt_certificates:
   - { on_tld_base: api }
   - { on_tld_base: map }
   - { on_tld_base: domain-proxy }
+  - { on_tld_base: wiki }
 
 domain_proxy_redirect:
   - { on_tld_base: api, ip: "{{ olsr_main_ip }}", port: 81, service: http }
@@ -45,5 +47,6 @@ domain_proxy_redirect:
   - { on_tld_base: domain-proxy, ip: "{{ olsr_main_ip }}", port: 444, service: https }
   # provide "http://api.on/" for firmware up to version 0.5.4 (traceroute and map visualization)
   #- { "api.on", ip: "{{ olsr_main_ip }}", port: 81, service: http }
+  - { on_tld_base: wiki, ip: "{{ olsr_main_ip }}", port: 444, service: https }
 
 debian_release: bookworm 
