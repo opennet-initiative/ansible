@@ -3,3 +3,28 @@ Name=lo
 
 [Address]
 Address={{ olsr_main_ip }}/32
+
+[Address]
+Address={{ olsr_main_ipv6 }}/64
+
+[RoutingPolicyRule]
+Family=ipv6
+Table=main
+FirewallMark=32/32
+Priority=32764
+
+[RoutingPolicyRule]
+Family=ipv6
+Table=121
+Priority=32765
+
+[RoutingPolicyRule]
+Family=ipv4
+Table=main
+FirewallMark=32/32
+Priority=32764
+
+[RoutingPolicyRule]
+Family=ipv4
+Table=120
+Priority=32765

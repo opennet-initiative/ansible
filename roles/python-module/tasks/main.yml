@@ -7,7 +7,7 @@
 - name: Extrahiere Version
   set_fact:
     python_version_full: "{{ python_string.stdout.split(' ')[1] }}"
-- name: extrahiere Version
+- name: Extrahiere Version
   set_fact:
     python_version_short: "{{ python_version_full.split('.')[0] ~ '.' ~ python_version_full.split('.')[1] }}"
 
@@ -16,5 +16,4 @@
     src: "opennet/"
     dest: "/usr/local/lib/python{{ python_version_short }}/dist-packages/opennet/"
   tags:
-    - always
     - skipPythonVersionCheck
