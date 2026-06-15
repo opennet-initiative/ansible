@@ -37,5 +37,6 @@ homematic_allowed_users:
   - friedrichmeincke.client.on
   - thomasschmidt.client.on
   - reinhardlange.client.on
+  - chriskossahl.client.on
 
 debian_release: bookworm 
