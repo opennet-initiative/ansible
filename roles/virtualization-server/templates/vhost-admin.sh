@@ -15,12 +15,13 @@ DISTRIBUTION=${DISTRIBUTION:-bookworm}
 APT_URL="http://deb.debian.org/debian"
 DEBOOTSTRAP_BIN=${DEBOOTSTRAP_BIN:-debootstrap}
 # Zu installierende oder wegzulassende Pakete (komma-separiert)
-# python-apt/python3-apt: fuer ansible
-# olsrd: Mesh-Routing
+# python3-apt: fuer ansible
 # acpi-support-base: sanfte Abschaltung via "virsh shutdown"
 # irqbalance: unnoetig fuer einzel-CPU-Systeme
-PACKAGES_INCLUDE="openssh-server,python-apt,python3-apt,olsrd,acpi-support-base,linux-image-amd64,grub-pc"
+PACKAGES_INCLUDE="openssh-server,python3-apt,acpi-support-base,linux-image-amd64,grub-pc"
 PACKAGES_EXCLUDE="irqbalance"
+OLSRD_DEB_FILE="olsrd_0.9.8-3_amd64+deb11.deb"
+OLSRD_DEB_URL="https://downloads.opennet-initiative.de/debian/${OLSRD_DEB_FILE}"
 AP_FIRMWARE_MAP="\
 	0.4.1	https://downloads.opennet-initiative.de/openwrt/stable/0.4.1/x86/openwrt-x86-generic-combined-squashfs.img
 	0.4.4	https://downloads.opennet-initiative.de/openwrt/stable/0.4.4/x86/openwrt-x86-generic-combined-squashfs.img
@@ -333,6 +334,8 @@ prepare_system() {
 		nameserver 192.168.0.247
 		nameserver 192.168.0.248
 	EOF
+	wget -O "$MOUNTPOINT/tmp/${OLSRD_DEB_FILE}" "$OLSRD_DEB_URL"
+	run_in_chroot dpkg -i "/tmp/${OLSRD_DEB_FILE}"
 	# import the server ssh key
 	run_in_chroot mkdir -p /root/.ssh
 	{
