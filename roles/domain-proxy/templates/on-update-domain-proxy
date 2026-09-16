@@ -153,7 +153,7 @@ bind_addr: ":443"
 frontends:
 %s
 """ % (__file__,
-       os.linesep.join(["""  %s: { backends: [ { addr: "%s" } ] }""" % (domain, source)
+       os.linesep.join(["""  %s: { backends: [ { addr: "%s", connect_timeout: 2000 } ] }""" % (domain, source)
                        for domain, source in backend_entries]))
 
 
