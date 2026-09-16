@@ -99,6 +99,7 @@ $wgDiff3 = "/usr/bin/diff3";
 $wgGroupPermissions['*']['edit'] = false;
 
 # SPAM prevention: Prevent new user registrations except by sysops
+# We (Opennet) need some protection against SPAM bots. In the old Wiki there was a modification with password hint. When we have this here also, then opening the registration is possible.
 $wgGroupPermissions['*']['createaccount'] = false;
 
 # Erzwingen von E-Mail Verfication
