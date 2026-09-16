@@ -1,12 +1,20 @@
-- name: database - Mediawiki Datenbank einrichten
-  mysql_db:
+- name: Database - Installiere MariaDb Server und Client
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - mariadb-server
+      - mariadb-client
+
+- name: Database - Mediawiki Datenbank einrichten
+  community.mysql.mysql_db:
     name: mediawiki
     login_unix_socket: "{{ mediawiki_mysql_socket }}"
     state: present
 
-# Passwort kann ggf. geändert werden auf dem Host, hier Initialpasswort
-- name: database - Mediawiki Datenbank Benutzer einrichten
-  mysql_user:
+# Passwort muss geändert werden auf dem Host; hier nur Initialpasswort
+- name: Database - Mediawiki Datenbank Benutzer einrichten
+  community.mysql.mysql_user:
     name: mediawiki
     password: mediawiki
     update_password: on_create

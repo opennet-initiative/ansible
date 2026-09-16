@@ -1,30 +1,19 @@
-- name: config - Einstellungen kopieren
-  template:
+- name: Config - Einstellungen kopieren
+  ansible.builtin.template:
     src: LocalSettings.php
     dest: "{{ mediawiki_path_conf }}"
-  notify: update mediawiki
+    mode: '0640'
+    owner: "root"
+    group: "www-data"
+  notify: Update mediawiki
 
-- name: config - Vorlage für Passwortdatei kopieren
-  template:
+- name: Config - Vorlage für Passwortdatei initial kopieren
+  ansible.builtin.template:
     src: config_keys.php
     dest: "{{ mediawiki_path_conf }}"
-    force: no
-  notify: update mediawiki
-
-- name: config - Allgemeine Einstellungen kopieren
-  template:
-    src: config_core.php
-    dest: "{{ mediawiki_path_conf }}"
-  notify: update mediawiki 
-
-- name: config - Skin Einstellungen kopieren
-  template:
-    src: config_skin.php
-    dest: "{{ mediawiki_path_conf }}"
-  notify: update mediawiki
-
-- name: config - Extensions Einstellungen kopieren
-  template:
-    src: config_extensions.php
-    dest: "{{ mediawiki_path_conf }}"
-  notify: update mediawiki
+    mode: '0640'
+    owner: "root"
+    group: "www-data"
+    # kopiere nur einmalig initial weil darin geänderte Passwörter nicht überschrieben werden sollen
+    force: false
+  notify: Update mediawiki

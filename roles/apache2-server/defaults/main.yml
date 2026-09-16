@@ -14,31 +14,42 @@ apache2_conf_dir: "/etc/apache2/conf-available"
 apache2_https_conf: "/etc/apache2/mods-available/ssl.conf"
 apache2_logging_dir: "/var/log/apache2"
 
-# TODO create a better mapping of OS version and php-fpm
-apache2_php_version_bullseye: "php7.4"
-apache2_php_dir_bullseye: "/etc/php/7.4/fpm"
-apache2_php_version_bookowm: "php8.2"
-apache2_php_dir_bookworm: "/etc/php/8.2/fpm"
-apache2_php_version_trixie: "php8.4"
-apache2_php_dir_trixie: "/etc/php/8.4/fpm"
+apache2_php_versions:
+  "10":
+    package: "php7.4"
+    dir: "/etc/php/7.4/fpm"
+  "11":
+    package: "php7.4"
+    dir: "/etc/php/7.4/fpm"
+  "12":
+    package: "php8.2"
+    dir: "/etc/php/8.2/fpm"
+  "13":
+    package: "php8.4"
+    dir: "/etc/php/8.4/fpm"
+
+apache2_php_version: >-
+  {{ apache2_php_versions[ansible_distribution_major_version | string].package }}
+apache2_php_dir: >-
+  {{ apache2_php_versions[ansible_distribution_major_version | string].dir }}
 
 apache2_opennetca_dir: "/etc/apache2/ssl/opennetca"
 apache2_opennetca_src: "/etc/ssl"
 apache2_opennetca_files:
-- opennet-root
-- opennet-client
+  - opennet-root
+  - opennet-client
 apache2_tld_base: "opennet-initiative.de"
 apache2_port_http: 80
 apache2_port_https: 443
 apache2_mods_enable:
-# HTTP-HTTPS Redirects
-- rewrite
-# HTTP/2 Unterstützung
-- http2
-# HTTP Header Unterstützung
-- headers
+  # HTTP-HTTPS Redirects
+  - rewrite
+  # HTTP/2 Unterstützung
+  - http2
+  # HTTP Header Unterstützung
+  - headers
 apache2_mods_disable:
-# /server-info
-- info
-# /server-status
-- status
+  # /server-info
+  - info
+  # /server-status
+  - status

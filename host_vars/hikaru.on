@@ -11,6 +11,8 @@ olsr_interfaces:
 apache2_sites:
   - { name: docs }
   - { name: www }
+#  - { name: wiki }  # aktiviere wenn DNS Änderungen wieder möglich sind
+#  - { name: wiki-archive }  # aktiviere wenn DNS Änderungen wieder möglich sind
 
 apache2_php: true
 apache2_php_filesize: 20M
@@ -19,19 +21,17 @@ letsencrypt_certificates:
   - { on_tld_base: docs }
 #  - { on_tld_base: www }  #TODO uncomment when www is finally migrated
   - { on_tld_base: www2 }  #TODO delete when www is finally migrated
+#  - { on_tld_base: wiki }   # aktiviere wenn DNS Änderungen wieder möglich sind
+#  - { on_tld_base: wiki-archive }    # aktiviere wenn DNS Änderungen wieder möglich sind
 
-mediawiki_extensions_wikimedia:
+#TODO ist das noch aktuell?
+mediawiki_extensions_wikimedia: 
  - MobileFrontend
  - UserMerge
  - MsCalendar
  - ContactPage
 
-# TODO: remove mediawiki_extensions_wikimedia_old if all ext. moved to wfLoadExtension
-mediawiki_extensions_wikimedia_old:
- - NoTitle
- - UserFunctions
- - TitleKey
-
+#TODO ist das noch aktuell?
 mediawiki_extensions_debian:
  - ConfirmEdit
  - Nuke
@@ -41,9 +41,10 @@ mediawiki_extensions_debian:
  - SpamBlacklist
  - WikiEditor
 
+#TODO ist das noch aktuell?
 mediawiki_upload_filetypes:
  - pdf
  - dia
  - odt
 
-debian_release: bookworm
+debian_release: trixie

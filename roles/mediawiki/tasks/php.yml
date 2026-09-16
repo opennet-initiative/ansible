@@ -1,9 +1,0 @@
-#- name: Installation von APC Benutzer Puffer-Speicher prüfen
-#  command: dpkg-query -l php-apcu
-#  register: mediawiki_apcu
-#  failed_when: False
-#  changed_when: False
-#
-#- name:  
-#  debug: msg="{{ mediawiki.stderr }}"
-#  when: mediawiki_apcu.rc == 1

@@ -20,6 +20,8 @@ $wgSitename = "{{ mediawiki_sitename }}";
 ## (like /w/index.php/Page_title to /wiki/Page_title) please see:
 ## https://www.mediawiki.org/wiki/Manual:Short_URL
 $wgScriptPath = "";
+#TODO activate it; needs config in apache
+#$wgScriptPath = "/w";
 
 ## The protocol and server name to use in fully-qualified URLs
 $wgServer = "https://{{ mediawiki_hostname }}.opennet-initiative.de";
@@ -48,16 +50,13 @@ $wgDBtype = "mysql";
 $wgDBserver = "localhost";
 $wgDBname = "{{ mediawiki_database }}";
 $wgDBuser = "{{ mediawiki_database }}";
-#$wgDBpassword = "";
+#$wgDBpassword = "";  # see config_keys.php
 
-# MySQL specific settings
+# MariaDB specific settings
 $wgDBprefix = "";
 
-# MySQL table options to use during installation or update
+# MariaDB table options to use during installation or update
 $wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
-
-# Experimental charset support for MySQL 5.0.
-$wgDBmysql5 = false;
 
 ## Shared memory settings
 $wgMainCacheType = CACHE_ACCEL;
@@ -77,22 +76,13 @@ $wgUseInstantCommons = true;
 ## available UTF-8 locale
 $wgShellLocale = "de_DE.utf8";
 
-## Set $wgCacheDirectory to a writable directory on the web server
-## to make your wiki go slightly faster. The directory should not
-## be publically accessible from the web.
-#$wgCacheDirectory = "$IP/cache";
-
 # Site language code, should be one of the list in ./languages/data/Names.php
 $wgLanguageCode = "de";
 
-#$wgSecretKey = "";
+#$wgSecretKey = "";  # see config_keys.php
 
 # Changing this will log out all existing sessions.
 $wgAuthenticationTokenVersion = "1";
-
-# Site upgrade key. Must be set to a string (default provided) to turn on the
-# web installer while LocalSettings.php is in place
-#$wgUpgradeKey = "";
 
 ## For attaching licensing metadata to pages, and displaying an
 ## appropriate copyright notice / icon. GNU Free Documentation
@@ -105,12 +95,18 @@ $wgRightsIcon = "$wgResourceBasePath/resources/assets/licenses/cc-by-nc-sa.png";
 # Path to the GNU diff3 utility. Used for conflict resolution.
 $wgDiff3 = "/usr/bin/diff3";
 
-# The following permissions were set based on your choice in the installer
+# Requires that a user be registered before they can edit. 
 $wgGroupPermissions['*']['edit'] = false;
+
+# SPAM prevention: Prevent new user registrations except by sysops
+$wgGroupPermissions['*']['createaccount'] = false;
+
+# Erzwingen von E-Mail Verfication
+$wgEmailConfirmToEdit = true;
 
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'vector', 'monobook':
-$wgDefaultSkin = "vector";
+$wgDefaultSkin = "vector-2022";
 
 # Enabled skins.
 # The following skins were automatically enabled:
@@ -128,15 +124,6 @@ $wgMimeTypeFile = '/etc/mime.types';
 # Opennet specific generated settings
 if ( is_file( "{{ mediawiki_path_conf }}/config_keys.php" ) ) {
   include "{{ mediawiki_path_conf }}/config_keys.php";
-}
-if ( is_file( "{{ mediawiki_path_conf }}/config_core.php" ) ) {
-  include "{{ mediawiki_path_conf }}/config_core.php";
-}
-if ( is_file( "{{ mediawiki_path_conf }}/config_skin.php" ) ) {
-  include "{{ mediawiki_path_conf }}/config_skin.php";
-}
-if ( is_file( "{{ mediawiki_path_conf }}/config_extensions.php" ) ) {
-  include "{{ mediawiki_path_conf }}/config_extensions.php";
 }
 
 ?>

@@ -1,23 +1,8 @@
-- name: php - Apache Modul php deaktivieren (bis Bullseye)
+- name: php - Apache Modul php deaktivieren
   apache2_module:
-    name: "{{ apache2_php_version_bullseye }}"
+    name: "{{ apache2_php_version }}"
     state: absent
   notify: restart apache2
-  when: ansible_distribution_major_version|int <= 11
-
-- name: php - Apache Modul php deaktivieren (für Bookworm)
-  apache2_module:
-    name: "{{ apache2_php_version_bookworm }}"
-    state: absent
-  notify: restart apache2
-  when: ansible_distribution_major_version|int == 12
-
-- name: php - Apache Modul php deaktivieren (für Trixie)
-  apache2_module:
-    name: "{{ apache2_php_version_trixie }}"
-    state: absent
-  notify: restart apache2
-  when: ansible_distribution_major_version|int == 13
 
 - name: php - Apache Modul mpm_prefork deaktivieren
   apache2_module:
@@ -32,32 +17,12 @@
     ignore_configcheck: yes
   notify: restart apache2
 
-- name: php - Apache Module FPM für PHP installieren (bis Bullseye)
+- name: php - Apache Module FPM für PHP installieren
   apt:
-    name: "{{ packages }}"
-  vars:
-    packages:
+    name:
       - libapache2-mod-fcgid
-      - "{{ apache2_php_version_bullseye }}-fpm"
-  when: ( apache2_php and ansible_distribution_major_version|int <= 11 )
-
-- name: php - Apache Module FPM für PHP installieren (für Bookworm)
-  apt:   
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - libapache2-mod-fcgid
-      - "{{ apache2_php_version_bookworm }}-fpm"
-  when: ( apache2_php and ansible_distribution_major_version|int == 12 )
-
-- name: php - Apache Module FPM für PHP installieren (für Trixie)
-  apt:   
-    name: "{{ packages }}"
-  vars:
-    packages:
-      - libapache2-mod-fcgid
-      - "{{ apache2_php_version_trixie }}-fpm"
-  when: ( apache2_php and ansible_distribution_major_version|int == 13 )
+      - "{{ apache2_php_version }}-fpm"
+  when: apache2_php
 
 - name: php - Apache Module für PHP aktivieren
   apache2_module:
@@ -83,27 +48,12 @@
       - libapache2-mod-php7.3
   when: apache2_php
 
-# TODO: warte auf Ansible Modul für a2enconf
-- name: php - Apache Konfiguration für PHP aktivieren (bis Bullseye)
-  command: "a2enconf {{ apache2_php_version_bullseye }}-fpm"
+- name: php - Apache Konfiguration für PHP aktivieren
+  command: "a2enconf {{ apache2_php_version }}-fpm"
   register: conf_php
   changed_when: "'Enabling conf' in conf_php.stdout"
   notify: restart apache2
-  when: ( apache2_php and ansible_distribution_major_version|int <= 11 )
-
-- name: php - Apache Konfiguration für PHP aktivieren (für Bookworm)
-  command: "a2enconf {{ apache2_php_version_bookworm }}-fpm"
-  register: conf_php
-  changed_when: "'Enabling conf' in conf_php.stdout" 
-  notify: restart apache2
-  when: ( apache2_php and ansible_distribution_major_version|int == 12 )
-
-- name: php - Apache Konfiguration für PHP aktivieren (für Trixie)
-  command: "a2enconf {{ apache2_php_version_trixie }}-fpm"
-  register: conf_php
-  changed_when: "'Enabling conf' in conf_php.stdout" 
-  notify: restart apache2
-  when: ( apache2_php and ansible_distribution_major_version|int == 13 )
+  when: apache2_php
 
 - name: php - APC Benutzer Puffer-Speicher aktivieren
   apt: name=php-apcu state=present
@@ -112,18 +62,7 @@
     - restart apache2
   when: apache2_php
 
-- name: php - Dateigröße zum Hochladen setzen (bis Bullseye)
-  ini_file:
-    path: "{{ apache2_php_dir_bullseye }}/php.ini"
-    section: PHP
-    option: upload_max_filesize
-    value: "{{ apache2_php_filesize }}"
-    create: no
-    backup: yes
-  notify: restart php-fpm
-  when: ( apache2_php and ansible_distribution_major_version|int <= 11 )
-
-- name: php - Dateigröße zum Hochladen setzen (ab Bookworm)
+- name: php - Dateigröße zum Hochladen setzen
   ini_file:
     path: "{{ apache2_php_dir }}/php.ini"
     section: PHP
@@ -132,20 +71,9 @@
     create: no
     backup: yes
   notify: restart php-fpm
-  when: ( apache2_php and ansible_distribution_major_version|int >= 12 )
+  when: apache2_php
 
-- name: php - POST Größe zum Hochladen setzen (bis Bullseye)
-  ini_file:
-    path: "{{ apache2_php_dir_bullseye }}/php.ini"
-    section: PHP
-    option: post_max_size
-    value: "{{ apache2_php_filesize }}"
-    create: no
-    backup: yes
-  notify: restart php-fpm
-  when: ( apache2_php and ansible_distribution_major_version|int <= 11 )
-
-- name: php - POST Größe zum Hochladen setzen (ab Bookworm)
+- name: php - POST Größe zum Hochladen setzen
   ini_file:
     path: "{{ apache2_php_dir }}/php.ini"
     section: PHP
@@ -154,24 +82,11 @@
     create: no
     backup: yes
   notify: restart php-fpm
-  when: ( apache2_php and ansible_distribution_major_version|int >= 12 )
+  when: apache2_php
 
 # Fehler sollten nicht mehr in eine Datei geschrieben
 # wir nutzen systemd-journald als Syslog-Ersatz
-- name: php - Fehlermeldungen Syslog anpassen (nur Bullseye)
-  ini_file:
-    path: "{{ apache2_php_dir_bullseye }}/php-fpm.conf"
-    section: global
-    option: error_log
-    value: syslog
-    create: no
-    backup: yes
-  notify: restart php-fpm
-  when: ( apache2_php and ansible_distribution_major_version|int == 11 )
-
-# Fehler sollten nicht mehr in eine Datei geschrieben
-# wir nutzen systemd-journald als Syslog-Ersatz
-- name: php - Fehlermeldungen Syslog anpassen (ab Bookworm)
+- name: php - Fehlermeldungen Syslog anpassen
   ini_file:
     path: "{{ apache2_php_dir }}/php-fpm.conf"
     section: global
@@ -180,4 +95,4 @@
     create: no
     backup: yes
   notify: restart php-fpm
-  when: apache2_php and ansible_distribution_major_version|int >= 12
+  when: apache2_php and ansible_distribution_major_version|int >= 11
