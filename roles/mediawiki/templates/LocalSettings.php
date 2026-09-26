@@ -115,6 +115,9 @@ $wgDefaultSkin = "vector-2022";
 wfLoadSkin( 'Vector' );
 #wfLoadSkin( 'Timeless' );
 
+# Enable extensions
+wfLoadExtension( 'VisualEditor' ); 
+
 # End of automatically generated settings.
 # Add more configuration options below.
 
