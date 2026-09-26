@@ -24,27 +24,4 @@ letsencrypt_certificates:
 #  - { on_tld_base: wiki }   # aktiviere wenn DNS Änderungen wieder möglich sind
 #  - { on_tld_base: wiki-archive }    # aktiviere wenn DNS Änderungen wieder möglich sind
 
-#TODO ist das noch aktuell?
-mediawiki_extensions_wikimedia: 
- - MobileFrontend
- - UserMerge
- - MsCalendar
- - ContactPage
-
-#TODO ist das noch aktuell?
-mediawiki_extensions_debian:
- - ConfirmEdit
- - Nuke
- - ParserFunctions
- - PdfHandler
- - Renameuser
- - SpamBlacklist
- - WikiEditor
-
-#TODO ist das noch aktuell?
-mediawiki_upload_filetypes:
- - pdf
- - dia
- - odt
-
 debian_release: trixie
