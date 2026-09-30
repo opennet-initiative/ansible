@@ -3,9 +3,6 @@
 DocumentRoot /var/lib/mediawiki
 
 RewriteEngine On
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
-RewriteRule ^(.*)$ %{DOCUMENT_ROOT}/index.php [L]
 
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
@@ -14,6 +11,17 @@ RewriteRule ^/?images/thumb/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/([0-9]+)px-.*$ %{D
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
 RewriteRule ^/?images/thumb/archive/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/([0-9]+)px-.*$ %{DOCUMENT_ROOT}/thumb.php?f=$1&width=$2&archived=1 [L,QSA,B]
+
+# 1. Ausnahme für physisch existierende Dateien/Ordner (api.php, load.php, skins, etc.)
+# Verhindert die Endlos-Lade-Schleife der Live-Suche!
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
+
+# 2. Leitet alles, was auf /wiki/ zugreift, intern an die index.php weiter [QSA sorgt für Suchparameter]
+RewriteRule ^/?wiki(/(.*))?$ /index.php?title=$2 [L,QSA]
+
+# 3. Optionale Weiterleitung: Wenn jemand nur die nackte Domain aufruft, zur Hauptseite schicken
+RewriteRule ^/*$ /index.php [L,QSA]
 
 <Directory /var/lib/mediawiki/>
 	Options +FollowSymLinks

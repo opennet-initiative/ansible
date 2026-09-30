@@ -19,9 +19,12 @@ $wgSitename = "{{ mediawiki_sitename }}";
 ## For more information on customizing the URLs
 ## (like /w/index.php/Page_title to /wiki/Page_title) please see:
 ## https://www.mediawiki.org/wiki/Manual:Short_URL
-$wgScriptPath = "";
-#TODO activate it; needs config in apache
-#$wgScriptPath = "/w";
+$wgScriptPath = ""; 
+# only serve the articles via /wiki/ subpath
+$wgArticlePath = "/wiki/$1";
+# force standard path for system script so not "/wiki/$1" is used
+$wgScript = "{$wgScriptPath}/index.php";
+$wgLoadScript = "{$wgScriptPath}/load.php";
 
 ## The protocol and server name to use in fully-qualified URLs
 $wgServer = "https://{{ mediawiki_hostname }}.opennet-initiative.de";
