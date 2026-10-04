@@ -25,3 +25,10 @@
     regexp: '^LANGUAGE_CODE ='
     line: "LANGUAGE_CODE = '{{ mailinglist_lang }}-{{ mailinglist_lang }}'"
   notify: restart mailman3-web
+
+- name: config-web - uWSGI Request-Puffer vergrößern
+  lineinfile:
+    path: "{{ mailinglist_config_path }}/uwsgi.ini"
+    regexp: '^buffer-size\s*='
+    line: 'buffer-size = 8192'
+  notify: restart mailman3-web
