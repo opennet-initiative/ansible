@@ -26,6 +26,10 @@ apache2_mods:
 
 mail_server: true
 
+mailman_admin_allowed_users:
+  - mathiasmahnke.client.on
+  - martingarbe.client.on
+
 debian_release: bookworm
 
 # Wir wollen den neuen Relayhost nutzen. Später wird die Nutzung des neuen Relayhosts der Standard.
