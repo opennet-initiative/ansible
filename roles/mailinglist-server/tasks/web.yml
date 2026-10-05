@@ -2,3 +2,9 @@
   copy: 
     src: "web/favicon.ico" 
     dest: "/var/www/"
+
+- name: web - Signup-Hinweis bereitstellen
+  copy:
+    src: registration-disabled.html
+    dest: /var/www/registration-disabled.html
+    mode: 0644

@@ -3,6 +3,7 @@
 Alias /mailman3/static/postorius/img/favicon.ico	/var/www/favicon.ico
 Alias /mailman3/static/hyperkitty/img/favicon.ico	/var/www/favicon.ico
 Alias /mailman3/static      /var/lib/mailman3/web/static
+Alias /registration-disabled.html /var/www/registration-disabled.html
 
 <Directory "/var/lib/mailman3/web/static">
 	Require all granted
@@ -10,8 +11,13 @@ Alias /mailman3/static      /var/lib/mailman3/web/static
 
 <IfModule mod_proxy_uwsgi.c>
 	ProxyPass /mailman3/static !
+	ProxyPass /registration-disabled.html !
 	ProxyPass / unix:/run/mailman3-web/uwsgi.sock|uwsgi://localhost/
 </IfModule>
+
+# Anonymous web signup for selected lists is disabled; redirect POSTs to a notice.
+RewriteEngine On
+RewriteRule ^/postorius/lists/(?:crew|admin|vorstand)\.lists\.opennet-initiative\.de/anonymous_subscribe/?$ /registration-disabled.html [R=303,L]
 
 # Require an authorized Opennet client certificate for Django admin only.
 # client certificate authentication
@@ -33,8 +39,4 @@ SSLOptions +StdEnvVars
   SSLRequire %{SSL_CLIENT_S_DN_CN} in { "{{ mailman_admin_allowed_users|join('", "') }}" }
 </LocationMatch>
 
-# client cert error handling
-RewriteEngine on
-RewriteCond %{SSL:SSL_CLIENT_VERIFY} !=SUCCESS
-RewriteRule .? - [F]
-ErrorDocument 403 "You need a certificate issued by Opennet Client Sub-CA to access this site."
+ErrorDocument 403 "An authorized Opennet client certificate is required to access this site."
