@@ -2,6 +2,7 @@
 
 // opennet acls
 acl "internetx" {
+  192.168.10.19;   # zone transfer forward via kazama because external firewall blocks port 53 incoming for izumi
   62.116.132.5;   
   62.116.131.31;   # a.ns14.net
   217.160.113.32;  # b.ns14.net
