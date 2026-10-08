@@ -1,0 +1,11 @@
+- name: Wiki - Erstelle das Zielverzeichnis, falls es nicht existiert
+  file:
+    path: "/var/www/wiki.opennet-initiative.de"
+    state: directory
+    mode: '0755'
+
+- name: Wiki - Kopiere die index.html Datei in das Zielverzeichnis
+  copy:
+    src: wiki-overview/index.html
+    dest: "/var/www/wiki.opennet-initiative.de/index.html"
+    mode: '0644'

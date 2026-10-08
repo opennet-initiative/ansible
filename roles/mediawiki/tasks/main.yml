@@ -1,3 +1,4 @@
 - ansible.builtin.include_tasks: install.yml
 - ansible.builtin.include_tasks: database.yml
 - ansible.builtin.include_tasks: config.yml
+- ansible.builtin.include_tasks: wiki-overview.yml

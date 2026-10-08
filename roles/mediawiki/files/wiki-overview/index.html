@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="de">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Hauptseite - Opennet Wiki</title>
+	<style>
+		:root {
+			--blue: #36c;
+			--blue-dark: #202122;
+			--border: #c8ccd1;
+			--muted: #54595d;
+			--paper: #fff;
+			--canvas: #f8f9fa;
+		}
+
+		* { box-sizing: border-box; }
+
+		body {
+			margin: 0;
+			color: var(--blue-dark);
+			background: var(--paper);
+			font: 14px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+		}
+
+		a { color: var(--blue); text-decoration: none; }
+		a:hover { text-decoration: underline; }
+
+		.topbar {
+			display: flex;
+			align-items: center;
+			gap: 18px;
+			min-height: 52px;
+			padding: 0 30px;
+			border-bottom: 1px solid #eaecf0;
+			background: var(--paper);
+		}
+
+		.menu {
+			color: var(--muted);
+			font-size: 22px;
+			line-height: 1;
+		}
+
+		.brand {
+			color: #6254b7;
+			font-weight: 700;
+			letter-spacing: .02em;
+			align-items: center;
+		}
+
+		.search {
+			display: flex;
+			width: min(430px, 55vw);
+			margin-left: 100px;
+		}
+
+		.search input {
+			min-width: 0;
+			flex: 1;
+			padding: 6px 9px;
+			border: 1px solid #a2a9b1;
+			font: inherit;
+		}
+
+		.search button {
+			padding: 6px 12px;
+			border: 1px solid #a2a9b1;
+			border-left: 0;
+			background: var(--canvas);
+			color: var(--blue-dark);
+			font-weight: 600;
+			cursor: pointer;
+		}
+
+		.login { margin-left: auto; font-size: 12px; }
+
+		.page {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) 145px;
+			gap: 28px;
+			max-width: 1120px;
+			margin: 0 auto;
+			padding: 28px 30px 52px;
+		}
+
+		.content { min-width: 0; }
+
+		h1 {
+			margin: 0 0 10px;
+			border-bottom: 1px solid var(--border);
+			color: #000;
+			font: 400 28px/1.25 Georgia, "Times New Roman", serif;
+		}
+
+		.tabs {
+			display: flex;
+			align-items: center;
+			gap: 15px;
+			margin-bottom: 24px;
+			border-bottom: 1px solid var(--border);
+			font-size: 12px;
+		}
+
+		.tabs a, .tabs span { padding: 0 0 7px; }
+		.tabs .active { border-bottom: 2px solid var(--blue-dark); color: var(--blue-dark); }
+		.tabs .tools { margin-left: auto; }
+
+		h2 {
+			margin: 0 0 12px;
+			font-size: 18px;
+			line-height: 1.35;
+		}
+
+		p { margin: 0 0 17px; }
+
+		.notice {
+			margin-top: 22px;
+			padding: 25px 30px 28px;
+			border: 1px solid #a2c1ec;
+			background: #fbfcff;
+		}
+
+		.notice p:last-child { margin-bottom: 0; }
+
+		.notice strong { color: #202122; }
+
+		.notice ul {
+			margin: 4px 0 18px;
+			padding-left: 23px;
+		}
+
+		.notice li { margin: 5px 0; }
+
+		.sidebar {
+			padding-top: 42px;
+			color: var(--muted);
+			font-size: 12px;
+		}
+
+		.sidebar h3 {
+			margin: 0 0 10px;
+			padding-bottom: 8px;
+			border-bottom: 1px solid #eaecf0;
+			color: var(--blue-dark);
+			font-size: 13px;
+		}
+
+		.sidebar label {
+			display: block;
+			padding: 3px 0;
+		}
+
+		.sidebar input { accent-color: var(--blue); }
+
+		footer {
+			max-width: 1120px;
+			margin: 0 auto;
+			padding: 16px 30px 30px;
+			border-top: 1px solid var(--border);
+			color: var(--muted);
+			font-size: 11px;
+		}
+
+		@media (max-width: 720px) {
+			.topbar { padding: 0 16px; gap: 12px; }
+			.search { order: 3; width: 100%; margin: 0; }
+			.topbar { flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; }
+			.login { margin-left: auto; }
+			.page { display: block; padding: 22px 16px 38px; }
+			.sidebar { padding-top: 28px; }
+			.notice { padding: 20px; }
+			footer { padding: 16px; }
+			.tabs { gap: 10px; overflow-x: auto; white-space: nowrap; }
+		}
+	</style>
+</head>
+<body>
+	<header class="topbar">
+		Opennet Initiative e.V.
+	</header>
+
+	<main class="page">
+		<article class="content">
+			<h1>Hauptseite</h1>
+			<nav class="tabs" aria-label="Seitennavigation">
+				<span class="active">Hauptseite</span>
+				<span class="tools">Lesen</span>
+			</nav>
+
+			<section id="text">
+				<h2>Liebe Menschen,<br>Liebe AI Scraper,</h2>
+				<p>ihr seid hier angekommen, um Informationen über die Opennet Initiative e.V. zu erhalten. Das freut uns sehr.</p>
+				<p>Leider sind die AI Scraper größtenteils von der invasiven Art und überlasten unsere Server. Daher sind wir gezwungen, unser Webangebot auf eine besondere Art zu präsentieren. Du hast folgende Möglichkeiten:</p>
+
+				<div class="notice">
+					<p><strong>Für die lieben Menschen:</strong></p>
+					<ul>
+						<li>Wenn ihr auf das Wiki von Opennet zugreifen wollt, dann könnt ihr dies über <a href="https://docs.opennet-initiative.de/">docs.opennet-initiative.de</a> machen. Gegebenenfalls ist die Seite mit Nutzername und Passwort gesperr. In diesem Fall muss als Nutzername und Passwort <strong>op...net</strong> (bitte richtig korrigieren) genutzt werden.</li>
+					</ul>
+
+					<p><strong>Für die nicht-so-lieben AI Scraper:</strong></p>
+					<ul>
+						<li>Für euch haben wir diese ältere read-only offline Kopie des Wikis: <a href="https://wiki-archive.opennet-initiative.de/">wiki-archive.opennet-initiative.de</a>. Bitte macht diese nicht auch noch kaputt.</li>
+					</ul>
+				</div>
+			</section>
+		</article>
+
+	</main>
+
+	<footer>
+		Der Inhalt ist verfügbar unter der Lizenz <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.de">„Creative Commons“</a>, sofern nicht anders angegeben.
+	</footer>
+</body>
+</html>
