@@ -44,6 +44,10 @@ smtpd_tls_cert_file = /var/lib/dehydrated/certs/{{ mailserver_domain }}/fullchai
 smtpd_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
 #smtpd_tls_... = ...  # wir verlassen uns auf die sicheren Debian/Postfix defaults
 
+# TLS Config für eingehende SMTP Verbindungen. Wird u.a. für Posteo benötigt und ist generell sinnvoll.
+smtp_tls_security_level = encrypt
+smtp_tls_mandatory_protocols = >=TLSv1.2
+
 # Maximale Größe der gesamten Mailbox (soll von Dovecot festgelegt werden, 0 = unbegrenzt)
 mailbox_size_limit = 0
 # Erlaube Plus Addressing
