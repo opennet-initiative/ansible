@@ -14,8 +14,9 @@ letsencrypt_certificates:
 apache2_sites:
   - { name: monitor }
 
-domain_proxy_redirect:
-  - { on_tld_base: monitor, ip: "{{ olsr_main_ip }}", port: 80, service: http }
-  - { on_tld_base: monitor, ip: "{{ olsr_main_ip }}", port: 443, service: https }
+#Erreichbarkeit aus dem Internet temporär deaktiviert wegen zu vieler Anfragen dummer KI Crawler
+#domain_proxy_redirect:
+#  - { on_tld_base: monitor, ip: "{{ olsr_main_ip }}", port: 80, service: http }
+#  - { on_tld_base: monitor, ip: "{{ olsr_main_ip }}", port: 443, service: https }
 
 debian_release: bookworm 
