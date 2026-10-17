@@ -1,13 +1,15 @@
-- name: roundcube - Apache Standard Site Konfiguration deaktivieren
-  file:
-    path: "{{ roundcube_config_apache }}"
-    state: absent
-  notify: restart apache2
+- name: roundcube - Plugin-Konfiguration (password) kopieren
+  template:
+    src: "roundcube/password-config.inc.php"
+    dest: "/etc/roundcube/plugins/password/config.inc.php"
+    owner: "root"
+    group: "www-data"
+    mode: "0640"
 
 - name: roundcube - Konfiguration anpassen
   lineinfile:
     path: "{{ roundcube_config_file }}"
-    regexp: "^$config['{{ item.opt }}']"
+    regexp: "^\\s*\\$config\\['{{ item.opt }}'\\]"
     line: "$config['{{ item.opt }}'] = '{{ item.val }}';"
   loop:
     - { opt: "imap_host", val: "ssl://{{ mailserver_domain }}:{{ mailserver_port_imap }}" }
@@ -19,7 +21,7 @@
 - name: roundcube - Logging anpassen
   lineinfile:
     path: "{{ roundcube_config_file }}"
-    regexp: "^$config['{{ item.opt }}']"
+    regexp: "^\\s*\\$config\\['{{ item.opt }}'\\]"
     line: "$config['{{ item.opt }}'] = {{ item.val }};"
   loop:
     - { opt: "smtp_log", val: "{{ roundcube_config_logging }}" }
@@ -28,5 +30,5 @@
 - name: roundcube - Plugins aktivieren
   lineinfile:
     path: "{{ roundcube_config_file }}"
-    regexp: "^$config['plugins']"
-    line: "$config['plugins'] = [ {{ roundcube_config_plugins }}"
+    regexp: "^\\s*\\$config\\['plugins'\\]"
+    line: "$config['plugins'] = [ {{ roundcube_config_plugins }} ];"
