@@ -28,7 +28,8 @@
     - { opt: "smtp_debug", val: "{{ roundcube_config_logging }}" }
 
 - name: roundcube - Plugins aktivieren
-  lineinfile:
+  replace:
     path: "{{ roundcube_config_file }}"
-    regexp: "^\\s*\\$config\\['plugins'\\]"
-    line: "$config['plugins'] = [ {{ roundcube_config_plugins }} ];"
+    regexp: '^\s*\$config\[''plugins''\]\s*=\s*\[[\s\S]*?\];'
+    replace: "$config['plugins'] = [ {{ roundcube_config_plugins }} ];"
+    multiline: yes
