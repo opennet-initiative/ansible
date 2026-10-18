@@ -1,0 +1,254 @@
+#!/usr/bin/env python3
+
+"""
+{{ ansible_managed }}
+
+Aktualisiere http- und https-Proxy-Konfigurationen anhand von announcierten
+Domains einzelner Server oder APs.
+Details siehe https://opennet-initiative.de/wiki/Opennet_Domain_Proxy
+Dieses Skript sollte regelmäßig als root aufgerufen werden. Es löst bei Bedarf
+einen reload von apache2 oder einen restart von haproxy aus.
+"""
+
+import argparse
+import collections
+import datetime
+import logging
+import os
+import re
+import subprocess
+import sys
+
+
+# Beispiel-Eintrag:
+#    http://192.168.10.13:80|tcp|public-domain-http munin.opennet-initiative.de            #192.168.10.13
+OLSR_NAMESERVICE_ENTRY_BASE_REGEX = r"^(?P<source_url>https?://[^|]+)\|tcp\|%s\s+(?P<domain>\w[\w\-.]+)"
+OLSR_NAMESERVICE_ENTRY_HTTP_REGEX = OLSR_NAMESERVICE_ENTRY_BASE_REGEX % "public-domain-http"
+OLSR_NAMESERVICE_ENTRY_HTTPS_REGEX = OLSR_NAMESERVICE_ENTRY_BASE_REGEX % "public-domain-https"
+DEBUG_LEVELS = {"debug": logging.DEBUG,
+                "info": logging.INFO,
+                "warning": logging.WARNING,
+                "error": logging.ERROR,
+}
+
+
+def get_olsrd_nameservice_entries(fname):
+    logger = logging.getLogger()
+    Result = collections.namedtuple("DomainMapping", ("domain", "source_url"))
+    http_regex = re.compile(OLSR_NAMESERVICE_ENTRY_HTTP_REGEX, flags=re.ASCII)
+    https_regex = re.compile(OLSR_NAMESERVICE_ENTRY_HTTPS_REGEX, flags=re.ASCII)
+    http_results = []
+    https_results = []
+    try:
+        with open(fname, "r") as service_file:
+            for line in service_file.readlines():
+                for label, regex, target_list in (
+                        ("http", http_regex, http_results),
+                        ("https", https_regex, https_results)):
+                    match = regex.match(line.strip())
+                    if match:
+                        target_list.append(Result(**match.groupdict()))
+                        logger.info("Proxy-Domain gefunden ({label}, via {input_src})): "
+                                    "{domain} -> {source_url}"
+                                    .format(label=label, **match.groupdict(), input_src=fname))
+    except FileNotFoundError:
+        # the services_olsr file may be empty if there are no olsr neighbours / no known services
+        pass
+    # stabile Sortierung zur Minimierung von Datei-Aktualisierungen
+    http_results.sort(key=lambda item: item.domain)
+    https_results.sort(key=lambda item: item.domain)
+    return http_results, https_results
+
+
+# Our servers should be handled manually via ansible. We do not want to rely on nameservice plugin here.
+# Via ansible we create a service file with similar format as olsrd nameservice plugin. Therefore we can
+# use the same parsing steps.
+def get_static_domain_proxy_entries(fname):
+    return get_olsrd_nameservice_entries(fname)
+    
+
+def get_apache2_config(domain_map):
+    logger = logging.getLogger()
+    backend_entries = []
+    for domain, source_url in domain_map:
+        backend_entries.append("Use DomainProxy {} {}".format(domain, source_url.rstrip("/")))
+        logger.info("HTTP-Proxy-Eintrag gesetzt: %s -> %s", domain, source_url)
+    return """# ACHTUNG: diese Datei wird regelmaessig automatisch generiert durch {script_name}
+<Macro DomainProxy $domain $backend>
+<VirtualHost *:80>
+        ServerName $domain
+        ProxyPreserveHost On
+        ProxyPass / $backend/
+        ProxyPassReverse / $backend/
+        # we need to override dehydrated's "Alias" directive (servers handle letsencrypt requests on their own)
+        <Location /.well-known/acme-challenge/>
+                ProxyPass $backend/.well-known/acme-challenge/
+                ProxyPassReverse $backend/.well-known/acme-challenge/
+        </Location>
+        CustomLog /dev/null common
+        ErrorLog /dev/null
+</VirtualHost>
+</Macro>
+
+{proxy_entries}
+
+UndefMacro DomainProxy
+""".format(script_name=__file__, proxy_entries=os.linesep.join(backend_entries))
+
+
+def get_nginx_config(domain_map):
+    logger = logging.getLogger()
+    backend_entries = []
+    for domain, source_url in domain_map:
+        backend_entries.append((domain, source_url))
+        logger.info("HTTP-Proxy-Eintrag gesetzt: %s -> %s", domain, source_url)
+    return """# ACHTUNG: diese Datei wird regelmaessig automatisch generiert durch %s
+# Doku: http://nginx.org/en/docs/http/ngx_http_map_module.html
+map $http_host $on_dynamic_domain_source {
+%s
+}
+
+
+server {
+	listen 80;
+	listen [::]:80;
+
+%s
+
+	# keine Groessenbegrenzung fuer Client-Anfragen (z.B. Hochladen von Anhaengen bei Webmail)
+	client_max_body_size 0;
+	# kein selbstaendiges Puffern von Inhalten (z.B. bei zeilenweisem Ausgabestream)
+	proxy_buffering off;
+	# erhalte den urspruenglichen "Host"-Header der Anfrage
+	proxy_set_header Host $host;
+	# passenden Backend-Server anhand der obigen map ermitteln
+	location / { proxy_pass $on_dynamic_domain_source; }
+	# kein Logging von Anfragen
+	access_log off;
+	# keine 404-Fehler loggen
+	log_not_found off;
+	# Fehler-Log nur bei ungewoehnlichen Meldungen
+	error_log /var/log/nginx/error.log crit;
+}
+""" % (__file__,
+       os.linesep.join(["\t%s\t%s;" % item for item in backend_entries]),
+       os.linesep.join(["\tserver_name %s;" % item[0] for item in backend_entries]))
+
+
+def get_haproxy_config(domain_map):
+    logger = logging.getLogger()
+    source_regex = re.compile(r"^https://(?P<host>[^:]+):(?P<port>\d+)/?$")
+    backend_entries = []
+    for domain, source_url in domain_map:
+        match = source_regex.match(source_url)
+        if match:
+            short_source = "{host}:{port}".format(**match.groupdict())
+            backend_entries.append((domain, short_source))
+            logger.info("HTTPS-Proxy-Eintrag gesetzt: %s -> %s", domain, short_source)
+        else:
+            logger.warning("Unpassenden HTTPS-Proxy-Eintrag verworfen: %s -> %s",
+                           domain, source_url)
+
+    frontend_lines = []
+    backend_blocks = []
+
+    for domain, source in backend_entries:
+        # Generate safe backend name from domain
+        bk_name = "bk_" + re.sub(r'[^a-zA-Z0-9_]', '_', domain)
+        frontend_lines.append("    use_backend " + bk_name + " if { req_ssl_sni -i " + domain + " }")
+        backend_blocks.append("backend " + bk_name + "\n    mode tcp\n    server srv1 " + source + " check inter 2000ms\n")
+
+    return """# ACHTUNG: diese Datei wird regelmaessig automatisch generiert durch %s
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    chroot /var/lib/haproxy
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log     global
+    mode    tcp
+    option  tcplog
+    option  dontlognull
+    timeout connect 2s
+    timeout client  50m
+    timeout server  50m
+
+frontend tls_in
+    bind :443
+    mode tcp
+    tcp-request inspect-delay 5s
+    tcp-request content accept if { req_ssl_hello_type 1 }
+
+%s
+
+%s
+""" % (__file__,
+       os.linesep.join(frontend_lines),
+       os.linesep.join(backend_blocks))
+
+
+def update_config_file(filename, content):
+    try:
+        old_content = open(filename, "r").read()
+    except IOError:
+        old_content = None
+    if content != old_content:
+        with open(filename, "w") as config_file:
+            config_file.write(content)
+        return True
+    else:
+        return False
+
+
+def get_parsed_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--log-level", dest="log_level", choices=tuple(DEBUG_LEVELS),
+                        default="warning", help="Log-Level wählen (Vorgabe: warning)")
+    parser.add_argument("--log-file", dest="log_file",
+                        help="zu überschreibende Zieldatei für logging (Vorgabe: Standardausgabe)")
+    parser.add_argument("--olsr-nameservices", dest="olsr_nameservice_filename",
+                        default="/var/run/services_olsr", help="Pfad der OLSR-nameservice-Datei")
+    parser.add_argument("--static-nameservices", dest="static_nameservice_filename",
+                        default="""{{ domain_proxy_static_path }}/{{ domain_proxy_static_config_name }}""", help="Pfad der statischen nameservice-Datei")
+    parser.add_argument("--target-config", dest="target_config",
+                        default="""/etc/apache2/sites-available/{{ domain_proxy_apache2_config_name }}.conf""",
+                        help="Pfad der zu überschreibenden Webserver-Konfigurationsdatei")
+    parser.add_argument("--webserver", dest="webserver", default="apache2",
+                        choices=("nginx", "apache2"), help="Zu konfigurierender Webserver-Typ")
+    parser.add_argument("--haproxy-config", dest="haproxy_filename", default="/etc/haproxy/haproxy.cfg",
+                        help="Pfad der zu überschreibenden HAProxy-Konfigurationsdatei")
+    return parser.parse_args()
+
+
+if __name__ == "__main__":
+    args = get_parsed_arguments()
+    # configure logging
+    logging.basicConfig(filename=args.log_file, filemode="w", level=DEBUG_LEVELS[args.log_level],
+                        format="[%(levelname)s] %(message)s")
+    logger = logging.getLogger()
+    logger.info("Beginn der Domain-Proxy-Aktualisierung: %s", datetime.datetime.now())
+    http_olsr_map, https_olsr_map = get_olsrd_nameservice_entries(args.olsr_nameservice_filename)
+    http_static_map, https_static_map = get_static_domain_proxy_entries(args.static_nameservice_filename)
+    http_map = http_olsr_map + http_static_map
+    https_map = https_olsr_map + https_static_map
+    if args.webserver == "nginx":
+        webserver_config = get_nginx_config(http_map)
+    else:
+        webserver_config = get_apache2_config(http_map)
+    if update_config_file(args.target_config, webserver_config):
+        logger.warning("Neustart des Webservers wird ausgeloest")
+        if args.webserver == "nginx":
+            subprocess.call(["/usr/sbin/service", "nginx", "reload"])
+        else:
+            subprocess.call(["/usr/sbin/service", "apache2", "restart"])
+    else:
+        logger.info("Neustart von %s (http-Proxy) ist nicht erforderlich", args.webserver)
+    haproxy_config = get_haproxy_config(https_map)
+    if update_config_file(args.haproxy_filename, haproxy_config):
+        logger.warning("Neustart von haproxy (https-Proxy) wird ausgeloest")
+        subprocess.call(["/usr/sbin/service", "haproxy", "restart"])
+    else:
+        logger.info("Neustart von haproxy (https-Proxy) ist nicht erforderlich")

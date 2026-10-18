@@ -2,10 +2,10 @@
   apt: 
     name: python3
 
-- name: Kopiere Aktualisierungsskript
+- name: Kopiere Aktualisierungsskript für HAProxy
   template:
-    src: on-update-domain-proxy
-    dest: /usr/local/sbin/
+    src: on-update-haproxy-domain-proxy
+    dest: /usr/local/sbin/on-update-haproxy-domain-proxy
     mode: 0755
 
 - name: Erstelle Ordner für statische Nameservice Datei

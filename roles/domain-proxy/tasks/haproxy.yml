@@ -1,0 +1,10 @@
+- name: haproxy - Installiere Software
+  apt: 
+    name: haproxy
+    state: present
+
+- name: haproxy - Dienst aktivieren und starten
+  service: 
+    name: haproxy 
+    enabled: yes
+    state: started
