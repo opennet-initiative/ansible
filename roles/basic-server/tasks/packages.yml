@@ -21,12 +21,8 @@
       - debian-security-support
       - wget
       - whiptail
+      - needrestart
     update_cache: yes
-
-- name: packages -- Server-relevante Pakete installieren (ab Jessie)
-  apt:
-    name: needrestart
-  when: ansible_distribution_major_version|int >= 8
 
 - name: packages -- Debug-Werkzeuge installieren
   apt:
@@ -39,43 +35,13 @@
       - mtr-tiny
       - strace
       - tcpdump
-      
-- name: packages -- Debug-Werkzeuge installieren (bis Buster)
-  apt:
-    name: 
-      - netcat
-  when: ansible_distribution_major_version|int <= 10
-
-- name: packages -- Debug-Werkzeuge installieren (ab Bullseye)
-  apt:
-    name: 
       - netcat-traditional
-  when: ansible_distribution_major_version|int > 10
 
-- name: packages -- rsyslog installieren (bis Buster)
-  apt: 
-    name: rsyslog 
-    install_recommends: no 
-  when: ansible_distribution_major_version|int <= 10
-
-- name: packages -- rsyslog entfernen (ab Bullseye)
-  apt:
-    name: rsyslog
-    state: absent
-    purge: yes
-  when: ansible_distribution_major_version|int >=11 
-
-- name: packages -- NTP sync - ntp installieren (bis Bullseye / nicht Gateway)
-  apt: 
-    name: ntp
-    install_recommends: no
-  when: ( (ansible_distribution_major_version|int <= 11) and ('gateway_server' not in group_names) )
-
-- name: packages -- NTP sync - systemd-timesyncd installieren (ab Bookworm / nicht Gateway)
+- name: packages -- NTP sync - systemd-timesyncd installieren (nicht Gateway)
   apt:
     name: systemd-timesyncd
     install_recommends: no
-  when: ( (ansible_distribution_major_version|int >=12) and ('gateway_server' not in group_names) )
+  when: ('gateway_server' not in group_names)
 
 - name: packages -- NTP sync - ntpsec installieren (Gateway)
   apt:
@@ -83,24 +49,10 @@
     install_recommends: no
   when: ('gateway_server' in group_names)
 
-- name: packages -- Lese installierte Debian Pakete (ab Bullseye)
-  package_facts:
-    manager: auto
-  when: ansible_distribution_major_version|int >=11
-
-# TODO: avoid removing logrotate on virtualization and backup hosts
-# currently the package_fact check is not an optimal solution
-- name: packages -- logrotate entfernen (ab Bullseye)
-  apt:
-    name: logrotate
-    state: absent
-    purge: yes
-  when: ( ansible_distribution_major_version|int >=11 ) and ( "'libvirt-daemon-system' not in ansible_facts.packages" ) == true and ( "'rsnapshot' not in ansible_facts.packages" ) == true
-
 # FIXME: wegen Fehler bei postinst.d/update-initramfs in initramfs-tools (12/2017)
 # kann eventuell wieder entfernt werden, wenn die Abhängigkeit upstream gelöst ist
-- name: packages -- busybox installieren (initramfs Abhängigkeit)
-  apt: name=busybox state=present
+#- name: packages -- busybox installieren (initramfs Abhängigkeit)
+#  apt: name=busybox state=present
 
 - name: packages -- aptitude deinstallieren (ab Bullseye)
   apt:
