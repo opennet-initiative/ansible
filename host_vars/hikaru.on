@@ -11,17 +11,12 @@ olsr_interfaces:
 apache2_sites:
   - { name: docs }
   - { name: www }
-#  - { name: wiki }  # aktiviere wenn DNS Änderungen wieder möglich sind
-#  - { name: wiki-archive }  # aktiviere wenn DNS Änderungen wieder möglich sind
 
 apache2_php: true
 apache2_php_filesize: 20M
 
 letsencrypt_certificates:
   - { on_tld_base: docs }
-#  - { on_tld_base: www }  #TODO uncomment when www is finally migrated
-  - { on_tld_base: www2 }  #TODO delete when www is finally migrated
-#  - { on_tld_base: wiki }   # aktiviere wenn DNS Änderungen wieder möglich sind
-#  - { on_tld_base: wiki-archive }    # aktiviere wenn DNS Änderungen wieder möglich sind
+  - { on_tld_base: www } 
 
 debian_release: trixie
