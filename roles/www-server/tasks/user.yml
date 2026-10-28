@@ -17,6 +17,7 @@
     dest: "{{ hugo_home }}/static-frontpage"
     track_submodules: yes
     recursive: yes
+    force: true
   become: yes
   become_user: "{{ hugo_user }}"
   become_method: su
