@@ -3,7 +3,6 @@
     dest: "{{ domain_proxy_web_path }}/status"
     state: directory
 
-# forcieren des Symlinks, da bei der Erstinstallation die slt.conf fehlt
 - name: web - Verlinke Konfigurationsdateien im Status-Verzeichnis
   file:
     src: "{{ item.src }}"
@@ -12,7 +11,6 @@
     force: yes
   with_items:
     - { dest: apache2.conf, src: "/etc/apache2/sites-enabled/{{ domain_proxy_apache2_config_name }}.conf" }
-    - { dest: slt.conf, src: /etc/slt.conf }
     - { dest: services_olsr, src: /var/run/services_olsr }
     - { dest: "{{ domain_proxy_static_config_name }}", src: "{{ domain_proxy_static_path }}/{{ domain_proxy_static_config_name }}" }
 

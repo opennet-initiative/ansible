@@ -1,6 +1,5 @@
 - include_tasks: domain-proxy.yml
 - include_tasks: apache2.yml
-#- include_tasks: slt.yml  # delete when not used anymore
 - include_tasks: haproxy.yml
 - include_tasks: web.yml
 - include_tasks: ferm.yml

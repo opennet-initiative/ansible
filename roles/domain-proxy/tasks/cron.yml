@@ -1,9 +1,3 @@
-- name: cron - Aktiviere Aufgabe für regelmäßige Aktualisierung (slt)
-  cron: 
-    name: on-update-domain-proxy
-    job: "/usr/local/sbin/on-update-domain-proxy --log-level info --log-file {{ domain_proxy_web_path }}/status/update.log; /usr/local/sbin/on-update-haproxy-domain-proxy --log-level info --log-file {{ domain_proxy_web_path }}/status/update-haproxy.log"
-    minute: "*/15"
-
 - name: cron - Aktiviere Aufgabe für regelmäßige Aktualisierung (haproxy)
   cron: 
     name: on-update-haproxy-domain-proxy

@@ -21,7 +21,7 @@ olsr_nameservice_announcements:
 apache2_sites:
   - { name: domain-proxy }
 
-# slt läuft auf Port 443 - somit müssen unsere eigenen Dienste auf Port 444 laufen
+# haproxy läuft auf Port 443 - somit müssen unsere eigenen Dienste auf Port 444 laufen
 apache2_port_https: 444
 
 # Geräte und Dienste, die via domain-proxy ausgeliefert werden, können unsaubere
