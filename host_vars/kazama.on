@@ -29,6 +29,7 @@ mail_server: true
 mailman_admin_allowed_users:
   - mathiasmahnke.client.on
   - martingarbe.client.on
+  - chriskossahl.client.on
 
 debian_release: bookworm
 
