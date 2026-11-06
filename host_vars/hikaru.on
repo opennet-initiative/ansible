@@ -8,6 +8,13 @@ olsr_main_ipv6: fd32:d8d3:87da::10:18
 olsr_interfaces:
   - { name: "eth0" }
 
+apache2_mods:
+  - { name: proxy }
+  - { name: proxy_http }
+
+# Anubis benoetigt die echte Client-IP (X-Real-Ip) fuer Policy-/DNSBL-Pruefungen.
+apache2_privacy_removeip: false
+
 apache2_sites:
   - { name: docs }
   - { name: www }

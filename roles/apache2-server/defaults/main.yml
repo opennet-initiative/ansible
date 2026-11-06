@@ -5,6 +5,9 @@ apache2_php_filesize: 2M
 apache2_security_force_nosniff: true
 # see https://developer.mozilla.org/de/docs/Web/HTTP/Headers/X-Frame-Options
 apache2_security_frame_options: "sameorigin"
+# Client-IPs in Apache-Logs und fuer Anwendungen anonymisieren (mod_removeip).
+# Fuer Anubis-Hosts deaktivieren, damit Anubis echte Client-IPs sieht.
+apache2_privacy_removeip: true
 # static tasks variables
 apache2_default_site: "/etc/apache2/sites-enabled/000-default.conf"
 apache2_default_dir: "/var/www/html"

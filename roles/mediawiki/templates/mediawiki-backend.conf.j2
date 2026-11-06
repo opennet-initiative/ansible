@@ -1,0 +1,22 @@
+# {{ ansible_managed }}
+
+# Nur lokal erreichbarer Listener fuer den MediaWiki-Backend-VHost.
+# Port 8080 wird auf diesen Hosts bereits von olsrd_httpinfo belegt.
+Listen 127.0.0.1:8081
+
+<VirtualHost 127.0.0.1:8081>
+    ServerName docs.opennet-initiative.de
+    ServerAdmin admin@opennet-initiative.de
+
+    # MediaWiki erkennt HTTPS an diesem Header, obwohl Anubis per HTTP proxyt.
+    SetEnvIf X-Forwarded-Proto "^https$" HTTPS=on
+
+    # Kodierte Schraegstriche in MediaWiki-Titeln nicht dekodieren.
+    AllowEncodedSlashes NoDecode
+
+    Include on-configs.d/mediawiki-local.inc
+
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access-docs-backend.log combined
+    ErrorLog ${APACHE_LOG_DIR}/error-docs-backend.log
+</VirtualHost>

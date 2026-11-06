@@ -17,3 +17,24 @@
     # kopiere nur einmalig initial weil darin geänderte Passwörter nicht überschrieben werden sollen
     force: false
   notify: Update mediawiki
+
+- name: Backend - MediaWiki Apache Konfiguration kopieren
+  ansible.builtin.template:
+    src: mediawiki-local.inc
+    dest: /etc/apache2/on-configs.d/mediawiki-local.inc
+    mode: '0644'
+  notify: Restart apache2
+
+- name: Backend - Internen MediaWiki Backend VirtualHost für Anubis einrichten
+  ansible.builtin.template:
+    src: mediawiki-backend.conf.j2
+    dest: /etc/apache2/sites-available/mediawiki-backend.conf
+    mode: '0644'
+  notify: Restart apache2
+
+- name: Backend - Internen MediaWiki Backend VirtualHost aktivieren
+  ansible.builtin.file:
+    src: ../sites-available/mediawiki-backend.conf
+    dest: /etc/apache2/sites-enabled/mediawiki-backend.conf
+    state: link
+  notify: Restart apache2
