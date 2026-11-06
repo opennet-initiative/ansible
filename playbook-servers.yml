@@ -95,8 +95,12 @@
 # mediawiki in development
 - hosts: hikaru.on
   roles:
-    - mediawiki
-    - www-server
+    - role: mediawiki
+      tags: mediawiki
+    - role: www-server
+      tags: www-server
+    - role: anubis
+      tags: anubis
 
 - hosts: izumi.on
   roles:

@@ -1,6 +1,7 @@
 - name: privacy - Apache RemoveIP Modul installieren
   apt: pkg=libapache2-mod-removeip state=present
   register: removeip_install
+  when: apache2_privacy_removeip
 
 - name: privacy - Apache RemoveIP Modul aktivieren
   apache2_module:
@@ -8,8 +9,27 @@
          state=present
   notify: restart apache2
   register: removeip_activate
+  when: apache2_privacy_removeip
+
+- name: privacy - Apache RemoveIP Modulstatus pruefen
+  ansible.builtin.stat:
+    path: /etc/apache2/mods-enabled/removeip.load
+  register: removeip_enabled
+
+- name: privacy - Apache RemoveIP Modul deaktivieren
+  apache2_module:
+         name=removeip
+         state=absent
+  notify: restart apache2
+  register: removeip_deactivate
+  when:
+    - not apache2_privacy_removeip
+    - removeip_enabled.stat.exists
 
 - name: privacy - alte Apache Logfiles bereinigen
   command: 'find "{{ apache2_logging_dir }}" -type f -delete'
   notify: restart apache2
-  when: removeip_install.changed or removeip_activate.changed
+  when: >
+    (removeip_install is defined and removeip_install.changed) or
+    (removeip_activate is defined and removeip_activate.changed) or
+    (removeip_deactivate is defined and removeip_deactivate.changed)

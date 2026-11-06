@@ -1,68 +1,20 @@
 # {{ ansible_managed }}
 
-DocumentRoot /var/lib/mediawiki
+# Anubis benoetigt diese Header, um Original-Client und Schema zu erkennen.
+# Ohne X-Forwarded-Proto bricht Anubis mit einem "admin misconfiguration" Fehler ab.
+RequestHeader set "X-Real-Ip" expr=%{REMOTE_ADDR}
+RequestHeader set X-Forwarded-Proto "https"
+RequestHeader set "X-Http-Version" "%{SERVER_PROTOCOL}s"
 
-RewriteEngine On
+ProxyPreserveHost On
+ProxyRequests Off
+ProxyVia Off
 
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
-RewriteRule ^/?images/thumb/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/([0-9]+)px-.*$ %{DOCUMENT_ROOT}/thumb.php?f=$1&width=$2 [L,QSA,B]
+# MediaWiki-Titel koennen kodierte Zeichen enthalten; URL nicht normalisieren.
+AllowEncodedSlashes NoDecode
 
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
-RewriteRule ^/?images/thumb/archive/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/([0-9]+)px-.*$ %{DOCUMENT_ROOT}/thumb.php?f=$1&width=$2&archived=1 [L,QSA,B]
-
-# 1. Ausnahme für physisch existierende Dateien/Ordner (api.php, load.php, skins, etc.)
-# Verhindert die Endlos-Lade-Schleife der Live-Suche!
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
-
-# 2. Leitet alles, was auf /wiki/ zugreift, intern an die index.php weiter [QSA sorgt für Suchparameter]
-RewriteRule ^/?wiki(/(.*))?$ /index.php?title=$2 [L,QSA]
-
-# 3. Optionale Weiterleitung: Wenn jemand nur die nackte Domain aufruft, zur Hauptseite schicken
-RewriteRule ^/*$ /index.php [L,QSA]
-
-<Directory /var/lib/mediawiki/>
-	Options +FollowSymLinks
-	AllowOverride All
-	<IfVersion >= 2.3>
-		Require all granted
-	</IfVersion>
-	<IfVersion < 2.3>
-		order allow,deny
-		allow from all
-	</IfVersion>
-</Directory>
-
-# some directories must be protected
-<Directory /var/lib/mediawiki/config>
-	Options -FollowSymLinks
-	AllowOverride None
-    <IfModule mod_php7.c>
-        php_admin_flag engine off
-    </IfModule>
-    <IfModule mod_php5.c>
-        php_admin_flag engine off
-    </IfModule>
-</Directory>
-<Directory /var/lib/mediawiki/images>
-	Options -FollowSymLinks
-	AllowOverride None
-    <IfModule mod_php7.c>
-        php_admin_flag engine off
-    </IfModule>
-    <IfModule mod_php5.c>
-        php_admin_flag engine off
-    </IfModule>
-</Directory>
-<Directory /var/lib/mediawiki/upload>
-	Options -FollowSymLinks
-	AllowOverride None
-    <IfModule mod_php7.c>
-        php_admin_flag engine off
-    </IfModule>
-    <IfModule mod_php5.c>
-        php_admin_flag engine off
-    </IfModule>
-</Directory>
+# Der oeffentliche HTTPS-VHost terminiert TLS und leitet an Anubis weiter.
+# Anubis prueft die Anfrage und leitet gueltige Anfragen an den internen
+# MediaWiki-Backend-VHost auf 127.0.0.1:8081 weiter.
+ProxyPass / http://127.0.0.1:8239/ nocanon
+ProxyPassReverse / http://127.0.0.1:8239/
