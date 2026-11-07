@@ -10,5 +10,5 @@
 - name: policy-routing - Erstelle OLSR Routing Tabellendatei
   file:
     path: "{{ iproute2_rt_tables }}"
-    state: file
+    state: touch
     mode: '0644'
