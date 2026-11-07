@@ -6,14 +6,14 @@
     <displayName>{{ mailserver_name }}</displayName>
     <displayShortName>{{ mailserver_shortname }}</displayShortName>
     <incomingServer type="imap">
-      <hostname>{{ mailserver_domain }}</hostname>
+      <hostname>{{ mailserver_hostname_alias }}</hostname>
       <port>{{ mailserver_port_imap }}</port>
       <socketType>SSL</socketType>
       <authentication>password-cleartext</authentication>
       <username>%EMAILADDRESS%</username>
     </incomingServer>
     <outgoingServer type="smtp">
-      <hostname>{{ mailserver_domain }}</hostname>
+      <hostname>{{ mailserver_hostname_alias }}</hostname>
       <port>{{ mailserver_port_smtp }}</port>
       <socketType>SSL</socketType>
       <authentication>password-cleartext</authentication>

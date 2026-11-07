@@ -47,7 +47,7 @@
 
 - name: postfix - mailname festlegen
   copy:
-    content: "{{ mailserver_hostname }}"
+    content: "{{ mailserver_hostname_alias }}"
     dest: "/etc/mailname"
 
 # TODO: Aktiviere folgenden Task nachdem alle Test der Installation erfolgreich waren und 

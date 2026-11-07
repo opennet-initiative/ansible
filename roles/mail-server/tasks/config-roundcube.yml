@@ -12,8 +12,8 @@
     regexp: "^\\s*\\$config\\['{{ item.opt }}'\\]"
     line: "$config['{{ item.opt }}'] = '{{ item.val }}';"
   loop:
-    - { opt: "imap_host", val: "ssl://{{ mailserver_domain }}:{{ mailserver_port_imap }}" }
-    - { opt: "smtp_host", val: "ssl://{{ mailserver_domain }}:{{ mailserver_port_smtp }}" }
+    - { opt: "imap_host", val: "ssl://{{ mailserver_hostname_alias }}:{{ mailserver_port_imap }}" }
+    - { opt: "smtp_host", val: "ssl://{{ mailserver_hostname_alias }}:{{ mailserver_port_smtp }}" }
     - { opt: "username_domain", val: "{{ mailserver_domain }}" }
     - { opt: "support_url", val: "{{ mailserver_url }}" }
     - { opt: "product_name", val: "{{ mailserver_name }}" }

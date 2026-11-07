@@ -7,12 +7,9 @@ mydomain = {{ mailserver_domain }}
 # cron usw. gibt.
 myorigin = $mydomain
 
-# TODO: für Test-Inbetriebnahme sollen Emails an root@mail2... angenommen werden.
-#       Hierfür muss mail_hostname=mail2... sein
-myhostname = $mydomain
-#myhostname = {{ mailserver_hostname }}
+myhostname = {{ mailserver_hostname_alias }}
 
-# some Debian default settings (from /usr/share/postfix/main.cf.debian)
+# Überschreibe Debian defaults aus /usr/share/postfix/main.cf.debian
 smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
 # Keine System-Benachrichtigung für Benutzer bei neuer E-Mail
 biff = no
@@ -39,8 +36,8 @@ smtpd_sasl_tls_security_options = $smtpd_sasl_security_options
 # TLS Config für eingehende SMTP Verbindungen
 smtpd_tls_security_level = may
 smtpd_tls_auth_only = yes
-smtpd_tls_key_file = /var/lib/dehydrated/certs/{{ mailserver_domain }}/privkey.pem
-smtpd_tls_cert_file = /var/lib/dehydrated/certs/{{ mailserver_domain }}/fullchain.pem
+smtpd_tls_key_file = /var/lib/dehydrated/certs/{{ mailserver_hostname_alias }}/privkey.pem
+smtpd_tls_cert_file = /var/lib/dehydrated/certs/{{ mailserver_hostname_alias }}/fullchain.pem
 smtpd_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
 #smtpd_tls_... = ...  # wir verlassen uns auf die sicheren Debian/Postfix defaults
 
