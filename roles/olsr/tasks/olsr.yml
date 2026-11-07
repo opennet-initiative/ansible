@@ -108,8 +108,9 @@
 
     - name: olsr - installieren (arm64)
       when: ansible_architecture == 'aarch64'
-      fail:
-        msg: "Für arm64 ist noch keine olsrd Pakete verfügbar. Dies muss noch erstellt werden. Hierfür wird ein arm64 Server benötigt."
+      ansible.builtin.pause:
+        prompt: "TODO: Für arm64 ist noch keine olsrd Pakete verfügbar. Dies muss noch erstellt werden. Hierfür wird ein arm64 Server benötigt."
+
 
 - name: olsr (Debian14+)
   when: ansible_distribution_major_version|int >= 14
