@@ -1,0 +1,4 @@
+# Getestete Controller-Version.
+# 2.16 ist die letzte Linie mit Python-2.7-Unterstützung auf Zielsystemen
+# (Debian 7 / crimson). Nach dem Crimson-Retirement auf >= 2.17 wechseln.
+ansible-core==2.16.3

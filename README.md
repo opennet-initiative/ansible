@@ -5,3 +5,8 @@ Opennet Server Verwaltung per [Ansible](https://www.ansible.com).
 
 Weitere Informationen:
 https://wiki.opennet-initiative.de/wiki/Opennet_ansible
+
+## Voraussetzungen
+
+Die kompatiblen Versionen von Ansible, Python und den Collections sind in
+[`docs/ansible-compatibility.md`](docs/ansible-compatibility.md) dokumentiert.

@@ -4,6 +4,26 @@
     state: absent
   notify: restart apache2
 
+# a2dismod deaktiviert mpm_prefork nicht, solange noch ein Modul davon abhängt.
+# community.general < 10.6.0 errät den PHP-8-Identifier als php8_module statt
+# php_module, überspringt die Deaktivierung stillschweigend und lässt php8.x.load aktiv.
+- name: php - Prüfen ob mod_php noch aktiviert ist
+  stat:
+    path: "/etc/apache2/mods-enabled/{{ apache2_php_version }}.load"
+  register: apache2_php_module_link
+
+- name: php - Fehler wenn mod_php noch aktiviert ist
+  assert:
+    that: not apache2_php_module_link.stat.exists
+    fail_msg: >-
+      mod_php ({{ apache2_php_version }}) ist noch aktiviert, daher kann mpm_prefork
+      nicht deaktiviert werden. Eine mögliche Ursache ist eine zu alte
+      community.general-Collection: Auf Debian 12/13 ist Version >= 10.6.0 erforderlich.
+      Installation mit:
+      ansible-galaxy collection install -r collections/requirements.yml
+    quiet: yes
+  when: not ansible_check_mode
+
 - name: php - Apache Modul mpm_prefork deaktivieren
   apache2_module:
     name: mpm_prefork
