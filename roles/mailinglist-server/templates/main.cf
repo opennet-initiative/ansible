@@ -33,9 +33,7 @@ compatibility_level = 3.6
 recipient_delimiter = +
 owner_request_special = no
 
-transport_maps =
-    hash:/var/lib/mailman3/data/postfix_lmtp
-local_recipient_maps =
-    hash:/var/lib/mailman3/data/postfix_lmtp
-relay_domains =
-    hash:/var/lib/mailman3/data/postfix_domains
+transport_maps = hash:/var/lib/mailman3/data/postfix_lmtp
+local_recipient_maps = hash:/var/lib/mailman3/data/postfix_lmtp
+relay_domains = hash:/var/lib/mailman3/data/postfix_domains
+relay_recipient_maps = hash:/var/lib/mailman3/data/postfix_lmtp
