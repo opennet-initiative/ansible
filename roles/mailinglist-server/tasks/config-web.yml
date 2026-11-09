@@ -1,8 +1,22 @@
 - name: config-web - Default Domain setzen
   lineinfile:
-    path: "{{ mailinglist_config_web }}"
+    path: "{{ mailinglist_config_web }}"
     regexp: '^EMAILNAME ='
     line: "EMAILNAME = '{{ mailinglist_domain }}'"
+  notify: restart mailman3-web
+
+- name: config-web - Absenderadresse für Systemmails setzen
+  lineinfile:
+    path: "{{ mailinglist_config_web }}"
+    regexp: '^DEFAULT_FROM_EMAIL ='
+    line: "DEFAULT_FROM_EMAIL = '{{ mailinglist_from_email }}'"
+  notify: restart mailman3-web
+
+- name: config-web - Absenderadresse für Fehlermails setzen
+  lineinfile:
+    path: "{{ mailinglist_config_web }}"
+    regexp: '^SERVER_EMAIL ='
+    line: "SERVER_EMAIL = '{{ mailinglist_from_email }}'"
   notify: restart mailman3-web
 
 - name: config-web - Base URL setzen
