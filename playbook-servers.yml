@@ -12,6 +12,7 @@
       when: apache2_sites is defined
     - role: mail-delivery
       when: mail_server is undefined
+      tags: mail-delivery
 
 - hosts: gateway_server
   roles:
