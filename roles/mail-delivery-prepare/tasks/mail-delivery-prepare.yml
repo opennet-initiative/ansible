@@ -6,42 +6,45 @@
 
 - name: smtp-auth-Passwort-Verzeichnis erstellen
   file:
-    state=directory
-    path=/etc/postfix/sasl
+    state: directory
+    path: /etc/postfix/sasl
+    owner: root
+    group: root
+    mode: "0755"
 
-- name: smtp-Auth-Kennwort abholen
+- name: Relay-SASL-Datei von misumaru lesen
+  slurp:
+    src: /etc/postfix/sasl/relay_sasl_passwd
   delegate_to: root@misumaru.opennet-initiative.de
-  shell: awk '{ if ($1 == "{{ mail_relay_host }}") print $2 }' /etc/postfix/sasl/passwd
-  register: smtp_auth_password
-  changed_when: False
+  register: relay_sasl_passwd
   run_once: true
-  # ignoriere den "--check"-Modus (sonst schlaegt der naechste Schritt beim Testen fehl)
-  check_mode: no
+  no_log: true
 
-- fail: msg="Kein smtp-auth-Password gefunden"
-  when: not smtp_auth_password.stdout
-
-# Der SASL-Schlüssel muss exakt zur relayhost-Angabe passen:
-# relayhost = [host]:587  ->  [host]:587 user:password
-- name: smtp-auth-Passwort für Submission-Port setzen
-  lineinfile:
-    dest: /etc/postfix/sasl/passwd
-    state: present
-    create: yes
+- name: Relay-SASL-Datei schreiben
+  copy:
+    content: "{{ relay_sasl_passwd.content | b64decode }}"
+    dest: /etc/postfix/sasl/relay_sasl_passwd
+    owner: root
+    group: root
     mode: "0600"
-    regexp: '^\[{{ mail_relay_host }}\]:{{ mail_relay_port }}'
-    line: '[{{ mail_relay_host }}]:{{ mail_relay_port }} {{ smtp_auth_password.stdout }}'
-  notify: postmap passwd
+  no_log: true
+  notify: postmap relay_sasl_passwd
 
-# Die Datenbank wird zwar durch den Handler erzeugt, sicherheitshalber tun wir
-# dies aber gleich.
-# Ansonsten koennte es passieren, dass bei einem zwischenzeitlichen Abbruch
-# des ansible-Laufs (z.B. bei einem Fehler im initialen Durchlauf) die
-# Datenbank nicht erzeugt wird.
-- name: smtp-auth-Datenbank erzeugen
+- name: Alte SASL-Passwortdatei entfernen
+  file:
+    path: /etc/postfix/sasl/passwd
+    state: absent
+
+- name: Alte SASL-Datenbank entfernen
+  file:
+    path: /etc/postfix/sasl/passwd.db
+    state: absent
+
+- name: Relay-SASL-Datenbank erzeugen
   command:
-    postmap /etc/postfix/sasl/passwd
-    creates=/etc/postfix/sasl/passwd.db
+    cmd: postmap /etc/postfix/sasl/relay_sasl_passwd
+    creates: /etc/postfix/sasl/relay_sasl_passwd.db
+  notify: restart postfix
 
 - name: mailname festlegen
   copy:

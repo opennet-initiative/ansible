@@ -1,49 +1,19 @@
 - name: postfix - Ist SASL Passwortdatei bereits vorhanden?
   stat:
-    path: /etc/postfix/sasl/passwd.db
-  register: stat_sasl_passwd_db
+    path: /etc/postfix/sasl/relay_sasl_passwd
+  register: stat_sasl_passwd_file
 
 # Wir wollen das Initialisieren der SASL Credentials nur 1x am Anfang machen.
 - name: postfix - Initialize SASL secret
-  when: not stat_sasl_passwd_db.stat.exists
-  block:
-    - name: smtp-auth-Passwort-Verzeichnis erstellen
-      file:
-        state=directory
-        path=/etc/postfix/sasl
+  when: not stat_sasl_passwd_file.stat.exists
+  fail:
+    msg: |
+      Die SASL Passwortdatei /etc/postfix/sasl/relay_sasl_passwd existiert nicht.
+      Bitte erstelle diese Datei auf dem Server misumaru.
+      Inhalt der Datei ist bspw.:
+      [relayhost.opennet-initiative.de]:587 username:password
 
-    - name: smtp-Auth-Kennwort abholen
-      delegate_to: root@izumi.opennet-initiative.de
-      shell: awk '{ if ($1 == "{{ mail_relay_host }}") print $2 }' /etc/postfix/sasl/passwd
-      register: smtp_auth_password
-      changed_when: False
-      run_once: true
-      # ignoriere den "--check"-Modus (sonst schlaegt der naechste Schritt beim Testen fehl)
-      check_mode: no
-
-    - fail: msg="Kein smtp-auth-Password gefunden"
-      when: not smtp_auth_password.stdout
-
-    - name: smtp-auth-Passwort setzten
-      lineinfile:
-        dest=/etc/postfix/sasl/passwd
-        state=present
-        create=yes
-        mode=0600
-        regexp="^{{ mail_relay_host }}"
-        line="{{ mail_relay_host }} {{ smtp_auth_password.stdout }}"
-      notify: postmap passwd
-
-    # Die Datenbank wird zwar durch den Handler erzeugt, sicherheitshalber tun wir
-    # dies aber gleich.
-    # Ansonsten koennte es passieren, dass bei einem zwischenzeitlichen Abbruch
-    # des ansible-Laufs (z.B. bei einem Fehler im initialen Durchlauf) die
-    # Datenbank nicht erzeugt wird.
-    - name: smtp-auth-Datenbank erzeugen
-      command:
-        postmap /etc/postfix/sasl/passwd
-        creates=/etc/postfix/sasl/passwd.db
-      notify: restart postfix
+      Danach kann das Playbook erneut ausgeführt werden.
 
 - name: postfix - mailname festlegen
   copy:
