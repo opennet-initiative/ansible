@@ -60,3 +60,9 @@
     state: absent
     purge: yes
   when: ansible_distribution_major_version|int >=12
+
+# changetrack benötigen wir nicht mehr, weil niemand die gesendeten Email liest
+- name: packages -- changetrack deinstallieren 
+  apt:
+    name: "changetrack"
+    state: absent

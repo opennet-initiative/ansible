@@ -4,7 +4,6 @@
 - include_tasks: admins.yml
 - include_tasks: ferm-basic.yml
 - include_tasks: opennetca.yml
-- include_tasks: change-notifications.yml
 - include_tasks: munin-node.yml
 - include_tasks: apt-debian.yml
 - include_tasks: prepare-policy-routing.yml
