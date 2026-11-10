@@ -129,4 +129,5 @@
 
 - hosts: misumaru.on-i.de
   roles:
-    - mail-server
+    - role: mail-server
+      tags: mail-server
