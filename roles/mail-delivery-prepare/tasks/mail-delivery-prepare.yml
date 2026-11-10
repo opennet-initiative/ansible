@@ -21,14 +21,16 @@
 - fail: msg="Kein smtp-auth-Password gefunden"
   when: not smtp_auth_password.stdout
 
-- name: smtp-auth-Passwort setzten
+# Der SASL-Schlüssel muss exakt zur relayhost-Angabe passen:
+# relayhost = [host]:587  ->  [host]:587 user:password
+- name: smtp-auth-Passwort für Submission-Port setzen
   lineinfile:
-    dest=/etc/postfix/sasl/passwd
-    state=present
-    create=yes
-    mode=0600
-    regexp="^{{ mail_relay_host }}"
-    line="{{ mail_relay_host }} {{ smtp_auth_password.stdout }}"
+    dest: /etc/postfix/sasl/passwd
+    state: present
+    create: yes
+    mode: "0600"
+    regexp: '^\[{{ mail_relay_host }}\]:{{ mail_relay_port }}'
+    line: '[{{ mail_relay_host }}]:{{ mail_relay_port }} {{ smtp_auth_password.stdout }}'
   notify: postmap passwd
 
 # Die Datenbank wird zwar durch den Handler erzeugt, sicherheitshalber tun wir

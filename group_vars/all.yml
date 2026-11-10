@@ -1,5 +1,7 @@
 # Ausgehender E-Mail Server bei Opennet
 mail_relay_host: relayhost.opennet-initiative.de
+# Submission-Port für authentifizierte Relay-Clients (nicht Port 25 weil hier keine Authentifizierung erlaubt ist)
+mail_relay_port: 587
 
 # Ziel-Adresse fuer administrative Emails
 admin_email: noc@opennet-initiative.de

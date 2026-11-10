@@ -12,13 +12,15 @@ mynetworks = 127.0.0.0/8 [::1]/128
 inet_interfaces = all
 
 # alle Mails sollen über unseren Relayhost gesendet werden
-relayhost = [{{ mail_relay_host }}]:587
+relayhost = [{{ mail_relay_host }}]:{{ mail_relay_port }}
 
 # SMTP-Authentication ausgehend
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = hash:/etc/postfix/sasl/passwd
-smtp_sasl_security_options = 
+smtp_sasl_security_options =
+smtp_sasl_tls_security_options = noanonymous
 smtp_tls_security_level = encrypt
+smtp_tls_mandatory_protocols = >=TLSv1.2
 
 smtpd_tls_security_level = may
 smtpd_tls_auth_only = yes
