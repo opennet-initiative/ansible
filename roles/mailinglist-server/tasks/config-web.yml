@@ -5,6 +5,15 @@
     line: "EMAILNAME = '{{ mailinglist_domain }}'"
   notify: restart mailman3-web
 
+# Verhindert neue Self-Signups um Spam zu verhindern.
+# Bestehende Konten können sich weiter anmelden.
+- name: config-web - Account-Registrierung deaktivieren
+  lineinfile:
+    path: "{{ mailinglist_config_web }}"
+    regexp: '^ACCOUNT_ADAPTER\s*='
+    line: "ACCOUNT_ADAPTER = 'django_mailman3.views.user_adapter.DisableSignupAdapter'"
+  notify: restart mailman3-web
+
 - name: config-web - Absenderadresse für Systemmails setzen
   lineinfile:
     path: "{{ mailinglist_config_web }}"
