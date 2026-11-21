@@ -12,11 +12,13 @@ letsencrypt_certificates:
   - { on_tld_base: mail2 }
   - { on_tld_base: mail-internal }
   - { on_tld_base: autoconfig }
+  - { on_tld_base: misumaru }
 
 apache2_sites:
   - { name: mail2 }
   - { name: mail-internal }
   - { name: autoconfig }
+  - { name: misumaru }
 apache2_mods:
  - { name: proxy }
  - { name: proxy_http }
