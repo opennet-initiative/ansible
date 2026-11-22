@@ -2,8 +2,8 @@
 
 // opennet acls
 acl "internetx" {
-  62.116.132.5;    # AXFR-Gateway
-  62.116.129.216;  # Zonen-Import in AutoDNS
+  62.116.132.5;    # axfr.domain-robot.org (InternetX AXFR Gateway)
+  62.116.129.216;  # mail.domain-robot.org (InternetX AutoDNS Import)
 };
 
 // opennet keys
